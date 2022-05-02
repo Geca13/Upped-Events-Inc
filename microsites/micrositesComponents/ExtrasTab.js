@@ -27,6 +27,11 @@
         async balanceIsPresent() {
             return await this.isDisplayed(BALANCE,5000);
         }
+
+        async getBalanceLabelText(){
+
+            return await this.getElementText(BALANCE_LABEL);
+        }
     }
 
     module.exports = ExtrasTab;

@@ -18,6 +18,10 @@
         async clickFirstIncreaseButton(){
             await this.click(INCREASE_QTY_BUTTONS);
         }
+
+        async getTicketPrice(){
+            return await this.getSubstringOfBracketedPriceString(TICKETS_PRICES,1)
+        }
     }
 
     module.exports = TicketsTab;

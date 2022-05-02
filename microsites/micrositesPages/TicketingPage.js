@@ -19,6 +19,7 @@
     const QTY_INPUTS = { tagName: 'input' } //list
     const TAXES_TOOLTIP = { id: 'ngb-tooltip-1' }
     const FEES_TOOLTIP = { id: 'ngb-tooltip-2' }
+    const CHILDREN = { xpath: "./child::*"}
 
 
     class TicketingPage extends BasePage {
@@ -30,6 +31,17 @@
         }
         async clickNextButton(){
             await this.click(NEXT_BUTTON);
+        }
+
+        async getSubtotalText() {
+          return await this.getChildByIndex(SUMMARY_ELEMENTS,0, 0);
+        }
+        async getNextButtonText() {
+          return  await this.getElementText(NEXT_BUTTON);
+        }
+
+        async getSummaryPriceText(){
+            return await this.getSubstringOfPriceString(SUMMARY_ELEMENTS,0, 1)
         }
     }
 

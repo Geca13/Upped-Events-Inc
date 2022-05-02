@@ -35,9 +35,9 @@
 
         afterEach(async function(){
             await driver.quit()
-        })
+       })
 
-        it('should display the login modal after click on the sign in button', async function () {
+        it('should login and make simple purchase', async function () {
           await events.clickSignInButton();
           await login.waitPopupToBeLoaded();
           await login.authenticate("parma15@parma.it", "Pero1234")
@@ -57,8 +57,17 @@
             await info.clickBuyTicketsButton();
             await ticketing.nextButtonPresent();
             await tickets.clickFirstIncreaseButton();
+            await driver.sleep(2000)
+            let ticketPrice = await tickets.getTicketPrice();
+            console.log(ticketPrice);
+            let subtotal = await ticketing.getSubtotalText();
+            console.log(subtotal);
+            let price = await ticketing.getSummaryPriceText();
+            console.log(parseFloat(price) + parseFloat(price));
             await ticketing.clickNextButton();
             await extras.balanceIsPresent();
+            await driver.sleep(2000)
+
             await ticketing.clickNextButton();
             await pay.savedCardsHeaderIsPresent();
             await pay.clickFirstCard();

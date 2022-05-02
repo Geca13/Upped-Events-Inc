@@ -1,4 +1,6 @@
-   const until = require('selenium-webdriver').until;
+const {By} = require("selenium-webdriver");
+const until = require('selenium-webdriver').until;
+
 
     class BasePage {
       constructor(driver) {
@@ -7,21 +9,52 @@
 
     async visit(url) {
          await this.driver.get(url)
-      }
+    }
 
     find(locator) {
         return this.driver.findElement(locator)
-     }
+    }
+
+    findAll(locator) {
+        return this.driver.findElements(locator);
+    }
+
     async click(locator) {
         await this.find(locator).click()
-      }
+    }
+
+    async getRawTicketPrice(locator, index){
+          let tickets = await this.findAll(locator);
+          return await tickets[index].getText();
+    }
+
+    async getChildByIndex(locator, parentIndex, childIndex) {
+        let parent = await this.findAll(locator);
+        let children = await parent[parentIndex].findElements(By.xpath("./child::*"));
+        return await children[childIndex].getText();
+    }
 
     async getElementText(locator) {
-        await this.find(locator).getText();
+       return await this.find(locator).getText();
+    }
+
+    async getSubstringOfPriceString(locator,parentIndex, childIndex){
+        let result = await this.getChildByIndex(locator,parentIndex, childIndex);
+        return result.substring(1);
+    }
+
+    async getSubstringOfBracketedPriceString(locator,index){
+          let result = await this.getRawTicketPrice(locator,index);
+        return result.substring(2, result.length - 1);
     }
 
     async type(locator, inputText) {
         await this.find(locator).sendKeys(inputText)
+    }
+
+    convertPriceStringToDouble(priceString){
+          let convertedPrice = parseFloat(priceString);
+          return convertedPrice;
     }
 
     async moveToElement(locator) {
@@ -43,6 +76,12 @@
              }
           }
     }
+
 }
 
-     module.exports = BasePage
+     module.exports = BasePage;
+
+        /*for (const child of children) {
+            let text = await child.getText();
+            console.log(text + '111111');
+        }*/
