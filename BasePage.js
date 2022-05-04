@@ -11,6 +11,33 @@ const until = require('selenium-webdriver').until;
          await this.driver.get(url)
     }
 
+    async loginWithFacebookEmailAndPassword(emailLocator,email,passwordLocator,password,loginButton){
+          await this.sentKeys(emailLocator,email);
+          await this.sentKeys(passwordLocator,password);
+          await this.click(loginButton);
+    }
+
+    async switchToFacebookWindow(locator){
+        const originalWindow = await this.driver.getWindowHandle();
+        await this.driver.sleep(2000)
+        await this.click(locator);
+        await this.driver.wait(
+            async () => (await this.driver.getAllWindowHandles()).length === 2,
+            10000
+        );
+        const windows = await this.driver.getAllWindowHandles();
+        for (const window of windows) {
+            if (window !== originalWindow) {
+                await this.driver.switchTo().window(window);
+            }
+        }
+        //await this.driver.wait(until.titleIs('Selenium documentation'), 10000);
+
+    }
+
+
+
+
     find(locator) {
         return this.driver.findElement(locator)
     }
@@ -34,6 +61,11 @@ const until = require('selenium-webdriver').until;
         return await children[childIndex].getText();
     }
 
+    async getElementFromAnArrayByIndex(locator, index){
+        let elements = await this.findAll(locator);
+        return await elements[index];
+    }
+
     async getElementText(locator) {
        return await this.find(locator).getText();
     }
@@ -48,7 +80,7 @@ const until = require('selenium-webdriver').until;
         return result.substring(2, result.length - 1);
     }
 
-    async type(locator, inputText) {
+    async sentKeys(locator, inputText) {
         await this.find(locator).sendKeys(inputText)
     }
 
@@ -61,6 +93,11 @@ const until = require('selenium-webdriver').until;
           const actions = this.driver.actions({bridge: true});
           let element = await this.find(locator);
           await actions.move({duration:5000,origin:element,x:0,y:0}).perform();
+    }
+
+    async switchToAnIframe(locator){
+          let frame = await this.find(locator)
+          await this.driver.switchTo().frame(frame);
     }
 
     async isDisplayed(locator,timeout) {
