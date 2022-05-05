@@ -9,7 +9,7 @@ const NewCardComponent = require('../microsites/micrositesComponents/NewCardComp
 
 describe('Embed', function (){
 
-    this.timeout(60000);
+    this.timeout(30000);
     let driver;
     let main;
     let tickets;
@@ -50,7 +50,7 @@ describe('Embed', function (){
        await login.isAtFacebookPage();
        await login.completeSignInWithFacebook();
        await driver.switchTo().window(originalWindow);
-       await driver.sleep(5000);
+       await driver.sleep(7000);
        await main.switchToIframe();
        await main.nextButtonIsVisible();
        await main.clickNextPageButton();
