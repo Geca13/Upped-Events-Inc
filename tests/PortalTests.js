@@ -38,7 +38,7 @@
             await dashboard.clickCreateEventButton();
             await createEvent.createEventModalIsDisplayed();
             await createEvent.fillFormWithValidData();
-            await this.driver.sleep(5000)
+
 
         });
 

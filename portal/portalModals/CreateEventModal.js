@@ -2,42 +2,62 @@
     const DateTimePickerModal = require('../portalModals/DateTimePickerModal');
     const CREATE_EVENT_HEADER = { xpath: "//*[text()='Create Event']"};
     const EVENT_NAME_LABEL = { xpath: "//*[text()='Event Name ']"}
-    const INPUT_FIELDS_WRAPPERS = { className: 'fields'}//list
-    const EVENT_NAME_INPUT = { xpath: "//*[@id=\"createEvent\"]/div/div/create-event/div/div[2]/form/div[1]/div[1]/div/input" };
-    const OCCUR_SELECT = { css: "button[title=Occurence select]" };
+    const EVENT_NAME_INPUT = { xpath: "//lint-modal-window//input[@formcontrolname='eventName']" };
+    const OCCUR_SELECT = { xpath: "//button[@role='combobox']" };
     const OCCUR_ONCE = { xpath: "//*[text()='Once']"};
     const OCCUR_VARIOUS_TIMES = { xpath: "//*[text()='Various Times']"}
-    const DATE_TIME_PICKER_ICON = { className: 'icon-event'}; //list
-    const EVENT_ATTENDEES_INPUT = { css: "input[formControlName=eventAttendees]" };
-    const EVENT_DESCRIPTION_INPUT = { css: "input[formControlName=eventDescription]" };
+    const START_DATE_TIME_PICKER = { xpath: "//input[@formcontrolname='eventStartDate']" };
+    const END_DATE_TIME_PICKER = { xpath: "//input[@formcontrolname='eventEndDate']" };
+    const EVENT_ATTENDEES_INPUT = { xpath: "//input[@formcontrolname='eventAttendees']" };
+    const EVENT_DESCRIPTION_INPUT = { xpath: "//textarea[@formcontrolname='eventDescription']" };
     const CREATE_EVENT_BUTTON = { xpath: "//*[text()='Create']"};
-    const CLOSE_MODAL_BUTTON = { xpath: "//*[text()='Close']"}
+    const CLOSE_MODAL_BUTTON = { xpath: "//*[text()='Close']"};
 
 
 
-    class CreateEventModal extends BasePage {
+
+    class CreateEventModal extends BasePage  {
 
         constructor(driver) {
             super(driver);
         }
 
-        async createEventModalIsDisplayed(){
-           await this.isDisplayed(CREATE_EVENT_HEADER,5000);
+        async occurrenceOptionsAreDisplayed(){
+            await this.isDisplayed(OCCUR_ONCE,5000);
         }
+
+        async createEventModalIsDisplayed(){
+           await this.isDisplayed(EVENT_NAME_LABEL,5000);
+        }
+
         async fillFormWithValidData(){
-            await this.driver.sleep(5000)
-            //await this.click(EVENT_NAME_LABEL);
 
+            await this.sentKeys(EVENT_NAME_INPUT, "Nesto");
+            await this.click(OCCUR_SELECT);
+            await this.occurrenceOptionsAreDisplayed();
+            await this.click(OCCUR_ONCE)
+            await this.sentKeys(EVENT_ATTENDEES_INPUT, "12345");
+            await this.sentKeys(EVENT_DESCRIPTION_INPUT, "Nesto");
+            await this.click(START_DATE_TIME_PICKER);
+            let startDatePicker = new DateTimePickerModal(this.driver);
+            await startDatePicker.datePickerIsVisible();
+            await startDatePicker.clickNextMonthButton();
+            await startDatePicker.select28Day();
+            await startDatePicker.clickSetButton();
 
-           // let eventNameInput = await this.getElementFromAnArrayByIndex(INPUT_FIELDS_WRAPPERS,0);
-           //await eventNameInput.click();
-           // await this.driver.sleep(5000)
-            //await this.sentKeys(EVENT_NAME_INPUT, "Knights");
-            //await this.click(OCCUR_SELECT);
-           // await this.isDisplayed(OCCUR_ONCE, 5000);
-          //  await this.click(OCCUR_ONCE);
-            let firstCalendarIcon = await this.getElementFromAnArrayByIndex(DATE_TIME_PICKER_ICON,0);
-            await firstCalendarIcon.click();
+            await this.driver.sleep(500);
+
+            await this.click(START_DATE_TIME_PICKER);
+            await this.driver.sleep(500);
+
+            await startDatePicker.datePickerIsNotVisible();
+            await this.click(END_DATE_TIME_PICKER);
+            let endDatePicker = new DateTimePickerModal(this.driver);
+
+            await endDatePicker.datePickerIsVisible();
+            await endDatePicker.clickSetButton();
+            await this.driver.sleep(5000);
+
 
         }
 

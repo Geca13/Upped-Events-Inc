@@ -113,6 +113,20 @@ const until = require('selenium-webdriver').until;
              }
           }
     }
+        async isNotDisplayed(locator,timeout) {
+            if (timeout){
+                await this.driver.wait(until.elementLocated(locator), timeout)
+                await this.driver.wait(until.elementIsNotVisible(this.find(locator)), timeout)
+                return true
+            } else{
+                try {
+                    return await this.find(locator).isDisplayed()
+                } catch (error) {
+                    return false
+                }
+            }
+        }
+
 
 }
 
