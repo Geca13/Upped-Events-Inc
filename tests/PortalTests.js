@@ -12,6 +12,8 @@
         let dashboard;
         let createEvent;
         let dateTime;
+        let date = new Date();
+        let eventName = date.now().toString();
 
 
         beforeEach(async function(){

@@ -43,18 +43,16 @@
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.clickNextMonthButton();
             await startDatePicker.select28Day();
+            await this.driver.sleep(1500);
             await startDatePicker.clickSetButton();
 
             await this.driver.sleep(500);
 
-            await this.click(START_DATE_TIME_PICKER);
-            await this.driver.sleep(500);
-
-            await startDatePicker.datePickerIsNotVisible();
             await this.click(END_DATE_TIME_PICKER);
             let endDatePicker = new DateTimePickerModal(this.driver);
 
             await endDatePicker.datePickerIsVisible();
+            await this.driver.sleep(1500);
             await endDatePicker.clickSetButton();
             await this.driver.sleep(5000);
 
