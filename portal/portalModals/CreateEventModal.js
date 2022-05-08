@@ -30,9 +30,9 @@
            await this.isDisplayed(EVENT_NAME_LABEL,5000);
         }
 
-        async fillFormWithValidData(){
+        async fillFormWithValidDataAndSave(eventName){
 
-            await this.sentKeys(EVENT_NAME_INPUT, "Nesto");
+            await this.sentKeys(EVENT_NAME_INPUT, eventName);
             await this.click(OCCUR_SELECT);
             await this.occurrenceOptionsAreDisplayed();
             await this.click(OCCUR_ONCE)
@@ -54,7 +54,8 @@
             await endDatePicker.datePickerIsVisible();
             await this.driver.sleep(1500);
             await endDatePicker.clickSetButton();
-            await this.driver.sleep(5000);
+            await this.driver.sleep(10000);
+            await this.click(CREATE_EVENT_BUTTON)
 
 
         }

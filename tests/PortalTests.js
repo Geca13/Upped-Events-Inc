@@ -1,8 +1,9 @@
-    const { Builder } = require('selenium-webdriver');
+    const { Builder, By } = require('selenium-webdriver');
     const PortalLoginPage = require('../portal/portalPages/PortalLoginPage');
-    const DashboardPage = require('../portal/portalPages/DashboardPage')
+    const DashboardPage = require('../portal/dashboard/Dashboard')
     const CreateEventModal = require('../portal/portalModals/CreateEventModal')
     const DateTimePickerModal = require('../portal/portalModals/DateTimePickerModal')
+    const MyEventsPage = require('../portal/dashboard/MyEventsTab')
 
 
     describe('Login', function () {
@@ -11,9 +12,10 @@
         let login;
         let dashboard;
         let createEvent;
+        let myEvents;
         let dateTime;
-        let date = new Date();
-        let eventName = date.now().toString();
+        let today = new Date();
+        let eventName = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
 
         beforeEach(async function(){
@@ -22,6 +24,7 @@
             login = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             createEvent = new CreateEventModal(driver);
+            myEvents = new MyEventsPage(driver);
             dateTime = new DateTimePickerModal(driver);
 
             await login.loadPortalUrl();
@@ -39,9 +42,9 @@
         it('should login to portal and create new event', async function () {
             await dashboard.clickCreateEventButton();
             await createEvent.createEventModalIsDisplayed();
-            await createEvent.fillFormWithValidData();
-
-
+            await createEvent.fillFormWithValidDataAndSave(eventName);
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
         });
 
     });
