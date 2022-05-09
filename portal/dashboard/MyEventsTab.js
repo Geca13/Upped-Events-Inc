@@ -12,9 +12,14 @@
         async eventsTableIsDisplayed(){
             await this.isDisplayed(EVENTS_TABLE,5000);
         }
+
         async createdEventIsInTheTable(eventName){
-            await this.driver.findElement(By.xpath("//*[text()='"+eventName+"']"))
+            await this.isDisplayed(By.xpath("//*[text()='"+eventName+"']"),5000);
         }
+        async clickTheNewCreatedEventInTheTable(eventName){
+            await this.isDisplayed(By.xpath("//*[text()='"+eventName+"']"),5000);
+        }
+
 
     }
     module.exports = MyEventsTab;

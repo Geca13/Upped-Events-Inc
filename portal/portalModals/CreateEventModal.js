@@ -10,7 +10,7 @@
     const END_DATE_TIME_PICKER = { xpath: "//input[@formcontrolname='eventEndDate']" };
     const EVENT_ATTENDEES_INPUT = { xpath: "//input[@formcontrolname='eventAttendees']" };
     const EVENT_DESCRIPTION_INPUT = { xpath: "//textarea[@formcontrolname='eventDescription']" };
-    const CREATE_EVENT_BUTTON = { xpath: "//*[text()='Create']"};
+    const CREATE_EVENT_BUTTON = { className: "ar-btn"};
     const CLOSE_MODAL_BUTTON = { xpath: "//*[text()='Close']"};
 
 
@@ -28,6 +28,9 @@
 
         async createEventModalIsDisplayed(){
            await this.isDisplayed(EVENT_NAME_LABEL,5000);
+        }
+        async submitButtonIsClickable(){
+            await this.isDisplayed(CREATE_EVENT_BUTTON,15000);
         }
 
         async fillFormWithValidDataAndSave(eventName){
@@ -52,9 +55,11 @@
             let endDatePicker = new DateTimePickerModal(this.driver);
 
             await endDatePicker.datePickerIsVisible();
+            await endDatePicker.clickNextMonthButton();
+            await endDatePicker.select28Day();
             await this.driver.sleep(1500);
             await endDatePicker.clickSetButton();
-            await this.driver.sleep(10000);
+            await this.submitButtonIsClickable();
             await this.click(CREATE_EVENT_BUTTON)
 
 

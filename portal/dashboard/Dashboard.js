@@ -15,6 +15,9 @@
         constructor(driver) {
             super(driver);
         }
+        async clickMyEventsTab(){
+            await this.click(MY_EVENTS_TAB);
+        }
 
         async clickCreateEventButton(){
             await this.click(CREATE_EVENT_BUTTON);
