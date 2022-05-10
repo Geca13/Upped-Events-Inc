@@ -10,12 +10,26 @@
     const RESOLUTION_CENTER_TAB = { xpath: "//*[text()='Resolution Center']"}
     const UPPED_SUPPORT_TAB = { xpath: "//*[text()='Upped Support']"}
     const PROMOTIONS_TAB = { xpath: "//*[text()='Promotions']"}
+    const GENERAL_DETAILS_NAV = { xpath: "//*[text()='General Details']"}
+    const DESIGN_NAV = { xpath: "//*[text()='Design']"}
+    const PRIMARY_CONTACT_NAV = { xpath: "//*[text()='Primary Contact']"}
+    const SETTINGS_NAV = { xpath: "//*[text()='Settings']"}
+    const ATTENDEES_NAV = { xpath: "//*[text()='Attendees']"}
+    const GROUPINGS_NAV = { xpath: "//*[text()='Groupings']"}
+    const LOGS_NAV = { xpath: "//*[text()='Logs']"}
+    const ANALYTICS_NAV = { xpath: "//*[text()='Analytics']"}
+
 
 
     class EventOptionTabs extends BasePage {
         constructor(driver) {
             super(driver);
         }
+
+        async ticketingTabIsDisplayed(){
+            await this.isDisplayed(TICKETING_TAB,5000);
+        }
+
         async clickTicketingTab(){
             await this.click(TICKETING_TAB);
         }

@@ -40,7 +40,7 @@
             await this.occurrenceOptionsAreDisplayed();
             await this.click(OCCUR_ONCE)
             await this.sentKeys(EVENT_ATTENDEES_INPUT, "12345");
-            await this.sentKeys(EVENT_DESCRIPTION_INPUT, "Nesto");
+            await this.sentKeys(EVENT_DESCRIPTION_INPUT, eventName +" description");
             await this.click(START_DATE_TIME_PICKER);
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
@@ -53,7 +53,6 @@
 
             await this.click(END_DATE_TIME_PICKER);
             let endDatePicker = new DateTimePickerModal(this.driver);
-
             await endDatePicker.datePickerIsVisible();
             await endDatePicker.clickNextMonthButton();
             await endDatePicker.select28Day();
