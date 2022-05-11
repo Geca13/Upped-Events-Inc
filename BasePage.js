@@ -65,6 +65,10 @@ const until = require('selenium-webdriver').until;
         let elements = await this.findAll(locator);
         return await elements[index];
     }
+    async clickElementReturnedFromAnArray(locator,index){
+          let element = await this.getElementFromAnArrayByIndex(locator, index);
+          await element.click();
+    }
 
     async getElementText(locator) {
        return await this.find(locator).getText();

@@ -1,13 +1,15 @@
     const { Builder, By } = require('selenium-webdriver');
     const PortalLoginPage = require('../portal/portalPages/PortalLoginPage');
-    const DashboardPage = require('../portal/dashboard/Dashboard')
-    const CreateEventModal = require('../portal/portalModals/CreateEventModal')
-    const DateTimePickerModal = require('../portal/portalModals/DateTimePickerModal')
-    const MyEventsPage = require('../portal/dashboard/MyEventsTab')
-    const EventOptionTabs = require('../portal/eventOverview/EventOptionTabs')
-    const CreateTicketModal = require('../portal/portalModals/CreateTicketModal')
+    const DashboardPage = require('../portal/dashboard/Dashboard');
+    const CreateEventModal = require('../portal/portalModals/CreateEventModal');
+    const DateTimePickerModal = require('../portal/portalModals/DateTimePickerModal');
+    const MyEventsPage = require('../portal/dashboard/MyEventsTab');
+    const EventOptionTabs = require('../portal/eventOverview/EventOptionTabs');
+    const CreateTicketModal = require('../portal/portalModals/CreateTicketModal');
     const TicketsTab = require('../portal/ticketing/TicketsTab');
-    const GeneralDetailsTab = require('../portal/eventOverview/GeneralDetailsTab')
+    const GeneralDetailsTab = require('../portal/eventOverview/GeneralDetailsTab');
+    const PromotionsPage = require('../portal/promotions/PromotionsPage');
+    const AddNewPromotionModal = require('../portal/portalModals/AddNewPromotionModal');
 
 
     describe('should login to portal create new event and tickets', function () {
@@ -22,12 +24,19 @@
         let createTicket;
         let ticketsTab;
         let eventDetails;
+        let promotions;
+        let newPromotion;
+
         let today = new Date();
         let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         let ticketOneName = Math.floor(100000 + Math.random() * 900000);
         let ticketTwoName = Math.floor(100000 + Math.random() * 900000);
         let ticketThreeName = Math.floor(100000 + Math.random() * 900000);
         let ticketFourName = Math.floor(100000 + Math.random() * 900000);
+        let promoOneName = Math.floor(100000 + Math.random() * 900000);
+        let promoTwoName = Math.floor(100000 + Math.random() * 900000);
+        let promoCodeOne = Math.floor(100000 + Math.random() * 900000);
+        let promoCodeTwo = Math.floor(100000 + Math.random() * 900000);
 
         beforeEach(async function(){
             driver = await new Builder().forBrowser('chrome').build();
@@ -41,6 +50,8 @@
             createTicket = new CreateTicketModal(driver);
             ticketsTab = new TicketsTab(driver);
             eventDetails = new GeneralDetailsTab(driver);
+            promotions = new PromotionsPage(driver);
+            newPromotion = new AddNewPromotionModal(driver);
 
             await login.loadPortalUrl();
             await login.isAtPortalLoginPage();
@@ -117,14 +128,22 @@
 
         });
 
-        /*it('Should create third ticket', async function () {
-
+        it('Should make promotion for the first ticket', async function () {
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickPromotionsTab();
+            await promotions.promotionsHeaderIsVisible();
+            await promotions.clickAddPromotionButton();
+            await newPromotion.addPromotionModalIsDisplayed();
 
         });
-
+        /*
         it('Should create fourth ticket', async function () {
 
 
-        });*/
+                });*/
 
     });

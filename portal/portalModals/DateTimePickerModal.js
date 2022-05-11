@@ -37,9 +37,9 @@
             let today = new Date();
             let hour = today.getHours();
             if (hour > 12) {
-                return hour-12;
+                return (hour-12).toString();
             }else{
-                return hour;
+                return hour.toString();
             }
         }
         async enterTimeNow(){
