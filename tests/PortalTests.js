@@ -10,10 +10,13 @@
     const GeneralDetailsTab = require('../portal/eventOverview/GeneralDetailsTab');
     const PromotionsPage = require('../portal/promotions/PromotionsPage');
     const AddNewPromotionModal = require('../portal/portalModals/AddNewPromotionModal');
+    const SettingsNav = require('../portal/ticketing/SettingsNav/SetingsNav');
+    const TaxesAndFeesPage = require('../portal/ticketing/SettingsNav/TaxesAndFeesPage');
+    const TicketTermsPage = require('../portal/ticketing/SettingsNav/TicketTermsPage')
 
 
     describe('should login to portal create new event and tickets', function () {
-        this.timeout(60000);
+        this.timeout(90000);
         let driver;
         let login;
         let dashboard;
@@ -26,6 +29,9 @@
         let eventDetails;
         let promotions;
         let newPromotion;
+        let settingsNav;
+        let taxesAndFees;
+        let ticketTerms;
 
         let today = new Date();
         let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -52,6 +58,9 @@
             eventDetails = new GeneralDetailsTab(driver);
             promotions = new PromotionsPage(driver);
             newPromotion = new AddNewPromotionModal(driver);
+            settingsNav = new SettingsNav(driver);
+            taxesAndFees = new TaxesAndFeesPage(driver);
+            ticketTerms = new TicketTermsPage(driver);
 
             await login.loadPortalUrl();
             await login.isAtPortalLoginPage();
@@ -72,9 +81,62 @@
             await createEvent.fillFormWithValidDataAndSave(eventName);
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventDetails.publishButtonIsDisplayed();
+            await eventDetails.clickPublishButton();
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsTab.clickAddTicketButton();
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.createNewTicket(ticketOneName,"5");
+            await ticketsTab.addTicketButtonIsDisplayed();
+            await ticketsTab.createdTicketIsInTheTable(ticketOneName);
+            await ticketsTab.clickActivateTicketToggle(0);
+            await ticketsTab.activateTicketModalIsDisplayed();
+            await ticketsTab.confirmActivationButton();
+            await ticketsTab.clickAddTicketButton();
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.createNewTicket(ticketTwoName,"10");
+            await ticketsTab.addTicketButtonIsDisplayed();
+            await ticketsTab.createdTicketIsInTheTable(ticketTwoName);
+            await ticketsTab.clickActivateTicketToggle(1);
+            await ticketsTab.activateTicketModalIsDisplayed();
+            await ticketsTab.confirmActivationButton();
+            await ticketsTab.clickAddTicketButton();
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.createNewTicket(ticketThreeName,"15");
+            await ticketsTab.addTicketButtonIsDisplayed();
+            await ticketsTab.createdTicketIsInTheTable(ticketThreeName);
+            await ticketsTab.clickActivateTicketToggle(2);
+            await ticketsTab.activateTicketModalIsDisplayed();
+            await ticketsTab.confirmActivationButton();
+            await ticketsTab.clickAddTicketButton();
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.createNewTicket(ticketFourName,"20");
+            await ticketsTab.addTicketButtonIsDisplayed();
+            await ticketsTab.createdTicketIsInTheTable(ticketFourName);
+            await ticketsTab.clickActivateTicketToggle(3);
+            await ticketsTab.activateTicketModalIsDisplayed();
+            await ticketsTab.confirmActivationButton();
+            await eventOptionTabs.clickSettingsNav();
+            await ticketTerms.termsPageIsDisplayed();
+            await ticketTerms.saveTerms();
+            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await settingsNav.clickTaxesAndFeesSubNav();
+            await taxesAndFees.createTaxesAndFeesForEventTickets();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickPromotionsTab();
+            await promotions.promotionsHeaderIsVisible();
+            await promotions.clickAddPromotionButton();
+            await driver.sleep(5000)
+            await newPromotion.addPromotionModalIsDisplayed();
+            await newPromotion.createPromotionForOneTicketWith$Value(ticketOneName, promoOneName, promoCodeOne);
+            await promotions.promotionsHeaderIsVisible();
 
          });
-
+/*
         it('Should open the new event and create 4 tickets', async function () {
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
@@ -114,9 +176,38 @@
             await ticketsTab.clickActivateTicketToggle(3);
             await ticketsTab.activateTicketModalIsDisplayed();
             await ticketsTab.confirmActivationButton();
-        });
+        });*/
 
-        it('Should publish the event', async function () {
+       /* it('Should set tickets taxes', async function () {
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsTab.addTicketButtonIsDisplayed();
+            await eventOptionTabs.clickSettingsNav();
+            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await settingsNav.clickTaxesAndFeesSubNav();
+            await taxesAndFees.createTaxesAndFeesForEventTickets();
+
+        });*/
+
+        /*it('Should set ticket terms', async function () {
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsTab.addTicketButtonIsDisplayed();
+            await eventOptionTabs.clickSettingsNav();
+            await ticketTerms.termsPageIsDisplayed();
+            await ticketTerms.saveTerms();
+
+        });*/
+
+        /*it('Should publish the event', async function () {
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
@@ -126,9 +217,9 @@
             await eventDetails.clickPublishButton();
             await eventDetails.unpublishButtonIsDisplayed();
 
-        });
+        });*/
 
-        it('Should make promotion for the first ticket', async function () {
+        /*it('Should make promotion for the first ticket', async function () {
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
@@ -138,8 +229,9 @@
             await promotions.promotionsHeaderIsVisible();
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
-
-        });
+            await newPromotion.createPromotionForOneTicketWith$Value(ticketOneName, promoOneName, promoCodeOne);
+            await promotions.promotionsHeaderIsVisible();
+        });*/
         /*
         it('Should create fourth ticket', async function () {
 

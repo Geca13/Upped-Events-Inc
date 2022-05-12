@@ -44,10 +44,13 @@
         }
         async enterTimeNow(){
            let minutes = await this.getElementFromAnArrayByIndex(HOUR_MINUTES_INPUTS,1);
+           minutes.clear();
            let minute = this.getMinutesNowPlusOne();
           await minutes.sendKeys(minute);
            let hours = await this.getElementFromAnArrayByIndex(HOUR_MINUTES_INPUTS,0);
+           hours.clear();
            let hour = this.getHoursNow();
+           console.log(hour)
           await hours.sendKeys(hour);
         }
 

@@ -63,6 +63,9 @@
         async clickPromotionsTab(){
             await this.click(PROMOTIONS_TAB);
         }
+        async clickSettingsNav(){
+            await this.click(SETTINGS_NAV);
+        }
 
     }
     module.exports = EventOptionTabs;

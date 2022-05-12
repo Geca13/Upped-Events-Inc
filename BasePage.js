@@ -1,4 +1,4 @@
-const {By} = require("selenium-webdriver");
+const {By, Key} = require("selenium-webdriver");
 const until = require('selenium-webdriver').until;
 
 
@@ -35,9 +35,6 @@ const until = require('selenium-webdriver').until;
 
     }
 
-
-
-
     find(locator) {
         return this.driver.findElement(locator)
     }
@@ -48,6 +45,15 @@ const until = require('selenium-webdriver').until;
 
     async click(locator) {
         await this.find(locator).click()
+    }
+
+    async clickEnterKey(locator){
+        let element = await this.find(locator);
+        await element.sendKeys(Key.ENTER)
+    }
+    async clickEnterKey(locator){
+        let element = await this.find(locator);
+    await element.sendKeys(Key.ENTER)
     }
 
     async getRawTicketPrice(locator, index){
@@ -69,6 +75,10 @@ const until = require('selenium-webdriver').until;
           let element = await this.getElementFromAnArrayByIndex(locator, index);
           await element.click();
     }
+    async sendKeysToElementReturnedFromAnArray(locator,index,keys){
+          let element = await this.getElementFromAnArrayByIndex(locator, index);
+          await element.sendKeys(keys);
+        }
 
     async getElementText(locator) {
        return await this.find(locator).getText();
@@ -98,6 +108,12 @@ const until = require('selenium-webdriver').until;
           let element = await this.find(locator);
           await actions.move({duration:5000,origin:element,x:0,y:0}).perform();
     }
+
+        async moveToElementWithElement(element) {
+            const actions = this.driver.actions({bridge: true});
+            await actions.move({duration:5000,origin:element,x:0,y:0}).perform();
+        }
+
 
     async switchToAnIframe(locator){
           let frame = await this.find(locator)

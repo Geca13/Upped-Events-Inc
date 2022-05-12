@@ -2,10 +2,10 @@
     const {By} = require("selenium-webdriver");
     const DateTimePickerModal = require("./DateTimePickerModal");
     const ADD_NEW_PROMOTION_HEADER = { xpath: "//*[text()='Add New Promotion']"}
-    const PROMOTION_TITLE_INPUT = { name: "name" };
+    const PROMOTION_TITLE_INPUT = { xpath: "//div[@class='fields']/input[@name='name']" };
     const PROMOTION_DESCRIPTION_INPUT = { name: "description" };
     const SELECT_TICKET_DROPDOWN = { id: "tickets" };
-    const PROMOTION_STATUS_AND_DISTRIBUTION_SELECTS = { tagName: "select" }; //LIST
+    const PROMOTION_STATUS_AND_DISTRIBUTION_SELECTS = { xpath: "//button[@aria-haspopup='listbox']" }; //LIST
     const ENABLED_STATUS_OPTION = { xpath: "//*[text()='Enabled']"}
     const DISABLED_STATUS_OPTION = { xpath: "//*[text()='Disabled']"}
     const MEMBERS_ONLY_LIMIT_CHECKBOX = { name: "membersLimit" };
@@ -22,6 +22,7 @@
     const EMAIL_UNIQUE_CODES_OPTION = { xpath: "//*[text()='Email unique codes to recipients']"}
     const SAVE_PROMOTION_BUTTON = { xpath: "//*[text()=' Save ']"};
     const CANCEL_PROMOTION_BUTTON = { xpath: "//*[text()='Cancel']"};
+    const TICKET_START_DATE_INPUT = { xpath: "/html/body/lint-modal-window/div/div/create-promotion/div/div/form/div[5]/div[4]/div[3]/div[1]/div/div/input" }
 
 
 
@@ -49,13 +50,18 @@
             await this.click(SELECT_TICKET_DROPDOWN);
             await this.ticketsAreDisplayedInTheList(ticketName);
             await this.clickTicketInTheList(ticketName);
-            await this.isDisplayed(PROMOTION_STATUS_AND_DISTRIBUTION_SELECTS, 5000);
+            await this.click(PROMOTION_DESCRIPTION_INPUT);
+            //await this.isDisplayed(PROMOTION_STATUS_AND_DISTRIBUTION_SELECTS, 5000);
             await this.clickElementReturnedFromAnArray(PROMOTION_STATUS_AND_DISTRIBUTION_SELECTS,0);
             await this.isDisplayed(ENABLED_STATUS_OPTION,5000)
             await this.click(ENABLED_STATUS_OPTION);
             await this.sentKeys(PROMO_LIMIT_QUANTITY_INPUT,"5");
             await this.sentKeys(PROMO_$_VALUE_INPUT,"5.5")
             await this.sentKeys(PROMO_CODE_NAME_INPUT,promoCode);
+            await this.driver.sleep(10000);
+            await this.moveToElement(TICKET_START_DATE_INPUT);
+            await this.driver.sleep(10000);
+            await this.click(TICKET_START_DATE_INPUT)
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.enterTimeNow();
@@ -64,9 +70,6 @@
             await this.driver.sleep(1500);
             await this.saveTicketButtonIsVisible();
             await this.click(SAVE_PROMOTION_BUTTON);
-
-
-
         }
 
     }
