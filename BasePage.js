@@ -1,4 +1,4 @@
-const {By, Key} = require("selenium-webdriver");
+const {By, Key, Keys} = require("selenium-webdriver");
 const until = require('selenium-webdriver').until;
 
 
@@ -35,6 +35,10 @@ const until = require('selenium-webdriver').until;
 
     }
 
+    async zoomOutWindow(locator){
+        await this.find(locator).sendKeys(Key.CONTROL, Key.SUBTRACT);
+    }
+
     find(locator) {
         return this.driver.findElement(locator)
     }
@@ -65,6 +69,21 @@ const until = require('selenium-webdriver').until;
         let parent = await this.findAll(locator);
         let children = await parent[parentIndex].findElements(By.xpath("./child::*"));
         return await children[childIndex].getText();
+    }
+
+    async findChildByIndexFromPrecedingSibling(locator){
+          let knownSibling = await this.find(locator);
+          let sibling = await knownSibling.findElement(By.xpath("./preceding-sibling::label"));
+
+          let children = await sibling.findElements(By.xpath("./child::*"));
+          console.log(children)
+          await children[1].click();
+    }
+
+    async clickParent(locator){
+          let child = await this.find(locator);
+          let parent = await child.findElement(By.xpath("./"));
+          await parent.click();
     }
 
     async getElementFromAnArrayByIndex(locator, index){
@@ -103,10 +122,13 @@ const until = require('selenium-webdriver').until;
           return convertedPrice;
     }
 
+
+
     async moveToElement(locator) {
           const actions = this.driver.actions({bridge: true});
           let element = await this.find(locator);
           await actions.move({duration:5000,origin:element,x:0,y:0}).perform();
+
     }
 
         async moveToElementWithElement(element) {

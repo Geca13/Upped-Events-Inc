@@ -8,12 +8,14 @@
     const PROMOTION_STATUS_AND_DISTRIBUTION_SELECTS = { xpath: "//button[@aria-haspopup='listbox']" }; //LIST
     const ENABLED_STATUS_OPTION = { xpath: "//*[text()='Enabled']"}
     const DISABLED_STATUS_OPTION = { xpath: "//*[text()='Disabled']"}
-    const MEMBERS_ONLY_LIMIT_CHECKBOX = { name: "membersLimit" };
+    const MEMBERS_ONLY_LIMIT_CHECKBOX = { css: "input[name='membersLimit'" };
     const PROMO_LIMIT_QUANTITY_INPUT = { name: "quantity" };
     const PROMO_$_VALUE_INPUT = { name: "price" };
     const PROMO_PERCENT_VALUE_INPUT = { name: "percentage" };
     const ACCOUNT_LIMIT_QUANTITY_CHECKBOX = { name: "accountLimit" };
     const PROMO_CODE_NAME_INPUT = { name: "promoCode" };
+    const PROMO_PER_ACCOUNT_LIMIT_INPUT = { name: "accountUseLimit" };
+    const SELECT_LIMIT_TICKETS_DROPDOWN = { id: "accountTickets" };
     const GENERATE_MULTIPLE_CODES_BUTTON = { xpath: "//*[text()='Generate Multiple Unique Codes']"}
     const GENERATE_SINGLE_CODE_BUTTON = { xpath: "//*[text()='Generate Single Code']"}
     const QUANTITY_OF_CODES_INPUT = { name: "quantityOfCodes" };
@@ -22,7 +24,8 @@
     const EMAIL_UNIQUE_CODES_OPTION = { xpath: "//*[text()='Email unique codes to recipients']"}
     const SAVE_PROMOTION_BUTTON = { xpath: "//*[text()=' Save ']"};
     const CANCEL_PROMOTION_BUTTON = { xpath: "//*[text()='Cancel']"};
-    const TICKET_START_DATE_INPUT = { xpath: "/html/body/lint-modal-window/div/div/create-promotion/div/div/form/div[5]/div[4]/div[3]/div[1]/div/div/input" }
+    const TICKET_START_DATE_INPUT = { name: "startDate" };
+    const SIBLING_OF_LIMIT_CHECKBOX = { xpath: "//*[text()='Limit offer to members only']"}
 
 
 
@@ -33,14 +36,19 @@
             super(driver);
         }
         async addPromotionModalIsDisplayed(){
-            await this.isDisplayed(ADD_NEW_PROMOTION_HEADER,5000)
+            await this.isDisplayed(PROMOTION_TITLE_INPUT,10000)
         }
 
+        async startDateInputIsDisplayed(){
+            await this.isDisplayed(TICKET_START_DATE_INPUT,10000)
+        }
         async ticketsAreDisplayedInTheList(ticketName){
             await this.isDisplayed(By.xpath("//*[text()='"+ticketName+"']"),5000);
         }
         async clickTicketInTheList(ticketName){
-           let ticket = await this.driver.findElement(By.xpath("//*[text()='"+ticketName+"']"));
+          // let ticket = await this.driver.findElement(By.xpath("//*[text()='"+ticketName+"']"));
+            let ticket = await this.driver.findElement(By.xpath("//label/span[text()='"+ticketName+"']"));
+           //let parent = await ticket.findElement(By.xpath("./."))
            await ticket.click();
         }
 
@@ -51,16 +59,16 @@
             await this.ticketsAreDisplayedInTheList(ticketName);
             await this.clickTicketInTheList(ticketName);
             await this.click(PROMOTION_DESCRIPTION_INPUT);
-            //await this.isDisplayed(PROMOTION_STATUS_AND_DISTRIBUTION_SELECTS, 5000);
             await this.clickElementReturnedFromAnArray(PROMOTION_STATUS_AND_DISTRIBUTION_SELECTS,0);
             await this.isDisplayed(ENABLED_STATUS_OPTION,5000)
             await this.click(ENABLED_STATUS_OPTION);
             await this.sentKeys(PROMO_LIMIT_QUANTITY_INPUT,"5");
-            await this.sentKeys(PROMO_$_VALUE_INPUT,"5.5")
+            await this.sentKeys(PROMO_$_VALUE_INPUT,"2.5");
             await this.sentKeys(PROMO_CODE_NAME_INPUT,promoCode);
-            await this.driver.sleep(10000);
-            await this.moveToElement(TICKET_START_DATE_INPUT);
-            await this.driver.sleep(10000);
+            await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='hidden'");
+            //await this.driver.executeScript("document.body.style.zoom = '80%'")
+            await this.startDateInputIsDisplayed(PROMO_PER_ACCOUNT_LIMIT_INPUT, 5000);
+            await this.driver.sleep(5000);
             await this.click(TICKET_START_DATE_INPUT)
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
@@ -68,9 +76,87 @@
             await this.driver.sleep(1500);
             await startDatePicker.clickSetButton();
             await this.driver.sleep(1500);
-            await this.saveTicketButtonIsVisible();
+            await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='visible'");
+            await this.isDisplayed(SAVE_PROMOTION_BUTTON)
             await this.click(SAVE_PROMOTION_BUTTON);
+            await this.driver.sleep(1500);
         }
+
+        async createPromotionForMembersWithPercentValue(ticketName, promoName, promoCode){
+            await this.sentKeys(PROMOTION_TITLE_INPUT, promoName);
+            await this.sentKeys(PROMOTION_DESCRIPTION_INPUT, promoName + ' description');
+            await this.click(SELECT_TICKET_DROPDOWN);
+            await this.ticketsAreDisplayedInTheList(ticketName);
+            await this.clickTicketInTheList(ticketName);
+            await this.click(PROMOTION_DESCRIPTION_INPUT);
+            await this.clickElementReturnedFromAnArray(PROMOTION_STATUS_AND_DISTRIBUTION_SELECTS,0);
+            await this.isDisplayed(ENABLED_STATUS_OPTION,5000)
+            await this.click(ENABLED_STATUS_OPTION);
+            await this.driver.sleep(5000);
+            await this.driver.executeScript("document.getElementsByName('membersLimit')[0].click()");
+            //await this.findChildByIndexFromPrecedingSibling(SIBLING_OF_LIMIT_CHECKBOX)
+            //await this.isDisplayed(MEMBERS_ONLY_LIMIT_CHECKBOX,5000)
+            //await this.click(MEMBERS_ONLY_LIMIT_CHECKBOX);
+            await this.sentKeys(PROMO_LIMIT_QUANTITY_INPUT,"10");
+            await this.sentKeys(PROMO_PERCENT_VALUE_INPUT,"50");
+            await this.sentKeys(PROMO_CODE_NAME_INPUT,promoCode);
+            await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='hidden'");
+            //await this.driver.executeScript("document.body.style.zoom = '80%'")
+            await this.startDateInputIsDisplayed();
+            await this.driver.sleep(5000);
+            await this.click(TICKET_START_DATE_INPUT)
+            let startDatePicker = new DateTimePickerModal(this.driver);
+            await startDatePicker.datePickerIsVisible();
+            await startDatePicker.enterTimeNow();
+            await this.driver.sleep(1500);
+            await startDatePicker.clickSetButton();
+            await this.driver.sleep(1500);
+            await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='visible'");
+            await this.isDisplayed(SAVE_PROMOTION_BUTTON)
+            await this.click(SAVE_PROMOTION_BUTTON);
+            await this.driver.sleep(1500);
+        }
+
+        async createPromotionForMultipleTicketsWithLimitationsWithPercentValue(ticketNameOne,ticketNameTwo,ticketNameThree, promoName, promoCode){
+            await this.sentKeys(PROMOTION_TITLE_INPUT, promoName);
+            await this.sentKeys(PROMOTION_DESCRIPTION_INPUT, promoName + ' description');
+            await this.click(SELECT_TICKET_DROPDOWN);
+            await this.ticketsAreDisplayedInTheList(ticketNameOne);
+            await this.clickTicketInTheList("All");
+            await this.click(PROMOTION_DESCRIPTION_INPUT);
+            await this.clickElementReturnedFromAnArray(PROMOTION_STATUS_AND_DISTRIBUTION_SELECTS,0);
+            await this.isDisplayed(ENABLED_STATUS_OPTION,5000)
+            await this.click(ENABLED_STATUS_OPTION);
+            await this.sentKeys(PROMO_LIMIT_QUANTITY_INPUT,"15");
+            await this.sentKeys(PROMO_PERCENT_VALUE_INPUT,"70");
+            await this.sentKeys(PROMO_CODE_NAME_INPUT,promoCode);
+            await this.driver.executeScript("document.getElementsByName('accountLimit')[0].click()");
+            await this.moveToElement(TICKET_START_DATE_INPUT);
+            await this.isDisplayed(PROMO_PER_ACCOUNT_LIMIT_INPUT,5000);
+            await this.sentKeys(PROMO_PER_ACCOUNT_LIMIT_INPUT, "10")
+            await this.click(SELECT_LIMIT_TICKETS_DROPDOWN);
+            await this.ticketsAreDisplayedInTheList(ticketNameOne);
+            await this.clickTicketInTheList(ticketNameOne);
+            await this.clickTicketInTheList(ticketNameTwo);
+            await this.clickTicketInTheList(ticketNameThree);
+            await this.click(SELECT_LIMIT_TICKETS_DROPDOWN);
+            await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='hidden'");
+            //await this.driver.executeScript("document.body.style.zoom = '80%'")
+            await this.startDateInputIsDisplayed();
+            await this.driver.sleep(5000);
+            await this.click(TICKET_START_DATE_INPUT)
+            let startDatePicker = new DateTimePickerModal(this.driver);
+            await startDatePicker.datePickerIsVisible();
+            await startDatePicker.enterTimeNow();
+            await this.driver.sleep(1500);
+            await startDatePicker.clickSetButton();
+            await this.driver.sleep(1500);
+            await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='visible'");
+            await this.isDisplayed(SAVE_PROMOTION_BUTTON)
+            await this.click(SAVE_PROMOTION_BUTTON);
+            await this.driver.sleep(1500);
+        }
+
 
     }
     module.exports = AddNewPromotionModal;

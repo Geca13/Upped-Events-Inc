@@ -16,7 +16,7 @@
 
 
     describe('should login to portal create new event and tickets', function () {
-        this.timeout(90000);
+        this.timeout(200000);
         let driver;
         let login;
         let dashboard;
@@ -43,6 +43,8 @@
         let promoTwoName = Math.floor(100000 + Math.random() * 900000);
         let promoCodeOne = Math.floor(100000 + Math.random() * 900000);
         let promoCodeTwo = Math.floor(100000 + Math.random() * 900000);
+        let promoThreeName = Math.floor(100000 + Math.random() * 900000);
+        let promoCodeThree = Math.floor(100000 + Math.random() * 900000);
 
         beforeEach(async function(){
             driver = await new Builder().forBrowser('chrome').build();
@@ -64,6 +66,7 @@
 
             await login.loadPortalUrl();
             await login.isAtPortalLoginPage();
+            await driver.sleep(1000);
             await login.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
 
@@ -83,10 +86,10 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventDetails.publishButtonIsDisplayed();
+            /*await eventDetails.publishButtonIsDisplayed();
             await eventDetails.clickPublishButton();
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();*/
             await eventOptionTabs.clickTicketingTab();
             await ticketsTab.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
@@ -120,20 +123,28 @@
             await ticketsTab.clickActivateTicketToggle(3);
             await ticketsTab.activateTicketModalIsDisplayed();
             await ticketsTab.confirmActivationButton();
-            await eventOptionTabs.clickSettingsNav();
+           /* await eventOptionTabs.clickSettingsNav();
             await ticketTerms.termsPageIsDisplayed();
             await ticketTerms.saveTerms();
             await settingsNav.taxesAndFeesSubTabIsDisplayed();
             await settingsNav.clickTaxesAndFeesSubNav();
-            await taxesAndFees.createTaxesAndFeesForEventTickets();
+            await taxesAndFees.createTaxesAndFeesForEventTickets();*/
             await eventOptionTabs.ticketingTabIsDisplayed();
             await eventOptionTabs.clickPromotionsTab();
             await promotions.promotionsHeaderIsVisible();
             await promotions.clickAddPromotionButton();
-            await driver.sleep(5000)
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.createPromotionForOneTicketWith$Value(ticketOneName, promoOneName, promoCodeOne);
             await promotions.promotionsHeaderIsVisible();
+            await promotions.clickAddPromotionButton();
+            await newPromotion.addPromotionModalIsDisplayed();
+            await newPromotion.createPromotionForMembersWithPercentValue(ticketTwoName, promoTwoName, promoCodeTwo)
+            await promotions.promotionsHeaderIsVisible();
+            await promotions.clickAddPromotionButton();
+            await newPromotion.addPromotionModalIsDisplayed();
+            await newPromotion.createPromotionForMultipleTicketsWithLimitationsWithPercentValue(ticketOneName,ticketTwoName,ticketThreeName, promoThreeName, promoCodeThree);
+            await promotions.promotionsHeaderIsVisible();
+
 
          });
 /*

@@ -29,28 +29,20 @@
         async datePickerIsNotVisible(){
             await this.isNotDisplayed(SET_DATE_TIME_BUTTON,30000)
         }
-         getMinutesNowPlusOne(){
-            let today = new Date();
-             return (today.getMinutes()+1).toString();
-        }
-        getHoursNow(){
+
+         getHoursNow(){
             let today = new Date();
             let hour = today.getHours();
             if (hour > 12) {
-                return (hour-12).toString();
+               return (hour-12).toString();
             }else{
                 return hour.toString();
             }
         }
         async enterTimeNow(){
-           let minutes = await this.getElementFromAnArrayByIndex(HOUR_MINUTES_INPUTS,1);
-           minutes.clear();
-           let minute = this.getMinutesNowPlusOne();
-          await minutes.sendKeys(minute);
            let hours = await this.getElementFromAnArrayByIndex(HOUR_MINUTES_INPUTS,0);
            hours.clear();
            let hour = this.getHoursNow();
-           console.log(hour)
           await hours.sendKeys(hour);
         }
 
