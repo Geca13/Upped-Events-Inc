@@ -11,6 +11,8 @@
     const TICKET_ACTIVATION_NO_BUTTON = { xpath: "//*[text()='No']" }
     const TICKET_ACTIVATION_TEXT_INPUT = { tagName: 'textarea' }
 
+
+
     class TicketsTab extends BasePage {
         constructor(driver) {
             super(driver);

@@ -117,7 +117,7 @@
             await this.driver.sleep(1500);
         }
 
-        async createPromotionForMultipleTicketsWithLimitationsWithPercentValue(ticketNameOne,ticketNameTwo,ticketNameThree, promoName, promoCode){
+        async createPromotionForMultipleTicketsWithLimitationsWithPercentValue(ticketNameOne, promoName, promoCode){
             await this.sentKeys(PROMOTION_TITLE_INPUT, promoName);
             await this.sentKeys(PROMOTION_DESCRIPTION_INPUT, promoName + ' description');
             await this.click(SELECT_TICKET_DROPDOWN);
@@ -136,9 +136,9 @@
             await this.sentKeys(PROMO_PER_ACCOUNT_LIMIT_INPUT, "10")
             await this.click(SELECT_LIMIT_TICKETS_DROPDOWN);
             await this.ticketsAreDisplayedInTheList(ticketNameOne);
-            await this.clickTicketInTheList(ticketNameOne);
-            await this.clickTicketInTheList(ticketNameTwo);
-            await this.clickTicketInTheList(ticketNameThree);
+            await this.driver.executeScript("document.getElementsByClassName('pl-4')[6].click()");
+            await this.driver.executeScript("document.getElementsByClassName('pl-4')[7].click()");
+            await this.driver.executeScript("document.getElementsByClassName('pl-4')[8].click()");
             await this.click(SELECT_LIMIT_TICKETS_DROPDOWN);
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='hidden'");
             //await this.driver.executeScript("document.body.style.zoom = '80%'")

@@ -97,7 +97,11 @@ const until = require('selenium-webdriver').until;
     async sendKeysToElementReturnedFromAnArray(locator,index,keys){
           let element = await this.getElementFromAnArrayByIndex(locator, index);
           await element.sendKeys(keys);
-        }
+    }
+    async elementFromArrayOfElementsIsDisplayed(locator,index){
+        let element = await this.getElementFromAnArrayByIndex(locator, index);
+        await this.isDisplayed(locator,5000);
+    }
 
     async getElementText(locator) {
        return await this.find(locator).getText();

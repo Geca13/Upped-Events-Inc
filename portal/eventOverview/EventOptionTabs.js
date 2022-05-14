@@ -25,10 +25,33 @@
         constructor(driver) {
             super(driver);
         }
+        async clickAnalyticsNav(){
+            await this.click(ANALYTICS_NAV);
+        }
+        async clickLogsNav(){
+            await this.click(LOGS_NAV);
+        }
+        async clickGroupingsNav(){
+            await this.click(GROUPINGS_NAV);
+        }
+        async clickAttendeesNav(){
+            await this.click(ATTENDEES_NAV);
+        }
+        async clickPrimaryContactNav(){
+            await this.click(PRIMARY_CONTACT_NAV);
+        }
+        async clickDesignNav(){
+            await this.click(DESIGN_NAV);
+        }
 
+        async clickGeneralDetailsNav(){
+           await this.click(GENERAL_DETAILS_NAV);
+        }
         async ticketingTabIsDisplayed(){
             await this.isDisplayed(TICKETING_TAB,5000);
         }
+
+
 
         async clickTicketingTab(){
             await this.click(TICKETING_TAB);

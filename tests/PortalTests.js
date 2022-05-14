@@ -39,6 +39,7 @@
         let ticketTwoName = Math.floor(100000 + Math.random() * 900000);
         let ticketThreeName = Math.floor(100000 + Math.random() * 900000);
         let ticketFourName = Math.floor(100000 + Math.random() * 900000);
+        let staffTicket = Math.floor(100000 + Math.random() * 900000);
         let promoOneName = Math.floor(100000 + Math.random() * 900000);
         let promoTwoName = Math.floor(100000 + Math.random() * 900000);
         let promoCodeOne = Math.floor(100000 + Math.random() * 900000);
@@ -142,9 +143,16 @@
             await promotions.promotionsHeaderIsVisible();
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.createPromotionForMultipleTicketsWithLimitationsWithPercentValue(ticketOneName,ticketTwoName,ticketThreeName, promoThreeName, promoCodeThree);
+            await newPromotion.createPromotionForMultipleTicketsWithLimitationsWithPercentValue(ticketOneName, promoThreeName, promoCodeThree);
             await promotions.promotionsHeaderIsVisible();
-
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsTab.clickAddTicketButton();
+            await createTicket.createStaffTicket(staffTicket,"3");
+            await ticketsTab.createdTicketIsInTheTable(staffTicket);
+            await ticketsTab.clickActivateTicketToggle(4);
+            await ticketsTab.activateTicketModalIsDisplayed();
+            await ticketsTab.confirmActivationButton();
+            await eventOptionTabs.ticketingTabIsDisplayed();
 
          });
 /*

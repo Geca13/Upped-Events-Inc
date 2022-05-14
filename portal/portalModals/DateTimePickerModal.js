@@ -42,6 +42,7 @@
         async enterTimeNow(){
            let hours = await this.getElementFromAnArrayByIndex(HOUR_MINUTES_INPUTS,0);
            hours.clear();
+           await this.driver.sleep(500);
            let hour = this.getHoursNow();
           await hours.sendKeys(hour);
         }
