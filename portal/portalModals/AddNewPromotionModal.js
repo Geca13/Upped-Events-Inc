@@ -68,7 +68,7 @@
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='hidden'");
             //await this.driver.executeScript("document.body.style.zoom = '80%'")
             await this.startDateInputIsDisplayed(PROMO_PER_ACCOUNT_LIMIT_INPUT, 5000);
-            await this.driver.sleep(5000);
+            await this.driver.sleep(1000);
             await this.click(TICKET_START_DATE_INPUT)
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();

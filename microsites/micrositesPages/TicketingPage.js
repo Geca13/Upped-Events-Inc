@@ -20,6 +20,7 @@
     const TAXES_TOOLTIP = { id: 'ngb-tooltip-1' }
     const FEES_TOOLTIP = { id: 'ngb-tooltip-2' }
     const CHILDREN = { xpath: "./child::*"}
+    const DISCOUNT_TRASH_ICON = { xpath: "//*[text()='Discount ']"}
 
 
     class TicketingPage extends BasePage {
@@ -33,6 +34,9 @@
             await this.click(NEXT_BUTTON);
         }
 
+        async clickBackToEventInfoButton(){
+            await this.click(BACK_TO_EVENT_INFO_BUTTON);
+        }
         async getSubtotalText() {
           return await this.getChildByIndex(SUMMARY_ELEMENTS,0, 0);
         }
@@ -42,6 +46,9 @@
 
         async getSummaryPriceText(){
             return await this.getSubstringOfPriceString(SUMMARY_ELEMENTS,0, 1)
+        }
+        async removeDiscountIconIsDisplayed(){
+            await this.isDisplayed(DISCOUNT_TRASH_ICON,5000);
         }
     }
 

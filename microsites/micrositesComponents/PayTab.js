@@ -12,6 +12,7 @@
     const DISCOUNT_CODE_LABEL = { xpath: "//*[text()='Discount Code ']"};
     const DISCOUNT_CODE_INPUT = { className: 'height'};
     const SAVED_CARDS_LIST = { className: 'user-card'}; //list
+    const INVALID_PROMO_CODE_TRIANGLE = { className: 'fa-exclamation-triangle' }
 
     class PayTab extends BasePage {
         constructor(driver) {
@@ -23,9 +24,40 @@
         async clickFirstCard(){
             await this.click(SAVED_CARDS_LIST);
         }
+        async clickPayWithNewCardTab(){
+            await this.click(PAY_WITH_NEW_CARD_TAB);
+        }
+        async clickPayWithCardOrServiceTab(){
+            await this.click(PAY_WITH_SERVICE_TAB);
+        }
         async clickPayWithCardButton(){
             await this.click(PAY_WITH_CARD_BUTTON);
         }
+        async clickPayWithWalletOption(){
+            await this.click(PAY_WITH_WALLET_OPTION);
+        }
+        async clickPayWithWalletButton(){
+            await this.click(PAY_WITH_WALLET_BUTTON);
+        }
+        async payWithWalletButtonIsDisplayed() {
+            return await this.isDisplayed(PAY_WITH_WALLET_BUTTON,5000);
+        }
+        async payWithCardButtonIsDisplayed() {
+            return await this.isDisplayed(PAY_WITH_CARD_BUTTON,5000);
+        }
+        async invalidPromoCodeIsDisplayed() {
+            return await this.isDisplayed(INVALID_PROMO_CODE_TRIANGLE,5000);
+        }
+        async clickApplyDiscountButton(){
+            await this.click(APPLY_DISCOUNT_BUTTON);
+        }
+        async clearDiscountField(DISCOUNT_CODE_INPUT){
+            await this.clearInputField();
+        }
+        async enterPromotionCode(promoCode){
+            await this.sentKeys(DISCOUNT_CODE_INPUT,promoCode);
+        }
+
     }
 
     module.exports = PayTab;

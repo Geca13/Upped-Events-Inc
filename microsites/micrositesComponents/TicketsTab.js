@@ -22,6 +22,15 @@
         async getTicketPrice(){
             return await this.getSubstringOfBracketedPriceString(TICKETS_PRICES,1)
         }
+        async sendKeysToQtyInput(index,qty){
+           await this.sendKeysToElementReturnedFromAnArray(QTY_INPUTS,index,qty);
+        }
+        async clickIncreaseQtyButtonByIndex(index){
+           await this.clickElementReturnedFromAnArray(INCREASE_QTY_BUTTONS,index);
+        }
+        async clickDecreaseQtyButtonByIndex(index){
+            await this.clickElementReturnedFromAnArray(DECREASE_QTY_BUTTONS,index);
+        }
     }
 
     module.exports = TicketsTab;

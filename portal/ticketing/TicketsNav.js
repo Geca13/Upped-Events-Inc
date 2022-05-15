@@ -13,7 +13,7 @@
 
 
 
-    class TicketsTab extends BasePage {
+    class TicketsNav extends BasePage {
         constructor(driver) {
             super(driver);
         }
@@ -51,4 +51,4 @@
             await this.click(INACTIVE_TICKETS_TAB);
         }
     }
-    module.exports = TicketsTab;
+    module.exports = TicketsNav;

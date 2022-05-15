@@ -51,6 +51,12 @@ const until = require('selenium-webdriver').until;
         await this.find(locator).click()
     }
 
+    async locateElementByTextAndClick(text){
+         let element = await this.driver.findElement(By.xpath("//*[text()='"+text+"']"));
+         await this.moveToElementWithElement(element);
+         await element.click();
+    }
+
     async clickEnterKey(locator){
         let element = await this.find(locator);
         await element.sendKeys(Key.ENTER)
@@ -58,6 +64,10 @@ const until = require('selenium-webdriver').until;
     async clickEnterKey(locator){
         let element = await this.find(locator);
     await element.sendKeys(Key.ENTER)
+    }
+    async clearInputField(locator){
+        let element = await this.find(locator);
+        await element.clear();
     }
 
     async getRawTicketPrice(locator, index){
@@ -70,6 +80,8 @@ const until = require('selenium-webdriver').until;
         let children = await parent[parentIndex].findElements(By.xpath("./child::*"));
         return await children[childIndex].getText();
     }
+
+
 
     async findChildByIndexFromPrecedingSibling(locator){
           let knownSibling = await this.find(locator);
@@ -93,6 +105,11 @@ const until = require('selenium-webdriver').until;
     async clickElementReturnedFromAnArray(locator,index){
           let element = await this.getElementFromAnArrayByIndex(locator, index);
           await element.click();
+    }
+    async clickLastElementReturnedFromAnArray(locator){
+          let elements = await this.findAll(locator);
+          let lastElement = elements.length - 1;
+          await elements[lastElement].click();
     }
     async sendKeysToElementReturnedFromAnArray(locator,index,keys){
           let element = await this.getElementFromAnArrayByIndex(locator, index);

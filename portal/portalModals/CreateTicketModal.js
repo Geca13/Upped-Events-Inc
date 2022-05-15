@@ -22,6 +22,7 @@
     const TICKET_STAFF_WILL_SELECT_DEPARTMENT = { xpath: "//*[text()='Staff Will Select Department']"}
     const TICKET_STAFF_SECURITY_DEPARTMENT = { xpath: "//*[text()='Security']"}
     const SAVE_TICKET_BUTTON = { xpath: "//*[text()=' Save ']"};
+    const OFF_BUTTON = { xpath: "//*[text()='OFF']"};
 
 
 
@@ -78,8 +79,9 @@
             await startDatePicker.clickSetButton();
             await this.driver.sleep(1500);
             await this.click(TICKET_TYPE_OPTIONS_BUTTON);
-            await this.isDisplayed(TICKET_TYPE_DROPDOWNS,5000);
-            await this.clickElementReturnedFromAnArray(TICKET_TYPE_OFF_TOGGLE,0);
+            //await this.isDisplayed(OFF_BUTTON,5000);
+            await this.driver.sleep(1500);
+            await this.clickLastElementReturnedFromAnArray(OFF_BUTTON)
             await this.click(TICKET_TYPE_DROPDOWNS);
             await this.isDisplayed(TICKET_STAFF_OPTION,5000);
             await this.click(TICKET_STAFF_OPTION);
@@ -89,6 +91,8 @@
             await this.click(TICKET_STAFF_WILL_SELECT_DEPARTMENT);
             await this.saveTicketButtonIsVisible();
             await this.click(SAVE_TICKET_BUTTON);
+            await this.driver.sleep(2500);
+            console.log("Successfully finished")
         }
 
     }

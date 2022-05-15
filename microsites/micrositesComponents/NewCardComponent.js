@@ -23,15 +23,15 @@
         }
 
         async fillNewCardWithValidData(){
-            await this.sentKeys(CARDHOLDER_NAME_INPUT,"Filip5 Filip");
-            await this.sentKeys(CARD_NUMBER_INPUT,"5424000000000015")
-            await this.sentKeys(CVV_INPUT,"900")
-            await this.sentKeys(STREET_ADDRESS_INPUT,"Main Street 21/14")
-            await this.sentKeys(MONTH_SELECT,"9")
-            await this.sentKeys(YEAR_SELECT,"2023")
-            await this.sentKeys(COUNTRY_SELECT, "Canada")
-            await this.sentKeys(STATE_SELECT, "Alberta")
-            await this.sentKeys(ZIP_CODE_INPUT,"14400")
+            await this.sentKeys(CARDHOLDER_NAME_INPUT,"Parma Parma");
+            await this.sentKeys(CARD_NUMBER_INPUT,"5424000000000015");
+            await this.sentKeys(CVV_INPUT,"900");
+            await this.sentKeys(STREET_ADDRESS_INPUT,"Main Street 21/14");
+            await this.sentKeys(MONTH_SELECT,"9");
+            await this.sentKeys(YEAR_SELECT,"2023");
+            await this.sentKeys(COUNTRY_SELECT, "Canada");
+            await this.sentKeys(STATE_SELECT, "Alberta");
+            await this.sentKeys(ZIP_CODE_INPUT,"14400");
         }
 
         async clickSaveCardCheckbox(){
