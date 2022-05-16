@@ -1,5 +1,6 @@
 const SUCCESS_MESSAGE = { className: 'toast-message' }
 const SIGN_IN_BUTTON = { xpath: "//*[text()='Sign In']"}
+const SIGN_UP_BUTTON = { xpath: "//*[text()='Sign Up']"}
 const BasePage = require('../../BasePage')
 const EVENT = { xpath: "//*[text()='Qa Purchase ']"}
 const EVENT_CARD = { tagName: 'event-card' }
@@ -16,6 +17,9 @@ class EventsPage extends BasePage{
 
     async clickSignInButton(){
         await this.click(SIGN_IN_BUTTON);
+    }
+    async clickSignUpButton(){
+        await this.click(SIGN_UP_BUTTON);
     }
 
     async successMessagePresent() {

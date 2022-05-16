@@ -24,7 +24,7 @@
 
         async fillNewCardWithValidData(){
             await this.sentKeys(CARDHOLDER_NAME_INPUT,"Parma Parma");
-            await this.sentKeys(CARD_NUMBER_INPUT,"5424000000000015");
+            await this.sentKeys(CARD_NUMBER_INPUT,"2223000010309711");
             await this.sentKeys(CVV_INPUT,"900");
             await this.sentKeys(STREET_ADDRESS_INPUT,"Main Street 21/14");
             await this.sentKeys(MONTH_SELECT,"9");

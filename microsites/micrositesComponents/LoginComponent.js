@@ -19,6 +19,12 @@
         async waitPopupToBeLoaded(){
              await this.isDisplayed(SUBMIT_BUTTON, 5000)
         }
+
+        async loginAfterVerifyingAccount(password){
+            await this.sentKeys(PASSWORD_INPUT, password);
+            await this.click(SUBMIT_BUTTON)
+            await this.driver.sleep(5000);
+        }
 }
 
     module.exports = LoginComponent

@@ -46,9 +46,7 @@
             await this.isDisplayed(By.xpath("//*[text()='"+ticketName+"']"),5000);
         }
         async clickTicketInTheList(ticketName){
-          // let ticket = await this.driver.findElement(By.xpath("//*[text()='"+ticketName+"']"));
             let ticket = await this.driver.findElement(By.xpath("//label/span[text()='"+ticketName+"']"));
-           //let parent = await ticket.findElement(By.xpath("./."))
            await ticket.click();
         }
 
@@ -73,13 +71,14 @@
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.enterTimeNow();
-            await this.driver.sleep(1500);
+            await this.driver.sleep(1000);
             await startDatePicker.clickSetButton();
-            await this.driver.sleep(1500);
+            await this.driver.sleep(1000);
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='visible'");
             await this.isDisplayed(SAVE_PROMOTION_BUTTON)
+            await this.driver.sleep(1000);
             await this.click(SAVE_PROMOTION_BUTTON);
-            await this.driver.sleep(1500);
+            await this.driver.sleep(1000);
         }
 
         async createPromotionForMembersWithPercentValue(ticketName, promoName, promoCode){
@@ -92,29 +91,27 @@
             await this.clickElementReturnedFromAnArray(PROMOTION_STATUS_AND_DISTRIBUTION_SELECTS,0);
             await this.isDisplayed(ENABLED_STATUS_OPTION,5000)
             await this.click(ENABLED_STATUS_OPTION);
-            await this.driver.sleep(5000);
+            await this.driver.sleep(1000);
             await this.driver.executeScript("document.getElementsByName('membersLimit')[0].click()");
-            //await this.findChildByIndexFromPrecedingSibling(SIBLING_OF_LIMIT_CHECKBOX)
-            //await this.isDisplayed(MEMBERS_ONLY_LIMIT_CHECKBOX,5000)
-            //await this.click(MEMBERS_ONLY_LIMIT_CHECKBOX);
             await this.sentKeys(PROMO_LIMIT_QUANTITY_INPUT,"10");
             await this.sentKeys(PROMO_PERCENT_VALUE_INPUT,"50");
             await this.sentKeys(PROMO_CODE_NAME_INPUT,promoCode);
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='hidden'");
             //await this.driver.executeScript("document.body.style.zoom = '80%'")
             await this.startDateInputIsDisplayed();
-            await this.driver.sleep(5000);
+            await this.driver.sleep(1000);
             await this.click(TICKET_START_DATE_INPUT)
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.enterTimeNow();
-            await this.driver.sleep(1500);
+            await this.driver.sleep(1000);
             await startDatePicker.clickSetButton();
-            await this.driver.sleep(1500);
+            await this.driver.sleep(1000);
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='visible'");
             await this.isDisplayed(SAVE_PROMOTION_BUTTON)
+            await this.driver.sleep(1000);
             await this.click(SAVE_PROMOTION_BUTTON);
-            await this.driver.sleep(1500);
+            await this.driver.sleep(1000);
         }
 
         async createPromotionForMultipleTicketsWithLimitationsWithPercentValue(ticketNameOne, promoName, promoCode){
@@ -132,7 +129,7 @@
             await this.sentKeys(PROMO_CODE_NAME_INPUT,promoCode);
             await this.driver.executeScript("document.getElementsByName('accountLimit')[0].click()");
             await this.moveToElement(TICKET_START_DATE_INPUT);
-            await this.isDisplayed(PROMO_PER_ACCOUNT_LIMIT_INPUT,5000);
+            await this.isDisplayed(PROMO_PER_ACCOUNT_LIMIT_INPUT,1000);
             await this.sentKeys(PROMO_PER_ACCOUNT_LIMIT_INPUT, "10")
             await this.click(SELECT_LIMIT_TICKETS_DROPDOWN);
             await this.ticketsAreDisplayedInTheList(ticketNameOne);
@@ -143,18 +140,18 @@
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='hidden'");
             //await this.driver.executeScript("document.body.style.zoom = '80%'")
             await this.startDateInputIsDisplayed();
-            await this.driver.sleep(5000);
+            await this.driver.sleep(1000);
             await this.click(TICKET_START_DATE_INPUT)
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.enterTimeNow();
-            await this.driver.sleep(1500);
+            await this.driver.sleep(1000);
             await startDatePicker.clickSetButton();
-            await this.driver.sleep(1500);
+            await this.driver.sleep(1000);
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='visible'");
             await this.isDisplayed(SAVE_PROMOTION_BUTTON)
             await this.click(SAVE_PROMOTION_BUTTON);
-            await this.driver.sleep(1500);
+            await this.driver.sleep(1000);
         }
 
 

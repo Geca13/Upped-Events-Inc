@@ -31,8 +31,6 @@ const until = require('selenium-webdriver').until;
                 await this.driver.switchTo().window(window);
             }
         }
-        //await this.driver.wait(until.titleIs('Selenium documentation'), 10000);
-
     }
 
     async zoomOutWindow(locator){
@@ -57,6 +55,15 @@ const until = require('selenium-webdriver').until;
          await element.click();
     }
 
+        async elementByTextIsDisplayed(text){
+            await this.isDisplayed(this.driver.findElement(By.xpath("//*[text()=' "+text+" ']")));
+
+        }
+        async elementByTextWithoutSpacesIsDisplayed(text){
+            await this.isDisplayed(this.driver.findElement(By.xpath("//*[text()='"+text+"']")));
+
+        }
+
     async clickEnterKey(locator){
         let element = await this.find(locator);
         await element.sendKeys(Key.ENTER)
@@ -80,9 +87,6 @@ const until = require('selenium-webdriver').until;
         let children = await parent[parentIndex].findElements(By.xpath("./child::*"));
         return await children[childIndex].getText();
     }
-
-
-
     async findChildByIndexFromPrecedingSibling(locator){
           let knownSibling = await this.find(locator);
           let sibling = await knownSibling.findElement(By.xpath("./preceding-sibling::label"));
@@ -91,7 +95,6 @@ const until = require('selenium-webdriver').until;
           console.log(children)
           await children[1].click();
     }
-
     async clickParent(locator){
           let child = await this.find(locator);
           let parent = await child.findElement(By.xpath("./"));
@@ -178,7 +181,6 @@ const until = require('selenium-webdriver').until;
     }
         async isNotDisplayed(locator,timeout) {
             if (timeout){
-                await this.driver.wait(until.elementLocated(locator), timeout)
                 await this.driver.wait(until.elementIsNotVisible(this.find(locator)), timeout)
                 return true
             } else{

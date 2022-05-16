@@ -15,6 +15,9 @@
         async clickAddPromotionButton(){
             await this.click(ADD_PROMOTION_BUTTON)
         }
+        async addPromotionButtonIsVisible(){
+            await this.isDisplayed(ADD_PROMOTION_BUTTON)
+        }
 
     }
     module.exports = PromotionsPage;

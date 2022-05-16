@@ -21,6 +21,7 @@
     const FEES_TOOLTIP = { id: 'ngb-tooltip-2' }
     const CHILDREN = { xpath: "./child::*"}
     const DISCOUNT_TRASH_ICON = { xpath: "//*[text()='Discount ']"}
+    const TICKET_TERMS_BUTTON = { className: 'terms-btn' }
 
 
     class TicketingPage extends BasePage {
@@ -30,10 +31,15 @@
         async nextButtonPresent() {
             return await this.isDisplayed(NEXT_BUTTON,5000);
         }
+        async termsButtonPresent() {
+            return await this.isDisplayed(TICKET_TERMS_BUTTON,5000);
+        }
         async clickNextButton(){
             await this.click(NEXT_BUTTON);
         }
-
+        async clickTermsButton(){
+            await this.click(TICKET_TERMS_BUTTON);
+        }
         async clickBackToEventInfoButton(){
             await this.click(BACK_TO_EVENT_INFO_BUTTON);
         }

@@ -52,7 +52,7 @@
             await this.heading3IsDisplayed();
             await this.clickHeading1();
             await this.clickBoldStyleIcon();
-            await this.typeInInput("Bold Heading 1. ")
+            await this.typeInInput("Bold Heading 1")
             await this.clickEnterKey(TICKET_TERMS_INPUT)
         }
 
@@ -61,7 +61,7 @@
             await this.heading3IsDisplayed();
             await this.clickParagraph();
             await this.clickItalicStyleIcon();
-            await this.typeInInput("Italic Paragraph. ");
+            await this.typeInInput("Italic Paragraph");
             await this.clickEnterKey(TICKET_TERMS_INPUT)
         }
 

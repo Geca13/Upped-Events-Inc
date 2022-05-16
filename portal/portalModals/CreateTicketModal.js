@@ -1,7 +1,7 @@
     const BasePage = require('../../BasePage');
     const DateTimePickerModal = require('../portalModals/DateTimePickerModal')
     const CREATE_TICKET_HEADER = { xpath: "//*[text()='Create Ticket']"}
-    const TICKET_NAME_INPUT = { xpath: "//lint-modal-window//input[@id='name']" };
+    const TICKET_NAME_INPUT = { xpath: "//input[@id='name']" };
     const TICKET_DESCRIPTION_INPUT = { id: 'description' }
     const TICKET_RULES_INPUT = { id: 'rules' }
     const TICKET_QUANTITY_INPUT = { id: 'quantity'}
@@ -40,6 +40,7 @@
             await this.isDisplayed(SAVE_TICKET_BUTTON, 5000)
         }
         async createNewTicket(ticketName,ticketPrice){
+            await this.ticketNameInputIsDisplayed();
             await this.sentKeys(TICKET_NAME_INPUT, ticketName);
             await this.sentKeys(TICKET_DESCRIPTION_INPUT, ticketName + ' description');
             await this.sentKeys(TICKET_RULES_INPUT, ticketName + ' rules');
@@ -54,13 +55,6 @@
             await this.driver.sleep(1500);
             await startDatePicker.clickSetButton();
             await this.driver.sleep(1500);
-           /* await this.click(TICKET_END_DATE_INPUT);
-            let endDatePicker = new DateTimePickerModal(this.driver);
-            await endDatePicker.datePickerIsVisible();
-            await endDatePicker.clickNextMonthButton();
-            await endDatePicker.select28Day();
-            await this.driver.sleep(1500);
-            await endDatePicker.clickSetButton();*/
             await this.saveTicketButtonIsVisible();
             await this.click(SAVE_TICKET_BUTTON);
         }
@@ -68,7 +62,7 @@
             await this.sentKeys(TICKET_NAME_INPUT, ticketName);
             await this.sentKeys(TICKET_DESCRIPTION_INPUT, ticketName + ' description');
             await this.sentKeys(TICKET_RULES_INPUT, ticketName + ' rules');
-            await this.sentKeys(TICKET_QUANTITY_INPUT, '1234');
+            await this.sentKeys(TICKET_QUANTITY_INPUT, '234');
             await this.sentKeys(TICKET_PRICE_INPUT, ticketPrice);
             await this.click(TICKET_START_DATE_INPUT);
             await this.driver.sleep(1000);
