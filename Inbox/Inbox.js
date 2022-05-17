@@ -17,9 +17,13 @@
         async findAndClickTheEmailForNewAccount(email){
             await this.locateElementByTextAndClick(email);
         }
+        async getOriginalWindow(){
+            await this.getOriginalWindowOrTab()
+        }
         async switchToInboxIFrame(){
             await this.switchToAnIframe(INBOX_FRAME);
         }
+
         async verifyEmail(){
             await this.click(VERIFY_EMAIL_BUTTON)
         }

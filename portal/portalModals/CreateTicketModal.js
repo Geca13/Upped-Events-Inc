@@ -44,7 +44,7 @@
             await this.sentKeys(TICKET_NAME_INPUT, ticketName);
             await this.sentKeys(TICKET_DESCRIPTION_INPUT, ticketName + ' description');
             await this.sentKeys(TICKET_RULES_INPUT, ticketName + ' rules');
-            await this.sentKeys(TICKET_QUANTITY_INPUT, '1234');
+            await this.sentKeys(TICKET_QUANTITY_INPUT, '000');
             await this.sentKeys(TICKET_PRICE_INPUT, ticketPrice);
             await this.click(TICKET_START_DATE_INPUT);
             await this.driver.sleep(1000);
@@ -58,11 +58,33 @@
             await this.saveTicketButtonIsVisible();
             await this.click(SAVE_TICKET_BUTTON);
         }
+
+        async createNewTicketForQuantityCheck(ticketName,ticketQty){
+            await this.ticketNameInputIsDisplayed();
+            await this.sentKeys(TICKET_NAME_INPUT, ticketName);
+            await this.sentKeys(TICKET_DESCRIPTION_INPUT, ticketName + ' description');
+            await this.sentKeys(TICKET_RULES_INPUT, ticketName + ' rules');
+            await this.clearInputField(TICKET_QUANTITY_INPUT);
+            await this.driver.sleep(500);
+            await this.sentKeys(TICKET_QUANTITY_INPUT, ticketQty);
+            await this.sentKeys(TICKET_PRICE_INPUT, "5");
+            await this.click(TICKET_START_DATE_INPUT);
+            await this.driver.sleep(1000);
+            let startDatePicker = new DateTimePickerModal(this.driver);
+            await startDatePicker.datePickerIsVisible();
+            await startDatePicker.enterTimeNow();
+            await this.driver.sleep(1500);
+            await startDatePicker.clickSetButton();
+            await this.driver.sleep(1500);
+            await this.saveTicketButtonIsVisible();
+            await this.click(SAVE_TICKET_BUTTON);
+        }
+
         async createStaffTicket(ticketName,ticketPrice){
             await this.sentKeys(TICKET_NAME_INPUT, ticketName);
             await this.sentKeys(TICKET_DESCRIPTION_INPUT, ticketName + ' description');
             await this.sentKeys(TICKET_RULES_INPUT, ticketName + ' rules');
-            await this.sentKeys(TICKET_QUANTITY_INPUT, '234');
+            await this.sentKeys(TICKET_QUANTITY_INPUT, '000');
             await this.sentKeys(TICKET_PRICE_INPUT, ticketPrice);
             await this.click(TICKET_START_DATE_INPUT);
             await this.driver.sleep(1000);

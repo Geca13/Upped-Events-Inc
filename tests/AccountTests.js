@@ -16,6 +16,7 @@
        let email;
        let password ;
        let loginCom;
+       let originalWindow;
 
        beforeEach(async function(){
            driver = await new Builder().forBrowser('chrome').build();
@@ -35,6 +36,7 @@
            lastName = await createAccount.createSixNumbersString();
            password = await createAccount.createSixNumbersString() + 'Password';
            email = name + '@' + lastName + '.com';
+           originalWindow = inbox.getOriginalWindow();
 
            await events.load();
            await events.clickSignUpButton();
@@ -49,6 +51,9 @@
            await inbox.switchToInboxIFrame();
            await inbox.verifyEmailButtonIsDisplayed();
            await inbox.verifyEmail();
+           await driver.sleep(1000)
+           await driver.switchTo().defaultContent();
+           await loginCom.getNewlyOpenedTab(originalWindow);
            await loginCom.waitPopupToBeLoaded();
            await loginCom.loginAfterVerifyingAccount(password)
         })

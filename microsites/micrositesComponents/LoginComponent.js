@@ -20,6 +20,10 @@
              await this.isDisplayed(SUBMIT_BUTTON, 5000)
         }
 
+        async getNewlyOpenedTab(originalWindow){
+           await this.switchToNewlyOpenedWindowOrTab(originalWindow);
+        }
+
         async loginAfterVerifyingAccount(password){
             await this.sentKeys(PASSWORD_INPUT, password);
             await this.click(SUBMIT_BUTTON)

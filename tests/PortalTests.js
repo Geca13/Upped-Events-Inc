@@ -24,7 +24,8 @@
     const PayTab = require('../microsites/micrositesComponents/PayTab');
     const ConfirmTab = require('../microsites/micrositesComponents/ConfirmTab');
     const NewCardComponent = require('../microsites/micrositesComponents/NewCardComponent');
-    const TicketTermsModal = require('../microsites/micrositesComponents/TicketTermsModal')
+    const TicketTermsModal = require('../microsites/micrositesComponents/TicketTermsModal');
+    const EventOrders = require('../portal/transactionCentar/EventOrders');
 
 
     describe('should login to portal create new event and tickets', function () {
@@ -56,6 +57,7 @@
         let confirm;
         let newCardComponent;
         let terms;
+        let eventOrders;
 
         let today = new Date();
         let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -207,10 +209,12 @@
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.termsButtonPresent();
-            await ticketing.clickTermsButton();
+            /*await ticketing.clickTermsButton();
             await terms.ticketTermsModalIsDisplayed();
-            await terms.clickCloseTermsModalButton();
+            await terms.clickCloseTermsModalButton();*/
+
             await ticketing.nextButtonPresent();
+
             await tickets.clickFirstIncreaseButton();
             await driver.sleep(2000)
             let ticketPrice = await tickets.getTicketPrice();
@@ -298,6 +302,97 @@
             await eventDetails.clickUnublishButton();
             await eventDetails.publishButtonIsDisplayed();
         });
+
+        it('Should create event make purchases and check the count of tickets on purchase and after refund', async function() {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            createEvent = new CreateEventModal(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+            eventOrders = new EventOrders(driver);
+            events = new EventsPage(driver);
+            login = new LoginComponent(driver);
+            info = new EventInfo(driver);
+            ticketing = new TicketingPage(driver);
+            tickets = new TicketsTab(driver);
+            extras = new ExtrasTab(driver);
+            pay = new PayTab(driver);
+            confirm = new ConfirmTab(driver);
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await driver.sleep(1000);
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickCreateEventButton();
+            await createEvent.createEventModalIsDisplayed();
+            await createEvent.fillFormWithValidDataAndSave(eventName);
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.publishButtonIsDisplayed();
+            await eventDetails.clickPublishButton();
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.createNewTicket(ticketOneName,"1");
+            await ticketsNav.createdTicketIsInTheTable(ticketOneName);
+            await ticketsNav.clickActivateTicketToggle(0);
+            await ticketsNav.activateTicketModalIsDisplayed();
+            await ticketsNav.confirmActivationButton();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.createNewTicket(ticketTwoName,"1.2");
+            await ticketsNav.createdTicketIsInTheTable(ticketTwoName);
+            await driver.sleep(1000);
+            await ticketsNav.clickActivateTicketToggle(1);
+            await ticketsNav.activateTicketModalIsDisplayed();
+            await ticketsNav.confirmActivationButton();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await events.load();
+            await events.clickSignInButton();
+            await login.waitPopupToBeLoaded();
+            await login.authenticate("parma99@parma.it", "Pero1234")
+            await events.successMessagePresent();
+            await events.eventCardIsAvailableToClick();
+            await driver.sleep(3000);
+            await events.clickNewEvent(eventName);
+            await info.buyTicketsButtonPresent();
+            await info.clickBuyTicketsButton();
+            await ticketing.nextButtonPresent();
+            await tickets.sendKeysToQtyInput(0,"3");
+            await tickets.sendKeysToQtyInput(1,"4");
+            await ticketing.clickNextButton();
+            await extras.balanceIsPresent();
+            await ticketing.clickNextButton();
+            await pay.savedCardsHeaderIsPresent();
+            await pay.clickPayWithWalletOption();
+            await pay.payWithWalletButtonIsDisplayed();
+            await pay.clickPayWithWalletButton();
+            await confirm.isOnConfirmTab();
+            await portalLogin.loadPortalUrl();
+            await driver.sleep(1000);
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventDetails.clickUnublishButton();
+            await eventDetails.publishButtonIsDisplayed();
+            await eventOptionTabs.clickTransactionCenterTab();
+            await eventOrders.isAtTransactionCenterPage();
+            await eventOrders.makeFullRefundWithReinstateTicket();
+
+
+
+        })
 
         it('Should create event, tickets and ticket groups', async function() {
             portalLogin = new PortalLoginPage(driver);

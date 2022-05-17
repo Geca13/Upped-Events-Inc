@@ -30,6 +30,7 @@
         }
 
         async clickFirstIncreaseButton(){
+            await this.elementFromArrayOfElementsIsDisplayed(INCREASE_QTY_BUTTONS,0)
             await this.click(INCREASE_QTY_BUTTONS);
         }
 

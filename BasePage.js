@@ -33,6 +33,15 @@ const until = require('selenium-webdriver').until;
         }
     }
 
+    async switchToNewlyOpenedWindowOrTab(originalWindow){
+        const windows = await this.driver.getAllWindowHandles();
+        for (const window of windows) {
+            if (window !== originalWindow) {
+                await this.driver.switchTo().window(window);
+            }
+        }
+    }
+
     async zoomOutWindow(locator){
         await this.find(locator).sendKeys(Key.CONTROL, Key.SUBTRACT);
     }
@@ -87,6 +96,7 @@ const until = require('selenium-webdriver').until;
         let children = await parent[parentIndex].findElements(By.xpath("./child::*"));
         return await children[childIndex].getText();
     }
+
     async findChildByIndexFromPrecedingSibling(locator){
           let knownSibling = await this.find(locator);
           let sibling = await knownSibling.findElement(By.xpath("./preceding-sibling::label"));
@@ -164,6 +174,25 @@ const until = require('selenium-webdriver').until;
     async switchToAnIframe(locator){
           let frame = await this.find(locator)
           await this.driver.switchTo().frame(frame);
+    }
+    async getOriginalWindowOrTab(){
+        return await this.driver.getWindowHandle();
+    }
+
+    async clickAllElementsReturnedFromArray(locator){
+          let elements = await this.findAll(locator);
+          for (const element of elements) {
+              await element.click();
+          }
+    }
+
+    async sendKeysAllElementsReturnedFromArray(locator,amount){
+          let elements = await this.findAll(locator);
+          for (const element of elements) {
+              await element.clear();
+              await this.driver.sleep(500);
+              await element.sendKeys(amount)
+          }
     }
 
     async isDisplayed(locator,timeout) {
