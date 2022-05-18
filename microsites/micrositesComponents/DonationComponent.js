@@ -1,0 +1,133 @@
+    const { By } = require("selenium-webdriver");
+    const BasePage = require("../../BasePage");
+    const DONATION_INPUT = { id: 'donationAmount'};
+    const DONATE_TITLE = { className: 'donate-head' };
+    const DONATE_EVENT_NAME = { className: 'donate-event' };
+    const DONATION_MESSAGE = { className: 'donations-message' };
+    const DONATE_BUTTON_CONTAINER = { className: 'donations-buttons-box' };
+    const DONATE_BUTTONS = { className: 'donations-button' }; //list
+    const ADD_DONATION_BUTTON = { className: 'donation-order-button' };
+    const RESET_DONATION_BUTTON = { className: 'donation-reset-button' };
+
+
+
+    class DonationComponent extends BasePage {
+        constructor(driver) {
+            super(driver);
+        }
+        async donateEventNameIsDisplayed(){
+            await this.isDisplayed(DONATE_EVENT_NAME,5000);
+        }
+        async donationMessageIsDisplayed(){
+            await this.isDisplayed(DONATION_MESSAGE,5000);
+        }
+        async clickDonationButtonsByIndex(index){
+            await this.clickElementReturnedFromAnArray(index);
+        }
+
+        async click$20DonationButton(){
+            await this.clickElementReturnedFromAnArray(DONATE_BUTTONS,0)
+        }
+        async click$35DonationButton(){
+            await this.clickElementReturnedFromAnArray(DONATE_BUTTONS,1)
+        }
+        async click$50DonationButton(){
+            await this.clickElementReturnedFromAnArray(DONATE_BUTTONS,2)
+        }
+        async click$100DonationButton(){
+            await this.clickElementReturnedFromAnArray(DONATE_BUTTONS,3)
+        }
+        async clickAddDonationToOrderButton(){
+            await this.click(ADD_DONATION_BUTTON);
+        }
+        async clickResetDonationButton(){
+            await this.click(RESET_DONATION_BUTTON);
+        }
+        async enterCustomAmountInInput(donation){
+            let input = await this.find(DONATION_INPUT);
+            input.clear();
+            await this.driver.sleep(500);
+            input.sendKeys(DONATION_INPUT,donation);
+        }
+        async inputHasValueOf(donationAmount){
+            await this.isDisplayed(this.driver.findElement(By.xpath("//input[@ng-reflect-model='"+donationAmount+"'")),5000);
+        }
+
+
+        async makeCustom$Donations(){
+            await this.donateEventNameIsDisplayed();
+            await this.donationMessageIsDisplayed();
+            await this.enterCustomAmountInInput("500");
+            await this.inputHasValueOf('500');
+            await this.clickAddDonationToOrderButton();
+            await this.inputHasValueOf('500');
+            await this.clickResetDonationButton();
+            await this.inputHasValueOf('0');
+            await this.enterCustomAmountInInput("500");
+            await this.inputHasValueOf('500');
+            await this.clickAddDonationToOrderButton();
+            await this.inputHasValueOf('500');
+        }
+
+        async make20$Donations(){
+            await this.donateEventNameIsDisplayed();
+            await this.donationMessageIsDisplayed();
+            await this.click$20DonationButton();
+            await this.inputHasValueOf('20');
+            await this.clickAddDonationToOrderButton();
+            await this.inputHasValueOf('20');
+            await this.clickResetDonationButton();
+            await this.inputHasValueOf('0');
+            await this.click$20DonationButton();
+            await this.inputHasValueOf('20');
+            await this.clickAddDonationToOrderButton();
+            await this.inputHasValueOf('20');
+        }
+
+        async make35$Donations(){
+            await this.donateEventNameIsDisplayed();
+            await this.donationMessageIsDisplayed();
+            await this.click$35DonationButton();
+            await this.inputHasValueOf('35');
+            await this.clickAddDonationToOrderButton();
+            await this.inputHasValueOf('35');
+            await this.clickResetDonationButton();
+            await this.inputHasValueOf('0');
+            await this.click$35DonationButton();
+            await this.inputHasValueOf('35');
+            await this.clickAddDonationToOrderButton();
+            await this.inputHasValueOf('35');
+        }
+
+        async make50$Donations(){
+            await this.donateEventNameIsDisplayed();
+            await this.donationMessageIsDisplayed();
+            await this.click$50DonationButton();
+            await this.inputHasValueOf('50');
+            await this.clickAddDonationToOrderButton();
+            await this.inputHasValueOf('50');
+            await this.clickResetDonationButton();
+            await this.inputHasValueOf('0');
+            await this.click$50DonationButton();
+            await this.inputHasValueOf('50');
+            await this.clickAddDonationToOrderButton();
+            await this.inputHasValueOf('50');
+        }
+
+
+        async make100$Donations(){
+            await this.donateEventNameIsDisplayed();
+            await this.donationMessageIsDisplayed();
+            await this.click$100DonationButton();
+            await this.inputHasValueOf('100');
+            await this.clickAddDonationToOrderButton();
+            await this.inputHasValueOf('100');
+            await this.clickResetDonationButton();
+            await this.inputHasValueOf('0');
+            await this.click$100DonationButton();
+            await this.inputHasValueOf('100');
+            await this.clickAddDonationToOrderButton();
+            await this.inputHasValueOf('100');
+        }
+    }
+    module.exports = DonationComponent;

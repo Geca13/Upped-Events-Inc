@@ -140,6 +140,7 @@
             await ticketsNav.clickActivateTicketToggle(0);
             await ticketsNav.activateTicketModalIsDisplayed();
             await ticketsNav.confirmActivationButton();
+            await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
             await createTicket.createNewTicket(ticketTwoName,"10");
@@ -148,6 +149,7 @@
             await ticketsNav.clickActivateTicketToggle(1);
             await ticketsNav.activateTicketModalIsDisplayed();
             await ticketsNav.confirmActivationButton();
+            await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
             await createTicket.createNewTicket(ticketThreeName,"15");
@@ -224,7 +226,7 @@
             let price = await ticketing.getSummaryPriceText();
             console.log(parseFloat(price) + parseFloat(price));
             await ticketing.clickNextButton();
-            await extras.balanceIsPresent();
+            await extras.addMoneyTabIsDisplayed();
             await ticketing.clickNextButton();
             await pay.savedCardsHeaderIsPresent();
             await pay.enterPromotionCode(promoCodeOne);
@@ -244,7 +246,7 @@
             await tickets.sendKeysToQtyInput(2,"4");
             await tickets.sendKeysToQtyInput(3,"5");
             await ticketing.clickNextButton();
-            await extras.balanceIsPresent();
+            await extras.addMoneyTabIsDisplayed();
             await ticketing.clickNextButton();
             await pay.savedCardsHeaderIsPresent();
             await pay.enterPromotionCode(promoCodeThree);
@@ -262,7 +264,7 @@
             await tickets.clickIncreaseQtyButtonByIndex(2);
             //await for exceeding staff ticket
             await ticketing.clickNextButton();
-            await extras.balanceIsPresent();
+            await extras.addMoneyTabIsDisplayed();
             await ticketing.clickNextButton();
             await pay.savedCardsHeaderIsPresent();
             await pay.clickFirstCard();
@@ -277,7 +279,7 @@
             //await tickets.clickIncreaseQtyButtonByIndex(4);
             //await for exceeding staff ticket
             await ticketing.clickNextButton();
-            await extras.balanceIsPresent();
+            await extras.addMoneyTabIsDisplayed();
             await ticketing.clickNextButton();
             await pay.savedCardsHeaderIsPresent();
             await pay.enterPromotionCode(promoCodeTwo);
@@ -303,7 +305,146 @@
             await eventDetails.publishButtonIsDisplayed();
         });
 
-        it('Should create event make purchases and check the count of tickets on purchase and after refund', async function() {
+        it('Should add donation option and make a donation', async function() {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            settingsNav = new SettingsNav(driver);
+            events = new EventsPage(driver);
+            login = new LoginComponent(driver);
+            info = new EventInfo(driver);
+            ticketing = new TicketingPage(driver);
+            tickets = new TicketsTab(driver);
+            extras = new ExtrasTab(driver);
+            pay = new PayTab(driver);
+            confirm = new ConfirmTab(driver);
+
+
+            await portalLogin.loadPortalUrl();
+            console.log('open')
+            await driver.sleep(5000);
+            await portalLogin.isAtPortalLoginPage();
+            console.log('na login')
+            await driver.sleep(5000);
+            await portalLogin.enterValidCredentialsAndLogin();
+            console.log('logiraj')
+            await driver.sleep(5000);
+
+            await dashboard.isAtDashboardPage();
+            console.log('dashboard')
+            await driver.sleep(5000);
+
+            await dashboard.clickMyEventsTab();
+            await driver.sleep(5000);
+            console.log('click my events')
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(5000);
+            await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.publishButtonIsDisplayed();
+            await eventDetails.clickPublishButton();
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.clickSettingsNav();
+            await settingsNav.donationsSubNavIsDisplayed();
+            await settingsNav.makeDonationActive();
+            await events.load();
+            await events.clickSignInButton();
+            await login.waitPopupToBeLoaded();
+            await login.authenticate("parma99@parma.it", "Pero1234")
+            await events.successMessagePresent();
+            await events.eventCardIsAvailableToClick();
+            await driver.sleep(3000);
+            await events.clickNewEvent(eventName);
+            await info.buyTicketsButtonPresent();
+            await info.clickBuyTicketsButton();
+            await ticketing.nextButtonPresent();
+            await tickets.clickFirstIncreaseButton();
+            await driver.sleep(2000)
+            await ticketing.clickNextButton();
+            await extras.addMoneyTabIsDisplayed();
+            await extras.clickNextButton();
+            await extras.donateTabIsDisplayed();
+            await extras.make$20Donation();
+            await ticketing.clickNextButton();
+            await pay.savedCardsHeaderIsPresent();
+            await pay.clickFirstCard();
+            await pay.clickPayWithCardButton();
+            await confirm.isOnConfirmTab();
+            // assertForTotal
+            await ticketing.clickBackToEventInfoButton();
+            await info.buyTicketsButtonPresent();
+            await info.clickBuyTicketsButton();
+            await ticketing.nextButtonPresent();
+            await tickets.clickFirstIncreaseButton();
+            await driver.sleep(2000)
+            await ticketing.clickNextButton();
+            await extras.addMoneyTabIsDisplayed();
+            await extras.clickNextButton();
+            await extras.donateTabIsDisplayed();
+            await extras.make$35Donation();
+            await ticketing.clickNextButton();
+            await pay.savedCardsHeaderIsPresent();
+            await pay.clickFirstCard();
+            await pay.clickPayWithCardButton();
+            await confirm.isOnConfirmTab();
+            // assertForTotal
+            await ticketing.clickBackToEventInfoButton();
+            await info.buyTicketsButtonPresent();
+            await info.clickBuyTicketsButton();
+            await ticketing.nextButtonPresent();
+            await tickets.clickFirstIncreaseButton();
+            await driver.sleep(2000)
+            await ticketing.clickNextButton();
+            await extras.addMoneyTabIsDisplayed();
+            await extras.clickNextButton();
+            await extras.donateTabIsDisplayed();
+            await extras.make$50Donation();
+            await ticketing.clickNextButton();
+            await pay.savedCardsHeaderIsPresent();
+            await pay.clickFirstCard();
+            await pay.clickPayWithCardButton();
+            await confirm.isOnConfirmTab();
+            // assertForTotal
+            await ticketing.clickBackToEventInfoButton();
+            await info.buyTicketsButtonPresent();
+            await info.clickBuyTicketsButton();
+            await ticketing.nextButtonPresent();
+            await tickets.clickFirstIncreaseButton();
+            await driver.sleep(2000)
+            await ticketing.clickNextButton();
+            await extras.addMoneyTabIsDisplayed();
+            await extras.clickNextButton();
+            await extras.donateTabIsDisplayed();
+            await extras.make$100Donation();
+            await ticketing.clickNextButton();
+            await pay.savedCardsHeaderIsPresent();
+            await pay.clickFirstCard();
+            await pay.clickPayWithCardButton();
+            await confirm.isOnConfirmTab();
+            // assertForTotal
+            await ticketing.clickBackToEventInfoButton();
+            await info.buyTicketsButtonPresent();
+            await info.clickBuyTicketsButton();
+            await ticketing.nextButtonPresent();
+            await tickets.clickFirstIncreaseButton();
+            await driver.sleep(2000)
+            await ticketing.clickNextButton();
+            await extras.addMoneyTabIsDisplayed();
+            await extras.clickNextButton();
+            await extras.donateTabIsDisplayed();
+            await extras.makeCustomDonation();
+            await ticketing.clickNextButton();
+            await pay.savedCardsHeaderIsPresent();
+            await pay.clickFirstCard();
+            await pay.clickPayWithCardButton();
+            await confirm.isOnConfirmTab();
+
+
+        });
+
+        it('Should create event make purchases and make refund', async function() {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             createEvent = new CreateEventModal(driver);
@@ -369,7 +510,7 @@
             await tickets.sendKeysToQtyInput(0,"3");
             await tickets.sendKeysToQtyInput(1,"4");
             await ticketing.clickNextButton();
-            await extras.balanceIsPresent();
+            await extras.addMoneyTabIsDisplayed();
             await ticketing.clickNextButton();
             await pay.savedCardsHeaderIsPresent();
             await pay.clickPayWithWalletOption();
@@ -389,8 +530,6 @@
             await eventOptionTabs.clickTransactionCenterTab();
             await eventOrders.isAtTransactionCenterPage();
             await eventOrders.makeFullRefundWithReinstateTicket();
-
-
 
         })
 
@@ -520,7 +659,7 @@
             await eventDetails.unpublishButtonIsDisplayed();
             await eventDetails.clickUnublishButton();
             await eventDetails.publishButtonIsDisplayed();
-        })
+        });
 
        /* it("should make purchases", async function() {
             events = new EventsPage(driver);

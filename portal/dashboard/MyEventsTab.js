@@ -17,7 +17,7 @@
             await this.isDisplayed(By.xpath("//*[text()='"+eventName+"']"),5000);
         }
         async clickTheNewCreatedEventInTheTable(eventName){
-            await this.click(By.xpath("//*[text()='"+eventName+"']"),5000);
+            await this.click(By.xpath("//*[text()='"+eventName+"']"));
         }
 
 
