@@ -90,5 +90,10 @@
             await this.click(SETTINGS_NAV);
         }
 
+        async moveToEventNavs(){
+            await this.moveToElement(SETTINGS_NAV);
+            await this.isDisplayed(SETTINGS_NAV);
+        }
+
     }
     module.exports = EventOptionTabs;

@@ -107,7 +107,7 @@ const until = require('selenium-webdriver').until;
     }
     async clickParent(locator){
           let child = await this.find(locator);
-          let parent = await child.findElement(By.xpath("./"));
+          let parent = await child.findElement(By.xpath("ancestor::a"));
           await parent.click();
     }
 

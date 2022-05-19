@@ -26,9 +26,13 @@
 
         async createDonationForEvent(){
             await this.donationsPageCheckBoxIsDisplayed();
+            await this.driver.sleep(1000)
             await this.clickDonationsCheckbox();
+            await this.driver.sleep(1000)
             await this.donationsPageTextareaIsDisplayed();
+            await this.driver.sleep(1000)
             await this.sendDonationsMessage();
+            await this.driver.sleep(1000)
             await this.clickDonationsSaveButton();
         }
 

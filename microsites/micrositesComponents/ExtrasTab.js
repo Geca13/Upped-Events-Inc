@@ -18,7 +18,8 @@
         }
 
         async donateTabIsDisplayed(){
-            await this.donateEventNameIsDisplayed();
+            let donationComponent = new DonationComponent(this.driver);
+            await donationComponent.donateEventNameIsDisplayed();
         }
         async clickAddMoneyTab(){
             await this.click(DONATE_TAB);

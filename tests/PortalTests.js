@@ -13,6 +13,7 @@
     const PromotionsPage = require('../portal/promotions/PromotionsPage');
     const AddNewPromotionModal = require('../portal/portalModals/AddNewPromotionModal');
     const SettingsNav = require('../portal/ticketing/SettingsNav/SetingsNav');
+    const EventSettingsNav = require('../portal/eventOverview/SettingsNav/SettingsNavs');
     const TaxesAndFeesPage = require('../portal/ticketing/SettingsNav/TaxesAndFeesPage');
     const TicketTermsPage = require('../portal/ticketing/SettingsNav/TicketTermsPage');
     const EventsPage = require('../microsites/micrositesPages/EventsPage');
@@ -58,6 +59,7 @@
         let newCardComponent;
         let terms;
         let eventOrders;
+        let eventSettingsNav;
 
         let today = new Date();
         let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -158,6 +160,7 @@
             await ticketsNav.clickActivateTicketToggle(2);
             await ticketsNav.activateTicketModalIsDisplayed();
             await ticketsNav.confirmActivationButton();
+            await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
             await createTicket.createNewTicket(ticketFourName,"20");
@@ -319,36 +322,36 @@
             extras = new ExtrasTab(driver);
             pay = new PayTab(driver);
             confirm = new ConfirmTab(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventSettingsNav = new EventSettingsNav(driver);
 
 
             await portalLogin.loadPortalUrl();
-            console.log('open')
-            await driver.sleep(5000);
             await portalLogin.isAtPortalLoginPage();
-            console.log('na login')
-            await driver.sleep(5000);
             await portalLogin.enterValidCredentialsAndLogin();
-            console.log('logiraj')
-            await driver.sleep(5000);
+            await driver.sleep(1000);
 
             await dashboard.isAtDashboardPage();
             console.log('dashboard')
-            await driver.sleep(5000);
+            await driver.sleep(1000);
 
             await dashboard.clickMyEventsTab();
-            await driver.sleep(5000);
+            await driver.sleep(1000);
             console.log('click my events')
             await myEvents.eventsTableIsDisplayed();
-            await driver.sleep(5000);
+            await driver.sleep(1000);
             await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            //await myEvents.clickEventInTableByName();
+            await driver.sleep(5000);
             await eventDetails.publishButtonIsDisplayed();
             await eventDetails.clickPublishButton();
             await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.moveToEventNavs();
             await eventOptionTabs.clickSettingsNav();
-            await settingsNav.donationsSubNavIsDisplayed();
-            await settingsNav.makeDonationActive();
+            await eventSettingsNav.donationsSubNavIsDisplayed();
+            await eventSettingsNav.makeDonationActive();
             await events.load();
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
@@ -364,7 +367,7 @@
             await driver.sleep(2000)
             await ticketing.clickNextButton();
             await extras.addMoneyTabIsDisplayed();
-            await extras.clickNextButton();
+            await extras.clickDonateTab();
             await extras.donateTabIsDisplayed();
             await extras.make$20Donation();
             await ticketing.clickNextButton();
@@ -381,7 +384,7 @@
             await driver.sleep(2000)
             await ticketing.clickNextButton();
             await extras.addMoneyTabIsDisplayed();
-            await extras.clickNextButton();
+            await extras.clickDonateTab();
             await extras.donateTabIsDisplayed();
             await extras.make$35Donation();
             await ticketing.clickNextButton();
@@ -398,7 +401,7 @@
             await driver.sleep(2000)
             await ticketing.clickNextButton();
             await extras.addMoneyTabIsDisplayed();
-            await extras.clickNextButton();
+            await extras.clickDonateTab();
             await extras.donateTabIsDisplayed();
             await extras.make$50Donation();
             await ticketing.clickNextButton();
@@ -415,7 +418,7 @@
             await driver.sleep(2000)
             await ticketing.clickNextButton();
             await extras.addMoneyTabIsDisplayed();
-            await extras.clickNextButton();
+            await extras.clickDonateTab();
             await extras.donateTabIsDisplayed();
             await extras.make$100Donation();
             await ticketing.clickNextButton();
@@ -432,7 +435,7 @@
             await driver.sleep(2000)
             await ticketing.clickNextButton();
             await extras.addMoneyTabIsDisplayed();
-            await extras.clickNextButton();
+            await extras.clickDonateTab();
             await extras.donateTabIsDisplayed();
             await extras.makeCustomDonation();
             await ticketing.clickNextButton();

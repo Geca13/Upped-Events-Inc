@@ -1,6 +1,7 @@
     const BasePage = require('../../BasePage');
     const { By } = require('selenium-webdriver');
     const EVENTS_TABLE = { xpath: "//dashboard-events-page" }
+    const EVENTS_NAMES_SPANS = { xpath: "//td/a/span"}
 
 
 
@@ -18,6 +19,9 @@
         }
         async clickTheNewCreatedEventInTheTable(eventName){
             await this.click(By.xpath("//*[text()='"+eventName+"']"));
+        }
+        async clickEventInTableByName(){
+            await this.clickParent(EVENTS_NAMES_SPANS);
         }
 
 
