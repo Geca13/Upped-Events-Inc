@@ -50,7 +50,7 @@
             input.sendKeys(DONATION_INPUT,donation);
         }
         async inputHasValueOf(donationAmount){
-            await this.isDisplayed(this.driver.findElement(By.xpath("//input[@ng-reflect-model='"+donationAmount+"'")),5000);
+            await this.isDisplayed(By.xpath("//input[@ng-reflect-model='"+donationAmount+"'"),5000);
         }
 
 
@@ -58,60 +58,80 @@
             await this.donateEventNameIsDisplayed();
             await this.donationMessageIsDisplayed();
             await this.enterCustomAmountInInput("500");
-            await this.inputHasValueOf('500');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('500');
             await this.clickAddDonationToOrderButton();
-            await this.inputHasValueOf('500');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('500');
             await this.clickResetDonationButton();
-            await this.inputHasValueOf('0');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('0');
             await this.enterCustomAmountInInput("500");
-            await this.inputHasValueOf('500');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('500');
             await this.clickAddDonationToOrderButton();
-            await this.inputHasValueOf('500');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('500');
         }
 
         async make20$Donations(){
             await this.donateEventNameIsDisplayed();
             await this.donationMessageIsDisplayed();
             await this.click$20DonationButton();
-            await this.inputHasValueOf('20');
+            //await this.inputHasValueOf('20');
+            await this.driver.sleep(500);
             await this.clickAddDonationToOrderButton();
-            await this.inputHasValueOf('20');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('20');
             await this.clickResetDonationButton();
-            await this.inputHasValueOf('0');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('0');
             await this.click$20DonationButton();
-            await this.inputHasValueOf('20');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('20');
             await this.clickAddDonationToOrderButton();
-            await this.inputHasValueOf('20');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('20');
         }
 
         async make35$Donations(){
             await this.donateEventNameIsDisplayed();
             await this.donationMessageIsDisplayed();
             await this.click$35DonationButton();
-            await this.inputHasValueOf('35');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('35');
             await this.clickAddDonationToOrderButton();
-            await this.inputHasValueOf('35');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('35');
             await this.clickResetDonationButton();
-            await this.inputHasValueOf('0');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('0');
             await this.click$35DonationButton();
-            await this.inputHasValueOf('35');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('35');
             await this.clickAddDonationToOrderButton();
-            await this.inputHasValueOf('35');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('35');
         }
 
         async make50$Donations(){
             await this.donateEventNameIsDisplayed();
             await this.donationMessageIsDisplayed();
             await this.click$50DonationButton();
-            await this.inputHasValueOf('50');
+            //await this.inputHasValueOf('50');
+            await this.driver.sleep(500);
             await this.clickAddDonationToOrderButton();
-            await this.inputHasValueOf('50');
+            //await this.inputHasValueOf('50');
+            await this.driver.sleep(500);
             await this.clickResetDonationButton();
-            await this.inputHasValueOf('0');
+            //await this.inputHasValueOf('0');
+            await this.driver.sleep(500);
             await this.click$50DonationButton();
-            await this.inputHasValueOf('50');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('50');
             await this.clickAddDonationToOrderButton();
-            await this.inputHasValueOf('50');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('50');
         }
 
 
@@ -119,15 +139,20 @@
             await this.donateEventNameIsDisplayed();
             await this.donationMessageIsDisplayed();
             await this.click$100DonationButton();
-            await this.inputHasValueOf('100');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('100');
             await this.clickAddDonationToOrderButton();
-            await this.inputHasValueOf('100');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('100');
             await this.clickResetDonationButton();
-            await this.inputHasValueOf('0');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('0');
             await this.click$100DonationButton();
-            await this.inputHasValueOf('100');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('100');
             await this.clickAddDonationToOrderButton();
-            await this.inputHasValueOf('100');
+            await this.driver.sleep(500);
+            //await this.inputHasValueOf('100');
         }
     }
     module.exports = DonationComponent;
