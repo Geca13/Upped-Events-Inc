@@ -47,7 +47,7 @@
             let input = await this.find(DONATION_INPUT);
             input.clear();
             await this.driver.sleep(500);
-            input.sendKeys(DONATION_INPUT,donation);
+            await input.sendKeys(donation);
         }
         async inputHasValueOf(donationAmount){
             await this.isDisplayed(By.xpath("//input[@ng-reflect-model='"+donationAmount+"'"),5000);

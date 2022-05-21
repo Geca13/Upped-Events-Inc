@@ -219,7 +219,6 @@
             await terms.clickCloseTermsModalButton();*/
 
             await ticketing.nextButtonPresent();
-
             await tickets.clickFirstIncreaseButton();
             await driver.sleep(2000)
             let ticketPrice = await tickets.getTicketPrice();
@@ -325,19 +324,14 @@
             eventDetails = new GeneralDetailsTab(driver);
             eventSettingsNav = new EventSettingsNav(driver);
 
-
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await driver.sleep(1000);
-
             await dashboard.isAtDashboardPage();
-            console.log('dashboard')
             await driver.sleep(1000);
-
             await dashboard.clickMyEventsTab();
             await driver.sleep(1000);
-            console.log('click my events')
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
             await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
@@ -569,7 +563,6 @@
             await eventOptionTabs.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.createTicketsGroup(promoOneName);
-
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
             await createTicket.createNewTicket(ticketOneName,"5");

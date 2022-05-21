@@ -57,4 +57,15 @@
            await loginCom.waitPopupToBeLoaded();
            await loginCom.loginAfterVerifyingAccount(password)
         })
+
+       it('Should check for proper validation messages', async function() {
+           events = new EventsPage(driver);
+           createAccount = new CreateAccountModal(driver);
+           await events.load();
+           await events.clickSignUpButton();
+           await createAccount.firstCreateAccountModalIsDisplayed();
+           await createAccount.clickSignUpWithEmailButton();
+           await createAccount.secondCreateAccountModalIsDisplayed();
+           await createAccount.allValidationsAreShown()
+       })
    })
