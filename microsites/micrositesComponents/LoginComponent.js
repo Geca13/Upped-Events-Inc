@@ -1,9 +1,8 @@
+    const BasePage = require('../../BasePage')
     const EMAIL_INPUT = { id: 'email' }
     const PASSWORD_INPUT = { id: 'password' }
     const SUBMIT_BUTTON = { className: 'main-btn' }
-    const BasePage = require('../../BasePage')
-
-
+    const FORGOT_PASSWORD_LINK = { className: 'forgotpassword' }
 
     class LoginComponent extends BasePage{
           constructor(driver) {
@@ -18,6 +17,10 @@
 
         async waitPopupToBeLoaded(){
              await this.isDisplayed(SUBMIT_BUTTON, 5000)
+        }
+
+        async clickForgotPasswordLink(){
+              await this.click(FORGOT_PASSWORD_LINK);
         }
 
         async getNewlyOpenedTab(originalWindow){

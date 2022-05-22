@@ -3,6 +3,8 @@
     const CreateAccountModal = require("../microsites/micrositesComponents/CreateAccountModal");
     const Inbox = require("../Inbox/Inbox")
     const LoginComponent = require("../microsites/micrositesComponents/LoginComponent")
+    const ForgotPasswordModal = require("../microsites/micrositesComponents/ForgotPasswordModal")
+    const ResetPasswordPage = require("../microsites/micrositesPages/ResetPasswordPage")
 
 
    describe('Account', function() {
@@ -16,6 +18,8 @@
        let email;
        let password ;
        let loginCom;
+       let forgotPassword;
+       let resetPassword;
        let originalWindow;
 
        beforeEach(async function(){
@@ -30,6 +34,7 @@
        it('should create new account on microsites with username and password, verify and login', async function() {
            events = new EventsPage(driver);
            createAccount = new CreateAccountModal(driver);
+
            inbox = new Inbox(driver);
            loginCom = new LoginComponent(driver);
            name = await createAccount.createSixNumbersString();
@@ -55,7 +60,8 @@
            await driver.switchTo().defaultContent();
            await loginCom.getNewlyOpenedTab(originalWindow);
            await loginCom.waitPopupToBeLoaded();
-           await loginCom.loginAfterVerifyingAccount(password)
+           await loginCom.loginAfterVerifyingAccount(password);
+
         })
 
        it('Should check for proper validation messages', async function() {
@@ -67,5 +73,29 @@
            await createAccount.clickSignUpWithEmailButton();
            await createAccount.secondCreateAccountModalIsDisplayed();
            await createAccount.allValidationsAreShown()
+       })
+
+       it('Should display correct validation errors and finally complete forgot password scenario', async function() {
+           events = new EventsPage(driver);
+           forgotPassword = new ForgotPasswordModal(driver);
+           loginCom = new LoginComponent(driver);
+           resetPassword = new ResetPasswordPage(driver);
+           inbox = new Inbox(driver);
+           let email = 'parma100@parma.it';
+           originalWindow = inbox.getOriginalWindow();
+           await events.load();
+           await events.clickSignInButton();
+           await forgotPassword.forgetPasswordScenarioWithValidations();
+           await inbox.loadInbox();
+           await inbox.elementIsDisplayedInInbox('<'+email+'>');
+           await driver.sleep(1000);
+           await inbox.findAndClickTheEmailForNewAccount('<'+email+'>');
+           await inbox.switchToInboxIFrame();
+           await inbox.resetPasswordButtonIsDisplayed();
+           await inbox.clickResetPasswordButton();
+           await driver.sleep(1000);
+           await driver.switchTo().defaultContent();
+           await loginCom.getNewlyOpenedTab(originalWindow);
+           await resetPassword.completeResetPasswordScenarioWithValidations();
        })
    })

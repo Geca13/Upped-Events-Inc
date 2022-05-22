@@ -10,12 +10,17 @@
     const PASSWORD_LENGTH_VALIDATION_MESSAGE = { xpath: "//*[text()=' Password must have at least 6 characters ']"}
     const PASSWORD_REQUIRED_CHARS_VALIDATION_MESSAGE = { xpath: "//*[text()=' Password must have one small one capital letter and one number ']"}
     const VALIDATION_MESSAGES_HOLDER = { className: 'error-block'};
+    const PASSWORDS_MUST_BE_SAME = { xpath: "//*[text()=' Passwords must be the same ']" }
 
     class Validations extends BasePage {
 
     constructor(driver){
         super(driver);
          }
+
+        async passwordsNotSameIsDisplayed(){
+            await this.isDisplayed(PASSWORDS_MUST_BE_SAME,5000)
+        }
 
          async firstNameInputValidationIsDisplayed(){
             await this.isDisplayed(FIRST_NAME_VALIDATION_MESSAGE,5000)
@@ -102,6 +107,14 @@
         async validationMessagesCount(){
            let messages = await this.findAll(VALIDATION_MESSAGES_HOLDER);
            return messages.length
+        }
+
+        async getValidationErrorText(){
+            return await this.getElementText(VALIDATION_MESSAGES_HOLDER);
+        }
+        async getValidationErrorTextByIndex(index){
+            let validations = await this.findAll(VALIDATION_MESSAGES_HOLDER);
+            return await validations[index].getText();
         }
 
     }

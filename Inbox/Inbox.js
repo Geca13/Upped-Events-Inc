@@ -1,5 +1,6 @@
     const BasePage = require('../BasePage');
     const VERIFY_EMAIL_BUTTON = { xpath: "//*[text()='Verify email address']"}
+    const RESET_PASSWORD_BUTTON = { xpath: "//*[text()='Reset Password']"}
     const INBOX_FRAME = { tagName:'iframe'}
 
 
@@ -29,6 +30,13 @@
         }
         async verifyEmailButtonIsDisplayed(){
             await this.isDisplayed(VERIFY_EMAIL_BUTTON,5000)
+        }
+
+        async clickResetPasswordButton(){
+            await this.click(RESET_PASSWORD_BUTTON)
+        }
+        async resetPasswordButtonIsDisplayed(){
+            await this.isDisplayed(RESET_PASSWORD_BUTTON,5000)
         }
 
     }
