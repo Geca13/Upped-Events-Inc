@@ -14,6 +14,11 @@
           await this.driver.findElement(PASSWORD_INPUT).sendKeys(password)
           await this.driver.findElement(SUBMIT_BUTTON).click()
         }
+        async loginWithNewPassword(email, password){
+              await this.sentKeys(EMAIL_INPUT,email);
+              await this.sentKeys(PASSWORD_INPUT, password);
+              await this.click(SUBMIT_BUTTON);
+        }
 
         async waitPopupToBeLoaded(){
              await this.isDisplayed(SUBMIT_BUTTON, 5000)

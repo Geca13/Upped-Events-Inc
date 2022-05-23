@@ -62,7 +62,8 @@
         let eventSettingsNav;
 
         let today = new Date();
-        let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        //let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let eventName = "Push 05/23/22";
         let ticketOneName = Math.floor(100000 + Math.random() * 900000);
         let ticketTwoName = Math.floor(100000 + Math.random() * 900000);
         let ticketThreeName = Math.floor(100000 + Math.random() * 900000);
@@ -136,7 +137,8 @@
             await eventOptionTabs.clickTicketingTab();
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketOneName,"5");
+            //await createTicket.createNewTicket(ticketOneName,"5");
+            await createTicket.createNewTicket(ticketOneName,"0.5");
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.createdTicketIsInTheTable(ticketOneName);
             await ticketsNav.clickActivateTicketToggle(0);
@@ -145,7 +147,8 @@
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketTwoName,"10");
+            //await createTicket.createNewTicket(ticketTwoName,"10");
+            await createTicket.createNewTicket(ticketTwoName,"1.0");
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.createdTicketIsInTheTable(ticketTwoName);
             await ticketsNav.clickActivateTicketToggle(1);
@@ -154,7 +157,8 @@
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketThreeName,"15");
+            //await createTicket.createNewTicket(ticketThreeName,"15");
+            await createTicket.createNewTicket(ticketThreeName,"0.75");
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.createdTicketIsInTheTable(ticketThreeName);
             await ticketsNav.clickActivateTicketToggle(2);
@@ -163,7 +167,8 @@
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketFourName,"20");
+            //await createTicket.createNewTicket(ticketFourName,"20");
+            await createTicket.createNewTicket(ticketFourName,"0.25");
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.createdTicketIsInTheTable(ticketFourName);
             await ticketsNav.clickActivateTicketToggle(3);

@@ -81,6 +81,8 @@
            loginCom = new LoginComponent(driver);
            resetPassword = new ResetPasswordPage(driver);
            inbox = new Inbox(driver);
+           let password = "Pass" + Math.floor(100000 + Math.random() * 900000);
+           console.log(password)
            let email = 'parma100@parma.it';
            originalWindow = inbox.getOriginalWindow();
            await events.load();
@@ -96,6 +98,12 @@
            await driver.sleep(1000);
            await driver.switchTo().defaultContent();
            await loginCom.getNewlyOpenedTab(originalWindow);
-           await resetPassword.completeResetPasswordScenarioWithValidations();
+           await resetPassword.completeResetPasswordScenarioWithValidations(password);
+           await events.signInButtonIsDisplayed();
+           await events.clickSignInButton();
+           await loginCom.waitPopupToBeLoaded();
+           await loginCom.loginWithNewPassword(email,password)
+           await events.accountDropdownIsDisplayed();
+           await driver.sleep(1000);
        })
    })

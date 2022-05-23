@@ -14,17 +14,20 @@
             super(driver);
         }
 
-        async completeResetPasswordScenarioWithValidations(){
+        async completeResetPasswordScenarioWithValidations(password){
             let validations = new Validations(this.driver);
-            let password = Math.floor(100000 + Math.random() * 900000);
+
             await this.isDisplayed(RESET_PASSWORD_HEADER,5000);
             await this.sentKeys(PASSWORD_INPUT, 'Pass' );
-            await validations.passwordsNotSameIsDisplayed();
+            await this.click(RESET_PASSWORD_HEADER);
             await validations.passwordInputLengthValidationIsDisplayed();
             await validations.passwordInputRegexValidationIsDisplayed();
+            await this.find(PASSWORD_INPUT).clear();
+            await this.driver.sleep(2000)
             await this.sentKeys(PASSWORD_INPUT, password );
-            await validations.passwordsNotSameIsDisplayed();
-            await this.sentKeys(CONFIRM_PASSWORD_INPUT,'Pass'+ password );
+            console.log(password)
+            await this.sentKeys(CONFIRM_PASSWORD_INPUT,password );
+            await this.click(RESET_PASSWORD_HEADER);
             let count = await validations.validationMessagesCount();
             assert.equal(count,0);
             await this.click(CHANGE_PASSWORD_BUTTON);

@@ -4,6 +4,7 @@ const SIGN_UP_BUTTON = { xpath: "//*[text()='Sign Up']"}
 const BasePage = require('../../BasePage')
 const EVENT = { xpath: "//*[text()='Qa Purchase ']"}
 const EVENT_CARD = { tagName: 'event-card' }
+const ACCOUNT_DROPDOWN = { xpath: "//*[text()=' Account ']"}
 
 class EventsPage extends BasePage{
     constructor(driver) {
@@ -20,6 +21,13 @@ class EventsPage extends BasePage{
     }
     async clickSignUpButton(){
         await this.click(SIGN_UP_BUTTON);
+    }
+    async accountDropdownIsDisplayed(){
+        await this.isDisplayed(ACCOUNT_DROPDOWN,10000);
+    }
+
+    async signInButtonIsDisplayed(){
+        await this.isDisplayed(SIGN_IN_BUTTON,10000);
     }
 
     async successMessagePresent() {
