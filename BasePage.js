@@ -165,6 +165,14 @@ const until = require('selenium-webdriver').until;
 
     }
 
+        async moveAwayFromElement(locator) {
+            const actions = this.driver.actions({bridge: true});
+            let element = await this.find(locator);
+            await actions.move({duration:5000,origin:element,x:50,y:50}).perform();
+            await actions.click();
+
+        }
+
         async moveToElementWithElement(element) {
             const actions = this.driver.actions({bridge: true});
             await actions.move({duration:5000,origin:element,x:0,y:0}).perform();

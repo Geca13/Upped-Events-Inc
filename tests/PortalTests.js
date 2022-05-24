@@ -27,6 +27,8 @@
     const NewCardComponent = require('../microsites/micrositesComponents/NewCardComponent');
     const TicketTermsModal = require('../microsites/micrositesComponents/TicketTermsModal');
     const EventOrders = require('../portal/transactionCentar/EventOrders');
+    const MapAndAgendaNavs = require('../portal/mapAndAgenda/MapAndAgendaNavs');
+    const EventMapPage = require('../portal/mapAndAgenda/EventMapPage');
 
 
     describe('should login to portal create new event and tickets', function () {
@@ -60,10 +62,12 @@
         let terms;
         let eventOrders;
         let eventSettingsNav;
+        let agendaNavs;
+        let eventMap;
 
         let today = new Date();
-        //let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        let eventName = "Push 05/23/22";
+        let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        //let eventName = "Push 05/23/22";
         let ticketOneName = Math.floor(100000 + Math.random() * 900000);
         let ticketTwoName = Math.floor(100000 + Math.random() * 900000);
         let ticketThreeName = Math.floor(100000 + Math.random() * 900000);
@@ -312,6 +316,50 @@
             await eventDetails.publishButtonIsDisplayed();
         });
 
+        it('Should add activity and performance', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            settingsNav = new SettingsNav(driver);
+            events = new EventsPage(driver);
+            login = new LoginComponent(driver);
+            info = new EventInfo(driver);
+            ticketing = new TicketingPage(driver);
+            tickets = new TicketsTab(driver);
+            extras = new ExtrasTab(driver);
+            pay = new PayTab(driver);
+            confirm = new ConfirmTab(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventSettingsNav = new EventSettingsNav(driver);
+            agendaNavs = new MapAndAgendaNavs(driver);
+            eventMap = new EventMapPage(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            //await driver.sleep(1000);
+            await dashboard.isAtDashboardPage();
+            //await driver.sleep(1000);
+            await dashboard.clickMyEventsTab();
+            //await driver.sleep(1000);
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await driver.findElement(By.xpath("//*[text()='Push 05/23/22']")).click();
+            await myEvents.createdEventIsInTheTable('Push 05/23/22');
+            await myEvents.clickTheNewCreatedEventInTheTable('Push 05/23/22');
+            //await myEvents.clickEventInTableByName();
+            await driver.sleep(2000);
+            await eventDetails.publishButtonIsDisplayed();
+            await eventDetails.clickPublishButton();
+            await eventDetails.unpublishButtonIsDisplayed();
+            await driver.sleep(2000);
+            await eventOptionTabs.clickMapAndAgendaTab();
+            await eventMap.addLocationsOnMap();
+
+        })
+
         it('Should add donation option and make a donation', async function() {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
@@ -332,11 +380,11 @@
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
-            await driver.sleep(1000);
+            //await driver.sleep(1000);
             await dashboard.isAtDashboardPage();
-            await driver.sleep(1000);
+            //await driver.sleep(1000);
             await dashboard.clickMyEventsTab();
-            await driver.sleep(1000);
+            //await driver.sleep(1000);
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
             await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();

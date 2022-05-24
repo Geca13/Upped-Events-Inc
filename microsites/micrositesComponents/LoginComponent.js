@@ -17,6 +17,7 @@
         async loginWithNewPassword(email, password){
               await this.sentKeys(EMAIL_INPUT,email);
               await this.sentKeys(PASSWORD_INPUT, password);
+              await this.driver.sleep(500)
               await this.click(SUBMIT_BUTTON);
         }
 

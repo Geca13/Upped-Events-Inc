@@ -59,7 +59,7 @@
         async clickTransactionCenterTab(){
             await this.click(TRANSACTION_CENTER_TAB);
         }
-        async clickMarAndAgendaTab(){
+        async clickMapAndAgendaTab(){
             await this.click(MAP_AND_AGENDA_TAB);
         }
         async clickShopManagementTab(){
