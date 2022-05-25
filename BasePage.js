@@ -216,15 +216,34 @@ const until = require('selenium-webdriver').until;
              }
           }
     }
-        async isNotDisplayed(locator,timeout) {
+
+        async isDisplayedFromArray(locator,index ,timeout) {
             if (timeout){
-                await this.driver.wait(until.elementIsNotVisible(this.find(locator)), timeout)
+                let elements = await this.findAll(locator);
+                let element = elements[index];
+                await this.driver.wait(until.elementLocated(element), timeout)
+                await this.driver.wait(until.elementIsVisible(element), timeout)
                 return true
             } else{
                 try {
-                    return await this.find(locator).isDisplayed()
+                    let elements = await this.findAll(locator);
+                    let element = elements[index];
+                    return element.isDisplayed()
                 } catch (error) {
                     return false
+                }
+            }
+        }
+
+    async isNotDisplayed(locator,timeout) {
+        if (timeout){
+            await this.driver.wait(until.elementIsNotVisible(this.find(locator)), timeout)
+                return true
+        } else{
+            try {
+                return await this.find(locator).isDisplayed()
+            } catch (error) {
+                 return false
                 }
             }
         }

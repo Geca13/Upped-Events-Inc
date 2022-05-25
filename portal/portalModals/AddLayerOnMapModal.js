@@ -12,7 +12,7 @@
     const BAR_OPTION = { xpath: "//*[text()='Bar']"}
 
 
-    class AddLayerOnMap extends BasePage {
+    class AddLayerOnMapModal extends BasePage {
         constructor(driver) {
             super(driver);
         }
@@ -66,7 +66,7 @@
         }
 
         async addStageLocationOnMap(){
-            await this.sentKeys(TITLE_INPUT, "Concert Stage");
+            await this.sentKeys(TITLE_INPUT, "Concertosh Stage");
             await this.click(CATEGORY_SELECT);
             await this.driver.sleep(500);
             await this.categoryOptionsAreDisplayed();
@@ -78,10 +78,12 @@
             await this.sentKeys(UPLOAD_PHOTO_INPUT,"D:\\Upped\\static\\stage.jpg");
             await this.isDisplayed(SET_IMAGE_BUTTON,5000);
             await this.click(SET_IMAGE_BUTTON);
+            await this.driver.sleep(500);
+            await this.click(SET_IMAGE_BUTTON);
             await this.saveLayerButtonIsDisplayed();
             await this.driver.sleep(2500);
             await this.click(SAVE_LAYER_BUTTON);
             await this.driver.sleep(1000);
         }
     }
-    module.exports = AddLayerOnMap;
+    module.exports = AddLayerOnMapModal;
