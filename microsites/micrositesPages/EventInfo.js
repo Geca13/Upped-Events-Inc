@@ -5,6 +5,7 @@
     const DETAILS_TAB = { xpath: "//*[text()=' Details ']"}
     const PHOTOS_TAB = { xpath: "//*[text()=' Photos ']"}
     const SHOPS_TAB = { xpath: "//*[text()=' Shops ']"}
+    const LINEUP_TAB = { xpath: "//*[text()=' Lineup ']"}
     const LOCATION_TAB = { xpath: "//*[text()=' Location ']"}
     const FEATURED_IMAGE = { className: 'featured-image' }
     const SHORT_TAGS = { className: 'eventTags' }
@@ -15,6 +16,13 @@
     constructor(driver) {
         super(driver);
 
+    }
+
+    async lineupTabIsDisplayed(){
+        await this.isDisplayed(LINEUP_TAB,5000);
+    }
+    async clickLineupTab(){
+        await this.click(LINEUP_TAB);
     }
 
 

@@ -70,17 +70,18 @@
         let today = new Date();
         let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         //let eventName = "Push 05/23/22";
-        let ticketOneName = Math.floor(100000 + Math.random() * 900000);
-        let ticketTwoName = Math.floor(100000 + Math.random() * 900000);
-        let ticketThreeName = Math.floor(100000 + Math.random() * 900000);
-        let ticketFourName = Math.floor(100000 + Math.random() * 900000);
-        let staffTicket = Math.floor(100000 + Math.random() * 900000);
-        let promoOneName = Math.floor(100000 + Math.random() * 900000);
-        let promoTwoName = Math.floor(100000 + Math.random() * 900000);
-        let promoCodeOne = Math.floor(100000 + Math.random() * 900000);
-        let promoCodeTwo = Math.floor(100000 + Math.random() * 900000);
-        let promoThreeName = Math.floor(100000 + Math.random() * 900000);
-        let promoCodeThree = Math.floor(100000 + Math.random() * 900000);
+        let base = Math.floor(100000 + Math.random() * 900000);
+        let ticketOneName = base.toString() +"T1";
+        let ticketTwoName = base.toString() +"T2";
+        let ticketThreeName = base.toString() +"T3";
+        let ticketFourName = base.toString() +"T4";
+        let staffTicket = base.toString() +"staff";
+        let promoOneName = base.toString() +"PN1";
+        let promoTwoName = base.toString() +"PN2";
+        let promoThreeName = base.toString() +"PN3";
+        let promoCodeOne = base.toString() +"PC1";
+        let promoCodeTwo = base.toString() +"PC2";
+        let promoCodeThree = base.toString() +"PC3";
 
         beforeEach(async function(){
             driver = await new Builder().forBrowser('chrome').build();
@@ -318,42 +319,51 @@
             await eventDetails.publishButtonIsDisplayed();
         });
 
-        it('Should add activity and performance', async function () {
+        /* it('Should add activity and performance', async function () {
 
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventSettingsNav = new EventSettingsNav(driver);
-            agendaNavs = new MapAndAgendaNavs(driver);
-            eventMap = new EventMapPage(driver);
-            performance = new PerformancesPage(driver);
+                    portalLogin = new PortalLoginPage(driver);
+                    dashboard = new DashboardPage(driver);
+                    myEvents = new MyEventsPage(driver);
+                    eventOptionTabs = new EventOptionTabs(driver);
+                    eventDetails = new GeneralDetailsTab(driver);
+                    eventSettingsNav = new EventSettingsNav(driver);
+                    agendaNavs = new MapAndAgendaNavs(driver);
+                    eventMap = new EventMapPage(driver);
+                    performance = new PerformancesPage(driver);
+                    events = new EventsPage(driver);
+                    info = new EventInfo(driver);
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await driver.sleep(1000);
-            await driver.findElement(By.xpath("//*[text()='5-25-14:59:37']")).click();
-            await myEvents.createdEventIsInTheTable('5-25-14:59:37');
-            await myEvents.clickTheNewCreatedEventInTheTable('5-25-14:59:37');
-            await driver.sleep(2000);
-            await eventDetails.publishButtonIsDisplayed();
-            await eventDetails.clickPublishButton();
-            await eventDetails.unpublishButtonIsDisplayed();
-            await driver.sleep(2000);
-            await eventOptionTabs.clickMapAndAgendaTab();
-            await eventMap.addLocationsOnMap();
-            await driver.sleep(2000);
-            await agendaNavs.performancesNavIsDisplayed();
-            await agendaNavs.clickPerformancesNav();
-            await performance.clickAddPerformancesButton();
+                    await portalLogin.loadPortalUrl();
+                    await portalLogin.isAtPortalLoginPage();
+                    await portalLogin.enterValidCredentialsAndLogin();
+                    await dashboard.isAtDashboardPage();
+                    await dashboard.clickMyEventsTab();
+                    await myEvents.eventsTableIsDisplayed();
+                    await driver.sleep(1000);
+                    await driver.findElement(By.xpath("//!*[text()='5-25-14:59:37']")).click();
+                    await myEvents.createdEventIsInTheTable('5-25-14:59:37');
+                    await myEvents.clickTheNewCreatedEventInTheTable('5-25-14:59:37');
+                    await driver.sleep(2000);
+                    await eventDetails.publishButtonIsDisplayed();
+                    await eventDetails.clickPublishButton();
+                    await eventDetails.unpublishButtonIsDisplayed();
+                    await driver.sleep(2000);
+                    await eventOptionTabs.clickMapAndAgendaTab();
+                    await eventMap.addLocationsOnMap();
+                    await driver.sleep(2000);
+                    await agendaNavs.performancesNavIsDisplayed();
+                    await agendaNavs.clickPerformancesNav();
+                    await performance.clickAddPerformancesButton();
+                    await events.load();
+                    await events.eventCardIsAvailableToClick();
+                    await driver.sleep(3000);
+                    await events.clickNewEvent(eventName);
+                    await info.buyTicketsButtonPresent();
+                    await info.lineupTabIsDisplayed();
+                    await info.clickLineupTab()
 
 
-        })
+                })*/
 
         it('Should add donation option and make a donation', async function() {
             portalLogin = new PortalLoginPage(driver);
