@@ -29,7 +29,9 @@
     const EventOrders = require('../portal/transactionCentar/EventOrders');
     const MapAndAgendaNavs = require('../portal/mapAndAgenda/MapAndAgendaNavs');
     const EventMapPage = require('../portal/mapAndAgenda/EventMapPage');
-    const PerformancesPage = require('../portal/mapAndAgenda/PerformancesPage')
+    const PerformancesPage = require('../portal/mapAndAgenda/PerformancesPage');
+    const ActivitiesPage = require('../portal/mapAndAgenda/ActivitiesPage')
+    const LineupTab = require('../microsites/micrositesComponents/LineupTab');
 
 
     describe('should login to portal create new event and tickets', function () {
@@ -66,6 +68,8 @@
         let agendaNavs;
         let eventMap;
         let performance;
+        let lineup;
+        let activity;
 
         let today = new Date();
         let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -206,7 +210,7 @@
             await newPromotion.createPromotionForMultipleTicketsWithLimitationsWithPercentValue(ticketOneName, promoThreeName, promoCodeThree);
             await promotions.promotionsHeaderIsVisible();
             await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            /*await eventOptionTabs.clickTicketingTab();
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
             await createTicket.createStaffTicket(staffTicket,"3");
@@ -214,7 +218,7 @@
             await ticketsNav.clickActivateTicketToggle(4);
             await ticketsNav.activateTicketModalIsDisplayed();
             await ticketsNav.confirmActivationButton();
-            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();*/
             await events.load();
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
@@ -319,7 +323,7 @@
             await eventDetails.publishButtonIsDisplayed();
         });
 
-        /* it('Should add activity and performance', async function () {
+         it('Should add activity and performance', async function () {
 
                     portalLogin = new PortalLoginPage(driver);
                     dashboard = new DashboardPage(driver);
@@ -332,6 +336,8 @@
                     performance = new PerformancesPage(driver);
                     events = new EventsPage(driver);
                     info = new EventInfo(driver);
+                    lineup = new LineupTab(driver);
+                    activity = new ActivitiesPage(driver);
 
                     await portalLogin.loadPortalUrl();
                     await portalLogin.isAtPortalLoginPage();
@@ -340,30 +346,39 @@
                     await dashboard.clickMyEventsTab();
                     await myEvents.eventsTableIsDisplayed();
                     await driver.sleep(1000);
-                    await driver.findElement(By.xpath("//!*[text()='5-25-14:59:37']")).click();
-                    await myEvents.createdEventIsInTheTable('5-25-14:59:37');
-                    await myEvents.clickTheNewCreatedEventInTheTable('5-25-14:59:37');
+                    await driver.findElement(By.xpath("//*[text()='5-27-18:52:2']")).click();
+                    await myEvents.createdEventIsInTheTable('5-27-18:52:2');
+                    await myEvents.clickTheNewCreatedEventInTheTable('5-27-18:52:2');
+                    /*await driver.findElement(By.xpath("//!*[text()='"+eventName+"']")).click();
+                    await myEvents.createdEventIsInTheTable(eventName);
+                    await myEvents.clickTheNewCreatedEventInTheTable(eventName);*/
                     await driver.sleep(2000);
                     await eventDetails.publishButtonIsDisplayed();
                     await eventDetails.clickPublishButton();
                     await eventDetails.unpublishButtonIsDisplayed();
                     await driver.sleep(2000);
                     await eventOptionTabs.clickMapAndAgendaTab();
-                    await eventMap.addLocationsOnMap();
+                    await eventMap.addPerformanceLocationOnMap();
                     await driver.sleep(2000);
                     await agendaNavs.performancesNavIsDisplayed();
                     await agendaNavs.clickPerformancesNav();
                     await performance.clickAddPerformancesButton();
+                    await agendaNavs.clickEventMapNav();
+                    await eventMap.eventMapIsDisplayed();
+                    await eventMap.addFootballLocationOnMap();
+                    await agendaNavs.clickActivitiesNav();
+                    await activity.isOnActivitiesPage();
+                    await activity.createFootballActivity();
                     await events.load();
                     await events.eventCardIsAvailableToClick();
-                    await driver.sleep(3000);
-                    await events.clickNewEvent(eventName);
-                    await info.buyTicketsButtonPresent();
+                    await driver.sleep(10000);
+                    await events.clickNewEvent('5-27-0:55:15');
                     await info.lineupTabIsDisplayed();
                     await info.clickLineupTab()
-
-
-                })*/
+                    await lineup.checkLineupForPerformances();
+                    await info.activitiesTabTabIsDisplayed();
+                    await info.clickActivitiesTab();
+         })
 
         it('Should add donation option and make a donation', async function() {
             portalLogin = new PortalLoginPage(driver);

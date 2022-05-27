@@ -1,9 +1,9 @@
     const BasePage = require('../../BasePage');
-    const PERFORMANCE_NAME_INPUT = { xpath: "//input[@formcontrolname='name']" };
+    const ACTIVITY_NAME_INPUT = { xpath: "//input[@formcontrolname='name']" };
     const TYPE_AND_LOCATION_SELECTS = { xpath: "//button[@role='combobox']" };
     const TYPE_AND_LOCATION_OPTIONS = { xpath: "//a[@role='option']" }; //list
-    const PERFORMANCE_DESCRIPTION_TEXTAREA = { xpath: "//textarea[@formcontrolname='description']" };
-    const PERFORMANCE_REMINDERS_MESSAGE_TEXTAREA = { xpath: "//textarea[@formcontrolname='message']" };
+    const ACTIVITY_DESCRIPTION_TEXTAREA = { xpath: "//textarea[@formcontrolname='description']" };
+    const ACTIVITY_REMINDERS_MESSAGE_TEXTAREA = { xpath: "//textarea[@formcontrolname='message']" };
     const START_DATE_TIME_PICKER = { xpath: "//input[@formcontrolname='startDate']" };
     const END_DATE_TIME_PICKER = { xpath: "//input[@formcontrolname='endDate']" };
     const MAKE_FEATURED_CHECKBOX = { xpath: "//input[@formcontrolname='featured']" };
@@ -30,61 +30,69 @@
     const SET_IMAGE_BUTTON = { xpath: "//app-image-focus//div//button[@type='button']"}
 
 
-    class AddNewPerformanceModal extends BasePage {
+    class AddNewActivityModal extends BasePage {
         constructor(driver) {
             super(driver);
         }
 
-        async isAtCreatePerformanceModal(){
-            await this.isDisplayed(PERFORMANCE_NAME_INPUT,5000);
+        async isAtCreateActivityModal() {
+            await this.isDisplayed(ACTIVITY_NAME_INPUT, 5000);
         }
-        async typesDropdownOptionsAreDisplayed(){
-            await this.isDisplayed(TYPE_AND_LOCATION_OPTIONS,5000);
+
+        async typesDropdownOptionsAreDisplayed() {
+            await this.isDisplayed(TYPE_AND_LOCATION_OPTIONS, 5000);
         }
-        async locationOptionsAreDisplayed(){
-            await this.isDisplayedFromArray(TYPE_AND_LOCATION_OPTIONS,7,5000);
+
+        async locationOptionsAreDisplayed() {
+            await this.isDisplayedFromArray(TYPE_AND_LOCATION_OPTIONS, 7, 5000);
         }
 
 
-        async createComedyPerformance(){
-            await this.isAtCreatePerformanceModal();
-            await this.sentKeys(PERFORMANCE_NAME_INPUT, "Chuck");
-            await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_SELECTS,0);
+        async createFootballGame() {
+            await this.isAtCreateActivityModal();
+            await this.sentKeys(ACTIVITY_NAME_INPUT, "Football");
+            await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_SELECTS, 0);
             await this.typesDropdownOptionsAreDisplayed();
-            await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_OPTIONS,3);
-            await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_SELECTS,0);
+            await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_OPTIONS, 3);
+            await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_SELECTS, 0);
             await this.driver.sleep(1000);
-            await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_SELECTS,1);
+            await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_SELECTS, 1);
             await this.driver.sleep(1000);
             //await this.locationOptionsAreDisplayed();
-            await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_OPTIONS,7);
-            await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_SELECTS,1);
+            await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_OPTIONS, 7);
+            await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_SELECTS, 1);
             await this.driver.sleep(500);
-            await this.sentKeys(PERFORMANCE_DESCRIPTION_TEXTAREA, "Best comedy tv shows");
-            await this.sentKeys(TAG_INPUT, "Bartowski");
-            await this.clickElementReturnedFromAnArray(ADD_TAG_BUTTON,3);
-            await this.isDisplayed(SAVED_TAGS,5000);
-            await this.sentKeys(TAG_INPUT, "Grimes");
-            await this.clickElementReturnedFromAnArray(ADD_TAG_BUTTON,3);
+            await this.sentKeys(ACTIVITY_DESCRIPTION_TEXTAREA, "Best Football Game");
+            await this.sentKeys(TAG_INPUT, "Vikings");
+            await this.clickElementReturnedFromAnArray(ADD_TAG_BUTTON, 3);
+            await this.isDisplayed(SAVED_TAGS, 5000);
+            await this.sentKeys(TAG_INPUT, "Eagles");
+            await this.clickElementReturnedFromAnArray(ADD_TAG_BUTTON, 3);
             //await this.click(MAKE_FEATURED_CHECKBOX);
             await this.driver.executeScript("document.getElementsByClassName('file-upload-input')[0].style.visibility='visible'");
-            await this.sentKeys(UPLOAD_PHOTO_INPUT,"D:\\Upped\\static\\chuck.jpg");
-            await this.isDisplayed(SET_IMAGE_BUTTON,5000);
+            await this.sentKeys(UPLOAD_PHOTO_INPUT, "D:\\Upped\\static\\eaglesvikings.jpg");
+            await this.isDisplayed(SET_IMAGE_BUTTON, 5000);
             await this.click(SET_IMAGE_BUTTON);
             await this.driver.sleep(500);
             await this.click(SET_IMAGE_BUTTON);
-            await this.isAtCreatePerformanceModal();
+            await this.isAtCreateActivityModal();
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='hidden'");
             await this.moveToElement(ADD_REMINDER_LINK);
             await this.click(ADD_REMINDER_LINK);
+            await this.isDisplayed(NOTIFY_USERS_DROPDOWN,5000);
+            await this.click(NOTIFY_USERS_DROPDOWN)
+            await this.isDisplayed(NOTIFY_ATTENDEES_OPTION);
+            await this.click(NOTIFY_ATTENDEES_OPTION);
+            await this.click(NOTIFY_TIME_DROPDOWN);
+            await this.isDisplayed(HOUR_1_BEFORE_OPTION);
+            await this.click(HOUR_1_BEFORE_OPTION);
             await this.moveToElement(ADD_REMINDER_LINK);
-            await this.sentKeys(PERFORMANCE_REMINDERS_MESSAGE_TEXTAREA,'Sarah Walker');
+            await this.sentKeys(ACTIVITY_REMINDERS_MESSAGE_TEXTAREA, 'Game is to start in an hour!!! RUNNNN!!!');
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='visible'");
             await this.driver.sleep(500);
             await this.click(SAVE_PERFORMANCE_BUTTON);
             await this.driver.sleep(5000);
 
         }
-
     }
-    module.exports = AddNewPerformanceModal;
+    module.exports = AddNewActivityModal;
