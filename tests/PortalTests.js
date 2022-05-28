@@ -93,6 +93,18 @@
         });
 
         afterEach(async function(){
+
+/*
+            await portalLogin.loadPortalUrl();
+            await driver.sleep(1000);
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventDetails.clickUnublishButton();
+            await eventDetails.publishButtonIsDisplayed();*/
             await driver.quit()
         })
 
@@ -346,12 +358,12 @@
                     await dashboard.clickMyEventsTab();
                     await myEvents.eventsTableIsDisplayed();
                     await driver.sleep(1000);
-                    await driver.findElement(By.xpath("//*[text()='5-27-18:52:2']")).click();
+                    /*await driver.findElement(By.xpath("//!*[text()='5-27-18:52:2']")).click();
                     await myEvents.createdEventIsInTheTable('5-27-18:52:2');
-                    await myEvents.clickTheNewCreatedEventInTheTable('5-27-18:52:2');
-                    /*await driver.findElement(By.xpath("//!*[text()='"+eventName+"']")).click();
+                    await myEvents.clickTheNewCreatedEventInTheTable('5-27-18:52:2');*/
+                    await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
                     await myEvents.createdEventIsInTheTable(eventName);
-                    await myEvents.clickTheNewCreatedEventInTheTable(eventName);*/
+                    await myEvents.clickTheNewCreatedEventInTheTable(eventName);
                     await driver.sleep(2000);
                     await eventDetails.publishButtonIsDisplayed();
                     await eventDetails.clickPublishButton();
@@ -372,7 +384,7 @@
                     await events.load();
                     await events.eventCardIsAvailableToClick();
                     await driver.sleep(10000);
-                    await events.clickNewEvent('5-27-0:55:15');
+                    await events.clickNewEvent(eventName);
                     await info.lineupTabIsDisplayed();
                     await info.clickLineupTab()
                     await lineup.checkLineupForPerformances();
