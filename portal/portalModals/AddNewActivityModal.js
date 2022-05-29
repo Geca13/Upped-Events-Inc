@@ -50,25 +50,28 @@
 
         async createFootballGame() {
             await this.isAtCreateActivityModal();
-            await this.sentKeys(ACTIVITY_NAME_INPUT, "Football");
+            await this.sentKeys(ACTIVITY_NAME_INPUT, "Nfl Football Game");
             await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_SELECTS, 0);
             await this.typesDropdownOptionsAreDisplayed();
-            await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_OPTIONS, 3);
+            await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_OPTIONS, 6);
             await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_SELECTS, 0);
             await this.driver.sleep(1000);
             await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_SELECTS, 1);
             await this.driver.sleep(1000);
             //await this.locationOptionsAreDisplayed();
-            await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_OPTIONS, 7);
+            await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_OPTIONS, 8);
             await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_SELECTS, 1);
             await this.driver.sleep(500);
             await this.sentKeys(ACTIVITY_DESCRIPTION_TEXTAREA, "Best Football Game");
             await this.sentKeys(TAG_INPUT, "Vikings");
             await this.clickElementReturnedFromAnArray(ADD_TAG_BUTTON, 3);
             await this.isDisplayed(SAVED_TAGS, 5000);
+            await this.find(TAG_INPUT).clear();
+            await this.driver.sleep(500);
             await this.sentKeys(TAG_INPUT, "Eagles");
             await this.clickElementReturnedFromAnArray(ADD_TAG_BUTTON, 3);
             //await this.click(MAKE_FEATURED_CHECKBOX);
+            await this.driver.executeScript("document.querySelector(\"input[formControlName='featured']\").click()");
             await this.driver.executeScript("document.getElementsByClassName('file-upload-input')[0].style.visibility='visible'");
             await this.sentKeys(UPLOAD_PHOTO_INPUT, "D:\\Upped\\static\\eaglesvikings.jpg");
             await this.isDisplayed(SET_IMAGE_BUTTON, 5000);

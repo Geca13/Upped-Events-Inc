@@ -91,7 +91,7 @@
         }
 
         async addFootballPlaygroundLocationOnMap(){
-            await this.sentKeys(TITLE_INPUT, "Football Playground");
+            await this.sentKeys(TITLE_INPUT, "Football Stadium");
             await this.click(CATEGORY_SELECT);
             await this.driver.sleep(500);
             await this.categoryOptionsAreDisplayed();

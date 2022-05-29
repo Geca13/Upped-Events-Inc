@@ -32,6 +32,7 @@
     const PerformancesPage = require('../portal/mapAndAgenda/PerformancesPage');
     const ActivitiesPage = require('../portal/mapAndAgenda/ActivitiesPage')
     const LineupTab = require('../microsites/micrositesComponents/LineupTab');
+    const ActivityTab = require('../microsites/micrositesComponents/ActivitiesTab')
 
 
     describe('should login to portal create new event and tickets', function () {
@@ -70,6 +71,7 @@
         let performance;
         let lineup;
         let activity;
+        let activityTab;
 
         let today = new Date();
         let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -350,6 +352,7 @@
                     info = new EventInfo(driver);
                     lineup = new LineupTab(driver);
                     activity = new ActivitiesPage(driver);
+                    activityTab = new ActivityTab(driver);
 
                     await portalLogin.loadPortalUrl();
                     await portalLogin.isAtPortalLoginPage();
@@ -358,9 +361,9 @@
                     await dashboard.clickMyEventsTab();
                     await myEvents.eventsTableIsDisplayed();
                     await driver.sleep(1000);
-                    /*await driver.findElement(By.xpath("//!*[text()='5-27-18:52:2']")).click();
-                    await myEvents.createdEventIsInTheTable('5-27-18:52:2');
-                    await myEvents.clickTheNewCreatedEventInTheTable('5-27-18:52:2');*/
+                    /*await driver.findElement(By.xpath("//!*[text()='5-29-14:21:19']")).click();
+                    await myEvents.createdEventIsInTheTable('5-29-14:21:19');
+                    await myEvents.clickTheNewCreatedEventInTheTable('5-29-14:21:19');*/
                     await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
                     await myEvents.createdEventIsInTheTable(eventName);
                     await myEvents.clickTheNewCreatedEventInTheTable(eventName);
@@ -390,6 +393,17 @@
                     await lineup.checkLineupForPerformances();
                     await info.activitiesTabTabIsDisplayed();
                     await info.clickActivitiesTab();
+                    await activityTab.verifyElementsOnActivitiesTab();
+             await portalLogin.loadPortalUrl();
+             await driver.sleep(1000);
+             await dashboard.isAtDashboardPage();
+             await dashboard.clickMyEventsTab();
+             await myEvents.eventsTableIsDisplayed();
+             await myEvents.createdEventIsInTheTable(eventName);
+             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+             await eventDetails.unpublishButtonIsDisplayed();
+             await eventDetails.clickUnublishButton();
+             await eventDetails.publishButtonIsDisplayed();
          })
 
         it('Should add donation option and make a donation', async function() {
@@ -522,6 +536,16 @@
             await pay.clickFirstCard();
             await pay.clickPayWithCardButton();
             await confirm.isOnConfirmTab();
+            await portalLogin.loadPortalUrl();
+            await driver.sleep(1000);
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventDetails.clickUnublishButton();
+            await eventDetails.publishButtonIsDisplayed();
 
 
         });
