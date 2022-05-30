@@ -404,7 +404,9 @@
              await eventDetails.unpublishButtonIsDisplayed();
              await eventDetails.clickUnublishButton();
              await eventDetails.publishButtonIsDisplayed();
-         })
+         });
+
+
 
         it('Should add donation option and make a donation', async function() {
             portalLogin = new PortalLoginPage(driver);
