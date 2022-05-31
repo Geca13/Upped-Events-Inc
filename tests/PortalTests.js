@@ -32,7 +32,9 @@
     const PerformancesPage = require('../portal/mapAndAgenda/PerformancesPage');
     const ActivitiesPage = require('../portal/mapAndAgenda/ActivitiesPage')
     const LineupTab = require('../microsites/micrositesComponents/LineupTab');
-    const ActivityTab = require('../microsites/micrositesComponents/ActivitiesTab')
+    const ActivityTab = require('../microsites/micrositesComponents/ActivitiesTab');
+    const ShopsNavs = require('../portal/shopManagement/ShopsNavs');
+    const ShopCategoriesPage = require('../portal/shopManagement/ShopCategoriesPage')
 
 
     describe('should login to portal create new event and tickets', function () {
@@ -72,6 +74,8 @@
         let lineup;
         let activity;
         let activityTab;
+        let shopsNavs;
+        let shopsCat;
 
         let today = new Date();
         let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -337,7 +341,34 @@
             await eventDetails.publishButtonIsDisplayed();
         });
 
-         it('Should add activity and performance', async function () {
+        it('Should add shop categories', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            shopsNavs = new ShopsNavs(driver);
+            shopsCat = new ShopCategoriesPage(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await driver.findElement(By.xpath("//*[text()='5-31-14:29:33']")).click();
+            await myEvents.createdEventIsInTheTable('5-31-14:29:33');
+            await myEvents.clickTheNewCreatedEventInTheTable('5-31-14:29:33');
+            await eventDetails.publishButtonIsDisplayed();
+            await eventOptionTabs.clickShopManagementTab();
+            await shopsNavs.shopCategoriesNavIsDisplayed();
+            await shopsNavs.clickCategoriesNav();
+            await shopsCat.move6CategoriesFromPotentialToOrdered();
+            await driver.sleep(3000);
+        });
+
+        it('Should add activity and performance', async function () {
 
                     portalLogin = new PortalLoginPage(driver);
                     dashboard = new DashboardPage(driver);
