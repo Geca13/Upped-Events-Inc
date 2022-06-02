@@ -34,7 +34,8 @@
     const LineupTab = require('../microsites/micrositesComponents/LineupTab');
     const ActivityTab = require('../microsites/micrositesComponents/ActivitiesTab');
     const ShopsNavs = require('../portal/shopManagement/ShopsNavs');
-    const ShopCategoriesPage = require('../portal/shopManagement/ShopCategoriesPage')
+    const ShopCategoriesPage = require('../portal/shopManagement/ShopCategoriesPage');
+    const PartnersPage = require('../portal/partnerManagement/PartnersPage')
 
 
     describe('should login to portal create new event and tickets', function () {
@@ -76,6 +77,7 @@
         let activityTab;
         let shopsNavs;
         let shopsCat;
+        let partnersPage;
 
         let today = new Date();
         let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -243,7 +245,7 @@
             await login.authenticate("parma99@parma.it", "Pero1234")
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
-            await driver.sleep(3000);
+            await driver.sleep(10000);
             await events.clickNewEvent(eventName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
@@ -357,9 +359,12 @@
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
-            await driver.findElement(By.xpath("//*[text()='5-31-14:29:33']")).click();
-            await myEvents.createdEventIsInTheTable('5-31-14:29:33');
-            await myEvents.clickTheNewCreatedEventInTheTable('5-31-14:29:33');
+            await driver.findElement(By.xpath("//*[text()='6-1-5:19:3']")).click();
+            await myEvents.createdEventIsInTheTable('6-1-5:19:3');
+            await myEvents.clickTheNewCreatedEventInTheTable('6-1-5:19:3');
+            /*await driver.findElement(By.xpath("//!*[text()='"+eventName+"']")).click();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);*/
             await eventDetails.publishButtonIsDisplayed();
             await eventOptionTabs.clickShopManagementTab();
             await shopsNavs.shopCategoriesNavIsDisplayed();
@@ -437,6 +442,31 @@
              await eventDetails.publishButtonIsDisplayed();
          });
 
+        it('should invite vendor ', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            partnersPage = new PartnersPage(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(5000);
+            await eventDetails.publishButtonIsDisplayed();
+            await eventOptionTabs.clickPartnerManagementTab();
+            await partnersPage.isOnPartnersPage();
+            await partnersPage.inviteVendorToEvent(eventName)
+
+        });
 
 
         it('Should add donation option and make a donation', async function() {
@@ -459,17 +489,13 @@
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
-            //await driver.sleep(1000);
             await dashboard.isAtDashboardPage();
-            //await driver.sleep(1000);
             await dashboard.clickMyEventsTab();
-            //await driver.sleep(1000);
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
             await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            //await myEvents.clickEventInTableByName();
             await driver.sleep(5000);
             await eventDetails.publishButtonIsDisplayed();
             await eventDetails.clickPublishButton();
@@ -484,7 +510,7 @@
             await login.authenticate("parma99@parma.it", "Pero1234")
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
-            await driver.sleep(3000);
+            await driver.sleep(10000);
             await events.clickNewEvent(eventName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
@@ -638,10 +664,10 @@
             await events.load();
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
-            await login.authenticate("parma99@parma.it", "Pero1234")
+            await login.authenticate("parma15@parma.it", "Pero1234")
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
-            await driver.sleep(3000);
+            await driver.sleep(10000);
             await events.clickNewEvent(eventName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
@@ -757,7 +783,7 @@
             await login.authenticate("parma99@parma.it", "Pero1234")
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
-            await driver.sleep(3000);
+            await driver.sleep(10000);
             await events.clickNewEvent(eventName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();

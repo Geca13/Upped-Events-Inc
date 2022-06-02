@@ -76,9 +76,9 @@
             await this.driver.sleep(1000);
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='visible'");
             await this.isDisplayed(SAVE_PROMOTION_BUTTON)
-            await this.driver.sleep(1000);
+            await this.driver.sleep(25000);
             await this.click(SAVE_PROMOTION_BUTTON);
-            await this.driver.sleep(1000);
+            await this.driver.sleep(35000);
         }
 
         async createPromotionForMembersWithPercentValue(ticketName, promoName, promoCode){

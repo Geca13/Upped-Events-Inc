@@ -157,7 +157,7 @@ const until = require('selenium-webdriver').until;
     }
 
     async dragAndDropElement(locatorSource, locatorTarget){
-        const actions = this.driver.actions({bridge: true});
+        const actions = this.driver.actions();
         let source = this.find(locatorSource);
         let target = this.find(locatorTarget);
         /*await this.driver.executeScript("function createEvent(typeOfEvent) {\n" + "var event =document.createEvent(\"CustomEvent\");\n"
@@ -180,7 +180,13 @@ const until = require('selenium-webdriver').until;
        // await this.driver.actions().move({origin:source}).press().perform();
         await this.driver.sleep(1000)
         //await this.moveToElement(locatorTarget);
-        //await this.driver.actions().dragAndDrop(source, target).perform();
+        //await actions.dragAndDrop(source, target).perform();
+        await actions
+            .move({duration:5000,origin:source,x:0,y:0})
+            .press()
+            .move({duration:5000,origin:target,x:0,y:0})
+            .release()
+            .perform();
        // await this.driver.actions().move({origin:target}).release().perform();
 
        // await actions.dragAndDropBy(source, 0,150).perform();
@@ -237,6 +243,7 @@ const until = require('selenium-webdriver').until;
           if (timeout){
               await this.driver.wait(until.elementLocated(locator), timeout)
               await this.driver.wait(until.elementIsVisible(this.find(locator)), timeout)
+              await this.driver.wait(until.elementIsEnabled(this.find(locator)), timeout)
               return true
           } else{
              try {

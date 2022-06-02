@@ -5,6 +5,7 @@ const BasePage = require('../../BasePage')
 const EVENT = { xpath: "//*[text()='Qa Purchase ']"}
 const EVENT_CARD = { tagName: 'event-card' }
 const ACCOUNT_DROPDOWN = { xpath: "//*[text()=' Account ']"}
+const SHORTNAME = { className: 'shortname' }
 
 class EventsPage extends BasePage{
     constructor(driver) {
@@ -51,6 +52,7 @@ class EventsPage extends BasePage{
         await this.click(EVENT);
     }
     async clickNewEvent(eventName){
+        await this.isDisplayed(SHORTNAME,10000);
         await this.locateElementByTextAndClick(eventName);
     }
 
