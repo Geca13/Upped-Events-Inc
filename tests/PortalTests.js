@@ -1,4 +1,6 @@
     const { Builder, By } = require('selenium-webdriver');
+    const assert = require('assert')
+    const Inbox = require("../Inbox/Inbox")
     const PortalLoginPage = require('../portal/portalPages/PortalLoginPage');
     const DashboardPage = require('../portal/dashboard/Dashboard');
     const CreateEventModal = require('../portal/portalModals/CreateEventModal');
@@ -78,6 +80,8 @@
         let shopsNavs;
         let shopsCat;
         let partnersPage;
+        let inbox;
+        let originalWindow;
 
         let today = new Date();
         let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -94,6 +98,10 @@
         let promoCodeOne = base.toString() +"PC1";
         let promoCodeTwo = base.toString() +"PC2";
         let promoCodeThree = base.toString() +"PC3";
+        let firstName = 'fn'+base;
+        let lastName = 'ln'+base;
+        let email = firstName + '@' + lastName.com
+
 
         beforeEach(async function(){
             driver = await new Builder().forBrowser('chrome').build();
@@ -359,12 +367,12 @@
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
-            await driver.findElement(By.xpath("//*[text()='6-1-5:19:3']")).click();
+/*            await driver.findElement(By.xpath("//!*[text()='6-1-5:19:3']")).click();
             await myEvents.createdEventIsInTheTable('6-1-5:19:3');
-            await myEvents.clickTheNewCreatedEventInTheTable('6-1-5:19:3');
-            /*await driver.findElement(By.xpath("//!*[text()='"+eventName+"']")).click();
+            await myEvents.clickTheNewCreatedEventInTheTable('6-1-5:19:3');*/
+            await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
             await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);*/
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.publishButtonIsDisplayed();
             await eventOptionTabs.clickShopManagementTab();
             await shopsNavs.shopCategoriesNavIsDisplayed();
@@ -442,13 +450,15 @@
              await eventDetails.publishButtonIsDisplayed();
          });
 
-        it('should invite vendor ', async function () {
+        it('Should invite vendor ', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventOptionTabs = new EventOptionTabs(driver);
             eventDetails = new GeneralDetailsTab(driver);
             partnersPage = new PartnersPage(driver);
+            inbox = new Inbox(driver);
+            originalWindow = inbox.getOriginalWindow();
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
@@ -457,14 +467,21 @@
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
-            await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
+/*            await driver.findElement(By.xpath("//!*[text()='"+eventName+"']")).click();
             await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);*/
+            await driver.findElement(By.xpath("//*[text()='6-3-1:4:35']")).click();
+            await myEvents.createdEventIsInTheTable('6-3-1:4:35');
+            await myEvents.clickTheNewCreatedEventInTheTable('6-3-1:4:35');
             await driver.sleep(5000);
             await eventDetails.publishButtonIsDisplayed();
             await eventOptionTabs.clickPartnerManagementTab();
             await partnersPage.isOnPartnersPage();
-            await partnersPage.inviteVendorToEvent(eventName)
+            await partnersPage.inviteVendorToEvent(email, firstName, lastName);
+
+            await inbox.acceptVendorInvitation();
+
+
 
         });
 

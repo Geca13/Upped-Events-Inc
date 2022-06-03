@@ -71,14 +71,14 @@
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.enterTimeNow();
-            await this.driver.sleep(1000);
+            await this.driver.sleep(500);
             await startDatePicker.clickSetButton();
-            await this.driver.sleep(1000);
+            await this.driver.sleep(500);
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='visible'");
             await this.isDisplayed(SAVE_PROMOTION_BUTTON)
-            await this.driver.sleep(25000);
+            await this.driver.sleep(500);
             await this.click(SAVE_PROMOTION_BUTTON);
-            await this.driver.sleep(35000);
+            await this.driver.sleep(500);
         }
 
         async createPromotionForMembersWithPercentValue(ticketName, promoName, promoCode){

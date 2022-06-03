@@ -2,6 +2,7 @@
     const VERIFY_EMAIL_BUTTON = { xpath: "//*[text()='Verify email address']"}
     const RESET_PASSWORD_BUTTON = { xpath: "//*[text()='Reset Password']"}
     const INBOX_FRAME = { tagName:'iframe'}
+    const ACCEPT_INVITATION_BUTTON = { xpath: "//*[text()='Accept Invitation']"}
 
 
 
@@ -38,6 +39,25 @@
         async resetPasswordButtonIsDisplayed(){
             await this.isDisplayed(RESET_PASSWORD_BUTTON,5000)
         }
+        async clickAcceptInvitation(){
+            await this.click(ACCEPT_INVITATION_BUTTON)
+        }
+        async acceptInvitationButtonIsDisplayed(){
+            await this.isDisplayed(ACCEPT_INVITATION_BUTTON,5000)
+        }
+
+        async acceptVendorInvitation(){
+            await this.loadInbox();
+            await this.elementIsDisplayedInInbox('<'+email+'>');
+            await this.sleep(1000)
+            await this.findAndClickTheEmailForNewAccount('<'+email+'>');
+            await this.switchToInboxIFrame();
+            await this.acceptInvitationButtonIsDisplayed();
+            await this.clickAcceptInvitation();
+            await this.driver.sleep(1000)
+        }
+
+
 
     }
     module.exports = Inbox;

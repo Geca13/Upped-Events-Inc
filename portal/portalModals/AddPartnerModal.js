@@ -1,4 +1,6 @@
     const BasePage = require('../../BasePage');
+    const SetupNewVendorPage = require('../partnerManagement/SetupNewVendorPage')
+    const ADD_PARTNER_HEADER = { xpath:"//*[text()=' Add Partner']"}
     const DROPDOWNS = { xpath: "//button[@type='button']"} // list index 1:Partner, 2:InviteMethod 3: businessType
     const PARTNER_TYPE_DROPDOWN = { xpath: "//select[@title='Select Partner Type']"}
     const VENDOR_MERCHANT_OPTION = { xpath:"//*[text()='Vendor/Merchant']"}
@@ -28,32 +30,33 @@
         }
 
         async isOnNewPartnerModal(){
-            await this.isDisplayed(PARTNER_TYPE_DROPDOWN,5000);
+            await this.isDisplayed(ADD_PARTNER_HEADER,5000);
         }
 
         async clickPartnerTypeDropdown(){
-            await this.click(PARTNER_TYPE_DROPDOWN)
+            await this.clickElementReturnedFromAnArray(DROPDOWNS,1);
         }
-        async inviteVendorWithEmail(prefix){
+        async inviteVendorWithEmail(email, firstName, lastName){
             await this.isOnNewPartnerModal();
             await this.clickPartnerTypeDropdown();
             await this.isDisplayed(VENDOR_MERCHANT_OPTION,5000);
+            await this.driver.sleep(500);
             await this.click(VENDOR_MERCHANT_OPTION);
-            await this.isDisplayed(INVITE_METHOD_DROPDOWN,5000);
-            await this.click(INVITE_METHOD_DROPDOWN);
+            await this.driver.sleep(500);
+            await this.clickElementReturnedFromAnArray(DROPDOWNS,2);
             await this.isDisplayed(INVITE_EMAIL_OPTION,5000);
             await this.click(INVITE_EMAIL_OPTION);
-            await this.isDisplayed(BUSINESS_TYPE_DROPDOWN,5000);
-            await this.click(BUSINESS_TYPE_DROPDOWN);
+            await this.clickElementReturnedFromAnArray(DROPDOWNS,3);
             await this.isDisplayed(INDIVIDUAL_OPTION,5000);
             await this.click(INDIVIDUAL_OPTION);
             await this.driver.sleep(500);
-            await this.sentKeys(EMAIL_INPUT,prefix+'email@email.email');
-            await this.sentKeys(FIRST_NAME_INPUT,'Geca');
-            await this.sentKeys(LAST_NAME_INPUT,'Gecov');
+            await this.sentKeys(EMAIL_INPUT,email);
+            await this.sentKeys(FIRST_NAME_INPUT,firstName);
+            await this.sentKeys(LAST_NAME_INPUT,lastName);
             await this.sentKeys(MESSAGE_TEXTAREA,'Come work in our event');
             await this.click(SEND_INVITE_BUTTON);
             await this.driver.sleep(1500);
         }
+
     }
     module.exports = AddPartnerModal;

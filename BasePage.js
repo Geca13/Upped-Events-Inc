@@ -77,9 +77,10 @@ const until = require('selenium-webdriver').until;
         let element = await this.find(locator);
         await element.sendKeys(Key.ENTER)
     }
-    async clickEnterKey(locator){
-        let element = await this.find(locator);
-    await element.sendKeys(Key.ENTER)
+    async getEnteredTextInTheInput(locator){
+       let input =  await this.find(locator);
+       return await input.getAttribute("value");
+
     }
     async clearInputField(locator){
         let element = await this.find(locator);
