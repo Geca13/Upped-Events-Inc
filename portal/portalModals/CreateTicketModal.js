@@ -57,6 +57,7 @@
             await this.driver.sleep(1500);
             await this.saveTicketButtonIsVisible();
             await this.click(SAVE_TICKET_BUTTON);
+            await this.driver.sleep(500);
         }
 
         async createNewTicketForQuantityCheck(ticketName,ticketQty){
