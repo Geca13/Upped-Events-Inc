@@ -137,6 +137,10 @@ const until = require('selenium-webdriver').until;
     async getElementText(locator) {
        return await this.find(locator).getText();
     }
+    async getElementTextFromAnArrayByIndex(locator, index){
+        let elements = await this.findAll(locator);
+        return await elements[index].getText();
+    }
 
     async getSubstringOfPriceString(locator,parentIndex, childIndex){
         let result = await this.getChildByIndex(locator,parentIndex, childIndex);
@@ -199,8 +203,13 @@ const until = require('selenium-webdriver').until;
           const actions = this.driver.actions({bridge: true});
           let element = await this.find(locator);
           await actions.move({duration:5000,origin:element,x:0,y:0}).perform();
-
     }
+        async moveToElementFromArrayByIndex(locator,index) {
+            const actions = this.driver.actions({bridge: true});
+            let elements = await this.findAll(locator);
+            let element = elements[index];
+            await actions.move({duration:5000,origin:element,x:0,y:0}).perform();
+        }
 
         async moveAwayFromElement(locator) {
             const actions = this.driver.actions({bridge: true});

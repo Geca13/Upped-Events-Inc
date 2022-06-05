@@ -28,6 +28,18 @@
         constructor(driver) {
             super(driver);
         }
+        async moveToTaxesInfoIcon(){
+            await this.moveToElementFromArrayByIndex(INFO_ICONS,0)
+            await this.isDisplayed(TAXES_TOOLTIP,5000);
+        }
+        async moveToFeesInfoIcon(){
+            await this.moveToElementFromArrayByIndex(INFO_ICONS,1)
+            await this.isDisplayed(FEES_TOOLTIP,5000);
+        }
+
+        async getMiniTotalValuesByParentAndChildIndex(parentIndex, childIndex){
+            return await this.getChildByIndex(SUMMARY_ELEMENTS,parentIndex,childIndex);
+        }
         async nextButtonPresent() {
             return await this.isDisplayed(NEXT_BUTTON,5000);
         }

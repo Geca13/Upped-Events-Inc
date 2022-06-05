@@ -7,6 +7,9 @@
     const FEE_$_VALUE_INPUT = { name: 'price' }
     const ADD_BUTTONS = { xpath: "//*[text()='Add']"}//list
     const SAVE_TAXES_AND_FEES_BUTTON = { xpath: "//*[text()='Save']"}
+    const TAXES_AND_FEES_NAMES = { className: 'inner-elements-full'}
+    const TAXES_AND_FEES_VALUES = { tagName: 'tr'}
+
 
 
 
@@ -71,6 +74,15 @@
             await this.setPercentFeeForTickets("Fee %", "2.66");
             await this.clickSaveTaxesAndFeesButton();
         }
+
+        async getTaxOrFeeNameByIndex(index){
+            return await this.getElementTextFromAnArrayByIndex(TAXES_AND_FEES_NAMES, index);
+        }
+
+        async getTaxOrFeeValueByIndex(parentIndex, childIndex){
+            return await this.getChildByIndex(TAXES_AND_FEES_VALUES, parentIndex, childIndex);
+        }
+
 
     }
     module.exports = TaxesAndFeesPage;

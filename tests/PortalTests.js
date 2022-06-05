@@ -417,6 +417,78 @@
              await activityTab.verifyElementsOnActivitiesTab();
          });
 
+
+        it('Should check for taxes and fees names and values in portal and microsites', async function (){
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            settingsNav = new SettingsNav(driver);
+            taxesAndFees = new TaxesAndFeesPage(driver);
+            events = new EventsPage(driver);
+            info = new EventInfo(driver);
+            ticketing = new TicketingPage(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            /*await driver.findElement(By.xpath("//!*[text()='"+eventName+"']")).click();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);*/
+            await driver.findElement(By.xpath("//*[text()='6-5-2:44:56']")).click();
+            await myEvents.createdEventIsInTheTable('6-5-2:44:56');
+            await myEvents.clickTheNewCreatedEventInTheTable('6-5-2:44:56');
+            await driver.sleep(5000);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await eventOptionTabs.clickSettingsNav();
+            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await settingsNav.clickTaxesAndFeesSubNav();
+            await taxesAndFees.includeExcludeIsVisible();
+            let tax1 = await taxesAndFees.getTaxOrFeeNameByIndex(0);
+            console.log(tax1);
+            let tax2 = await taxesAndFees.getTaxOrFeeNameByIndex(1);
+            console.log(tax2);
+            let fee1 = await taxesAndFees.getTaxOrFeeNameByIndex(5);
+            let fee2 = await taxesAndFees.getTaxOrFeeNameByIndex(6);
+            let tax1value = await taxesAndFees.getTaxOrFeeValueByIndex(1,1);
+            console.log(tax1value);
+            let tax2value = await taxesAndFees.getTaxOrFeeValueByIndex(2,1);
+            let fee1value = await taxesAndFees.getTaxOrFeeValueByIndex(5,1);
+            let fee2value = await taxesAndFees.getTaxOrFeeValueByIndex(6,1);
+            let fee2NameSubstring = fee2.substring(0,5)
+            console.log(fee2value);
+            await events.load();
+            await events.eventCardIsAvailableToClick();
+            await driver.sleep(10000);
+            await events.clickNewEvent('6-5-2:44:56');
+            await info.buyTicketsButtonPresent();
+            await info.clickBuyTicketsButton();
+            await ticketing.nextButtonPresent();
+            await ticketing.moveToTaxesInfoIcon();
+            let firstTaxLabel = await ticketing.getMiniTotalValuesByParentAndChildIndex(2, 0)
+            let secondTaxLabel = await ticketing.getMiniTotalValuesByParentAndChildIndex(3, 0)
+            console.log(firstTaxLabel);
+            console.log(secondTaxLabel);
+            assert.equal(firstTaxLabel,tax1 + ' ('+tax1value+')')
+            assert.equal(secondTaxLabel,tax2 + ' ('+tax2value+')')
+            await ticketing.moveToFeesInfoIcon();
+            let firstFeeLabel = await ticketing.getMiniTotalValuesByParentAndChildIndex(3, 0)
+            let secondFeeLabel = await ticketing.getMiniTotalValuesByParentAndChildIndex(4, 0)
+            console.log(firstFeeLabel);
+            console.log(secondFeeLabel);
+            //assert.equal(firstFeeLabel,fee1 + ' ('+fee1value+')')
+            assert.equal(secondFeeLabel,fee2NameSubstring + ' ('+fee2value+')')
+
+        });
+
 /*        it('Should invite vendor ', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
