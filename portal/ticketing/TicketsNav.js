@@ -1,5 +1,6 @@
     const BasePage = require('../../BasePage');
     const {By} = require("selenium-webdriver");
+    const assert = require('assert')
     const ADD_TICKETS_GROUP_BUTTON = { xpath: "//*[text()=' Add Group']" }
     const ADD_TICKET_BUTTON = { xpath: "//*[text()='Add']" }
     const ALL_TICKETS_TAB = { xpath: "//*[text()=' All ']" }
@@ -13,6 +14,7 @@
     const TICKETS_GROUP_NAME_INPUT = { xpath: "//input[@placeholder='Group Name']" }
     const SAVE_TICKETS_GROUP_BUTTON = { xpath: "//i[@aria-hidden='true']" }
     const CANCEL_TICKETS_GROUP_BUTTON = { xpath: "//i[@aria-hidden='true']" }
+    const SOLD_TICKETS_NUMBER = { className: 'column-sold'} //list
 
 
 
@@ -60,6 +62,19 @@
         }
         async clickInactiveTicketsTab(){
             await this.click(INACTIVE_TICKETS_TAB);
+        }
+
+        async checkForSoldTicketsAfterFirstTest(){
+            await this.isDisplayed(SOLD_TICKETS_NUMBER,5000);
+            let firstTicketSolds = await this.getRawTicketPrice(SOLD_TICKETS_NUMBER,0);
+            let secondTicketSolds = await this.getRawTicketPrice(SOLD_TICKETS_NUMBER,1);
+            let thirdTicketSolds = await this.getRawTicketPrice(SOLD_TICKETS_NUMBER,2);
+            let fourthTicketSolds = await this.getRawTicketPrice(SOLD_TICKETS_NUMBER,3);
+            assert.equal(firstTicketSolds,'5')
+            assert.equal(secondTicketSolds,'5')
+            assert.equal(thirdTicketSolds,'5')
+            assert.equal(fourthTicketSolds,'5')
+
         }
     }
     module.exports = TicketsNav;

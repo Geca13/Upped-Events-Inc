@@ -330,14 +330,14 @@
 
         });
 
- /*       it('Should add shop categories', async function () {
+        it('Should check for sold tickets', async function () {
+
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
             eventOptionTabs = new EventOptionTabs(driver);
-            shopsNavs = new ShopsNavs(driver);
-            shopsCat = new ShopCategoriesPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            ticketsNav = new TicketsNav(driver);
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
@@ -346,20 +346,50 @@
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
-/!*          await driver.findElement(By.xpath("//!*[text()='6-1-5:19:3']")).click();
-            await myEvents.createdEventIsInTheTable('6-1-5:19:3');
-            await myEvents.clickTheNewCreatedEventInTheTable('6-1-5:19:3');*!/
-            await driver.findElement(By.xpath("//!*[text()='"+eventName+"']")).click();
+            await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.publishButtonIsDisplayed();
-            await eventOptionTabs.clickShopManagementTab();
-            await shopsNavs.shopCategoriesNavIsDisplayed();
-            await shopsNavs.clickCategoriesNav();
-            await shopsCat.move6CategoriesFromPotentialToOrdered();
-            await driver.sleep(3000);
+            /*await driver.findElement(By.xpath("//!*[text()='6-6-0:22:44']")).click();
+            await myEvents.createdEventIsInTheTable('6-6-0:22:44');
+            await myEvents.clickTheNewCreatedEventInTheTable('6-6-0:22:44');*/
+            await driver.sleep(5000);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.checkForSoldTicketsAfterFirstTest();
+
         });
-*/
+
+        /*       it('Should add shop categories', async function () {
+                   portalLogin = new PortalLoginPage(driver);
+                   dashboard = new DashboardPage(driver);
+                   myEvents = new MyEventsPage(driver);
+                   eventDetails = new GeneralDetailsTab(driver);
+                   eventOptionTabs = new EventOptionTabs(driver);
+                   shopsNavs = new ShopsNavs(driver);
+                   shopsCat = new ShopCategoriesPage(driver);
+
+                   await portalLogin.loadPortalUrl();
+                   await portalLogin.isAtPortalLoginPage();
+                   await portalLogin.enterValidCredentialsAndLogin();
+                   await dashboard.isAtDashboardPage();
+                   await dashboard.clickMyEventsTab();
+                   await myEvents.eventsTableIsDisplayed();
+                   await driver.sleep(1000);
+       /!*          await driver.findElement(By.xpath("//!*[text()='6-1-5:19:3']")).click();
+                   await myEvents.createdEventIsInTheTable('6-1-5:19:3');
+                   await myEvents.clickTheNewCreatedEventInTheTable('6-1-5:19:3');*!/
+                   await driver.findElement(By.xpath("//!*[text()='"+eventName+"']")).click();
+                   await myEvents.createdEventIsInTheTable(eventName);
+                   await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+                   await eventDetails.publishButtonIsDisplayed();
+                   await eventOptionTabs.clickShopManagementTab();
+                   await shopsNavs.shopCategoriesNavIsDisplayed();
+                   await shopsNavs.clickCategoriesNav();
+                   await shopsCat.move6CategoriesFromPotentialToOrdered();
+                   await driver.sleep(3000);
+               });
+       */
         it('Should add activity and performance', async function () {
 
              portalLogin = new PortalLoginPage(driver);
@@ -438,12 +468,12 @@
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
-            /*await driver.findElement(By.xpath("//!*[text()='"+eventName+"']")).click();
+            await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
             await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);*/
-            await driver.findElement(By.xpath("//*[text()='6-5-2:44:56']")).click();
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            /*await driver.findElement(By.xpath("//!*[text()='6-5-2:44:56']")).click();
             await myEvents.createdEventIsInTheTable('6-5-2:44:56');
-            await myEvents.clickTheNewCreatedEventInTheTable('6-5-2:44:56');
+            await myEvents.clickTheNewCreatedEventInTheTable('6-5-2:44:56');*/
             await driver.sleep(5000);
             await eventDetails.unpublishButtonIsDisplayed();
             await eventOptionTabs.ticketingTabIsDisplayed();
@@ -453,9 +483,7 @@
             await settingsNav.clickTaxesAndFeesSubNav();
             await taxesAndFees.includeExcludeIsVisible();
             let tax1 = await taxesAndFees.getTaxOrFeeNameByIndex(0);
-            console.log(tax1);
             let tax2 = await taxesAndFees.getTaxOrFeeNameByIndex(1);
-            console.log(tax2);
             let fee1 = await taxesAndFees.getTaxOrFeeNameByIndex(5);
             let fee2 = await taxesAndFees.getTaxOrFeeNameByIndex(6);
             let tax1value = await taxesAndFees.getTaxOrFeeValueByIndex(1,1);
@@ -463,20 +491,18 @@
             let tax2value = await taxesAndFees.getTaxOrFeeValueByIndex(2,1);
             let fee1value = await taxesAndFees.getTaxOrFeeValueByIndex(5,1);
             let fee2value = await taxesAndFees.getTaxOrFeeValueByIndex(6,1);
+            let fee1NameSubstring = fee1.substring(0,5)
             let fee2NameSubstring = fee2.substring(0,5)
-            console.log(fee2value);
             await events.load();
             await events.eventCardIsAvailableToClick();
             await driver.sleep(10000);
-            await events.clickNewEvent('6-5-2:44:56');
+            await events.clickNewEvent(eventName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.nextButtonPresent();
             await ticketing.moveToTaxesInfoIcon();
             let firstTaxLabel = await ticketing.getMiniTotalValuesByParentAndChildIndex(2, 0)
             let secondTaxLabel = await ticketing.getMiniTotalValuesByParentAndChildIndex(3, 0)
-            console.log(firstTaxLabel);
-            console.log(secondTaxLabel);
             assert.equal(firstTaxLabel,tax1 + ' ('+tax1value+')')
             assert.equal(secondTaxLabel,tax2 + ' ('+tax2value+')')
             await ticketing.moveToFeesInfoIcon();
@@ -484,7 +510,7 @@
             let secondFeeLabel = await ticketing.getMiniTotalValuesByParentAndChildIndex(4, 0)
             console.log(firstFeeLabel);
             console.log(secondFeeLabel);
-            //assert.equal(firstFeeLabel,fee1 + ' ('+fee1value+')')
+            //assert.equal(firstFeeLabel,fee1NameSubstring + ' ('+fee1value+')')  the $ value doesnt appear on hover when qty is 0
             assert.equal(secondFeeLabel,fee2NameSubstring + ' ('+fee2value+')')
 
         });
