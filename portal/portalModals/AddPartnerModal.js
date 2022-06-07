@@ -3,7 +3,7 @@
     const ADD_PARTNER_HEADER = { xpath:"//*[text()=' Add Partner']"}
     const DROPDOWNS = { xpath: "//button[@type='button']"} // list index 1:Partner, 2:InviteMethod 3: businessType
     const PARTNER_TYPE_DROPDOWN = { xpath: "//select[@title='Select Partner Type']"}
-    const VENDOR_MERCHANT_OPTION = { xpath:"//*[text()='Vendor/Merchant']"}
+    const VENDOR_MERCHANT_OPTION = { id: "bs-select-2-2"}
     const SPONSOR_OPTION = { xpath:"//*[text()='Sponsor']"}
     const SPEAKER_OPTION = { xpath:"//*[text()='Speaker']"}
     const CONTRACTOR_OPTION = { xpath:"//*[text()='Contractor']"}
@@ -40,7 +40,7 @@
             await this.isOnNewPartnerModal();
             await this.clickPartnerTypeDropdown();
             await this.isDisplayed(VENDOR_MERCHANT_OPTION,5000);
-            await this.driver.sleep(500);
+            await this.driver.sleep(2000);
             await this.click(VENDOR_MERCHANT_OPTION);
             await this.driver.sleep(500);
             await this.clickElementReturnedFromAnArray(DROPDOWNS,2);

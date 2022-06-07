@@ -38,6 +38,7 @@
     const ShopsNavs = require('../portal/shopManagement/ShopsNavs');
     const ShopCategoriesPage = require('../portal/shopManagement/ShopCategoriesPage');
     const PartnersPage = require('../portal/partnerManagement/PartnersPage')
+    const SetupNewVendorPage = require('../portal/partnerManagement/SetupNewVendorPage')
 
 
     describe('Should login to portal create new event and tickets', function () {
@@ -82,6 +83,7 @@
         let partnersPage;
         let inbox;
         let originalWindow;
+        let newVendor;
 
         let today = new Date();
         let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -99,7 +101,7 @@
         let promoCodeThree = base.toString() +"PC3";
         let firstName = 'fn'+base;
         let lastName = 'ln'+base;
-        let email = firstName + '@' + lastName.com
+        let email = firstName + '@' + lastName+'.com'
 
 
         beforeEach(async function(){
@@ -515,13 +517,14 @@
 
         });
 
-/*        it('Should invite vendor ', async function () {
+        it('Should invite vendor ', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventOptionTabs = new EventOptionTabs(driver);
             eventDetails = new GeneralDetailsTab(driver);
             partnersPage = new PartnersPage(driver);
+            newVendor = new SetupNewVendorPage(driver);
             inbox = new Inbox(driver);
             originalWindow = inbox.getOriginalWindow();
 
@@ -532,23 +535,26 @@
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
-/!*            await driver.findElement(By.xpath("//!*[text()='"+eventName+"']")).click();
+/*            await driver.findElement(By.xpath("//!*[text()='"+eventName+"']")).click();
             await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);*!/
-            await driver.findElement(By.xpath("//!*[text()='6-3-1:4:35']")).click();
-            await myEvents.createdEventIsInTheTable('6-3-1:4:35');
-            await myEvents.clickTheNewCreatedEventInTheTable('6-3-1:4:35');
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);*/
+            await driver.findElement(By.xpath("//*[text()='6-6-16:25:30']")).click();
+            await myEvents.createdEventIsInTheTable('6-6-16:25:30');
+            await myEvents.clickTheNewCreatedEventInTheTable('6-6-16:25:30');
             await driver.sleep(5000);
             await eventDetails.publishButtonIsDisplayed();
             await eventOptionTabs.clickPartnerManagementTab();
             await partnersPage.isOnPartnersPage();
             await partnersPage.inviteVendorToEvent(email, firstName, lastName);
+            await inbox.acceptVendorInvitation(email);
+            await driver.switchTo().defaultContent();
+            await newVendor.getNewlyOpenedTab(originalWindow);
+            await newVendor.verifyEnteredData(email, firstName, lastName);
+            await newVendor.completeRegistration(base);
 
-            await inbox.acceptVendorInvitation();
 
 
-
-        });*/
+        });
 
 
         it('Should add donation option and make a donation', async function() {

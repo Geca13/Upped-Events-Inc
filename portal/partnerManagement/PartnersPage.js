@@ -17,10 +17,10 @@
             await this.click(ADD_BUTTON);
         }
 
-        async inviteVendorToEvent(prefix){
+        async inviteVendorToEvent(email, firstName, lastName){
             await this.clickAddPartnerButton();
             let newVendorModal = new AddPartnerModal(this.driver);
-            await newVendorModal.inviteVendorWithEmail(prefix);
+            await newVendorModal.inviteVendorWithEmail(email, firstName, lastName);
 
         }
     }
