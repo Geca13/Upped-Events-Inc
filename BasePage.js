@@ -1,5 +1,6 @@
 const {By, Key, Keys} = require("selenium-webdriver");
 const until = require('selenium-webdriver').until;
+const WebElement = require('selenium-webdriver').WebElement
 
 
     class BasePage {
@@ -87,6 +88,13 @@ const until = require('selenium-webdriver').until;
         await element.clear();
     }
 
+        async clearInputFieldByIndexAndSendKeys(locator , index, keys){
+            let elements = await this.findAll(locator);
+            let element = elements[index];
+            await element.clear();
+            await element.sendKeys(keys);
+        }
+
     async getRawTicketPrice(locator, index){
           let tickets = await this.findAll(locator);
           return await tickets[index].getText();
@@ -161,10 +169,10 @@ const until = require('selenium-webdriver').until;
           return convertedPrice;
     }
 
-    async dragAndDropElement(locatorSource, locatorTarget){
+    async dragAndDropElement(locatorSource){
         const actions = this.driver.actions();
         let source = this.find(locatorSource);
-        let target = this.find(locatorTarget);
+        //let target = this.find(locatorTarget);
         /*await this.driver.executeScript("function createEvent(typeOfEvent) {\n" + "var event =document.createEvent(\"CustomEvent\");\n"
             + "event.initCustomEvent(typeOfEvent,true, true, null);\n" + "event.dataTransfer = {\n" + "data: {},\n"
             + "setData: function (key, value) {\n" + "this.data[key] = value;\n" + "},\n"
@@ -186,15 +194,15 @@ const until = require('selenium-webdriver').until;
         await this.driver.sleep(1000)
         //await this.moveToElement(locatorTarget);
         //await actions.dragAndDrop(source, target).perform();
-        await actions
+        /*await actions
             .move({duration:5000,origin:source,x:0,y:0})
             .press()
             .move({duration:5000,origin:target,x:0,y:0})
             .release()
-            .perform();
+            .perform();*/
        // await this.driver.actions().move({origin:target}).release().perform();
-
-       // await actions.dragAndDropBy(source, 0,150).perform();
+        await actions.dragAndDrop(source, { x: 0, y: 50 }).perform();
+       //await actions.dragAndDropBy(source, 0,150).perform();
         //await actions.clickAndHold(locatorSource).moveToElement(locatorTarget).build().perform(); await actions.dragAndDrop(locatorSource, { x: 0, y: 150 }).perform();
         await this.driver.sleep(1000);
     }
@@ -268,7 +276,7 @@ const until = require('selenium-webdriver').until;
             if (timeout){
                 let elements = await this.findAll(locator);
                 let element = elements[index];
-                await this.driver.wait(until.elementLocated(element), timeout)
+                await this.driver.wait(until.elementLocated(locator), timeout)
                 await this.driver.wait(until.elementIsVisible(element), timeout)
                 return true
             } else{

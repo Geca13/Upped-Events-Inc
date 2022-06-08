@@ -23,6 +23,11 @@
             await this.sentKeys(PASSWORD_INPUT,"Test@123");
             await this.click(SIGN_IN_BUTTON)
         }
+        async vendorLoginWithEmailAndPassword(email,password){
+            await this.sentKeys(EMAIL_INPUT,email);
+            await this.sentKeys(PASSWORD_INPUT,password +"P@ss");
+            await this.click(SIGN_IN_BUTTON)
+        }
 
     }
 

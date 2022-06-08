@@ -38,7 +38,8 @@
     const ShopsNavs = require('../portal/shopManagement/ShopsNavs');
     const ShopCategoriesPage = require('../portal/shopManagement/ShopCategoriesPage');
     const PartnersPage = require('../portal/partnerManagement/PartnersPage')
-    const SetupNewVendorPage = require('../portal/partnerManagement/SetupNewVendorPage')
+    const SetupNewVendorPage = require('../portal/partnerManagement/SetupNewVendorPage');
+    const MyMenusPage = require('../portal/eventModules/MyMenusPage')
 
 
     describe('Should login to portal create new event and tickets', function () {
@@ -84,6 +85,7 @@
         let inbox;
         let originalWindow;
         let newVendor;
+        let myMenus;
 
         let today = new Date();
         let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -240,7 +242,7 @@
             await events.load();
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
-            await login.authenticate("parma99@parma.it", "Pero1234")
+            await login.authenticate("parma333@parma.it", "Pero1234")
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
             await driver.sleep(10000);
@@ -416,9 +418,9 @@
              await dashboard.clickMyEventsTab();
              await myEvents.eventsTableIsDisplayed();
              await driver.sleep(1000);
-             /*await driver.findElement(By.xpath("//!*[text()='5-29-14:21:19']")).click();
-             await myEvents.createdEventIsInTheTable('5-29-14:21:19');
-             await myEvents.clickTheNewCreatedEventInTheTable('5-29-14:21:19');*/
+             /*await driver.findElement(By.xpath("//!*[text()='6-8-0:51:18']")).click();
+             await myEvents.createdEventIsInTheTable('6-8-0:51:18');
+             await myEvents.clickTheNewCreatedEventInTheTable('6-8-0:51:18');*/
              await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
              await myEvents.createdEventIsInTheTable(eventName);
              await myEvents.clickTheNewCreatedEventInTheTable(eventName);
@@ -535,14 +537,14 @@
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
-/*            await driver.findElement(By.xpath("//!*[text()='"+eventName+"']")).click();
+            await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
             await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);*/
-            await driver.findElement(By.xpath("//*[text()='6-6-16:25:30']")).click();
-            await myEvents.createdEventIsInTheTable('6-6-16:25:30');
-            await myEvents.clickTheNewCreatedEventInTheTable('6-6-16:25:30');
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            /*await driver.findElement(By.xpath("//!*[text()='6-8-1:17:24']")).click();
+            await myEvents.createdEventIsInTheTable('6-8-1:17:24');
+            await myEvents.clickTheNewCreatedEventInTheTable('6-8-1:17:24');*/
             await driver.sleep(5000);
-            await eventDetails.publishButtonIsDisplayed();
+            await eventDetails.unpublishButtonIsDisplayed();
             await eventOptionTabs.clickPartnerManagementTab();
             await partnersPage.isOnPartnersPage();
             await partnersPage.inviteVendorToEvent(email, firstName, lastName);
@@ -552,7 +554,24 @@
             await newVendor.verifyEnteredData(email, firstName, lastName);
             await newVendor.completeRegistration(base);
 
+        });
 
+        it('New vendor should login and create bar menu', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            myMenus = new MyMenusPage(driver);
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.vendorLoginWithEmailAndPassword('fn262241@ln262241.com','262241');
+            await dashboard.isAtDashboardPage();
+            await eventOptionTabs.clickMenusTab();
+            await myMenus.isOnMyMenusPage();
+            await myMenus.createNewMenuAndSetNewName(base);
+            await myMenus.createNewSection("Alcoholic Drinks", 0, 1);
+            await myMenus.createNewSection("Meat & Snacks", 1, 2);
+            await myMenus.createNewSection("Desserts", 2, 3);
+            await myMenus.createBeerStoutMenuItem();
 
         });
 
@@ -705,7 +724,7 @@
             await events.load();
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
-            await login.authenticate("parma15@parma.it", "Pero1234")
+            await login.authenticate("parma333@parma.it", "Pero1234")
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
             await driver.sleep(10000);
@@ -814,7 +833,7 @@
             await events.load();
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
-            await login.authenticate("parma99@parma.it", "Pero1234")
+            await login.authenticate("parma333@parma.it", "Pero1234")
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
             await driver.sleep(10000);

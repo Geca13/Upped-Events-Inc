@@ -1,4 +1,5 @@
     const BasePage = require('../../BasePage');
+    const MENUS_TAB = { xpath: "//*[text()='Menus']"}
     const TICKETING_TAB = { xpath: "//*[text()='Ticketing']"}
     const TRANSACTION_CENTER_TAB = { xpath: "//*[text()='Transaction Center']"}
     const MAP_AND_AGENDA_TAB = { xpath: "//*[text()='Map and Agenda']"}
@@ -51,6 +52,13 @@
             await this.isDisplayed(TICKETING_TAB,5000);
         }
 
+        async menusTabIsDisplayed(){
+            await this.isDisplayed(MENUS_TAB,5000);
+        }
+
+        async clickMenusTab(){
+            await this.click(MENUS_TAB);
+        }
 
 
         async clickTicketingTab(){

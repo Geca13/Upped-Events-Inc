@@ -12,7 +12,7 @@
         }
 
         async eventMapIsDisplayed(){
-            await this.isDisplayed(MAP,5000);
+            await this.isDisplayed(MAP_BUTTONS,5000);
         }
 
 
