@@ -569,8 +569,8 @@
             await myMenus.isOnMyMenusPage();
             await myMenus.createNewMenuAndSetNewName(base);
             await myMenus.createNewSection("Alcoholic Drinks", 0, 1);
-            await myMenus.createNewSection("Meat & Snacks", 1, 2);
-            await myMenus.createNewSection("Desserts", 2, 3);
+            /*await myMenus.createNewSection("Meat & Snacks", 1, 2);
+            await myMenus.createNewSection("Desserts", 2, 3);*/
             await myMenus.createBeerStoutMenuItem();
 
         });

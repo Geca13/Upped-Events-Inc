@@ -26,7 +26,8 @@
             await this.click(SET_IMAGE_BUTTON);
         }
         async setHeinekenImageToCenter(){
-            await this.dragAndDropElement(MOVE_BLOCK)
+            await this.click(ZOOM_OUT_BUTTON);
+            await this.dragAndDropElementByOffset(MOVE_BLOCK, 0,90);
         }
     }
     module.exports = SetImageModal;

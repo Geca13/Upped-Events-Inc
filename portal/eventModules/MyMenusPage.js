@@ -4,12 +4,15 @@
     const MY_MENUS_NAV = { xpath: "//*[text()='My Menus ']"}
     const MENU_SCHEDULER_NAV = { xpath: "//*[text()='Menu Scheduler']"}
     const ADD_NEW_SECTION_BUTTON = { xpath: "//*[text()='Add New Section ']"}
+    const MENU_SECTION = { className:'justify-content-center' }//list
+    const MENU_ITEM_FROM_LIST = { className: 'cdk-drag' }
     const MENU_TITLE_INPUT = { xpath: "//input[@name='menuTitle']" };
     const EDIT_ICON = { className: 'fa-pencil'};
     const SAVE_MENU_NAME_ICON = { className: 'fa-check'};
     const SECTION_TITLE_INPUT = { xpath: "//input[@name='sectionName']" };
     const ADD_NEW_MENU_ITEM_BUTTON = { xpath: "//*[text()='Add ']"}
     const ADD_NEW_MENU_ITEM_FROM_SECTION_BUTTON = { xpath: "//*[text()='Add New Item ']"}
+    const MAIN_CATEGORIES_DROPDOWN = { className:'dropdown-menu-right'}
     const TICKET_OPTION = { xpath: "//*[text()='Ticket']"}
     const MERCHANDISE_OPTION = { xpath: "//*[text()='Merchandise']"}
     const FOOD_OPTION = { xpath: "//*[text()='Food']"}
@@ -20,8 +23,8 @@
     const NEW_ITEM_PRICE_INPUT = { xpath: "//input[@formcontrolname='price']" };
     const NEW_ITEM_INGREDIENTS_TEXTAREA = { xpath: "//textarea[@formcontrolname='itemIngredients']" };
     const NEW_ITEM_DESCRIPTION_TEXTAREA = { xpath: "//textarea[@formcontrolname='description']" };
-    const NEW_ITEM_CATEGORY_DROPDOWN = { xpath: "//textarea[@formcontrolname='category']" };
-    const NEW_ITEM_SUBCATEGORY_DROPDOWN = { xpath: "//textarea[@formcontrolname='subCategory']" };
+    const NEW_ITEM_CATEGORY_DROPDOWN = { xpath: "//select-picker[@formcontrolname='category']" };
+    const NEW_ITEM_SUBCATEGORY_DROPDOWN = { xpath: "//select-picker[@formcontrolname='subCategory']" };
     const NEW_ITEM_IMAGE_INPUT = { xpath: "//input[@type='file']" };
     const ADD_SAVE_ITEM_BUTTON = { xpath: "//*[text()='Add Item']"}
 
@@ -70,24 +73,24 @@
         }
 
         async isOnMyMenusPage(){
-            await this.isDisplayed(CREATE_NEW_MENU_LINK,5000);
+            await this.isDisplayed(CREATE_NEW_MENU_LINK,15000);
         }
         async createNewMenuAndSetNewName(base){
             await this.click(CREATE_NEW_MENU_LINK);
-            await this.isDisplayed(ADD_NEW_SECTION_BUTTON,5000);
+            await this.isDisplayed(ADD_NEW_SECTION_BUTTON,15000);
             await this.moveToElement(MENU_TITLE_INPUT);
-            await this.isDisplayed(EDIT_ICON,5000);
+            await this.isDisplayed(EDIT_ICON,15000);
             await this.moveToElement(EDIT_ICON);
             await this.click(EDIT_ICON);
             await this.clearInputField(MENU_TITLE_INPUT);
             await this.sentKeys(MENU_TITLE_INPUT,base + "'s Menu")
             await this.click(SAVE_MENU_NAME_ICON);
-            await this.driver.sleep(1000);
+            await this.driver.sleep(2000);
         }
 
         async createNewSection(sectionName, sectionIndex, editIconIndex){
             await this.click(ADD_NEW_SECTION_BUTTON);
-            await this.driver.sleep(500);
+            await this.driver.sleep(1500);
             await this.isDisplayedFromArray(SECTION_TITLE_INPUT,sectionIndex,5000);
             await this.moveToElementFromArrayByIndex(SECTION_TITLE_INPUT,sectionIndex);
             await this.driver.sleep(500);
@@ -99,8 +102,9 @@
             await this.driver.sleep(500);
         }
         async createBeerStoutMenuItem(){
-            await this.click(ADD_NEW_MENU_ITEM_BUTTON);
-            await this.isDisplayed(TICKET_OPTION,5000);
+            await this.click(ADD_NEW_MENU_ITEM_FROM_SECTION_BUTTON);
+            //await this.driver.executeScript("document.getElementsByClassName('dropdown-menu-right')[0].style.visibility='visible'");
+            await this.isDisplayed(MAIN_CATEGORIES_DROPDOWN,5000);
             await this.click(BEVERAGE_OPTION);
             await this.isDisplayed(NEW_ITEM_NAME_INPUT,5000);
             await this.sentKeys(NEW_ITEM_NAME_INPUT, "Heineken Beer Stout");
@@ -113,13 +117,25 @@
             await this.click(STOUT_BEER_SUBCATEGORY);
             await this.sentKeys(NEW_ITEM_DESCRIPTION_TEXTAREA, "Heineken Beer Stout Description");
             await this.sentKeys(NEW_ITEM_INGREDIENTS_TEXTAREA, "Heineken Beer Stout Ingredients");
-            await this.sentKeys(NEW_ITEM_IMAGE_INPUT,"D:\\Upped\\static\\heineken.jpg");
+            await this.sentKeys(NEW_ITEM_IMAGE_INPUT,"D:\\Upped-Events-Inc\\static\\heineken.jpg");
             let imager = new SetImageModal(this.driver);
             await imager.setImageModalIsDisplayed();
-            await this.setHeinekenImageToCenter();
+            await this.driver.sleep(2000);
+            await imager.setHeinekenImageToCenter();
             await imager.clickSetButton();
             await this.isDisplayed(ADD_SAVE_ITEM_BUTTON,5000);
             await this.click(ADD_SAVE_ITEM_BUTTON);
+            await this.driver.sleep(2000);
+            await this.simulateDragAndDrop(MENU_ITEM_FROM_LIST,MENU_SECTION);
+            await this.driver.sleep(2000);
+        }
+
+        async dragMenuItemToMenuSection(){
+            //let sections = await this.findAll(MENU_SECTION);
+            //let section = sections[sectionIndex];
+            //let menuItems = await this.findAll(MENU_ITEM_FROM_LIST);
+            //let menuItem = menuItems[menuItemIndex];
+            await this.dragAndDropElementByOffset(MENU_ITEM_FROM_LIST, -150,-40);
         }
     }
     module.exports = MyMenusPage;

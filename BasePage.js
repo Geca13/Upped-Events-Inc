@@ -74,10 +74,8 @@ const WebElement = require('selenium-webdriver').WebElement
 
         }
 
-    async clickEnterKey(locator){
-        let element = await this.find(locator);
-        await element.sendKeys(Key.ENTER)
-    }
+
+
     async getEnteredTextInTheInput(locator){
        let input =  await this.find(locator);
        return await input.getAttribute("value");
@@ -169,11 +167,21 @@ const WebElement = require('selenium-webdriver').WebElement
           return convertedPrice;
     }
 
-    async dragAndDropElement(locatorSource){
+    async dragAndDropElementByOffset(locatorSource, horizontal, vertical) {
         const actions = this.driver.actions();
         let source = this.find(locatorSource);
-        //let target = this.find(locatorTarget);
-        /*await this.driver.executeScript("function createEvent(typeOfEvent) {\n" + "var event =document.createEvent(\"CustomEvent\");\n"
+        await actions.dragAndDrop(source, { x: horizontal, y: vertical }).perform();
+        await this.driver.sleep(1000);
+
+    }
+
+    async dragAndDropElement(locatorSource, locatorTarget){
+        const actions = this.driver.actions();
+        let source = this.find(locatorSource);
+        let destination = this.find(locatorTarget);
+        await actions.move({duration:5000,origin:source,x:0,y:0}).press().perform();
+
+        await this.driver.executeScript("function createEvent(typeOfEvent) {\n" + "var event =document.createEvent(\"CustomEvent\");\n"
             + "event.initCustomEvent(typeOfEvent,true, true, null);\n" + "event.dataTransfer = {\n" + "data: {},\n"
             + "setData: function (key, value) {\n" + "this.data[key] = value;\n" + "},\n"
             + "getData: function (key) {\n" + "return this.data[key];\n" + "}\n" + "};\n" + "return event;\n"
@@ -188,30 +196,47 @@ const WebElement = require('selenium-webdriver').WebElement
             + "var dragEndEvent = createEvent('dragend');\n"
             + "dispatchEvent(element, dragEndEvent,dropEvent.dataTransfer);\n" + "}\n" + "\n"
             + "var source = arguments[0];\n" + "var destination = arguments[1];\n"
-            + "simulateHTML5DragAndDrop(source,destination);", source, target);*/
+            + "simulateHTML5DragAndDrop(source,destination);", source, destination);
 
        // await this.driver.actions().move({origin:source}).press().perform();
-        await this.driver.sleep(1000)
+        await this.driver.sleep(3000)
         //await this.moveToElement(locatorTarget);
         //await actions.dragAndDrop(source, target).perform();
         /*await actions
             .move({duration:5000,origin:source,x:0,y:0})
             .press()
-            .move({duration:5000,origin:target,x:0,y:0})
+            .move({duration:5000,origin:destination,x:0,y:0})
             .release()
             .perform();*/
        // await this.driver.actions().move({origin:target}).release().perform();
-        await actions.dragAndDrop(source, { x: 0, y: 50 }).perform();
+        //await actions.dragAndDrop(source, target).perform();
        //await actions.dragAndDropBy(source, 0,150).perform();
         //await actions.clickAndHold(locatorSource).moveToElement(locatorTarget).build().perform(); await actions.dragAndDrop(locatorSource, { x: 0, y: 150 }).perform();
         await this.driver.sleep(1000);
     }
 
+    async simulateDragAndDrop(locatorSource, locatorTarget){
+        await this.focusElement(locatorSource);
+        await this.focusElement(locatorTarget)
+    }
+
+    async focusElement(locatorSource){
+          await this.moveToElement(locatorSource);
+          await this.clickEnterKey(locatorSource)
+    }
+
+        async clickEnterKey(locator){
+            let element = await this.find(locator);
+            await element.sendKeys(Key.ENTER)
+        }
+
     async moveToElement(locator) {
           const actions = this.driver.actions({bridge: true});
           let element = await this.find(locator);
-          await actions.move({duration:5000,origin:element,x:0,y:0}).perform();
+          await actions.move({duration:2000,origin:element,x:0,y:0}).perform();
     }
+
+
         async moveToElementFromArrayByIndex(locator,index) {
             const actions = this.driver.actions({bridge: true});
             let elements = await this.findAll(locator);
