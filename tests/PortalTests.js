@@ -37,6 +37,7 @@
     const ActivityTab = require('../microsites/micrositesComponents/ActivitiesTab');
     const ShopsNavs = require('../portal/shopManagement/ShopsNavs');
     const ShopCategoriesPage = require('../portal/shopManagement/ShopCategoriesPage');
+    const ShopsPage = require('../portal/shopManagement/ShopsPage')
     const PartnersPage = require('../portal/partnerManagement/PartnersPage')
     const SetupNewVendorPage = require('../portal/partnerManagement/SetupNewVendorPage');
     const MyMenusPage = require('../portal/eventModules/MyMenusPage')
@@ -81,6 +82,7 @@
         let activityTab;
         let shopsNavs;
         let shopsCat;
+        let shopsPage;
         let partnersPage;
         let inbox;
         let originalWindow;
@@ -90,6 +92,7 @@
         let today = new Date();
         let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         let base = Math.floor(100000 + Math.random() * 900000);
+        //let base = 123456;
         let ticketOneName = base.toString() +"T1";
         let ticketTwoName = base.toString() +"T2";
         let ticketThreeName = base.toString() +"T3";
@@ -364,7 +367,7 @@
 
         });
 
-        /*       it('Should add shop categories', async function () {
+               /*it('Should add shop categories', async function () {
                    portalLogin = new PortalLoginPage(driver);
                    dashboard = new DashboardPage(driver);
                    myEvents = new MyEventsPage(driver);
@@ -392,8 +395,7 @@
                    await shopsNavs.clickCategoriesNav();
                    await shopsCat.move6CategoriesFromPotentialToOrdered();
                    await driver.sleep(3000);
-               });
-       */
+               });*/
         it('Should add activity and performance', async function () {
 
              portalLogin = new PortalLoginPage(driver);
@@ -471,13 +473,13 @@
             await dashboard.isAtDashboardPage();
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
-            await driver.sleep(1000);
+            await driver.sleep(10000);
             await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            /*await driver.findElement(By.xpath("//!*[text()='6-5-2:44:56']")).click();
-            await myEvents.createdEventIsInTheTable('6-5-2:44:56');
-            await myEvents.clickTheNewCreatedEventInTheTable('6-5-2:44:56');*/
+/*          await driver.findElement(By.xpath("//!*[text()='6-10-2:22:14']")).click();
+            await myEvents.createdEventIsInTheTable('6-10-2:22:14');
+            await myEvents.clickTheNewCreatedEventInTheTable('6-10-2:22:14');*/
             await driver.sleep(5000);
             await eventDetails.unpublishButtonIsDisplayed();
             await eventOptionTabs.ticketingTabIsDisplayed();
@@ -499,7 +501,7 @@
             let fee2NameSubstring = fee2.substring(0,5)
             await events.load();
             await events.eventCardIsAvailableToClick();
-            await driver.sleep(10000);
+            await driver.sleep(15000);
             await events.clickNewEvent(eventName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
@@ -537,12 +539,12 @@
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
-            await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
+            /*await driver.findElement(By.xpath("//!*[text()='"+eventName+"']")).click();
             await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            /*await driver.findElement(By.xpath("//!*[text()='6-8-1:17:24']")).click();
-            await myEvents.createdEventIsInTheTable('6-8-1:17:24');
-            await myEvents.clickTheNewCreatedEventInTheTable('6-8-1:17:24');*/
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);*/
+            await driver.findElement(By.xpath("//*[text()='6-10-13:0:58']")).click();
+            await myEvents.createdEventIsInTheTable('6-10-13:0:58');
+            await myEvents.clickTheNewCreatedEventInTheTable('6-10-13:0:58');
             await driver.sleep(5000);
             await eventDetails.unpublishButtonIsDisplayed();
             await eventOptionTabs.clickPartnerManagementTab();
@@ -556,6 +558,7 @@
 
         });
 
+
         it('New vendor should login and create bar menu', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
@@ -563,7 +566,7 @@
             myMenus = new MyMenusPage(driver);
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
-            await portalLogin.vendorLoginWithEmailAndPassword('fn262241@ln262241.com','262241');
+            await portalLogin.vendorLoginWithEmailAndPassword(email,base);
             await dashboard.isAtDashboardPage();
             await eventOptionTabs.clickMenusTab();
             await myMenus.isOnMyMenusPage();
@@ -572,6 +575,43 @@
             /*await myMenus.createNewSection("Meat & Snacks", 1, 2);
             await myMenus.createNewSection("Desserts", 2, 3);*/
             await myMenus.createBeerStoutMenuItem();
+
+        });
+
+
+        it('should make shop for vendor', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventSettingsNav = new EventSettingsNav(driver);
+            agendaNavs = new MapAndAgendaNavs(driver);
+            eventMap = new EventMapPage(driver);
+            shopsNavs = new ShopsNavs(driver);
+            shopsPage = new ShopsPage(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            /*await driver.findElement(By.xpath("//!*[text()='6-10-9:46:4']")).click();
+            await myEvents.createdEventIsInTheTable('6-10-9:46:4');
+            await myEvents.clickTheNewCreatedEventInTheTable('6-10-9:46:4');*/
+            await driver.sleep(2000);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await driver.sleep(2000);
+            await eventOptionTabs.clickMapAndAgendaTab();
+            await eventMap.addVendorLocationOnMap(base);
+            await eventOptionTabs.clickShopManagementTab();
+            await driver.sleep(2000);
+            await shopsPage.addShopForVendor(base);
 
         });
 

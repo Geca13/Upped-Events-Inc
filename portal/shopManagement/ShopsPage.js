@@ -1,4 +1,5 @@
     const BasePage = require('../../BasePage');
+    const CreateShopModal = require('../portalModals/CreateShopModal')
     const ADD_SHOP_DROPDOWN = { id: 'dropdownBasic1' };
     const ADD_VENDOR_PARTNER_OPTION = { xpath: "//a[@class='dropdown-item' and text()='Add Vendor Partner']"}
     const ADD_SHOP_OPTION = { xpath: "//a[@class='dropdown-item' and text()='Add Shop']"}
@@ -26,6 +27,17 @@
         }
         async clickAddShopOption(){
             await this.click(ADD_SHOP_OPTION);
+        }
+
+        async addShopForVendor(base){
+            await this.addShopDropdownIsDisplayed();
+            await this.clickAddShopDropdown();
+            await this.addVendorOptionIsDisplayed();
+            await this.clickAddShopOption();
+            await this.driver.sleep(500)
+            let shopModal = new CreateShopModal(this.driver);
+            await shopModal.createVendorShop(base);
+
         }
 
     }

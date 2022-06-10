@@ -65,6 +65,11 @@ const WebElement = require('selenium-webdriver').WebElement
          await element.click();
     }
 
+        async clickElementByText(text){
+            let element = await this.driver.findElement(By.xpath("//*[text()='"+text+"']"));
+            await element.click();
+        }
+
         async elementByTextIsDisplayed(text){
             await this.isDisplayed(this.driver.findElement(By.xpath("//*[text()=' "+text+" ']")));
 
@@ -100,6 +105,7 @@ const WebElement = require('selenium-webdriver').WebElement
 
     async getChildByIndex(locator, parentIndex, childIndex) {
         let parent = await this.findAll(locator);
+        console.log(parent)
         let children = await parent[parentIndex].findElements(By.xpath("./child::*"));
         return await children[childIndex].getText();
     }

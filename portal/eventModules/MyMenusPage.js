@@ -126,7 +126,7 @@
             await this.isDisplayed(ADD_SAVE_ITEM_BUTTON,5000);
             await this.click(ADD_SAVE_ITEM_BUTTON);
             await this.driver.sleep(2000);
-            await this.simulateDragAndDrop(MENU_ITEM_FROM_LIST,MENU_SECTION);
+            //await this.simulateDragAndDrop(MENU_ITEM_FROM_LIST,MENU_SECTION);
             await this.driver.sleep(2000);
         }
 

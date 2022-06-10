@@ -36,19 +36,41 @@
             let modal = new AddLayerOnMap(this.driver)
             await this.eventMapIsDisplayed();
             await this.driver.sleep(2000);
-            let pin = await this.getElementFromAnArrayByIndex(MAP_BUTTONS,0);
+            let pin = await this.getElementFromAnArrayByIndex(MAP_BUTTONS,1);
             pin.click();
             await this.driver.sleep(2000);
             await this.driver.executeScript("el = document.elementFromPoint(610, 670); el.click();");
+            await this.driver.sleep(2000);
             await this.driver.executeScript("el = document.elementFromPoint(570, 670); el.click();");
+            await this.driver.sleep(2000);
             await this.driver.executeScript("el = document.elementFromPoint(570, 630); el.click();");
+            await this.driver.sleep(2000);
             await this.driver.executeScript("el = document.elementFromPoint(610, 630); el.click();");
+            await this.driver.sleep(2000);
             await this.driver.executeScript("el = document.elementFromPoint(610, 670); el.click();");
+            await this.driver.sleep(2000);
             await modal.modalIsLoaded();
             await modal.addFootballPlaygroundLocationOnMap();
 
             await this.driver.sleep(5000);
 
+        }
+
+        async addVendorLocationOnMap(base){
+            let modal = new AddLayerOnMap(this.driver)
+            await this.eventMapIsDisplayed();
+            await this.driver.sleep(2000);
+            let pin = await this.getElementFromAnArrayByIndex(MAP_BUTTONS,3);
+            pin.click();
+            console.log('clicking on the map is next')
+            await this.driver.sleep(2000);
+            await this.driver.executeScript("el = document.elementFromPoint(610, 670); el.click();");
+            await this.driver.sleep(2000);
+            await this.driver.executeScript("el = document.elementFromPoint(650, 710); el.click();");
+            await modal.modalIsLoaded();
+            await modal.addVendorBarLocationOnMap(base);
+
+            await this.driver.sleep(5000);
         }
     }
     module.exports = EventMapPage;

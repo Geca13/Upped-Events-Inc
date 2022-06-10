@@ -28,26 +28,25 @@
         async categoryOptionsAreDisplayed(){
             await this.isDisplayed(CATEGORY_OPTIONS,5000);
         }
-        async addBarLocationOnMap(){
-            await this.sentKeys(TITLE_INPUT, "Beer Bar");
+        async addVendorBarLocationOnMap(base){
+            await this.sentKeys(TITLE_INPUT, base +" Bar");
             await this.click(CATEGORY_SELECT);
             await this.driver.sleep(500);
             await this.categoryOptionsAreDisplayed();
             await this.driver.sleep(500);
             await this.driver.executeScript("document.getElementsByClassName('opt')[1].click()");
             await this.driver.sleep(1500);
-            await this.sentKeys(DESCRIPTION_TEXTAREA,"Best Beer, come get some")
+            await this.sentKeys(DESCRIPTION_TEXTAREA,"Best Beer, Wine and Snacks, come get some")
             await this.driver.executeScript("document.getElementsByClassName('file-upload-input')[0].style.visibility='visible'");
-            await this.sentKeys(UPLOAD_PHOTO_INPUT,"D:\\Upped\\static\\bar.jpg");
+            await this.sentKeys(UPLOAD_PHOTO_INPUT,"D:\\Upped-Events-Inc\\static\\bar.jpg");
             await this.isDisplayed(SET_IMAGE_BUTTON,5000);
-
             await this.click(SET_IMAGE_BUTTON);
             await this.driver.sleep(500);
             await this.click(SET_IMAGE_BUTTON);
             await this.saveLayerButtonIsDisplayed();
             await this.driver.sleep(2500);
             await this.click(SAVE_LAYER_BUTTON);
-            await this.driver.sleep(1000);
+            await this.driver.sleep(2000);
         }
 
         async addBurgersLocationOnMap(){
