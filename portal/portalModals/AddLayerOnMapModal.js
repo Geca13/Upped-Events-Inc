@@ -49,17 +49,17 @@
             await this.driver.sleep(2000);
         }
 
-        async addBurgersLocationOnMap(){
-            await this.sentKeys(TITLE_INPUT, "Burgers Stand");
+        async addTicketingLocationOnMap(base){
+            await this.sentKeys(TITLE_INPUT, base + " Tickets");
             await this.click(CATEGORY_SELECT);
             await this.driver.sleep(500);
             await this.categoryOptionsAreDisplayed();
             await this.driver.sleep(500);
-            await this.driver.executeScript("document.getElementsByClassName('opt')[0].click()");
+            await this.driver.executeScript("document.getElementsByClassName('opt')[6].click()");
             await this.driver.sleep(1500);
-            await this.sentKeys(DESCRIPTION_TEXTAREA,"Best Burgers Here")
+            await this.sentKeys(DESCRIPTION_TEXTAREA,"Tickets Here for Cash")
             await this.driver.executeScript("document.getElementsByClassName('file-upload-input')[0].style.visibility='visible'");
-            await this.sentKeys(UPLOAD_PHOTO_INPUT,"D:\\Upped\\static\\burger.jpg");
+            await this.sentKeys(UPLOAD_PHOTO_INPUT,"D:\\Upped-Events-Inc\\static\\tickets.jpg");
             await this.isDisplayed(SET_IMAGE_BUTTON,5000);
             await this.click(SET_IMAGE_BUTTON);
             await this.saveLayerButtonIsDisplayed();
