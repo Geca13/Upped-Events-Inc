@@ -2,6 +2,7 @@
     const SetImageModal = require('../portalModals/SetImageModal');
     const CREATE_NEW_MENU_LINK = { xpath: "//*[text()=' Create New Menu']"}
     const MY_MENUS_NAV = { xpath: "//*[text()='My Menus ']"}
+    const MENU_NAV = { xpath: "//*[text()='Menu ']"} // IN SHOPS MANAGEMENT
     const MENU_SCHEDULER_NAV = { xpath: "//*[text()='Menu Scheduler']"}
     const ADD_NEW_SECTION_BUTTON = { xpath: "//*[text()='Add New Section ']"}
     const MENU_SECTION = { className:'justify-content-center' }//list
@@ -64,6 +65,10 @@
     const DESSERTS_DONUT_SUBCATEGORY = { xpath: "//*[text()='Donut']"}
     const DESSERTS_PIE_SUBCATEGORY = { xpath: "//*[text()='Pie']"}
 
+    const SELECT_TICKET_GROUP_HEADER = { xpath: "//h3[@class='popup-header-title']"}
+    const SEARCH_EVENT_INPUT = { xpath: "//input[@class='input-search']"};
+    const TICKET_GROUPS_WRAPPER = { xpath: "//div[@class='checkboxGrid']" };
+    const SELECT_TICKET_GROUP_BUTTON = { xpath: "//button[text()='Select']"}
 
 
 
@@ -127,6 +132,20 @@
             await this.click(ADD_SAVE_ITEM_BUTTON);
             await this.driver.sleep(2000);
             //await this.simulateDragAndDrop(MENU_ITEM_FROM_LIST,MENU_SECTION);
+            await this.driver.sleep(2000);
+        }
+
+        async createMenuForTickets(eventName){
+            await this.click(ADD_NEW_MENU_ITEM_FROM_SECTION_BUTTON);
+            await this.isDisplayed(MAIN_CATEGORIES_DROPDOWN,5000);
+            await this.click(TICKET_OPTION);
+            await this.isDisplayed(SELECT_TICKET_GROUP_HEADER,5000);
+            await this.sentKeys(SEARCH_EVENT_INPUT,eventName);
+            await this.driver.sleep(500);
+            await this.clickElementByTextFromArray(eventName,1);
+            await this.isDisplayed(TICKET_GROUPS_WRAPPER,5000);
+            await this.getChildByIndex(TICKET_GROUPS_WRAPPER,0,0);
+            await this.click(SELECT_TICKET_GROUP_BUTTON);
             await this.driver.sleep(2000);
         }
 

@@ -353,11 +353,9 @@
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
-            await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            /*await driver.findElement(By.xpath("//!*[text()='6-6-0:22:44']")).click();
-            await myEvents.createdEventIsInTheTable('6-6-0:22:44');
+            /*await myEvents.createdEventIsInTheTable('6-6-0:22:44');
             await myEvents.clickTheNewCreatedEventInTheTable('6-6-0:22:44');*/
             await driver.sleep(5000);
             await eventDetails.unpublishButtonIsDisplayed();
@@ -367,7 +365,7 @@
 
         });
 
-               /*it('Should add shop categories', async function () {
+        it('Should add shop categories', async function () {
                    portalLogin = new PortalLoginPage(driver);
                    dashboard = new DashboardPage(driver);
                    myEvents = new MyEventsPage(driver);
@@ -383,19 +381,18 @@
                    await dashboard.clickMyEventsTab();
                    await myEvents.eventsTableIsDisplayed();
                    await driver.sleep(1000);
-       /!*          await driver.findElement(By.xpath("//!*[text()='6-1-5:19:3']")).click();
-                   await myEvents.createdEventIsInTheTable('6-1-5:19:3');
-                   await myEvents.clickTheNewCreatedEventInTheTable('6-1-5:19:3');*!/
-                   await driver.findElement(By.xpath("//!*[text()='"+eventName+"']")).click();
-                   await myEvents.createdEventIsInTheTable(eventName);
-                   await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+                   await myEvents.createdEventIsInTheTable('6-11-2:53:7');
+                   await myEvents.clickTheNewCreatedEventInTheTable('6-11-2:53:7');
+                   /*await myEvents.createdEventIsInTheTable(eventName);
+                   await myEvents.clickTheNewCreatedEventInTheTable(eventName);*/
                    await eventDetails.publishButtonIsDisplayed();
                    await eventOptionTabs.clickShopManagementTab();
                    await shopsNavs.shopCategoriesNavIsDisplayed();
                    await shopsNavs.clickCategoriesNav();
                    await shopsCat.move6CategoriesFromPotentialToOrdered();
                    await driver.sleep(3000);
-               });*/
+               });
+
         it('Should add activity and performance', async function () {
 
              portalLogin = new PortalLoginPage(driver);
@@ -420,12 +417,10 @@
              await dashboard.clickMyEventsTab();
              await myEvents.eventsTableIsDisplayed();
              await driver.sleep(1000);
-             /*await driver.findElement(By.xpath("//!*[text()='6-8-0:51:18']")).click();
-             await myEvents.createdEventIsInTheTable('6-8-0:51:18');
-             await myEvents.clickTheNewCreatedEventInTheTable('6-8-0:51:18');*/
-             await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
-             await myEvents.createdEventIsInTheTable(eventName);
-             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+             await myEvents.createdEventIsInTheTable('6-11-2:53:7');
+             await myEvents.clickTheNewCreatedEventInTheTable('6-11-2:53:7');
+             /*await myEvents.createdEventIsInTheTable(eventName);
+             await myEvents.clickTheNewCreatedEventInTheTable(eventName);*/
              await driver.sleep(2000);
              await eventDetails.unpublishButtonIsDisplayed();
              await driver.sleep(2000);
@@ -474,11 +469,9 @@
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(10000);
-            await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-/*          await driver.findElement(By.xpath("//!*[text()='6-10-2:22:14']")).click();
-            await myEvents.createdEventIsInTheTable('6-10-2:22:14');
+            /*await myEvents.createdEventIsInTheTable('6-10-2:22:14');
             await myEvents.clickTheNewCreatedEventInTheTable('6-10-2:22:14');*/
             await driver.sleep(5000);
             await eventDetails.unpublishButtonIsDisplayed();
@@ -539,12 +532,10 @@
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
-            /*await driver.findElement(By.xpath("//!*[text()='"+eventName+"']")).click();
             await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);*/
-            await driver.findElement(By.xpath("//*[text()='6-10-13:0:58']")).click();
-            await myEvents.createdEventIsInTheTable('6-10-13:0:58');
-            await myEvents.clickTheNewCreatedEventInTheTable('6-10-13:0:58');
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            /*await myEvents.createdEventIsInTheTable('6-10-13:0:58');
+            await myEvents.clickTheNewCreatedEventInTheTable('6-10-13:0:58');*/
             await driver.sleep(5000);
             await eventDetails.unpublishButtonIsDisplayed();
             await eventOptionTabs.clickPartnerManagementTab();
@@ -598,12 +589,10 @@
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
-            await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            /*await driver.findElement(By.xpath("//!*[text()='6-10-9:46:4']")).click();
-            await myEvents.createdEventIsInTheTable('6-10-9:46:4');
-            await myEvents.clickTheNewCreatedEventInTheTable('6-10-9:46:4');*/
+            /*await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);*/
+            await myEvents.createdEventIsInTheTable('6-11-2:53:7');
+            await myEvents.clickTheNewCreatedEventInTheTable('6-11-2:53:7');
             await driver.sleep(2000);
             await eventDetails.unpublishButtonIsDisplayed();
             await driver.sleep(2000);
@@ -614,6 +603,8 @@
             await shopsPage.addShopForVendor(base);
 
         });
+
+
 
 
         it('Should add donation option and make a donation', async function() {
@@ -640,7 +631,6 @@
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
-            await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await driver.sleep(5000);
@@ -819,10 +809,8 @@
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
-            /*await driver.findElement(By.xpath("//!*[text()='6-4-12:5:51']")).click();
-            await myEvents.createdEventIsInTheTable('6-4-12:5:51');
+            /*await myEvents.createdEventIsInTheTable('6-4-12:5:51');
             await myEvents.clickTheNewCreatedEventInTheTable('6-4-12:5:51');*/
-            await driver.findElement(By.xpath("//*[text()='"+eventName+"']")).click();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await driver.sleep(2000);
@@ -876,7 +864,7 @@
             await login.authenticate("parma333@parma.it", "Pero1234")
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
-            await driver.sleep(10000);
+            await driver.sleep(15000);
             await events.clickNewEvent(eventName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
@@ -916,6 +904,40 @@
             await eventDetails.unpublishButtonIsDisplayed();
             await eventDetails.clickUnublishButton();
             await eventDetails.publishButtonIsDisplayed();
+        });
+
+        it('should make event maneged ticketing shop ', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventSettingsNav = new EventSettingsNav(driver);
+            agendaNavs = new MapAndAgendaNavs(driver);
+            eventMap = new EventMapPage(driver);
+            shopsNavs = new ShopsNavs(driver);
+            shopsPage = new ShopsPage(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            /*await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);*/
+            await myEvents.createdEventIsInTheTable('6-11-2:53:7');
+            await myEvents.clickTheNewCreatedEventInTheTable('6-11-2:53:7');
+            await driver.sleep(2000);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await driver.sleep(2000);
+            await eventOptionTabs.clickMapAndAgendaTab();
+            await eventMap.addTicketingLocationOnMap(base);
+            await eventOptionTabs.clickShopManagementTab();
+            await driver.sleep(2000);
+            await shopsPage.createMenuFromShopsManagementPageForTickets(eventName,base,"Tickets", 0, 1);
+
         });
 
        /* it("should make purchases", async function() {

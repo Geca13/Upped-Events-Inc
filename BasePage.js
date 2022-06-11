@@ -70,6 +70,12 @@ const WebElement = require('selenium-webdriver').WebElement
             await element.click();
         }
 
+        async clickElementByTextFromArray(text, index){
+            let elements = await this.driver.findElement(By.xpath("//*[normalize-space(text())='"+text+"']"));
+            let element = elements[index]
+            await element.click();
+        }
+
         async elementByTextIsDisplayed(text){
             await this.isDisplayed(this.driver.findElement(By.xpath("//*[text()=' "+text+" ']")));
 
@@ -185,9 +191,12 @@ const WebElement = require('selenium-webdriver').WebElement
         const actions = this.driver.actions();
         let source = this.find(locatorSource);
         let destination = this.find(locatorTarget);
-        await actions.move({duration:5000,origin:source,x:0,y:0}).press().perform();
+        //await actions.move({duration:1000,origin:source,x:0,y:0}).press().perform();
 
-        await this.driver.executeScript("function createEvent(typeOfEvent) {\n" + "var event =document.createEvent(\"CustomEvent\");\n"
+
+
+
+       /* await this.driver.executeScript("function createEvent(typeOfEvent) {\n" + "var event =document.createEvent(\"CustomEvent\");\n"
             + "event.initCustomEvent(typeOfEvent,true, true, null);\n" + "event.dataTransfer = {\n" + "data: {},\n"
             + "setData: function (key, value) {\n" + "this.data[key] = value;\n" + "},\n"
             + "getData: function (key) {\n" + "return this.data[key];\n" + "}\n" + "};\n" + "return event;\n"
@@ -203,15 +212,18 @@ const WebElement = require('selenium-webdriver').WebElement
             + "dispatchEvent(element, dragEndEvent,dropEvent.dataTransfer);\n" + "}\n" + "\n"
             + "var source = arguments[0];\n" + "var destination = arguments[1];\n"
             + "simulateHTML5DragAndDrop(source,destination);", source, destination);
-
+        await actions.move({duration:1000,origin:destination,x:0,y:0}).release().perform();
+*/
        // await this.driver.actions().move({origin:source}).press().perform();
-        await this.driver.sleep(3000)
+        await this.driver.sleep(1000)
         //await this.moveToElement(locatorTarget);
-        //await actions.dragAndDrop(source, target).perform();
+        //await actions.dragAndDrop(source, destination).perform();
+       // await actions.move({duration:2000,origin:source,x:0,y:0}).press().perform();
+        //await actions.move({duration:2000,origin:source,x:400,y:0}).release().perform();
         /*await actions
             .move({duration:5000,origin:source,x:0,y:0})
             .press()
-            .move({duration:5000,origin:destination,x:0,y:0})
+            .move({duration:5000,origin:source,x:150,y:0})
             .release()
             .perform();*/
        // await this.driver.actions().move({origin:target}).release().perform();
@@ -250,11 +262,11 @@ const WebElement = require('selenium-webdriver').WebElement
             await actions.move({duration:5000,origin:element,x:0,y:0}).perform();
         }
 
-        async moveAwayFromElement(locator) {
-            const actions = this.driver.actions({bridge: true});
+        async moveAwayFromElement(locator, horizontal, vertical) {
+            const actions = this.driver.actions();
             let element = await this.find(locator);
-            await actions.move({duration:5000,origin:element,x:50,y:50}).perform();
-            await actions.click();
+            await actions.move({duration:2000,origin:element,x:horizontal,y:vertical}).press().release().perform();
+            await actions.doubleClick(element);
 
         }
 
