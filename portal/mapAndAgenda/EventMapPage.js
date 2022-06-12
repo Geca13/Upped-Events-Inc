@@ -12,7 +12,7 @@
         }
 
         async eventMapIsDisplayed(){
-            await this.isDisplayed(MAP_BUTTONS,5000);
+            await this.isDisplayed(MAP_BUTTONS,35000);
         }
 
 
@@ -70,8 +70,8 @@
             let pin = await this.getElementFromAnArrayByIndex(MAP_BUTTONS,2);
             pin.click();
             await this.moveAwayFromElement(MAP_BUTTONS, 180,100);
-            await this.driver.sleep(1500);
-            await this.moveAwayFromElement(MAP_BUTTONS, 250,100);
+            await this.driver.sleep(500);
+            await this.moveAwayFromElement(MAP_BUTTONS, 230,100);
             await modal.modalIsLoaded();
             await modal.addTicketingLocationOnMap(base);
             await this.driver.sleep(5000);

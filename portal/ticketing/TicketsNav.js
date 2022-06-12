@@ -44,7 +44,7 @@
             await this.isDisplayed(TICKETS_GROUP_NAME_INPUT,5000);
             await this.sentKeys(TICKETS_GROUP_NAME_INPUT, groupName);
             await this.click(SAVE_TICKETS_GROUP_BUTTON);
-            await this.driver.sleep(500);
+            await this.driver.sleep(1000);
             await this.locateElementByTextAndClick(groupName);
         }
 
@@ -52,6 +52,7 @@
             await this.click(ADD_TICKETS_GROUP_BUTTON);
         }
         async clickAddTicketButton(){
+            await this.driver.sleep(500);
             await this.click(ADD_TICKET_BUTTON);
         }
         async clickAllTicketsTab(){

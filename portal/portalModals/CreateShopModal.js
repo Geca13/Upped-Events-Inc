@@ -104,7 +104,9 @@
             await endDatePicker.clickSetButton();
             await this.driver.sleep(2000)
             await this.clickElementReturnedFromAnArray(SELECTS, 1);
+            await this.driver.sleep(2000)
             await this.isDisplayed(VIRTUAL_SHOP_OPTION);
+            await this.driver.sleep(2000)
             await this.clickElementByText(base + " Tickets");
             await this.isDisplayed(SELECT_PARTNER_DROPDOWN, 5000);
             await this.click(SELECT_PARTNER_DROPDOWN);

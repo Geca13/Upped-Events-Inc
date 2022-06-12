@@ -52,7 +52,7 @@ class EventsPage extends BasePage{
         await this.click(EVENT);
     }
     async clickNewEvent(eventName){
-        await this.isDisplayed(SHORTNAME,10000);
+        await this.isDisplayed(SHORTNAME,20000);
         await this.locateElementByTextAndClick(eventName);
     }
 

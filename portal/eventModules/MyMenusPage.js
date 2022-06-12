@@ -1,4 +1,5 @@
     const BasePage = require('../../BasePage');
+    const { Key, Keys} = require("selenium-webdriver");
     const SetImageModal = require('../portalModals/SetImageModal');
     const CREATE_NEW_MENU_LINK = { xpath: "//*[text()=' Create New Menu']"}
     const MY_MENUS_NAV = { xpath: "//*[text()='My Menus ']"}
@@ -28,6 +29,7 @@
     const NEW_ITEM_SUBCATEGORY_DROPDOWN = { xpath: "//select-picker[@formcontrolname='subCategory']" };
     const NEW_ITEM_IMAGE_INPUT = { xpath: "//input[@type='file']" };
     const ADD_SAVE_ITEM_BUTTON = { xpath: "//*[text()='Add Item']"}
+
 
     const CATEGORY_SUBCATEGORY_DROPDOWNS = { tagName: 'select'}// list
     const BEER_CATEGORY = { xpath: "//*[text()='Beer']"}
@@ -66,9 +68,11 @@
     const DESSERTS_PIE_SUBCATEGORY = { xpath: "//*[text()='Pie']"}
 
     const SELECT_TICKET_GROUP_HEADER = { xpath: "//h3[@class='popup-header-title']"}
-    const SEARCH_EVENT_INPUT = { xpath: "//input[@class='input-search']"};
+    const SEARCH_EVENT_INPUT = { xpath: "/html/body/ngb-modal-window/div/div/app-select-ticket/div/div/div[2]/div/div/div[1]/input"};
     const TICKET_GROUPS_WRAPPER = { xpath: "//div[@class='checkboxGrid']" };
     const SELECT_TICKET_GROUP_BUTTON = { xpath: "//button[text()='Select']"}
+    const FILTERED_EVENT_NAME = { xpath:"//p[@class='title']" }
+    const RIGHT_ICON = { xpath: '/html/body/ngb-modal-window/div/div/app-select-ticket/div/div/div[2]/div/div/ul/li[1]/div/p'}
 
 
 
@@ -140,11 +144,15 @@
             await this.isDisplayed(MAIN_CATEGORIES_DROPDOWN,5000);
             await this.click(TICKET_OPTION);
             await this.isDisplayed(SELECT_TICKET_GROUP_HEADER,5000);
+            await this.isDisplayed(SEARCH_EVENT_INPUT,5000);
             await this.sentKeys(SEARCH_EVENT_INPUT,eventName);
             await this.driver.sleep(500);
-            await this.clickElementByTextFromArray(eventName,1);
+            await this.sentKeys(SEARCH_EVENT_INPUT, Key.BACK_SPACE)
+            await this.driver.sleep(500);
+            await this.driver.executeScript("document.getElementsByClassName('title')[0].click()");
             await this.isDisplayed(TICKET_GROUPS_WRAPPER,5000);
-            await this.getChildByIndex(TICKET_GROUPS_WRAPPER,0,0);
+            await this.driver.executeScript("document.getElementsByClassName('myRipple2')[0].click()");
+            await this.driver.sleep(500);
             await this.click(SELECT_TICKET_GROUP_BUTTON);
             await this.driver.sleep(2000);
         }

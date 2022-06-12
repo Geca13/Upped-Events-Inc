@@ -7,7 +7,7 @@
     const ADD_SHOP_OPTION = { xpath: "//a[@class='dropdown-item' and text()='Add Shop']"};
     const SHOP_EDIT_ICON = { xpath: "//a[@class='text-second']" }
     const DELETE_SHOP_ICON = { xpath: "//a[@class='text-danger']" }
-    const SHOP_MENU_ICON = { xpath: "//a[@class='icon-dots-wrapper']" }
+    const SHOP_MENU_ICON = { xpath: "//a/i[@class='icon-menu']" }
     const DETAILS_MENU_OPTION = { xpath: "//a[text()=' View Details ']"}
     const EDIT_MENU_OPTION = { xpath: "//a[text()=' Edit Menu ']"}
 
@@ -45,6 +45,16 @@
             await this.driver.sleep(500)
             let shopModal = new CreateShopModal(this.driver);
             await shopModal.createVendorShop(base);
+
+        }
+
+        async createNewShopForTickets(base){
+            await this.addShopDropdownIsDisplayed();
+            await this.clickAddShopDropdown();
+            await this.addShopOptionIsDisplayed();
+            await this.clickAddShopOption();
+            let shopModal = new CreateShopModal(this.driver);
+            await shopModal.addShopForTickets(base);
 
         }
         async createMenuFromShopsManagementPageForTickets(eventName,base,sectionName, sectionIndex, editIconIndex){
