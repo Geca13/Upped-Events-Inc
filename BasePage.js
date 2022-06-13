@@ -111,7 +111,6 @@ const WebElement = require('selenium-webdriver').WebElement
 
     async getChildByIndex(locator, parentIndex, childIndex) {
         let parent = await this.findAll(locator);
-        console.log(parent)
         let children = await parent[parentIndex].findElements(By.xpath("./child::*"));
         return await children[childIndex].getText();
     }
@@ -121,7 +120,6 @@ const WebElement = require('selenium-webdriver').WebElement
           let sibling = await knownSibling.findElement(By.xpath("./preceding-sibling::label"));
 
           let children = await sibling.findElements(By.xpath("./child::*"));
-          console.log(children)
           await children[1].click();
     }
     async clickParent(locator){
@@ -251,7 +249,7 @@ const WebElement = require('selenium-webdriver').WebElement
     async moveToElement(locator) {
           const actions = this.driver.actions({bridge: true});
           let element = await this.find(locator);
-          await actions.move({duration:2000,origin:element,x:0,y:0}).perform();
+          await actions.move({duration:500,origin:element,x:0,y:0}).perform();
     }
 
 
@@ -265,14 +263,14 @@ const WebElement = require('selenium-webdriver').WebElement
         async moveAwayFromElement(locator, horizontal, vertical) {
             const actions = this.driver.actions();
             let element = await this.find(locator);
-            await actions.move({duration:2000,origin:element,x:horizontal,y:vertical}).press().release().perform();
+            await actions.move({duration:2500,origin:element,x:horizontal,y:vertical}).press().release().perform();
             await actions.doubleClick(element);
 
         }
 
         async moveToElementWithElement(element) {
             const actions = this.driver.actions({bridge: true});
-            await actions.move({duration:5000,origin:element,x:0,y:0}).perform();
+            await actions.move({duration:2000,origin:element,x:0,y:0}).perform();
         }
 
 
@@ -345,6 +343,19 @@ const WebElement = require('selenium-webdriver').WebElement
                 }
             }
         }
+
+    async elementIsNotDisplayed(locator, timeout){
+        await this.driver.wait(until.elementIsNotVisible(this.find(locator)), timeout)
+        }
+
+    async elementNotInTheDom(locator){
+
+       let elements = await this.findAll(locator);
+
+       if(await elements[0].getText() !== ''){
+         return await this.elementNotInTheDom(locator);
+       }
+    }
 
 
 }

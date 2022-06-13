@@ -91,8 +91,8 @@
 
         let today = new Date();
         let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        //let base = Math.floor(100000 + Math.random() * 900000);
-        let base = 123456;
+        let base = Math.floor(100000 + Math.random() * 900000);
+        //let base = 123456;
         let ticketOneName = base.toString() +"T1";
         let ticketTwoName = base.toString() +"T2";
         let ticketThreeName = base.toString() +"T3";
@@ -104,6 +104,10 @@
         let promoCodeOne = base.toString() +"PC1";
         let promoCodeTwo = base.toString() +"PC2";
         let promoCodeThree = base.toString() +"PC3";
+        let ticketGroupOne = base.toString() +"TG1";
+        let ticketGroupTwo = base.toString() +"TG2";
+        let ticketGroupThree = base.toString() +"TG3";
+        let ticketGroupFour = base.toString() +"TG4";
         let firstName = 'fn'+base;
         let lastName = 'ln'+base;
         let email = firstName + '@' + lastName+'.com'
@@ -245,10 +249,11 @@
             await events.load();
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
-            await login.authenticate("parma333@parma.it", "Pero1234")
+            await login.authenticate("parma5555@parma.it", "Pero1234")
             await events.successMessagePresent();
+            await driver.sleep(15000);
             await events.eventCardIsAvailableToClick();
-            await driver.sleep(10000);
+            //await driver.sleep(10000);
             await events.clickNewEvent(eventName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
@@ -392,6 +397,153 @@
                    await shopsCat.move6CategoriesFromPotentialToOrdered();
                    await driver.sleep(3000);
                });
+
+        it('Should create ticket groups and tickets', async function() {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            createEvent = new CreateEventModal(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+            events = new EventsPage(driver);
+            login = new LoginComponent(driver);
+            info = new EventInfo(driver);
+            ticketing = new TicketingPage(driver);
+            tickets = new TicketsTab(driver);
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable('6-13-18:3:6');
+            await myEvents.clickTheNewCreatedEventInTheTable('6-13-18:3:6');
+            /*await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);*/
+            await driver.sleep(2000);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createTicketsGroup(ticketGroupOne);
+            await ticketsNav.successTicketGroupBannerIsDisplayed();
+            await ticketsNav.createTicketsGroup(ticketGroupTwo);
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.createNewTicket(ticketTwoName,"10");
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createdTicketIsInTheTable(ticketTwoName);
+            await ticketsNav.clickActivateTicketToggle(0);
+            await ticketsNav.activateTicketModalIsDisplayed();
+            await ticketsNav.confirmActivationButton();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createTicketsGroup(ticketGroupThree);
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.createNewTicket(ticketThreeName,"15");
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createdTicketIsInTheTable(ticketThreeName);
+            await ticketsNav.clickActivateTicketToggle(0);
+            await ticketsNav.activateTicketModalIsDisplayed();
+            await ticketsNav.confirmActivationButton();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.createNewTicket(ticketFourName,"20");
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createdTicketIsInTheTable(ticketFourName);
+            await ticketsNav.createTicketsGroup(ticketGroupFour);
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.createNewTicket(staffTicket,"25");
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createdTicketIsInTheTable(staffTicket);
+            await ticketsNav.clickActivateTicketToggle(0);
+            await ticketsNav.activateTicketModalIsDisplayed();
+            await ticketsNav.confirmActivationButton();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await events.load();
+            await events.clickSignInButton();
+            await login.waitPopupToBeLoaded();
+            await login.authenticate("parma5555@parma.it", "Pero1234")
+            await events.successMessagePresent();
+            await events.eventCardIsAvailableToClick();
+            await driver.sleep(15000);
+            await events.clickNewEvent(eventName);
+            await info.buyTicketsButtonPresent();
+            await info.clickBuyTicketsButton();
+            await ticketing.nextButtonPresent();
+            await tickets.allTicketsGroupButtonIsDisplayed();
+            await tickets.ticketGroupOrNameIsDisplayed(promoOneName);
+            await tickets.ticketGroupOrNameIsDisplayed(promoTwoName);
+            await tickets.ticketGroupOrNameIsDisplayed(promoCodeOne);
+            await tickets.ticketGroupOrNameIsDisplayed(promoCodeTwo);
+            await tickets.ticketGroupOrNameIsDisplayed(ticketOneName);
+            await tickets.ticketGroupOrNameIsDisplayed(ticketTwoName);
+            await tickets.ticketGroupOrNameIsDisplayed(ticketThreeName);
+            await tickets.ticketGroupOrNameIsDisplayed(ticketFourName);
+            await tickets.ticketGroupOrNameIsDisplayed(staffTicket);
+            await tickets.clickGroupTabs(promoOneName);
+            await tickets.ticketGroupOrNameIsDisplayed(ticketOneName);
+            await tickets.clickGroupTabs(promoTwoName);
+            await tickets.ticketGroupOrNameIsDisplayed(ticketTwoName);
+            await tickets.clickGroupTabs(promoCodeOne);
+            await tickets.ticketGroupOrNameIsDisplayed(ticketThreeName);
+            await tickets.ticketGroupOrNameIsDisplayed(ticketFourName);
+            await tickets.clickGroupTabs(promoCodeTwo);
+            await tickets.ticketGroupOrNameIsDisplayed(staffTicket);
+            await tickets.clickAllTicketsGroupButton();
+            await tickets.ticketGroupOrNameIsDisplayed(ticketOneName);
+            await tickets.ticketGroupOrNameIsDisplayed(ticketTwoName);
+            await tickets.ticketGroupOrNameIsDisplayed(ticketThreeName);
+            await tickets.ticketGroupOrNameIsDisplayed(ticketFourName);
+            await tickets.ticketGroupOrNameIsDisplayed(staffTicket);
+            await portalLogin.loadPortalUrl();
+            await driver.sleep(1000);
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+        });
+
+        it('Should make event managed ticketing shop ', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventSettingsNav = new EventSettingsNav(driver);
+            agendaNavs = new MapAndAgendaNavs(driver);
+            eventMap = new EventMapPage(driver);
+            shopsNavs = new ShopsNavs(driver);
+            shopsPage = new ShopsPage(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            /*await myEvents.createdEventIsInTheTable('6-12-8:22:53');
+            await myEvents.clickTheNewCreatedEventInTheTable('6-12-8:22:53');*/
+            await eventDetails.unpublishButtonIsDisplayed();
+            await driver.sleep(500);
+            await eventOptionTabs.clickMapAndAgendaTab();
+            await eventMap.addTicketingLocationOnMap(base);
+            await eventOptionTabs.clickShopManagementTab();
+            await shopsPage.createNewShopForTickets(base);
+            await driver.sleep(2000);
+            await shopsPage.createMenuFromShopsManagementPageForTickets(eventName,base,"Tickets", 0, 1);
+
+        });
 
         it('Should add activity and performance', async function () {
 
@@ -567,7 +719,7 @@
 
         });
 
-        it('should make shop for vendor', async function () {
+        it('Should make shop for vendor', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
@@ -636,7 +788,7 @@
             await events.load();
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
-            await login.authenticate("parma99@parma.it", "Pero1234")
+            await login.authenticate("parma5555@parma.it", "Pero1234")
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
             await driver.sleep(10000);
@@ -748,7 +900,7 @@
             await events.load();
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
-            await login.authenticate("parma333@parma.it", "Pero1234")
+            await login.authenticate("parma5555@parma.it", "Pero1234")
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
             await driver.sleep(10000);
@@ -776,164 +928,17 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
+            await eventDetails.clickUnpublishButton();
+            await eventDetails.publishButtonIsDisplayed();
             await eventOptionTabs.clickTransactionCenterTab();
             await eventOrders.isAtTransactionCenterPage();
             await eventOrders.makeFullRefundWithReinstateTicket();
 
         })
 
-        it('Should create ticket groups and tickets', async function() {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            createEvent = new CreateEventModal(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-            events = new EventsPage(driver);
-            login = new LoginComponent(driver);
-            info = new EventInfo(driver);
-            ticketing = new TicketingPage(driver);
-            tickets = new TicketsTab(driver);
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await driver.sleep(1000);
-            /*await myEvents.createdEventIsInTheTable('6-4-12:5:51');
-            await myEvents.clickTheNewCreatedEventInTheTable('6-4-12:5:51');*/
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await driver.sleep(2000);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createTicketsGroup(promoOneName);
-            await driver.sleep(500);
-            await ticketsNav.createTicketsGroup(promoTwoName);
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketTwoName,"10");
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(ticketTwoName);
-            await ticketsNav.clickActivateTicketToggle(0);
-            await ticketsNav.activateTicketModalIsDisplayed();
-            await ticketsNav.confirmActivationButton();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createTicketsGroup(promoCodeOne);
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketThreeName,"15");
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(ticketThreeName);
-            await ticketsNav.clickActivateTicketToggle(0);
-            await ticketsNav.activateTicketModalIsDisplayed();
-            await ticketsNav.confirmActivationButton();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketFourName,"20");
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(ticketFourName);
-            await ticketsNav.clickActivateTicketToggle(1);
-            await ticketsNav.activateTicketModalIsDisplayed();
-            await ticketsNav.confirmActivationButton();
-            await ticketsNav.createTicketsGroup(promoCodeTwo);
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(staffTicket,"25");
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(staffTicket);
-            await ticketsNav.clickActivateTicketToggle(0);
-            await ticketsNav.activateTicketModalIsDisplayed();
-            await ticketsNav.confirmActivationButton();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await events.load();
-            await events.clickSignInButton();
-            await login.waitPopupToBeLoaded();
-            await login.authenticate("parma333@parma.it", "Pero1234")
-            await events.successMessagePresent();
-            await events.eventCardIsAvailableToClick();
-            await driver.sleep(15000);
-            await events.clickNewEvent(eventName);
-            await info.buyTicketsButtonPresent();
-            await info.clickBuyTicketsButton();
-            await ticketing.nextButtonPresent();
-            await tickets.allTicketsGroupButtonIsDisplayed();
-            await tickets.ticketGroupOrNameIsDisplayed(promoOneName);
-            await tickets.ticketGroupOrNameIsDisplayed(promoTwoName);
-            await tickets.ticketGroupOrNameIsDisplayed(promoCodeOne);
-            await tickets.ticketGroupOrNameIsDisplayed(promoCodeTwo);
-            await tickets.ticketGroupOrNameIsDisplayed(ticketOneName);
-            await tickets.ticketGroupOrNameIsDisplayed(ticketTwoName);
-            await tickets.ticketGroupOrNameIsDisplayed(ticketThreeName);
-            await tickets.ticketGroupOrNameIsDisplayed(ticketFourName);
-            await tickets.ticketGroupOrNameIsDisplayed(staffTicket);
-            await tickets.clickGroupTabs(promoOneName);
-            await tickets.ticketGroupOrNameIsDisplayed(ticketOneName);
-            await tickets.clickGroupTabs(promoTwoName);
-            await tickets.ticketGroupOrNameIsDisplayed(ticketTwoName);
-            await tickets.clickGroupTabs(promoCodeOne);
-            await tickets.ticketGroupOrNameIsDisplayed(ticketThreeName);
-            await tickets.ticketGroupOrNameIsDisplayed(ticketFourName);
-            await tickets.clickGroupTabs(promoCodeTwo);
-            await tickets.ticketGroupOrNameIsDisplayed(staffTicket);
-            await tickets.clickAllTicketsGroupButton();
-            await tickets.ticketGroupOrNameIsDisplayed(ticketOneName);
-            await tickets.ticketGroupOrNameIsDisplayed(ticketTwoName);
-            await tickets.ticketGroupOrNameIsDisplayed(ticketThreeName);
-            await tickets.ticketGroupOrNameIsDisplayed(ticketFourName);
-            await tickets.ticketGroupOrNameIsDisplayed(staffTicket);
-            await portalLogin.loadPortalUrl();
-            await driver.sleep(1000);
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventDetails.clickUnublishButton();
-            await eventDetails.publishButtonIsDisplayed();
-        });
 
-        it('should make event maneged ticketing shop ', async function () {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventSettingsNav = new EventSettingsNav(driver);
-            agendaNavs = new MapAndAgendaNavs(driver);
-            eventMap = new EventMapPage(driver);
-            shopsNavs = new ShopsNavs(driver);
-            shopsPage = new ShopsPage(driver);
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await driver.sleep(1000);
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            /*await myEvents.createdEventIsInTheTable('6-12-8:22:53');
-            await myEvents.clickTheNewCreatedEventInTheTable('6-12-8:22:53');*/
-            await driver.sleep(2000);
-            //await eventDetails.publishButtonIsDisplayed();
-            await driver.sleep(2000);
-            await eventOptionTabs.clickMapAndAgendaTab();
-            await eventMap.addTicketingLocationOnMap(base);
-            await eventOptionTabs.clickShopManagementTab();
-            await shopsPage.createNewShopForTickets(base);
-            await driver.sleep(2000);
-            await shopsPage.createMenuFromShopsManagementPageForTickets(eventName,base,"Tickets", 0, 1);
 
-        });
 
        /* it("should make purchases", async function() {
             events = new EventsPage(driver);

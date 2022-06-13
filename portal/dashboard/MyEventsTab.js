@@ -1,8 +1,8 @@
     const BasePage = require('../../BasePage');
     const { By } = require('selenium-webdriver');
+    const Alerts = require('../../Validations&Alerts/Alerts')
     const EVENTS_TABLE = { xpath: "//dashboard-events-page" }
     const EVENTS_NAMES_SPANS = { xpath: "//td/a/span"}
-
 
 
     class MyEventsTab extends BasePage {
@@ -10,8 +10,14 @@
             super(driver);
         }
 
+
         async eventsTableIsDisplayed(){
             await this.isDisplayed(EVENTS_TABLE,5000);
+        }
+
+        async successBannerIsDisplayed(){
+            let success = new Alerts(this.driver);
+            await success.successAlertIsDisplayed()
         }
 
         async createdEventIsInTheTable(eventName){

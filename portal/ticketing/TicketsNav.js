@@ -1,5 +1,6 @@
     const BasePage = require('../../BasePage');
     const {By} = require("selenium-webdriver");
+    const Alerts = require('../../Validations&Alerts/Alerts')
     const assert = require('assert')
     const ADD_TICKETS_GROUP_BUTTON = { xpath: "//*[text()=' Add Group']" }
     const ADD_TICKET_BUTTON = { xpath: "//*[text()='Add']" }
@@ -15,6 +16,7 @@
     const SAVE_TICKETS_GROUP_BUTTON = { xpath: "//i[@aria-hidden='true']" }
     const CANCEL_TICKETS_GROUP_BUTTON = { xpath: "//i[@aria-hidden='true']" }
     const SOLD_TICKETS_NUMBER = { className: 'column-sold'} //list
+    const TOAST_BANNER = { id:'toast-container' }
 
 
 
@@ -23,17 +25,28 @@
             super(driver);
         }
         async createdTicketIsInTheTable(ticketName){
-            await this.isDisplayed(By.xpath("//*[text()='"+ticketName+"']"),5000);
+            await this.isDisplayed(By.xpath("//*[text()='"+ticketName+"']"),15000);
         }
         async addTicketButtonIsDisplayed(){
-            await this.isDisplayed(ADD_TICKET_BUTTON, 5000)
+            await this.isDisplayed(ADD_TICKET_BUTTON, 15000)
         }
         async activateTicketModalIsDisplayed(){
-            await this.isDisplayed(TICKET_ACTIVATION_MODAL, 5000)
+            await this.isDisplayed(TICKET_ACTIVATION_MODAL, 15000)
+        }
+
+        async savedTicketBannerIsDisplayed(){
+            let saved = new Alerts(this.driver);
+            await saved.savedAlertIsDisplayed('Ticket saved successfully!');
+        }
+
+        async successTicketGroupBannerIsDisplayed(){
+            let success = new Alerts(this.driver);
+            await success.successAlertIsDisplayed('Saved successfully');
         }
 
         async clickActivateTicketToggle(index){
             let toggle = await this.getElementFromAnArrayByIndex(TICKET_TOGGLE,index);
+            await this.driver.sleep(500)
             await toggle.click();
         }
         async confirmActivationButton(){
@@ -41,16 +54,13 @@
         }
         async createTicketsGroup(groupName){
             await this.click(ADD_TICKETS_GROUP_BUTTON);
-            await this.isDisplayed(TICKETS_GROUP_NAME_INPUT,5000);
+            await this.isDisplayed(TICKETS_GROUP_NAME_INPUT,15000);
             await this.sentKeys(TICKETS_GROUP_NAME_INPUT, groupName);
             await this.click(SAVE_TICKETS_GROUP_BUTTON);
-            await this.driver.sleep(1000);
+            await this.driver.sleep(500)
             await this.locateElementByTextAndClick(groupName);
         }
 
-        async clickAddTicketGroupButton(){
-            await this.click(ADD_TICKETS_GROUP_BUTTON);
-        }
         async clickAddTicketButton(){
             await this.driver.sleep(500);
             await this.click(ADD_TICKET_BUTTON);
@@ -66,7 +76,7 @@
         }
 
         async checkForSoldTicketsAfterFirstTest(){
-            await this.isDisplayed(SOLD_TICKETS_NUMBER,5000);
+            await this.isDisplayed(SOLD_TICKETS_NUMBER,15000);
             let firstTicketSolds = await this.getRawTicketPrice(SOLD_TICKETS_NUMBER,0);
             let secondTicketSolds = await this.getRawTicketPrice(SOLD_TICKETS_NUMBER,1);
             let thirdTicketSolds = await this.getRawTicketPrice(SOLD_TICKETS_NUMBER,2);

@@ -63,8 +63,8 @@
             await this.click(PARTNER_MANAGEMENT_LIST_OPTION);
             await this.isDisplayed(VENDOR_EMAIL);
             await this.driver.sleep(2500)
-            await this.click(VENDOR_CHECKBOX_SPAN);
-            await this.driver.sleep(2000)
+            await this.driver.executeScript("document.getElementsByClassName('myRipple2')[3].click()");
+            //await this.driver.sleep(2000)
             await this.sentKeys(UPLOAD_PHOTO_INPUT, "D:\\Upped-Events-Inc\\static\\bar.jpg");
             await this.driver.sleep(2000)
             let imager = new SetImageModal(this.driver);

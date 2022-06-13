@@ -17,7 +17,7 @@
         async clickPublishButton(){
             await this.click(PUBLISH_EVENT_BUTTON)
         }
-        async clickUnublishButton(){
+        async clickUnpublishButton(){
             await this.click(UNPUBLISH_EVENT_BUTTON)
         }
     }
