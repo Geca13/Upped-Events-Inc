@@ -67,7 +67,9 @@
             await this.click(SET_IMAGE_BUTTON);
             await this.saveLayerButtonIsDisplayed();
             await this.driver.sleep(2500);
-            await this.click(SAVE_LAYER_BUTTON);
+            await this.driver.executeScript("document.getElementsByClassName('primary-btn')[2].click()");
+
+            //await this.click(SAVE_LAYER_BUTTON);
             await this.driver.sleep(1000);
         }
 

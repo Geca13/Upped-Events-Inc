@@ -13,7 +13,7 @@
     const UPLOAD_PHOTO_INPUT = { xpath: "//input[@type='file']" }
     const ADD_REMINDER_LINK = { xpath: "//*[text()='Add reminder']"}
     const CLOSE_MODAL_BUTTON = { xpath: "//button[@type='reset']" }
-    const SAVE_PERFORMANCE_BUTTON = { xpath: "//*[text()='Save']"}
+    const SAVE_ACTIVITY_BUTTON = { xpath: "//*[text()='Save']"}
     const NOTIFY_USERS_DROPDOWN = { xpath: "//select[@formcontrolname='sendTo']" };
     const NOTIFY_TIME_DROPDOWN = { xpath: "//select[@formcontrolname='sendTime']" };
     const REMOVE_REMINDER_BUTTON = { className: 'icon-del'}
@@ -25,7 +25,7 @@
     const MINUTES_30_BEFORE_OPTION = { xpath: "//*[text()='30 minutes before']"}
     const HOUR_1_BEFORE_OPTION = { xpath: "//*[text()='1 hour before']"}
     const HOUR_2_BEFORE_OPTION = { xpath: "//*[text()='2 hour before']"}
-    const CREATE_PERFORMANCE_MODAL_HEADER = { xpath: "//*[text()='Create Event Performance']"}
+    const CREATE_ACTIVITY_MODAL_HEADER = { xpath: "//*[text()='Create Event Performance']"}
     const SAVED_TAGS = { className: 'primary-badge' }
     const SET_IMAGE_BUTTON = { xpath: "//app-image-focus//div//button[@type='button']"}
 
@@ -93,7 +93,7 @@
             await this.sentKeys(ACTIVITY_REMINDERS_MESSAGE_TEXTAREA, 'Game is to start in an hour!!! RUNNNN!!!');
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='visible'");
             await this.driver.sleep(500);
-            await this.click(SAVE_PERFORMANCE_BUTTON);
+            await this.click(SAVE_ACTIVITY_BUTTON);
             await this.driver.sleep(5000);
 
         }

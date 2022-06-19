@@ -371,32 +371,32 @@
         });
 
         it('Should add shop categories', async function () {
-                   portalLogin = new PortalLoginPage(driver);
-                   dashboard = new DashboardPage(driver);
-                   myEvents = new MyEventsPage(driver);
-                   eventDetails = new GeneralDetailsTab(driver);
-                   eventOptionTabs = new EventOptionTabs(driver);
-                   shopsNavs = new ShopsNavs(driver);
-                   shopsCat = new ShopCategoriesPage(driver);
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            shopsNavs = new ShopsNavs(driver);
+            shopsCat = new ShopCategoriesPage(driver);
 
-                   await portalLogin.loadPortalUrl();
-                   await portalLogin.isAtPortalLoginPage();
-                   await portalLogin.enterValidCredentialsAndLogin();
-                   await dashboard.isAtDashboardPage();
-                   await dashboard.clickMyEventsTab();
-                   await myEvents.eventsTableIsDisplayed();
-                   await driver.sleep(1000);
-                   /*await myEvents.createdEventIsInTheTable('6-11-2:53:7');
-                   await myEvents.clickTheNewCreatedEventInTheTable('6-11-2:53:7');*/
-                   await myEvents.createdEventIsInTheTable(eventName);
-                   await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-                   await eventDetails.unpublishButtonIsDisplayed();
-                   await eventOptionTabs.clickShopManagementTab();
-                   await shopsNavs.shopCategoriesNavIsDisplayed();
-                   await shopsNavs.clickCategoriesNav();
-                   await shopsCat.move6CategoriesFromPotentialToOrdered();
-                   await driver.sleep(3000);
-               });
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            /*await myEvents.createdEventIsInTheTable('6-11-2:53:7');
+            await myEvents.clickTheNewCreatedEventInTheTable('6-11-2:53:7');*/
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.clickShopManagementTab();
+            await shopsNavs.shopCategoriesNavIsDisplayed();
+            await shopsNavs.clickCategoriesNav();
+            await shopsCat.move6CategoriesFromPotentialToOrdered();
+            await driver.sleep(3000);
+        });
 
         it('Should create ticket groups and tickets', async function() {
             portalLogin = new PortalLoginPage(driver);
@@ -419,10 +419,10 @@
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
-            await myEvents.createdEventIsInTheTable('6-13-18:3:6');
-            await myEvents.clickTheNewCreatedEventInTheTable('6-13-18:3:6');
-            /*await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);*/
+            /*await myEvents.createdEventIsInTheTable('6-13-18:3:6');
+            await myEvents.clickTheNewCreatedEventInTheTable('6-13-18:3:6');*/
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await driver.sleep(2000);
             await eventDetails.unpublishButtonIsDisplayed();
             await eventOptionTabs.ticketingTabIsDisplayed();
@@ -477,23 +477,23 @@
             await info.clickBuyTicketsButton();
             await ticketing.nextButtonPresent();
             await tickets.allTicketsGroupButtonIsDisplayed();
-            await tickets.ticketGroupOrNameIsDisplayed(promoOneName);
-            await tickets.ticketGroupOrNameIsDisplayed(promoTwoName);
-            await tickets.ticketGroupOrNameIsDisplayed(promoCodeOne);
-            await tickets.ticketGroupOrNameIsDisplayed(promoCodeTwo);
+            await tickets.ticketGroupOrNameIsDisplayed(ticketGroupOne);
+            await tickets.ticketGroupOrNameIsDisplayed(ticketGroupTwo);
+            await tickets.ticketGroupOrNameIsDisplayed(ticketGroupThree);
+            await tickets.ticketGroupOrNameIsDisplayed(ticketGroupFour);
             await tickets.ticketGroupOrNameIsDisplayed(ticketOneName);
             await tickets.ticketGroupOrNameIsDisplayed(ticketTwoName);
             await tickets.ticketGroupOrNameIsDisplayed(ticketThreeName);
             await tickets.ticketGroupOrNameIsDisplayed(ticketFourName);
             await tickets.ticketGroupOrNameIsDisplayed(staffTicket);
-            await tickets.clickGroupTabs(promoOneName);
+            await tickets.clickGroupTabs(ticketGroupOne);
             await tickets.ticketGroupOrNameIsDisplayed(ticketOneName);
-            await tickets.clickGroupTabs(promoTwoName);
+            await tickets.clickGroupTabs(ticketGroupTwo);
             await tickets.ticketGroupOrNameIsDisplayed(ticketTwoName);
-            await tickets.clickGroupTabs(promoCodeOne);
+            await tickets.clickGroupTabs(ticketGroupThree);
             await tickets.ticketGroupOrNameIsDisplayed(ticketThreeName);
             await tickets.ticketGroupOrNameIsDisplayed(ticketFourName);
-            await tickets.clickGroupTabs(promoCodeTwo);
+            await tickets.clickGroupTabs(ticketGroupFour);
             await tickets.ticketGroupOrNameIsDisplayed(staffTicket);
             await tickets.clickAllTicketsGroupButton();
             await tickets.ticketGroupOrNameIsDisplayed(ticketOneName);
@@ -501,14 +501,8 @@
             await tickets.ticketGroupOrNameIsDisplayed(ticketThreeName);
             await tickets.ticketGroupOrNameIsDisplayed(ticketFourName);
             await tickets.ticketGroupOrNameIsDisplayed(staffTicket);
-            await portalLogin.loadPortalUrl();
             await driver.sleep(1000);
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
+
         });
 
         it('Should make event managed ticketing shop ', async function () {

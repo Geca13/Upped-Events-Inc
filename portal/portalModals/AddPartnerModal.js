@@ -21,7 +21,7 @@
     const MESSAGE_TEXTAREA = { xpath: "//textarea[@formcontrolname='message']" };
     const SAVE_FOR_LATER_BUTTON = { xpath: "//*[text()='Save for Later']"};
     const SEND_INVITE_BUTTON = { xpath: "//*[text()='Send Invite']"};
-    const CANCEL_PROMOTION_BUTTON = { xpath: "//*[text()='Cancel']"};
+    const CANCEL_BUTTON = { xpath: "//*[text()='Cancel']"};
 
 
     class AddPartnerModal extends BasePage{

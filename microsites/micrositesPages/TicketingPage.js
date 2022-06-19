@@ -53,6 +53,8 @@
             await this.click(TICKET_TERMS_BUTTON);
         }
         async clickBackToEventInfoButton(){
+            await this.driver.sleep(10000);
+            await this.isDisplayed(BACK_TO_EVENT_INFO_BUTTON,10000);
             await this.click(BACK_TO_EVENT_INFO_BUTTON);
         }
         async getSubtotalText() {
