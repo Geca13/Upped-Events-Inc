@@ -1,7 +1,7 @@
     const { By } = require("selenium-webdriver");
     const BasePage = require("../../BasePage");
     const DONATION_INPUT = { id: 'donationAmount'};
-    const DONATE_TITLE = { className: 'donate-head' };
+    const DONATE_TITLE = { className: 'donate-heading' };
     const DONATE_EVENT_NAME = { className: 'donate-event' };
     const DONATION_MESSAGE = { className: 'donations-message' };
     const DONATE_BUTTON_CONTAINER = { className: 'donations-buttons-box' };
@@ -14,6 +14,9 @@
     class DonationComponent extends BasePage {
         constructor(driver) {
             super(driver);
+        }
+        async isOnDonationScreen(){
+            await this.isDisplayed(ADD_DONATION_BUTTON,5000);
         }
         async donateEventNameIsDisplayed(){
             await this.isDisplayed(DONATE_EVENT_NAME,5000);

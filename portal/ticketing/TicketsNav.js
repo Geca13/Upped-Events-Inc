@@ -46,7 +46,7 @@
 
         async clickActivateTicketToggle(index){
             let toggle = await this.getElementFromAnArrayByIndex(TICKET_TOGGLE,index);
-            await this.driver.sleep(500)
+            await this.driver.sleep(1500)
             await toggle.click();
         }
         async confirmActivationButton(){

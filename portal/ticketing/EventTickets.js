@@ -4,6 +4,8 @@
     const SEATING_PLAN_NAV = { xpath: "//*[text()='Seating Plan']"}
     const ANALYTICS_NAV = { xpath: "//*[text()='Analytics']"}
     const SETTINGS_NAV = { xpath: "//*[text()='Settings']"}
+    const BOX_OFFICE_NAV = { xpath: "//*[text()='Box Office']"}
+
 
 
     class EventTickets extends BasePage {
@@ -26,6 +28,9 @@
         }
         async clickSettingsTab(){
             await this.click(SETTINGS_NAV);
+        }
+        async clickBoxOfficeNav(){
+            await this.click(BOX_OFFICE_NAV);
         }
 
     }

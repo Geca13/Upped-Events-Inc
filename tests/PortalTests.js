@@ -32,15 +32,20 @@
     const MapAndAgendaNavs = require('../portal/mapAndAgenda/MapAndAgendaNavs');
     const EventMapPage = require('../portal/mapAndAgenda/EventMapPage');
     const PerformancesPage = require('../portal/mapAndAgenda/PerformancesPage');
-    const ActivitiesPage = require('../portal/mapAndAgenda/ActivitiesPage')
+    const ActivitiesPage = require('../portal/mapAndAgenda/ActivitiesPage');
     const LineupTab = require('../microsites/micrositesComponents/LineupTab');
     const ActivityTab = require('../microsites/micrositesComponents/ActivitiesTab');
     const ShopsNavs = require('../portal/shopManagement/ShopsNavs');
     const ShopCategoriesPage = require('../portal/shopManagement/ShopCategoriesPage');
-    const ShopsPage = require('../portal/shopManagement/ShopsPage')
-    const PartnersPage = require('../portal/partnerManagement/PartnersPage')
+    const ShopsPage = require('../portal/shopManagement/ShopsPage');
+    const PartnersPage = require('../portal/partnerManagement/PartnersPage');
     const SetupNewVendorPage = require('../portal/partnerManagement/SetupNewVendorPage');
-    const MyMenusPage = require('../portal/eventModules/MyMenusPage')
+    const MyMenusPage = require('../portal/eventModules/MyMenusPage');
+    const EventTickets = require('../portal/ticketing/EventTickets');
+    const BOSelectTickets = require('../portal/ticketing/BoxOffice/BOSelectTickets');
+    const BOAddExtras = require('../portal/ticketing/BoxOffice/BOAddExtras');
+    const BOAddDetails = require('../portal/ticketing/BoxOffice/BOAddDetails');
+    const BOReviewAndPay = require('../portal/ticketing/BoxOffice/BOReviewAndPay');
 
 
     describe('Should login to portal create new event and tickets', function () {
@@ -63,6 +68,7 @@
         let eventDesignNavs;
         let eventCardDesignPage;
         let events;
+        let eventTickets;
         let info;
         let ticketing;
         let tickets;
@@ -88,6 +94,10 @@
         let originalWindow;
         let newVendor;
         let myMenus;
+        let bosTickets;
+        let bosExtras;
+        let bosDetails;
+        let bosReview;
 
         let today = new Date();
         let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -928,109 +938,151 @@
             await eventOrders.isAtTransactionCenterPage();
             await eventOrders.makeFullRefundWithReinstateTicket();
 
-        })
+        });
 
-
-
-
-
-       /* it("should make purchases", async function() {
+        it('Should make purchase in box office', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            createEvent = new CreateEventModal(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
             events = new EventsPage(driver);
             login = new LoginComponent(driver);
             info = new EventInfo(driver);
             ticketing = new TicketingPage(driver);
             tickets = new TicketsTab(driver);
-            extras = new ExtrasTab(driver);
-            pay = new PayTab(driver);
-            confirm = new ConfirmTab(driver);
-            newCardComponent = new NewCardComponent(driver);
-            await events.load();
-            await events.clickSignInButton();
-            await login.waitPopupToBeLoaded();
-            await login.authenticate("parma15@parma.it", "Pero1234")
-            await events.successMessagePresent();
-            await events.eventCardIsAvailableToClick();
-            await driver.sleep(3000);
-            await events.clickNewEvent('5-15-17:11:43');
-            await info.buyTicketsButtonPresent();
-            await info.clickBuyTicketsButton();
-            await ticketing.nextButtonPresent();
-            await tickets.clickFirstIncreaseButton();
-            await driver.sleep(2000)
-            let ticketPrice = await tickets.getTicketPrice();
-            console.log(ticketPrice);
-            let subtotal = await ticketing.getSubtotalText();
-            console.log(subtotal);
-            let price = await ticketing.getSummaryPriceText();
-            console.log(parseFloat(price) + parseFloat(price));
-            await ticketing.clickNextButton();
-            await extras.balanceIsPresent();
-            await ticketing.clickNextButton();
-            await pay.savedCardsHeaderIsPresent();
-            await pay.enterPromotionCode(promoCodeOne);
-            await pay.clickApplyDiscountButton();
-            await ticketing.removeDiscountIconIsDisplayed();
-            await pay.clickPayWithWalletOption();
-            await pay.payWithWalletButtonIsDisplayed();
-            await pay.clickPayWithWalletButton();
-            await confirm.isOnConfirmTab();
-            // assertForTotal
-            await ticketing.clickBackToEventInfoButton();
-            await info.buyTicketsButtonPresent();
-            await info.clickBuyTicketsButton();
-            await ticketing.nextButtonPresent();
-            await tickets.sendKeysToQtyInput(0,"3");
-            await tickets.sendKeysToQtyInput(1,"4");
-            await tickets.sendKeysToQtyInput(2,"4");
-            await tickets.sendKeysToQtyInput(3,"5");
-            await ticketing.clickNextButton();
-            await extras.balanceIsPresent();
-            await ticketing.clickNextButton();
-            await pay.savedCardsHeaderIsPresent();
-            await pay.enterPromotionCode(promoCodeThree);
-            await pay.clickApplyDiscountButton();
-            await ticketing.removeDiscountIconIsDisplayed();
-            await pay.clickFirstCard();
-            await pay.clickPayWithCardButton();
-            await confirm.isOnConfirmTab();
-            // assertForTotal
-            await ticketing.clickBackToEventInfoButton();
-            await info.buyTicketsButtonPresent();
-            await info.clickBuyTicketsButton();
-            await ticketing.nextButtonPresent();
-            await tickets.clickIncreaseQtyButtonByIndex(4);
-            await tickets.clickIncreaseQtyButtonByIndex(4);
-            //await for exceeding staff ticket
-            await ticketing.clickNextButton();
-            await extras.balanceIsPresent();
-            await ticketing.clickNextButton();
-            await pay.savedCardsHeaderIsPresent();
-            await pay.clickFirstCard();
-            await pay.clickPayWithCardButton();
-            await confirm.isOnConfirmTab();
-            // assertForTotal
-            await ticketing.clickBackToEventInfoButton();
-            await info.buyTicketsButtonPresent();
-            await info.clickBuyTicketsButton();
-            await ticketing.nextButtonPresent();
-            await tickets.clickIncreaseQtyButtonByIndex(4);
-            await tickets.clickIncreaseQtyButtonByIndex(4);
-            //await for exceeding staff ticket
-            await ticketing.clickNextButton();
-            await extras.balanceIsPresent();
-            await ticketing.clickNextButton();
-            await pay.savedCardsHeaderIsPresent();
-            await pay.enterPromotionCode(promoCodeTwo);
-            await pay.clickApplyDiscountButton();
+            eventTickets = new EventTickets(driver)
+            bosTickets = new BOSelectTickets(driver);
+            bosExtras = new BOAddExtras(driver);
+            bosDetails = new BOAddDetails(driver);
+            bosReview = new BOReviewAndPay(driver);
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+/*            await myEvents.createdEventIsInTheTable('6-20-13:19:34');
+            await myEvents.clickTheNewCreatedEventInTheTable('6-20-13:19:34');*/
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await driver.sleep(2000);
-            await pay.clickPayWithNewCardTab();
-            await newCardComponent.isAtNewCardTab();
-            await newCardComponent.fillNewCardWithValidData();
-            await newCardComponent.clickSaveCardCheckbox();
-            await pay.payWithCardButtonIsDisplayed();
-            await pay.clickPayWithCardButton();
-            await confirm.isOnConfirmTab();
-        })*/
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await eventTickets.clickBoxOfficeNav();
+            await bosTickets.isOnBoxOfficePage();
+            await bosTickets.selectTwoTickets();
+            await bosExtras.add20$ToOrderModalIsDisplayed();
+            await bosDetails.continueToPayment();
+            await bosReview.makePayment();
+
+
+        });
+
+
+        /* it("should make purchases", async function() {
+             events = new EventsPage(driver);
+             login = new LoginComponent(driver);
+             info = new EventInfo(driver);
+             ticketing = new TicketingPage(driver);
+             tickets = new TicketsTab(driver);
+             extras = new ExtrasTab(driver);
+             pay = new PayTab(driver);
+             confirm = new ConfirmTab(driver);
+             newCardComponent = new NewCardComponent(driver);
+             await events.load();
+             await events.clickSignInButton();
+             await login.waitPopupToBeLoaded();
+             await login.authenticate("parma15@parma.it", "Pero1234")
+             await events.successMessagePresent();
+             await events.eventCardIsAvailableToClick();
+             await driver.sleep(3000);
+             await events.clickNewEvent('5-15-17:11:43');
+             await info.buyTicketsButtonPresent();
+             await info.clickBuyTicketsButton();
+             await ticketing.nextButtonPresent();
+             await tickets.clickFirstIncreaseButton();
+             await driver.sleep(2000)
+             let ticketPrice = await tickets.getTicketPrice();
+             console.log(ticketPrice);
+             let subtotal = await ticketing.getSubtotalText();
+             console.log(subtotal);
+             let price = await ticketing.getSummaryPriceText();
+             console.log(parseFloat(price) + parseFloat(price));
+             await ticketing.clickNextButton();
+             await extras.balanceIsPresent();
+             await ticketing.clickNextButton();
+             await pay.savedCardsHeaderIsPresent();
+             await pay.enterPromotionCode(promoCodeOne);
+             await pay.clickApplyDiscountButton();
+             await ticketing.removeDiscountIconIsDisplayed();
+             await pay.clickPayWithWalletOption();
+             await pay.payWithWalletButtonIsDisplayed();
+             await pay.clickPayWithWalletButton();
+             await confirm.isOnConfirmTab();
+             // assertForTotal
+             await ticketing.clickBackToEventInfoButton();
+             await info.buyTicketsButtonPresent();
+             await info.clickBuyTicketsButton();
+             await ticketing.nextButtonPresent();
+             await tickets.sendKeysToQtyInput(0,"3");
+             await tickets.sendKeysToQtyInput(1,"4");
+             await tickets.sendKeysToQtyInput(2,"4");
+             await tickets.sendKeysToQtyInput(3,"5");
+             await ticketing.clickNextButton();
+             await extras.balanceIsPresent();
+             await ticketing.clickNextButton();
+             await pay.savedCardsHeaderIsPresent();
+             await pay.enterPromotionCode(promoCodeThree);
+             await pay.clickApplyDiscountButton();
+             await ticketing.removeDiscountIconIsDisplayed();
+             await pay.clickFirstCard();
+             await pay.clickPayWithCardButton();
+             await confirm.isOnConfirmTab();
+             // assertForTotal
+             await ticketing.clickBackToEventInfoButton();
+             await info.buyTicketsButtonPresent();
+             await info.clickBuyTicketsButton();
+             await ticketing.nextButtonPresent();
+             await tickets.clickIncreaseQtyButtonByIndex(4);
+             await tickets.clickIncreaseQtyButtonByIndex(4);
+             //await for exceeding staff ticket
+             await ticketing.clickNextButton();
+             await extras.balanceIsPresent();
+             await ticketing.clickNextButton();
+             await pay.savedCardsHeaderIsPresent();
+             await pay.clickFirstCard();
+             await pay.clickPayWithCardButton();
+             await confirm.isOnConfirmTab();
+             // assertForTotal
+             await ticketing.clickBackToEventInfoButton();
+             await info.buyTicketsButtonPresent();
+             await info.clickBuyTicketsButton();
+             await ticketing.nextButtonPresent();
+             await tickets.clickIncreaseQtyButtonByIndex(4);
+             await tickets.clickIncreaseQtyButtonByIndex(4);
+             //await for exceeding staff ticket
+             await ticketing.clickNextButton();
+             await extras.balanceIsPresent();
+             await ticketing.clickNextButton();
+             await pay.savedCardsHeaderIsPresent();
+             await pay.enterPromotionCode(promoCodeTwo);
+             await pay.clickApplyDiscountButton();
+             await driver.sleep(2000);
+             await pay.clickPayWithNewCardTab();
+             await newCardComponent.isAtNewCardTab();
+             await newCardComponent.fillNewCardWithValidData();
+             await newCardComponent.clickSaveCardCheckbox();
+             await pay.payWithCardButtonIsDisplayed();
+             await pay.clickPayWithCardButton();
+             await confirm.isOnConfirmTab();
+         })*/
 /*
         it('Should open the new event and create 4 tickets', async function () {
             await dashboard.clickMyEventsTab();
