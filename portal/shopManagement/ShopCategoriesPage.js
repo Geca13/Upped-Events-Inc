@@ -30,17 +30,17 @@
             await this.isAtShopCategoriesPage();
             await this.driver.sleep(3000);
             await this.dragAndDropElement(BEER_CATEGORY,SELECTED_CATEGORIES_BOX);
-            await this.driver.sleep(1000)
+            await this.driver.sleep(500)
             await this.dragAndDropElement(WINE_CATEGORY,SELECTED_CATEGORIES_BOX);
-            await this.driver.sleep(1000)
+            await this.driver.sleep(500)
             await this.dragAndDropElement(FAST_FOOD_CATEGORY,SELECTED_CATEGORIES_BOX);
-            await this.driver.sleep(1000)
+            await this.driver.sleep(500)
             await this.dragAndDropElement(FOOD_CATEGORY,SELECTED_CATEGORIES_BOX);
-            await this.driver.sleep(1000)
+            await this.driver.sleep(500)
             await this.dragAndDropElement(BARS_CATEGORY,SELECTED_CATEGORIES_BOX);
-            await this.driver.sleep(1000)
+            await this.driver.sleep(500)
             await this.dragAndDropElement(DESSERTS_CATEGORY,SELECTED_CATEGORIES_BOX);
-            await this.driver.sleep(1000)
+            await this.driver.sleep(500)
             await this.click(SAVE_APPLIED_CATEGORIZATION_BUTTON);
             await this.driver.sleep(3000);
         }

@@ -149,8 +149,8 @@
             await this.driver.sleep(500);
             await this.sentKeys(SEARCH_EVENT_INPUT, Key.BACK_SPACE)
             await this.driver.sleep(500);
-            await this.driver.executeScript("document.getElementsByClassName('title')[0].click()");
-            await this.driver.sleep(2000);
+            await this.driver.executeScript("document.getElementsByClassName('header')[0].click()");
+            await this.driver.sleep(5000);
             await this.driver.executeScript("document.getElementsByClassName('myRipple2')[0].click()");
             await this.driver.sleep(500);
             await this.click(SELECT_TICKET_GROUP_BUTTON);

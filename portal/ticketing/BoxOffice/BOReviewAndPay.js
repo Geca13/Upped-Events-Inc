@@ -17,6 +17,8 @@
     const ADD_BUTTON = { xpath: "//button[text()='Add']" };
     const PLACE_ORDER_BUTTON = { xpath: "//button[text()=' Place Order ']" };
     const ADDITIONAL_EMAIL_BADGE = { className:"primary-badge"} //list
+    const CONFIRMATION_MODAL = { className: "confirmation-heading" }
+    const CHECKBOX = { xpath: "//input[@type='checkbox']" } //list
 
 
 
@@ -30,24 +32,26 @@
             await this.isDisplayed(CARDHOLDER_NAME, 5000);
         }
 
-        async makePayment(){
+        async makePayment(base){
             await this.isOnReviewPage();
-            await this.sentKeys(CARDHOLDER_NAME,"Marjan Geca");
+            await this.sentKeys(CARDHOLDER_NAME,base +" Geca");
             await this.sentKeys(CARD_NUMBER,"4111111111111111");
             await this.sentKeys(CVC,"900");
-            await this.sentKeys(EXPIRATION,"10102025");
+            await this.sentKeys(EXPIRATION,"01012023");
             await this.sentKeys(APT,"22");
-            await this.sentKeys(ADDRESS,"Main Street 6");
+            await this.sentKeys(ADDRESS,"Main Street " + base);
             await this.sentKeys(ZIP,"90009");
-            await this.sentKeys(FIRST_NAME,"Marjan");
-            await this.sentKeys(LAST_NAME,"Marjan");
+            await this.sentKeys(FIRST_NAME,base);
+            await this.sentKeys(LAST_NAME,base);
             await this.sentKeys(BIRTH_DATE,"01012000");
-            await this.sentKeys(EMAIL,"90009@90009.mk");
-            await this.sentKeys(ADDITIONAL_EMAIL,"Marjan@Mar.mk");
+            await this.sentKeys(EMAIL,base+'@'+base+".mk");
+            await this.clickElementReturnedFromAnArray(CHECKBOX,3);
+            await this.sentKeys(ADDITIONAL_EMAIL,base+'ad@ad'+base+".mk");
             await this.click(ADD_BUTTON);
             await this.isDisplayed(ADDITIONAL_EMAIL_BADGE,5000);
             await this.click(PLACE_ORDER_BUTTON);
-            await this.driver.sleep(30000);
+            await this.isDisplayed(CONFIRMATION_MODAL,55000);
+            await this.driver.sleep(5000);
         }
     }
     module.exports = BOReviewAndPay;

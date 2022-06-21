@@ -44,7 +44,7 @@
             await this.sentKeys(TICKET_NAME_INPUT, ticketName);
             await this.sentKeys(TICKET_DESCRIPTION_INPUT, ticketName + ' description');
             await this.sentKeys(TICKET_RULES_INPUT, ticketName + ' rules');
-            await this.sentKeys(TICKET_QUANTITY_INPUT, '0');
+            await this.sentKeys(TICKET_QUANTITY_INPUT, '3');
             await this.sentKeys(TICKET_PRICE_INPUT, ticketPrice);
             await this.click(TICKET_START_DATE_INPUT);
             await this.driver.sleep(1000);

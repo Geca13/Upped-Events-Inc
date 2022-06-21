@@ -71,6 +71,8 @@
             await this.click(MAP_AND_AGENDA_TAB);
         }
         async clickShopManagementTab(){
+            await this.driver.sleep(5000);
+            await this.isDisplayed(SHOP_MANAGEMENT_TAB,5000);
             await this.click(SHOP_MANAGEMENT_TAB);
         }
         async clickPartnerManagementTab(){

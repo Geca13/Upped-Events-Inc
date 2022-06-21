@@ -65,48 +65,53 @@ const WebElement = require('selenium-webdriver').WebElement
          await element.click();
     }
 
-        async clickElementByText(text){
-            let element = await this.driver.findElement(By.xpath("//*[text()='"+text+"']"));
-            await element.click();
-        }
+    async clickElementByText(text){
+         let element = await this.driver.findElement(By.xpath("//*[text()='"+text+"']"));
+         await element.click();
+    }
 
-        async clickElementByTextFromArray(text, index){
-            let elements = await this.driver.findElement(By.xpath("//*[normalize-space(text())='"+text+"']"));
-            let element = elements[index]
-            await element.click();
-        }
+    async clickElementByTextFromArray(text, index){
+        let elements = await this.driver.findElement(By.xpath("//*[normalize-space(text())='"+text+"']"));
+        let element = elements[index]
+        await element.click();
+    }
 
-        async elementByTextIsDisplayed(text){
-            await this.isDisplayed(this.driver.findElement(By.xpath("//*[text()=' "+text+" ']")));
-
-        }
-        async elementByTextWithoutSpacesIsDisplayed(text){
-            await this.isDisplayed(this.driver.findElement(By.xpath("//*[text()='"+text+"']")));
-
-        }
-
-
+    async elementByTextIsDisplayed(text){
+        await this.isDisplayed(this.driver.findElement(By.xpath("//*[text()=' "+text+" ']")));
+    }
+    async elementByTextWithoutSpacesIsDisplayed(text){
+        await this.isDisplayed(this.driver.findElement(By.xpath("//*[text()='"+text+"']")));
+    }
 
     async getEnteredTextInTheInput(locator){
-       let input =  await this.find(locator);
-       return await input.getAttribute("value");
-
+        let input =  await this.find(locator);
+        return await input.getAttribute("value");
     }
+
+    async getTextValueFromElementOfArray(locator, index){
+       let inputs =  await this.findAll(locator);
+       return await inputs[index].getAttribute("value");
+    }
+    async getTextFromElementOfArray(locator, index){
+        let elements =  await this.findAll(locator);
+        return await elements[index].getText();
+    }
+
     async clearInputField(locator){
         let element = await this.find(locator);
         await element.clear();
     }
 
-        async clearInputFieldByIndexAndSendKeys(locator , index, keys){
-            let elements = await this.findAll(locator);
-            let element = elements[index];
-            await element.clear();
-            await element.sendKeys(keys);
-        }
+    async clearInputFieldByIndexAndSendKeys(locator , index, keys){
+        let elements = await this.findAll(locator);
+        let element = elements[index];
+        await element.clear();
+        await element.sendKeys(keys);
+    }
 
     async getRawTicketPrice(locator, index){
-          let tickets = await this.findAll(locator);
-          return await tickets[index].getText();
+        let tickets = await this.findAll(locator);
+        return await tickets[index].getText();
     }
 
     async getChildByIndex(locator, parentIndex, childIndex) {
@@ -116,16 +121,15 @@ const WebElement = require('selenium-webdriver').WebElement
     }
 
     async findChildByIndexFromPrecedingSibling(locator){
-          let knownSibling = await this.find(locator);
-          let sibling = await knownSibling.findElement(By.xpath("./preceding-sibling::label"));
-
-          let children = await sibling.findElements(By.xpath("./child::*"));
-          await children[1].click();
+        let knownSibling = await this.find(locator);
+        let sibling = await knownSibling.findElement(By.xpath("./preceding-sibling::label"));
+        let children = await sibling.findElements(By.xpath("./child::*"));
+        await children[1].click();
     }
     async clickParent(locator){
-          let child = await this.find(locator);
-          let parent = await child.findElement(By.xpath("ancestor::a"));
-          await parent.click();
+        let child = await this.find(locator);
+        let parent = await child.findElement(By.xpath("ancestor::a"));
+        await parent.click();
     }
 
     async getElementFromAnArrayByIndex(locator, index){
@@ -133,17 +137,17 @@ const WebElement = require('selenium-webdriver').WebElement
         return await elements[index];
     }
     async clickElementReturnedFromAnArray(locator,index){
-          let element = await this.getElementFromAnArrayByIndex(locator, index);
-          await element.click();
+        let element = await this.getElementFromAnArrayByIndex(locator, index);
+        await element.click();
     }
     async clickLastElementReturnedFromAnArray(locator){
-          let elements = await this.findAll(locator);
-          let lastElement = elements.length - 1;
-          await elements[lastElement].click();
+        let elements = await this.findAll(locator);
+        let lastElement = elements.length - 1;
+        await elements[lastElement].click();
     }
     async sendKeysToElementReturnedFromAnArray(locator,index,keys){
-          let element = await this.getElementFromAnArrayByIndex(locator, index);
-          await element.sendKeys(keys);
+        let element = await this.getElementFromAnArrayByIndex(locator, index);
+        await element.sendKeys(keys);
     }
     async elementFromArrayOfElementsIsDisplayed(locator,index){
         let element = await this.getElementFromAnArrayByIndex(locator, index);
@@ -151,7 +155,12 @@ const WebElement = require('selenium-webdriver').WebElement
     }
 
     async getElementText(locator) {
-       return await this.find(locator).getText();
+        return await this.find(locator).getText();
+    }
+    async getFontColorFromAnArray(locator, index){
+        let elements = await this.findAll(locator)
+        return elements[index].getCssValue('color')
+
     }
     async getElementTextFromAnArrayByIndex(locator, index){
         let elements = await this.findAll(locator);
@@ -164,8 +173,12 @@ const WebElement = require('selenium-webdriver').WebElement
     }
 
     async getSubstringOfBracketedPriceString(locator,index){
-          let result = await this.getRawTicketPrice(locator,index);
+        let result = await this.getRawTicketPrice(locator,index);
         return result.substring(2, result.length - 1);
+    }
+
+    async getSubstringOfInboxEmailString(text){
+         return text.substring(1, text.length - 1);
     }
 
     async sentKeys(locator, inputText) {
@@ -173,8 +186,8 @@ const WebElement = require('selenium-webdriver').WebElement
     }
 
     convertPriceStringToDouble(priceString){
-          let convertedPrice = parseFloat(priceString);
-          return convertedPrice;
+        let convertedPrice = parseFloat(priceString);
+        return convertedPrice;
     }
 
     async dragAndDropElementByOffset(locatorSource, horizontal, vertical) {
@@ -191,10 +204,7 @@ const WebElement = require('selenium-webdriver').WebElement
         let destination = this.find(locatorTarget);
         //await actions.move({duration:1000,origin:source,x:0,y:0}).press().perform();
 
-
-
-
-       /* await this.driver.executeScript("function createEvent(typeOfEvent) {\n" + "var event =document.createEvent(\"CustomEvent\");\n"
+        await this.driver.executeScript("function createEvent(typeOfEvent) {\n" + "var event =document.createEvent(\"CustomEvent\");\n"
             + "event.initCustomEvent(typeOfEvent,true, true, null);\n" + "event.dataTransfer = {\n" + "data: {},\n"
             + "setData: function (key, value) {\n" + "this.data[key] = value;\n" + "},\n"
             + "getData: function (key) {\n" + "return this.data[key];\n" + "}\n" + "};\n" + "return event;\n"
@@ -210,10 +220,9 @@ const WebElement = require('selenium-webdriver').WebElement
             + "dispatchEvent(element, dragEndEvent,dropEvent.dataTransfer);\n" + "}\n" + "\n"
             + "var source = arguments[0];\n" + "var destination = arguments[1];\n"
             + "simulateHTML5DragAndDrop(source,destination);", source, destination);
-        await actions.move({duration:1000,origin:destination,x:0,y:0}).release().perform();
-*/
+        //await actions.move({duration:1000,origin:destination,x:0,y:0}).release().perform();
        // await this.driver.actions().move({origin:source}).press().perform();
-        await this.driver.sleep(1000)
+        //await this.driver.sleep(1000)
         //await this.moveToElement(locatorTarget);
         //await actions.dragAndDrop(source, destination).perform();
        // await actions.move({duration:2000,origin:source,x:0,y:0}).press().perform();
@@ -228,7 +237,7 @@ const WebElement = require('selenium-webdriver').WebElement
         //await actions.dragAndDrop(source, target).perform();
        //await actions.dragAndDropBy(source, 0,150).perform();
         //await actions.clickAndHold(locatorSource).moveToElement(locatorTarget).build().perform(); await actions.dragAndDrop(locatorSource, { x: 0, y: 150 }).perform();
-        await this.driver.sleep(1000);
+       // await this.driver.sleep(1000);
     }
 
     async simulateDragAndDrop(locatorSource, locatorTarget){
@@ -237,64 +246,58 @@ const WebElement = require('selenium-webdriver').WebElement
     }
 
     async focusElement(locatorSource){
-          await this.moveToElement(locatorSource);
-          await this.clickEnterKey(locatorSource)
+        await this.moveToElement(locatorSource);
+        await this.clickEnterKey(locatorSource)
     }
 
-        async clickEnterKey(locator){
-            let element = await this.find(locator);
-            await element.sendKeys(Key.ENTER)
-        }
+    async clickEnterKey(locator){
+         let element = await this.find(locator);
+         await element.sendKeys(Key.ENTER)
+    }
 
     async moveToElement(locator) {
-          const actions = this.driver.actions({bridge: true});
-          let element = await this.find(locator);
-          await actions.move({duration:500,origin:element,x:0,y:0}).perform();
+         const actions = this.driver.actions({bridge: true});
+         let element = await this.find(locator);
+         await actions.move({duration:500,origin:element,x:0,y:0}).perform();
+    }
+    async moveToElementFromArrayByIndex(locator,index) {
+         const actions = this.driver.actions({bridge: true});
+         let elements = await this.findAll(locator);
+         let element = elements[index];
+         await actions.move({duration:5000,origin:element,x:0,y:0}).perform();
     }
 
-
-        async moveToElementFromArrayByIndex(locator,index) {
-            const actions = this.driver.actions({bridge: true});
-            let elements = await this.findAll(locator);
-            let element = elements[index];
-            await actions.move({duration:5000,origin:element,x:0,y:0}).perform();
-        }
-
-        async moveAwayFromElement(locator, horizontal, vertical) {
-            const actions = this.driver.actions();
-            let element = await this.find(locator);
-            await actions.move({duration:2500,origin:element,x:horizontal,y:vertical}).press().release().perform();
-            await actions.doubleClick(element);
-
-        }
-
-        async moveToElementWithElement(element) {
-            const actions = this.driver.actions({bridge: true});
-            await actions.move({duration:2000,origin:element,x:0,y:0}).perform();
-        }
-
-
+    async moveAwayFromElement(locator, horizontal, vertical) {
+         const actions = this.driver.actions();
+         let element = await this.find(locator);
+         await actions.move({duration:2500,origin:element,x:horizontal,y:vertical}).press().release().perform();
+         await actions.doubleClick(element);
+    }
+    async moveToElementWithElement(element) {
+         const actions = this.driver.actions({bridge: true});
+         await actions.move({duration:2000,origin:element,x:0,y:0}).perform();
+    }
     async switchToAnIframe(locator){
-          let frame = await this.find(locator)
-          await this.driver.switchTo().frame(frame);
+         let frame = await this.find(locator)
+         await this.driver.switchTo().frame(frame);
     }
     async getOriginalWindowOrTab(){
         return await this.driver.getWindowHandle();
     }
 
     async clickAllElementsReturnedFromArray(locator){
-          let elements = await this.findAll(locator);
+        let elements = await this.findAll(locator);
           for (const element of elements) {
               await element.click();
-          }
+        }
     }
 
     async sendKeysAllElementsReturnedFromArray(locator,amount){
           let elements = await this.findAll(locator);
           for (const element of elements) {
-              await element.clear();
-              await this.driver.sleep(500);
-              await element.sendKeys(amount)
+                await element.clear();
+                await this.driver.sleep(500);
+                await element.sendKeys(amount)
           }
     }
 
@@ -313,23 +316,23 @@ const WebElement = require('selenium-webdriver').WebElement
           }
     }
 
-        async isDisplayedFromArray(locator,index ,timeout) {
-            if (timeout){
+    async isDisplayedFromArray(locator,index ,timeout) {
+        if (timeout){
+             let elements = await this.findAll(locator);
+             let element = elements[index];
+             await this.driver.wait(until.elementLocated(locator), timeout)
+             await this.driver.wait(until.elementIsVisible(element), timeout)
+             return true
+        } else{
+            try {
                 let elements = await this.findAll(locator);
                 let element = elements[index];
-                await this.driver.wait(until.elementLocated(locator), timeout)
-                await this.driver.wait(until.elementIsVisible(element), timeout)
-                return true
-            } else{
-                try {
-                    let elements = await this.findAll(locator);
-                    let element = elements[index];
-                    return element.isDisplayed()
-                } catch (error) {
-                    return false
-                }
+                return element.isDisplayed()
+            } catch (error) {
+                return false
             }
         }
+    }
 
     async isNotDisplayed(locator,timeout) {
         if (timeout){
@@ -351,8 +354,7 @@ const WebElement = require('selenium-webdriver').WebElement
     async elementNotInTheDom(locator){
 
        let elements = await this.findAll(locator);
-
-       if(await elements[0].getText() !== ''){
+        if(await elements[0].getText() !== ''){
          return await this.elementNotInTheDom(locator);
        }
     }

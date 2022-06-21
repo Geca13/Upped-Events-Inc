@@ -14,14 +14,26 @@
         async isOnExtrasScreen(){
             await this.isDisplayed(EXTRAS_HEADER,5000);
         }
-        async add20$ToOrderModalIsDisplayed(){
-            await this.isOnExtrasScreen()
-            /*let donation = new DonationComponent(this.driver);
+        async add20$ToOrderOnExtrasPage(){
+            await this.isOnExtrasScreen();
+            await this.clickElementReturnedFromAnArray(EXTRAS_OPTIONS,1);
+            let donation = new DonationComponent(this.driver);
             await donation.isOnDonationScreen();
             await donation.click$20DonationButton();
             await this.driver.sleep(500);
             await donation.clickAddDonationToOrderButton();
-            await this.isDisplayed(NEXT_BUTTON,5000);*/
+            await this.isDisplayed(NEXT_BUTTON,5000);
+            await this.click(NEXT_BUTTON);
+        }
+        async add50$ToOrderOnExtrasPage(){
+            await this.isOnExtrasScreen();
+            await this.clickElementReturnedFromAnArray(EXTRAS_OPTIONS,1);
+            let donation = new DonationComponent(this.driver);
+            await donation.isOnDonationScreen();
+            await donation.click$50DonationButton();
+            await this.driver.sleep(500);
+            await donation.clickAddDonationToOrderButton();
+            await this.isDisplayed(NEXT_BUTTON,5000);
             await this.click(NEXT_BUTTON);
         }
     }
