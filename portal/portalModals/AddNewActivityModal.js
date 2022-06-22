@@ -75,9 +75,10 @@
             await this.driver.executeScript("document.getElementsByClassName('file-upload-input')[0].style.visibility='visible'");
             await this.sentKeys(UPLOAD_PHOTO_INPUT, "D:\\Upped\\static\\eaglesvikings.jpg");
             await this.isDisplayed(SET_IMAGE_BUTTON, 5000);
+            await this.driver.sleep(1500);
             await this.click(SET_IMAGE_BUTTON);
             await this.driver.sleep(500);
-            await this.click(SET_IMAGE_BUTTON);
+            //await this.click(SET_IMAGE_BUTTON);
             await this.isAtCreateActivityModal();
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='hidden'");
             await this.moveToElement(ADD_REMINDER_LINK);

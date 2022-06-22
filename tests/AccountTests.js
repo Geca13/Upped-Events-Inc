@@ -90,7 +90,7 @@
            await forgotPassword.forgetPasswordScenarioWithValidations();
            await inbox.loadInbox();
            await inbox.elementIsDisplayedInInbox('<'+email+'>');
-           await driver.sleep(1000);
+           await driver.sleep(2000);
            await inbox.findAndClickTheEmailForNewAccount('<'+email+'>');
            await inbox.switchToInboxIFrame();
            await inbox.resetPasswordButtonIsDisplayed();

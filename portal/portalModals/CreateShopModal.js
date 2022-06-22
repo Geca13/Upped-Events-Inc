@@ -46,14 +46,14 @@
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.select13Day();
             await startDatePicker.clickSetButton();
-            await startDatePicker.clickSetButton();
+            //await startDatePicker.clickSetButton();
             await this.driver.sleep(2000);
             await this.clickElementReturnedFromAnArray(CALENDAR_ICON, 4);
             let endDatePicker = new DateTimePickerModal(this.driver);
             await endDatePicker.datePickerIsVisible();
             await endDatePicker.select13Day();
             await endDatePicker.clickSetButton();
-            await endDatePicker.clickSetButton();
+            //await endDatePicker.clickSetButton();
             await this.driver.sleep(2000)
             await this.clickElementReturnedFromAnArray(SELECTS, 1);
             await this.isDisplayed(VIRTUAL_SHOP_OPTION);
@@ -96,14 +96,14 @@
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.select13Day();
             await startDatePicker.clickSetButton();
-            await startDatePicker.clickSetButton();
+            //await startDatePicker.clickSetButton();
             await this.driver.sleep(2000);
             await this.clickElementReturnedFromAnArray(CALENDAR_ICON, 4);
             let endDatePicker = new DateTimePickerModal(this.driver);
             await endDatePicker.datePickerIsVisible();
             await endDatePicker.select13Day();
             await endDatePicker.clickSetButton();
-            await endDatePicker.clickSetButton();
+            //await endDatePicker.clickSetButton();
             await this.driver.sleep(2000)
             await this.clickElementReturnedFromAnArray(SELECTS, 1);
             await this.driver.sleep(2000)

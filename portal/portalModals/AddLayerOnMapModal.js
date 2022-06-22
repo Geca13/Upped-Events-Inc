@@ -62,6 +62,7 @@
             await this.driver.executeScript("document.getElementsByClassName('file-upload-input')[0].style.visibility='visible'");
             await this.sentKeys(UPLOAD_PHOTO_INPUT,"D:\\Upped-Events-Inc\\static\\tickets.jpg");
             await this.isDisplayed(SET_IMAGE_BUTTON,5000);
+            await this.driver.sleep(1500);
             await this.click(SET_IMAGE_BUTTON);
             await this.driver.sleep(500);
             await this.click(SET_IMAGE_BUTTON);

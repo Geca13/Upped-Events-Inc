@@ -4,6 +4,7 @@
     const PROMO_INPUT = { xpath: "//div[@name='promoCode']//input" }
     const APPLY_BUTTON = { id: "applybtn" }
     const APPLIED_PROMOTION_DIV = { className: "discount-code" }
+    const INVALID_DISCOUNT_CODE_ICON = { className: "icon-exclamation-triangle" }
 
 
 
@@ -23,7 +24,12 @@
             await this.click(APPLY_BUTTON);
             await this.isDisplayed(APPLIED_PROMOTION_DIV,5000);
             await this.click(NEXT_BUTTON);
-
+        }
+        async addWrongPromoCode(){
+            await this.sentKeys(PROMO_INPUT,"FgRgR1");
+            await this.click(APPLY_BUTTON);
+            await this.isDisplayed(INVALID_DISCOUNT_CODE_ICON,5000);
+            await this.clearInputField(PROMO_INPUT);
         }
     }
     module.exports = BOAddDetails;

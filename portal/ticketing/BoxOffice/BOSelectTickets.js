@@ -27,8 +27,15 @@
         }
 
         async selectTwoTickets(){
+            await this.isOnBoxOfficePage();
+            await this.driver.sleep(1000);
+            await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,5,"2");
+            await this.click(SAVE_BUTTON);
+        }
+
+        async select3Tickets(){
             await this.isOnBoxOfficePage()
-            await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,0,"1");
+            await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,2,"3");
             await this.click(SAVE_BUTTON);
         }
 

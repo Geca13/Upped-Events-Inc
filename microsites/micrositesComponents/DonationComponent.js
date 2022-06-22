@@ -1,6 +1,6 @@
     const { By } = require("selenium-webdriver");
     const BasePage = require("../../BasePage");
-    const DONATION_INPUT = { id: 'donationAmount'};
+    const DONATION_INPUT = { name: 'donation'};
     const DONATE_TITLE = { className: 'donate-heading' };
     const DONATE_EVENT_NAME = { className: 'donate-event' };
     const DONATION_MESSAGE = { className: 'donations-message' };

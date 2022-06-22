@@ -36,5 +36,16 @@
             await this.isDisplayed(NEXT_BUTTON,5000);
             await this.click(NEXT_BUTTON);
         }
+        async addCustom$ToOrderOnExtrasPage(){
+            await this.isOnExtrasScreen();
+            await this.clickElementReturnedFromAnArray(EXTRAS_OPTIONS,1);
+            let donation = new DonationComponent(this.driver);
+            await donation.isOnDonationScreen();
+            await donation.enterCustomAmountInInput("65");
+            await this.driver.sleep(500);
+            await donation.clickAddDonationToOrderButton();
+            await this.isDisplayed(NEXT_BUTTON,5000);
+            await this.click(NEXT_BUTTON);
+        }
     }
     module.exports = BOAddExtras;

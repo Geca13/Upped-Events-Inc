@@ -46,6 +46,7 @@
     const BOAddExtras = require('../portal/ticketing/BoxOffice/BOAddExtras');
     const BOAddDetails = require('../portal/ticketing/BoxOffice/BOAddDetails');
     const BOReviewAndPay = require('../portal/ticketing/BoxOffice/BOReviewAndPay');
+    const Wordpress = require('../embed/embedPages/Wordpress')
 
 
     describe('Should login to portal create new event and tickets', function () {
@@ -98,9 +99,10 @@
         let bosExtras;
         let bosDetails;
         let bosReview;
+        let wordpress;
 
         let today = new Date();
-        let eventName =  (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let eventName = "6-22-14:16:29" //(today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         let base = Math.floor(100000 + Math.random() * 900000);
         //let base = 12345678;
         let ticketOneName = base.toString() +"T1";
@@ -1067,6 +1069,47 @@
             await bosDetails.addPromotionToTickets(promoFourName);
             await bosReview.makePayment(base);
 
+        });
+
+        it('Should get invalid promocode message and then make purchase with valid promocode',  async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            createEvent = new CreateEventModal(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            eventTickets = new EventTickets(driver)
+            bosTickets = new BOSelectTickets(driver);
+            bosExtras = new BOAddExtras(driver);
+            bosDetails = new BOAddDetails(driver);
+            bosReview = new BOReviewAndPay(driver);
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(2000);
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await eventTickets.clickBoxOfficeNav();
+            await bosTickets.isOnBoxOfficePage();
+            await bosTickets.select3Tickets();
+            await bosExtras.addCustom$ToOrderOnExtrasPage();
+            await bosDetails.addWrongPromoCode();
+            await bosDetails.addPromotionToTickets(promoFourName);
+            await bosReview.makePayment(base);
+        });
+
+        it('should something', async function () {
+            wordpress = new Wordpress(driver);
+            await wordpress.openWordpressPage();
+            await wordpress.loginToWordpress();
         });
 
 
