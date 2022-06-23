@@ -73,5 +73,22 @@
             let fontColor = await this.getFontColorFromAnArray(OVERRIDEN_TICKET_PRICE,0);
             assert.equal(fontColor,'rgba(255, 0, 0, 1)');
         }
+        async selectFourIndividualTickets(){
+            await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,0,"1");
+            await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,1,"1");
+            await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,2,"1");
+            await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,3,"1");
+            await this.click(SAVE_BUTTON);
+        }
+        async getSelectedTicketsNames(ticketOneName,ticketTwoName,ticketThreeName,ticketFourName){
+            let ticketOne = await this.getTextFromElementOfArray(COLUMN_TICKET_NAME,0);
+            let ticketTwo = await this.getTextFromElementOfArray(COLUMN_TICKET_NAME,1);
+            let ticketThree = await this.getTextFromElementOfArray(COLUMN_TICKET_NAME,2);
+            let ticketFour = await this.getTextFromElementOfArray(COLUMN_TICKET_NAME,3);
+            assert.equal(ticketOneName,ticketOne);
+            assert.equal(ticketTwoName,ticketTwo);
+            assert.equal(ticketThreeName,ticketThree);
+            assert.equal(ticketFourName,ticketFour);
+        }
     }
     module.exports = BOSelectTickets;

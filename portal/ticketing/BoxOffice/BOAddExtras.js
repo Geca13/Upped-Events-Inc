@@ -14,6 +14,10 @@
         async isOnExtrasScreen(){
             await this.isDisplayed(EXTRAS_HEADER,5000);
         }
+        async clickNextButton(){
+            await this.isDisplayed(NEXT_BUTTON,5000);
+            await this.click(NEXT_BUTTON);
+        }
         async add20$ToOrderOnExtrasPage(){
             await this.isOnExtrasScreen();
             await this.clickElementReturnedFromAnArray(EXTRAS_OPTIONS,1);
@@ -22,8 +26,17 @@
             await donation.click$20DonationButton();
             await this.driver.sleep(500);
             await donation.clickAddDonationToOrderButton();
-            await this.isDisplayed(NEXT_BUTTON,5000);
-            await this.click(NEXT_BUTTON);
+            await this.clickNextButton()
+        }
+        async add35$ToOrderOnExtrasPage(){
+            await this.isOnExtrasScreen();
+            await this.clickElementReturnedFromAnArray(EXTRAS_OPTIONS,1);
+            let donation = new DonationComponent(this.driver);
+            await donation.isOnDonationScreen();
+            await donation.click$35DonationButton();
+            await this.driver.sleep(500);
+            await donation.clickAddDonationToOrderButton();
+            await this.clickNextButton()
         }
         async add50$ToOrderOnExtrasPage(){
             await this.isOnExtrasScreen();
@@ -33,8 +46,7 @@
             await donation.click$50DonationButton();
             await this.driver.sleep(500);
             await donation.clickAddDonationToOrderButton();
-            await this.isDisplayed(NEXT_BUTTON,5000);
-            await this.click(NEXT_BUTTON);
+            await this.clickNextButton()
         }
         async addCustom$ToOrderOnExtrasPage(){
             await this.isOnExtrasScreen();
@@ -44,8 +56,7 @@
             await donation.enterCustomAmountInInput("65");
             await this.driver.sleep(500);
             await donation.clickAddDonationToOrderButton();
-            await this.isDisplayed(NEXT_BUTTON,5000);
-            await this.click(NEXT_BUTTON);
+            await this.clickNextButton();
         }
     }
     module.exports = BOAddExtras;

@@ -102,9 +102,9 @@
         let wordpress;
 
         let today = new Date();
-        let eventName = "6-22-14:16:29" //(today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        let base = Math.floor(100000 + Math.random() * 900000);
-        //let base = 12345678;
+        let eventName = "6-23-17:57:32" // (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        //let base = Math.floor(100000 + Math.random() * 900000);
+        let base = 920750;
         let ticketOneName = base.toString() +"T1";
         let ticketTwoName = base.toString() +"T2";
         let ticketThreeName = base.toString() +"T3";
@@ -905,7 +905,7 @@
             await login.authenticate("parma5555@parma.it", "Pero1234")
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
-            await driver.sleep(10000);
+            await driver.sleep(20000);
             await events.clickNewEvent(eventName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
@@ -1106,11 +1106,49 @@
             await bosReview.makePayment(base);
         });
 
-        it('should something', async function () {
+        it('Should check calculation on subtotal and total and check if tickets are displayed', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            createEvent = new CreateEventModal(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            eventTickets = new EventTickets(driver)
+            bosTickets = new BOSelectTickets(driver);
+            bosExtras = new BOAddExtras(driver);
+            bosDetails = new BOAddDetails(driver);
+            bosReview = new BOReviewAndPay(driver);
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(2000);
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await eventTickets.clickBoxOfficeNav();
+            await bosTickets.isOnBoxOfficePage();
+            await bosTickets.getSelectedTicketsNames(ticketOneName,ticketTwoName,ticketThreeName,ticketFourName);
+            await bosTickets.selectFourIndividualTickets();
+            await bosExtras.clickNextButton();
+            await bosDetails.checkTicketsNamesInOrderDetails(ticketOneName,ticketTwoName,ticketThreeName,ticketFourName);
+            await bosDetails.checkTicketPricesInOrderDetails();
+            await bosDetails.calculateTicketsSubTotal();
+            await bosDetails.calculateTicketsTotal()
+
+        });
+
+        /*it('should something', async function () {
             wordpress = new Wordpress(driver);
             await wordpress.openWordpressPage();
             await wordpress.loginToWordpress();
-        });
+        });*/
 
 
         /* it("should make purchases", async function() {

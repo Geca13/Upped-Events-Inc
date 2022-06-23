@@ -180,12 +180,15 @@ const WebElement = require('selenium-webdriver').WebElement
     async getSubstringOfInboxEmailString(text){
          return text.substring(1, text.length - 1);
     }
+    async getSubstringWithStartAndEndIndex(locator, start, end){
+
+    }
 
     async sentKeys(locator, inputText) {
         await this.find(locator).sendKeys(inputText)
     }
 
-    convertPriceStringToDouble(priceString){
+    async convertPriceStringToDouble(priceString){
         let convertedPrice = parseFloat(priceString);
         return convertedPrice;
     }

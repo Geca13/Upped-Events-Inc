@@ -13,7 +13,7 @@
     const END_DATE_TIME_PICKER = { xpath: "//input[@formcontrolname='endDate']" };
     const UPLOAD_PHOTO_INPUT = { xpath: "//input[@type='file']" };
     const TAGS_INPUT = { id: 'tags'}
-    const ADD_SHOP_BUTTON = { className: 'primary-btn'} // index 2
+    const ADD_SHOP_BUTTON = { xpath: "//button//span[text()='Add Shop']"}
     const CANCEL_BUTTON = { xpath: "//button[@type='reset']"}
     const SELECT_PARTNER_DROPDOWN = { xpath: "//select-picker[@name='PartnerOptions']" };
     const PARTNER_MANAGEMENT_LIST_OPTION = { xpath: "//*[text()='Source from Partner Management list']"}
@@ -46,14 +46,14 @@
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.select13Day();
             await startDatePicker.clickSetButton();
-            //await startDatePicker.clickSetButton();
+            await startDatePicker.clickSetButton();
             await this.driver.sleep(2000);
             await this.clickElementReturnedFromAnArray(CALENDAR_ICON, 4);
             let endDatePicker = new DateTimePickerModal(this.driver);
             await endDatePicker.datePickerIsVisible();
             await endDatePicker.select13Day();
             await endDatePicker.clickSetButton();
-            //await endDatePicker.clickSetButton();
+            await endDatePicker.clickSetButton();
             await this.driver.sleep(2000)
             await this.clickElementReturnedFromAnArray(SELECTS, 1);
             await this.isDisplayed(VIRTUAL_SHOP_OPTION);
@@ -76,7 +76,7 @@
             await this.sentKeys(TAGS_INPUT, base + ' tag');
             await this.clickEnterKey(TAGS_INPUT);
             await this.driver.sleep(500)
-            await this.clickElementReturnedFromAnArray(ADD_SHOP_BUTTON, 2)
+            await this.click(ADD_SHOP_BUTTON);
             await this.driver.sleep(2000);
 
         }
@@ -96,14 +96,14 @@
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.select13Day();
             await startDatePicker.clickSetButton();
-            //await startDatePicker.clickSetButton();
+            await startDatePicker.clickSetButton();
             await this.driver.sleep(2000);
             await this.clickElementReturnedFromAnArray(CALENDAR_ICON, 4);
             let endDatePicker = new DateTimePickerModal(this.driver);
             await endDatePicker.datePickerIsVisible();
             await endDatePicker.select13Day();
             await endDatePicker.clickSetButton();
-            //await endDatePicker.clickSetButton();
+            await endDatePicker.clickSetButton();
             await this.driver.sleep(2000)
             await this.clickElementReturnedFromAnArray(SELECTS, 1);
             await this.driver.sleep(2000)
@@ -123,7 +123,7 @@
             await this.sentKeys(TAGS_INPUT, base + ' ticketing tag');
             await this.clickEnterKey(TAGS_INPUT);
             await this.driver.sleep(500)
-            await this.clickElementReturnedFromAnArray(ADD_SHOP_BUTTON, 2)
+            await this.click(ADD_SHOP_BUTTON)
             await this.driver.sleep(2000);
         }
     }

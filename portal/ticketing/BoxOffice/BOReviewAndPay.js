@@ -1,4 +1,5 @@
     const BasePage = require('../../../BasePage');
+    const assert = require('assert')
     const CARDHOLDER_NAME = { xpath: "//input[@formcontrolname='name_on_card']" };
     const CARD_NUMBER = { xpath: "//input[@formcontrolname='card_no']" };
     const CVC = { xpath: "//input[@formcontrolname='cvc']" };
@@ -17,7 +18,10 @@
     const ADD_BUTTON = { xpath: "//button[text()='Add']" };
     const PLACE_ORDER_BUTTON = { xpath: "//button[text()=' Place Order ']" };
     const ADDITIONAL_EMAIL_BADGE = { className:"primary-badge"} //list
-    const CONFIRMATION_MODAL = { className: "confirmation-heading" }
+    const CONFIRMATION_MODAL = { className: "confirmation-heading" };
+    const SUCCESS_ON_CONFIRM_MODAL = { className: "success-message" }
+    const MESSAGE_ON_CONFIRM_MODAL = { className: "main-message" }
+    const EMAILS_ON_CONFIRM_MODAL = { className: "single-email" } //list
     const CHECKBOX = { xpath: "//input[@type='checkbox']" } //list
 
 
@@ -49,9 +53,23 @@
             await this.sentKeys(ADDITIONAL_EMAIL,base+'ad@ad'+base+".mk");
             await this.click(ADD_BUTTON);
             await this.isDisplayed(ADDITIONAL_EMAIL_BADGE,5000);
+            await this.driver.sleep(1000);
             await this.click(PLACE_ORDER_BUTTON);
             await this.isDisplayed(CONFIRMATION_MODAL,55000);
-            await this.driver.sleep(5000);
+            await this.driver.sleep(1000);
+            await this.confirmElementsForSecondPayment(base);
+            await this.driver.sleep(1000);
+        }
+        async confirmElementsForSecondPayment(base){
+            //let ownerEmail = await this.getElementTextFromAnArrayByIndex(EMAILS_ON_CONFIRM_MODAL,0);
+            let header = await this.getElementText(SUCCESS_ON_CONFIRM_MODAL);
+            assert.equal("Sent!", header);
+            let message = await this.getElementText(MESSAGE_ON_CONFIRM_MODAL);
+            assert.equal("A copy of the receipt and tickets have been sent to:", message);
+            let customerEmail = await this.getElementTextFromAnArrayByIndex(EMAILS_ON_CONFIRM_MODAL,0);
+            let additionalEmail = await this.getElementTextFromAnArrayByIndex(EMAILS_ON_CONFIRM_MODAL,1);
+            assert.equal("1. " + base+'@'+base+".mk",  customerEmail);
+            assert.equal("2. " + base+'ad@ad'+base+".mk",  additionalEmail);
         }
     }
     module.exports = BOReviewAndPay;

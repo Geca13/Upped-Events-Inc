@@ -88,7 +88,7 @@
             await this.click(CREATE_NEW_MENU_LINK);
             await this.isDisplayed(ADD_NEW_SECTION_BUTTON,15000);
             await this.moveToElement(MENU_TITLE_INPUT);
-            await this.isDisplayed(EDIT_ICON,15000);
+            await this.isDisplayed(EDIT_ICON,5000);
             await this.moveToElement(EDIT_ICON);
             await this.click(EDIT_ICON);
             await this.clearInputField(MENU_TITLE_INPUT);
