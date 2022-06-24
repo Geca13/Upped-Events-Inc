@@ -51,7 +51,7 @@
              let rawTicketTwo = await this.getChildByIndex(TICKETS_NAME_PARENT, 1, 1);
              let rawTicketThree = await this.getChildByIndex(TICKETS_NAME_PARENT, 2, 1);
              let rawTicketFour = await this.getChildByIndex(TICKETS_NAME_PARENT, 3, 1);
-             assert.equal(await this.convertPriceStringToDouble("1.5"), await this.convertPriceStringToDouble(rawTicketOne.substring(2)));
+             assert.equal(await this.convertPriceStringToDouble("1"), await this.convertPriceStringToDouble(rawTicketOne.substring(2)));
              assert.equal(await this.convertPriceStringToDouble("1.2"), await this.convertPriceStringToDouble(rawTicketTwo.substring(2)));
              assert.equal(await this.convertPriceStringToDouble("0.75"), await this.convertPriceStringToDouble(rawTicketThree.substring(2)));
              assert.equal(await this.convertPriceStringToDouble("0.25"), await this.convertPriceStringToDouble(rawTicketFour.substring(2)));

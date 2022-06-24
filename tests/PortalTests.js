@@ -102,9 +102,9 @@
         let wordpress;
 
         let today = new Date();
-        let eventName = "6-23-17:57:32" // (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        //let base = Math.floor(100000 + Math.random() * 900000);
-        let base = 920750;
+        let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let base = Math.floor(100000 + Math.random() * 900000);
+        //let base = 219716;
         let ticketOneName = base.toString() +"T1";
         let ticketTwoName = base.toString() +"T2";
         let ticketThreeName = base.toString() +"T3";
@@ -114,10 +114,12 @@
         let promoTwoName = base.toString() +"PN2";
         let promoThreeName = base.toString() +"PN3";
         let promoFourName = base.toString() +"PNBOX";
+        let promoFiveName = base.toString() +"PN100";
         let promoCodeOne = base.toString() +"PC1";
         let promoCodeTwo = base.toString() +"PC2";
         let promoCodeThree = base.toString() +"PC3";
         let promoCodeFour = base.toString() +"PCBOX";
+        let promoCodeFive = base.toString() +"PC100";
         let ticketGroupOne = base.toString() +"TG1";
         let ticketGroupTwo = base.toString() +"TG2";
         let ticketGroupThree = base.toString() +"TG3";
@@ -133,7 +135,6 @@
         });
 
         afterEach(async function(){
-
             await driver.quit()
         })
 
@@ -253,7 +254,12 @@
             await promotions.addPromotionButtonIsVisible()
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.createPromotionForMultipleTicketsWithLimitationsWithPercentValue(ticketOneName, promoFourName, promoFourName);
+            await newPromotion.createPromotionForMultipleTicketsWithLimitationsWithPercentValue(ticketOneName, promoFourName, promoCodeFour);
+            await promotions.promotionsHeaderIsVisible();
+            await promotions.addPromotionButtonIsVisible()
+            await promotions.clickAddPromotionButton();
+            await newPromotion.addPromotionModalIsDisplayed();
+            await newPromotion.createPromotionWith100discountForAllTickets(ticketOneName, promoFiveName, promoCodeFive);
             await promotions.promotionsHeaderIsVisible();
             await eventOptionTabs.ticketingTabIsDisplayed();
             /*await eventOptionTabs.clickTicketingTab();
@@ -444,21 +450,21 @@
             await ticketsNav.createTicketsGroup(ticketGroupOne);
             await ticketsNav.successTicketGroupBannerIsDisplayed();
             await ticketsNav.createTicketsGroup(ticketGroupTwo);
+            await ticketsNav.clickGroupTabByIndex(2);
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
             await createTicket.createNewTicket(ticketTwoName,"10");
             await driver.sleep(5000);
             await ticketsNav.addTicketButtonIsDisplayed();
             await driver.sleep(5000);
-
             await ticketsNav.createdTicketIsInTheTable(ticketTwoName);
             await driver.sleep(5000);
-
             await ticketsNav.clickActivateTicketToggle(0);
             await ticketsNav.activateTicketModalIsDisplayed();
             await ticketsNav.confirmActivationButton();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.createTicketsGroup(ticketGroupThree);
+            await ticketsNav.clickGroupTabByIndex(3);
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
             await createTicket.createNewTicket(ticketThreeName,"15");
@@ -474,6 +480,7 @@
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.createdTicketIsInTheTable(ticketFourName);
             await ticketsNav.createTicketsGroup(ticketGroupFour);
+            await ticketsNav.clickGroupTabByIndex(4);
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
             await createTicket.createNewTicket(staffTicket,"25");
@@ -981,7 +988,7 @@
             await inbox.checkAdditionalEmailIsSend(base);
         });
 
-        it('Should add quantity and set new price', async function () {
+        /*it('Should add quantity and set new price', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             createEvent = new CreateEventModal(driver);
@@ -1034,7 +1041,7 @@
             await bosTickets.isOnBoxOfficePage();
             await bosTickets.isOnBoxOfficePage();
             await bosTickets.assertNewPriceAndQuantity();
-        });
+        });*/
 
         it('Should make purchase with promotion', async function () {
             portalLogin = new PortalLoginPage(driver);

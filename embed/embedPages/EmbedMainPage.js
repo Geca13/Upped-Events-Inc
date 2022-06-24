@@ -1,6 +1,7 @@
    /* const { Builder, By, until } = require('selenium-webdriver'); */
    const BasePage = require('../../BasePage');
    const IFRAME = { id: "uwWidget"}
+   const TERMS_CHECKBOX = { xpath: "//input[@type='checkbox']"}
    const NEXT_BUTTON = { xpath: "//*[text()='Next']"}
    const PREVIOUS_BUTTON = { xpath: "//*[text()=' Previous']"}
    const TICKETS_TERMS_BUTTON = { className: "terms-btn"}
@@ -19,14 +20,22 @@
 
       async openEmbedPage(){
          await this.visit('https://www.uppedevents.com/embed-testing-direct/');
+
       }
       async switchToIframe(){
          await this.switchToAnIframe(IFRAME);
       }
 
       async isInFrame(){
+         await this.driver.executeScript("document.body.style.transform='scale(0.8, 0.8)'");
          return await this.isDisplayed(EVENT_NAME,5000);
+
       }
+
+      async clickTicketTermsCheckbox(){
+         await this.click(TERMS_CHECKBOX)
+      }
+
 
       async nextButtonIsVisible(){
          await this.isDisplayed(EVENT_NAME,10);

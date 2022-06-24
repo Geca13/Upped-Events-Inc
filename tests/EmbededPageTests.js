@@ -32,6 +32,7 @@ describe('Embed', function (){
         confirm = new ConfirmPage(driver);
         await main.openEmbedPage();
         originalWindow =  driver.getWindowHandle();
+
         await main.switchToIframe();
         await main.isInFrame();
     });
@@ -43,6 +44,7 @@ describe('Embed', function (){
     it('opens embed component and makes a switch', async function (){
        await tickets.sentKeysToTicketInput(1, 2)
        await tickets.sentKeysToTicketInput(2, 2)
+       await main.nextButtonIsVisible();
        await main.clickNextPageButton();
        await login.isAtLoginPage();
        await driver.sleep(1000);
@@ -53,6 +55,7 @@ describe('Embed', function (){
        await driver.sleep(7000);
        await main.switchToIframe();
        await main.nextButtonIsVisible();
+       await main.clickTicketTermsCheckbox();
        await main.clickNextPageButton();
        await extras.isAtExtrasPage();
        await main.clickNextPageButton();
@@ -60,7 +63,6 @@ describe('Embed', function (){
        await payment.clickNewCardTab();
        await newCardComponent.isAtNewCardTab();
        await newCardComponent.fillNewCardWithValidData();
-       await newCardComponent.clickSaveCardCheckbox();
        await payment.clickPayWithCardButton();
        await confirm.isAtConfirmPage();
 

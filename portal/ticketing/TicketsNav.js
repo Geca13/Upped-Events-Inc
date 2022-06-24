@@ -17,6 +17,7 @@
     const CANCEL_TICKETS_GROUP_BUTTON = { xpath: "//i[@aria-hidden='true']" }
     const SOLD_TICKETS_NUMBER = { className: 'column-sold'} //list
     const TOAST_BANNER = { id:'toast-container' }
+    const TICKET_GROUP_TAB = { xpath: "//a[@role='tab']" }
 
 
 
@@ -53,12 +54,17 @@
             await this.click(TICKET_ACTIVATION_YES_BUTTON);
         }
         async createTicketsGroup(groupName){
+            await this.driver.sleep(1000);
             await this.click(ADD_TICKETS_GROUP_BUTTON);
             await this.isDisplayed(TICKETS_GROUP_NAME_INPUT,15000);
             await this.sentKeys(TICKETS_GROUP_NAME_INPUT, groupName);
             await this.click(SAVE_TICKETS_GROUP_BUTTON);
-            await this.driver.sleep(1000)
-            await this.locateElementByTextAndClick(groupName);
+            await this.driver.sleep(2000)
+            //await this.locateElementByTextAndClick(" " +groupName +" ");
+        }
+
+        async clickGroupTabByIndex(index){
+            await this.clickElementReturnedFromAnArray(TICKET_GROUP_TAB,index);
         }
 
         async clickAddTicketButton(){

@@ -1,10 +1,10 @@
     const BasePage = require('../../../BasePage');
-    const assert = require('assert')
+    const assert = require('assert');
+    const { Key, Keys} = require("selenium-webdriver");
     const CARDHOLDER_NAME = { xpath: "//input[@formcontrolname='name_on_card']" };
     const CARD_NUMBER = { xpath: "//input[@formcontrolname='card_no']" };
     const CVC = { xpath: "//input[@formcontrolname='cvc']" };
     const EXPIRATION = { xpath: "//input[@formcontrolname='expirationDate']" };
-    const APT = { xpath: "//input[@formcontrolname='aptNumber']" };
     const ADDRESS = { xpath: "//input[@formcontrolname='billingAddress']" };
     const COUNTRY = { xpath: "//select[@formcontrolname='country_id']" };
     const STATE = { xpath: "//select[@formcontrolname='state']" };
@@ -41,8 +41,7 @@
             await this.sentKeys(CARDHOLDER_NAME,base +" Geca");
             await this.sentKeys(CARD_NUMBER,"4111111111111111");
             await this.sentKeys(CVC,"900");
-            await this.sentKeys(EXPIRATION,"01012023");
-            await this.sentKeys(APT,"22");
+            await this.sentKeys(EXPIRATION,"August" + Key.TAB + "2025");
             await this.sentKeys(ADDRESS,"Main Street " + base);
             await this.sentKeys(ZIP,"90009");
             await this.sentKeys(FIRST_NAME,base);

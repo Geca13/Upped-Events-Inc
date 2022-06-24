@@ -1,6 +1,6 @@
-const {By, Key, Keys} = require("selenium-webdriver");
-const until = require('selenium-webdriver').until;
-const WebElement = require('selenium-webdriver').WebElement
+    const {By, Key, Keys} = require("selenium-webdriver");
+    const until = require('selenium-webdriver').until;
+    const WebElement = require('selenium-webdriver').WebElement
 
 
     class BasePage {
@@ -61,7 +61,7 @@ const WebElement = require('selenium-webdriver').WebElement
 
     async locateElementByTextAndClick(text){
          let element = await this.driver.findElement(By.xpath("//*[text()='"+text+"']"));
-         await this.moveToElementWithElement(element);
+         //await this.moveToElementWithElement(element);
          await element.click();
     }
 
@@ -275,6 +275,11 @@ const WebElement = require('selenium-webdriver').WebElement
          let element = await this.find(locator);
          await actions.move({duration:2500,origin:element,x:horizontal,y:vertical}).press().release().perform();
          await actions.doubleClick(element);
+    }
+    async moveAwayFromElementLocation(locator, horizontal, vertical) {
+         const actions = this.driver.actions();
+         let element = await this.find(locator);
+         await actions.move({duration:2500,origin:element,x:horizontal,y:vertical}).perform();
     }
     async moveToElementWithElement(element) {
          const actions = this.driver.actions({bridge: true});

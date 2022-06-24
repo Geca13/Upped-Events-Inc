@@ -29,7 +29,7 @@
         async selectTwoTickets(){
             await this.isOnBoxOfficePage();
             await this.driver.sleep(1000);
-            await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,5,"2");
+            await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,3,"2");
             await this.click(SAVE_BUTTON);
         }
 
