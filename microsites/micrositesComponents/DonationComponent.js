@@ -42,6 +42,7 @@
         }
         async clickAddDonationToOrderButton(){
             await this.click(ADD_DONATION_BUTTON);
+            await this.driver.sleep(500);
         }
         async clickResetDonationButton(){
             await this.click(RESET_DONATION_BUTTON);
@@ -52,9 +53,10 @@
             await this.driver.sleep(500);
             await input.sendKeys(donation);
         }
-        async inputHasValueOf(donationAmount){
-            await this.isDisplayed(By.xpath("//input[@ng-reflect-model='"+donationAmount+"'"),5000);
+        async inputHasDonationAdded(){
+           return await this.getEnteredTextInTheInput(DONATION_INPUT)
         }
+
 
 
         async makeCustom$Donations(){

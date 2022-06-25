@@ -87,6 +87,11 @@
         let input =  await this.find(locator);
         return await input.getAttribute("value");
     }
+    async getEnteredTextInTheInputByIndex(locator, index){
+        let inputs =  await this.findAll(locator);
+        let input = inputs[index];
+        return await input.getAttribute("value");
+    }
 
     async getTextValueFromElementOfArray(locator, index){
        let inputs =  await this.findAll(locator);
@@ -170,6 +175,11 @@
     async getSubstringOfPriceString(locator,parentIndex, childIndex){
         let result = await this.getChildByIndex(locator,parentIndex, childIndex);
         return result.substring(1);
+    }
+
+    async getSubstringOfPriceStringWithStartAndEndIndex(locator,parentIndex, childIndex,startIndex, endIndex){
+        let result = await this.getChildByIndex(locator,parentIndex, childIndex);
+        return result.substring(startIndex,endIndex);
     }
 
     async getSubstringOfBracketedPriceString(locator,index){

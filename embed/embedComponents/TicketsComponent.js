@@ -1,5 +1,6 @@
     const BasePage = require("../../BasePage");
-    const TICKET_SELECT = { tagName: 'select'}
+    const assert = require('assert')
+    const TICKET_SELECT = { tagName: 'select'};
 
     class TicketsComponent extends BasePage {
         constructor(driver) {
@@ -10,11 +11,16 @@
             let input = await this.getElementFromAnArrayByIndex(TICKET_SELECT, index);
             await input.sendKeys(quantity);
         }
-        async zoomOut(){
-            await this.driver.sleep(5000);
-            await this.zoomOutWindow(TICKET_SELECT);
-            await this.driver.sleep(500);
-            await this.zoomOutWindow(TICKET_SELECT);
+        async confirmEnteredValuesBeforeLogin(){
+            let firstSelectValue = this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 0);
+            let secondSelectValue = this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 1);
+            let thirdSelectValue = this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 2);
+            let fourthSelectValue = this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 3);
+            assert.equal(firstSelectValue,0);
+            assert.equal(secondSelectValue,2);
+            assert.equal(thirdSelectValue,2);
+            assert.equal(thirdSelectValue,0);
+
 
         }
 

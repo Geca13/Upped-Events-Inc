@@ -1,13 +1,16 @@
 const BasePage = require('../../BasePage');
-const FACEBOOK_SHARE_BUTTON = { xpath: "//*[text()='Share on Facebook']"}
-const BACK_TO_START_BUTTON = { xpath: "//*[text()=' Back to Start ']"}
+const VIEW_RECEIPT_BUTTON = { xpath: "//*[text()='View Receipt']"}
+const DONE_BUTTON = { xpath: "//*[text()='Done']"}
 
 class ConfirmPage extends BasePage {
     constructor(driver) {
         super(driver);
     }
     async isAtConfirmPage(){
-        await this.isDisplayed(FACEBOOK_SHARE_BUTTON,60000)
+        await this.isDisplayed(VIEW_RECEIPT_BUTTON,60000)
+    }
+    async goBackToStartPage(){
+        await this.click(DONE_BUTTON)
     }
 }
     module.exports = ConfirmPage;
