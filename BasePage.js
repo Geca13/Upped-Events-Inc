@@ -319,6 +319,11 @@
           }
     }
 
+    async elementIsEnabled(locator){
+         let element = await this.find(locator);
+         return element.isEnabled();
+    }
+
     async isDisplayed(locator,timeout) {
           if (timeout){
               await this.driver.wait(until.elementLocated(locator), timeout)

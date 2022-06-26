@@ -1,5 +1,7 @@
     const BasePage = require('../../../BasePage');
     const assert = require('assert')
+    const { expect } = require('chai');
+
     const ORDER_DETAILS_BOX = { id: "Orderdetail" };
     const NEXT_BUTTON = { xpath: "//button[text()='Next']" }
     const PROMO_INPUT = { xpath: "//div[@name='promoCode']//input" }
@@ -9,6 +11,7 @@
     const TICKETS_NAME_PARENT = {  className:"justify-content-between"} //list
     const SUBTOTAL = { className: "sub-total"};
     const TOTAL = { className: "total-due-amount"};
+    const VALUES = { className: "w-7" };
 
 
 
@@ -27,7 +30,6 @@
             await this.sentKeys(PROMO_INPUT,promoCode);
             await this.click(APPLY_BUTTON);
             await this.isDisplayed(APPLIED_PROMOTION_DIV,5000);
-            await this.click(NEXT_BUTTON);
         }
         async addWrongPromoCode(){
             await this.sentKeys(PROMO_INPUT,"FgRgR1");
@@ -81,6 +83,36 @@
             let rawTotal = await this.getElementText(TOTAL);
             let total = await this.convertPriceStringToDouble(rawTotal.substring(2));
             assert.equal(calculatedTotal.toFixed(2),total)
+        }
+
+        async confirmAllValuesAreZeroesAfter100PercentPromotionAndConfirmCompletion(promoCode){
+            let beforeRawSubTotal = await this.getElementText(SUBTOTAL);
+            let beforeSubtotal = await this.convertPriceStringToDouble(beforeRawSubTotal.substring(2));
+            let beforeRawTaxes = await this.getElementTextFromAnArrayByIndex(VALUES, 7);
+            let beforeRawFees = await this.getElementTextFromAnArrayByIndex(VALUES, 8);
+            let beforeTaxes = await this.convertPriceStringToDouble(beforeRawTaxes.substring(2));
+            let beforeFees = await this.convertPriceStringToDouble(beforeRawFees.substring(2));
+            let beforeRawDonation = await this.getElementTextFromAnArrayByIndex(VALUES, 10);
+            let beforeDonation = await this.convertPriceStringToDouble(beforeRawDonation.substring(2));
+            assert.notEqual(0.00, beforeSubtotal);
+            assert.notEqual(0.00, beforeTaxes);
+            assert.notEqual(0.00, beforeFees);
+            assert.equal(0.00,beforeDonation);
+            await this.addPromotionToTickets(promoCode);
+            let afterRawSubTotal = await this.getElementText(SUBTOTAL);
+            let afterSubtotal = await this.convertPriceStringToDouble(afterRawSubTotal.substring(2));
+            let afterRawTaxes = await this.getElementTextFromAnArrayByIndex(VALUES, 7);
+            let afterRawFees = await this.getElementTextFromAnArrayByIndex(VALUES, 8);
+            let afterTaxes = await this.convertPriceStringToDouble(afterRawTaxes.substring(2));
+            let afterFees = await this.convertPriceStringToDouble(afterRawFees.substring(2));
+            let afterRawDonation = await this.getElementTextFromAnArrayByIndex(VALUES, 10);
+            let afterDonation = await this.convertPriceStringToDouble(afterRawDonation.substring(2));
+            assert.equal(0.00, afterSubtotal);
+            assert.equal(0.00, afterTaxes);
+            assert.equal(0.00, afterFees);
+            assert.equal(beforeSubtotal, afterDonation);
+            assert.notEqual(0.00,afterDonation);
+
         }
 
 

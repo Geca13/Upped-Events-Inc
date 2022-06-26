@@ -1,5 +1,6 @@
     const BasePage = require('../../../BasePage');
     const assert = require('assert');
+    const { expect } = require('chai');
     const { Key, Keys} = require("selenium-webdriver");
     const CARDHOLDER_NAME = { xpath: "//input[@formcontrolname='name_on_card']" };
     const CARD_NUMBER = { xpath: "//input[@formcontrolname='card_no']" };
@@ -23,6 +24,7 @@
     const MESSAGE_ON_CONFIRM_MODAL = { className: "main-message" }
     const EMAILS_ON_CONFIRM_MODAL = { className: "single-email" } //list
     const CHECKBOX = { xpath: "//input[@type='checkbox']" } //list
+    const CARD_FORM = { id: "cardForm"}
 
 
 
@@ -33,7 +35,7 @@
         }
 
         async isOnReviewPage(){
-            await this.isDisplayed(CARDHOLDER_NAME, 5000);
+            await this.isDisplayed(PLACE_ORDER_BUTTON, 5000);
         }
 
         async makePayment(base){
@@ -44,6 +46,42 @@
             await this.sentKeys(EXPIRATION,"August" + Key.TAB + "2025");
             await this.sentKeys(ADDRESS,"Main Street " + base);
             await this.sentKeys(ZIP,"90009");
+            await this.fillUserData(base)
+            await this.click(PLACE_ORDER_BUTTON);
+            await this.isDisplayed(CONFIRMATION_MODAL,55000);
+            await this.driver.sleep(1000);
+            await this.confirmElementsForPayment(base);
+            await this.driver.sleep(1000);
+        }
+        async confirmElementsForPayment(base){
+            let header = await this.getElementText(SUCCESS_ON_CONFIRM_MODAL);
+            assert.equal("Sent!", header);
+            let message = await this.getElementText(MESSAGE_ON_CONFIRM_MODAL);
+            assert.equal("A copy of the receipt and tickets have been sent to:", message);
+            let customerEmail = await this.getElementTextFromAnArrayByIndex(EMAILS_ON_CONFIRM_MODAL,0);
+            let additionalEmail = await this.getElementTextFromAnArrayByIndex(EMAILS_ON_CONFIRM_MODAL,1);
+            assert.equal("1. " + base+'@'+base+".mk",  customerEmail);
+            assert.equal("2. " + base+'ad@ad'+base+".mk",  additionalEmail);
+        }
+        async paymentWith100DiscountAndDisabledForm(base){
+            await this.isOnReviewPage();
+            expect(await this.elementIsEnabled(CARDHOLDER_NAME)).to.be.false;
+            expect(await this.elementIsEnabled(CARD_NUMBER)).to.be.false;
+            expect(await this.elementIsEnabled(CVC)).to.be.false;
+            expect(await this.elementIsEnabled(EXPIRATION)).to.be.false;
+            expect(await this.elementIsEnabled(ADDRESS)).to.be.false;
+            expect(await this.elementIsEnabled(ZIP)).to.be.false;
+            expect(await this.elementIsEnabled(COUNTRY)).to.be.false;
+            expect(await this.elementIsEnabled(STATE)).to.be.false;
+            await this.fillUserData(base);
+            await this.click(PLACE_ORDER_BUTTON);
+            await this.isDisplayed(CONFIRMATION_MODAL,55000);
+            await this.driver.sleep(1000);
+            await this.confirmElementsForPayment(base);
+            await this.driver.sleep(1000);
+        }
+
+        async fillUserData(base) {
             await this.sentKeys(FIRST_NAME,base);
             await this.sentKeys(LAST_NAME,base);
             await this.sentKeys(BIRTH_DATE,"01012000");
@@ -53,22 +91,7 @@
             await this.click(ADD_BUTTON);
             await this.isDisplayed(ADDITIONAL_EMAIL_BADGE,5000);
             await this.driver.sleep(1000);
-            await this.click(PLACE_ORDER_BUTTON);
-            await this.isDisplayed(CONFIRMATION_MODAL,55000);
-            await this.driver.sleep(1000);
-            await this.confirmElementsForSecondPayment(base);
-            await this.driver.sleep(1000);
-        }
-        async confirmElementsForSecondPayment(base){
-            //let ownerEmail = await this.getElementTextFromAnArrayByIndex(EMAILS_ON_CONFIRM_MODAL,0);
-            let header = await this.getElementText(SUCCESS_ON_CONFIRM_MODAL);
-            assert.equal("Sent!", header);
-            let message = await this.getElementText(MESSAGE_ON_CONFIRM_MODAL);
-            assert.equal("A copy of the receipt and tickets have been sent to:", message);
-            let customerEmail = await this.getElementTextFromAnArrayByIndex(EMAILS_ON_CONFIRM_MODAL,0);
-            let additionalEmail = await this.getElementTextFromAnArrayByIndex(EMAILS_ON_CONFIRM_MODAL,1);
-            assert.equal("1. " + base+'@'+base+".mk",  customerEmail);
-            assert.equal("2. " + base+'ad@ad'+base+".mk",  additionalEmail);
+
         }
     }
     module.exports = BOReviewAndPay;
