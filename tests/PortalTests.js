@@ -102,9 +102,9 @@
         let wordpress;
 
         let today = new Date();
-        let eventName = "6-26-1:4:49" // (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        //let base = Math.floor(100000 + Math.random() * 900000);
-        let base = 932033;
+        let eventName =  (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let base = Math.floor(100000 + Math.random() * 900000);
+        //let base = 932033;
         let ticketOneName = base.toString() +"T1";
         let ticketTwoName = base.toString() +"T2";
         let ticketThreeName = base.toString() +"T3";
@@ -132,6 +132,7 @@
         beforeEach(async function(){
             driver = await new Builder().forBrowser('chrome').build();
             await driver.manage().window().maximize();
+
         });
 
         afterEach(async function(){
@@ -276,7 +277,7 @@
             await login.waitPopupToBeLoaded();
             await login.authenticate("parma5555@parma.it", "Pero1234")
             await events.successMessagePresent();
-            await driver.sleep(15000);
+            await driver.sleep(75000);
             await events.eventCardIsAvailableToClick();
             //await driver.sleep(10000);
             await events.clickNewEvent(eventName);

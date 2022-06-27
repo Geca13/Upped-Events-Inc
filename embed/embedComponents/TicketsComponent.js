@@ -12,14 +12,14 @@
             await input.sendKeys(quantity);
         }
         async confirmEnteredValuesBeforeLogin(){
-            let firstSelectValue = this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 0);
+            //let firstSelectValue = this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 0);
             let secondSelectValue = this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 1);
             let thirdSelectValue = this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 2);
             let fourthSelectValue = this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 3);
-            assert.equal(firstSelectValue,0);
-            assert.equal(secondSelectValue,2);
+            //assert.equal(firstSelectValue,0);
+            assert.equal(secondSelectValue,1);
             assert.equal(thirdSelectValue,2);
-            assert.equal(thirdSelectValue,0);
+            assert.equal(fourthSelectValue,0);
 
 
         }

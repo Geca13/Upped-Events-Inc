@@ -85,7 +85,7 @@ describe('Embed', function (){
     });
 
     it('Should login with facebook and make a donation and purchase with saved card', async function (){
-        await tickets.sentKeysToTicketInput(1, 2)
+        await tickets.sentKeysToTicketInput(1, 1)
         await tickets.sentKeysToTicketInput(2, 2)
         await main.nextButtonIsVisible();
         await main.clickNextPageButton();

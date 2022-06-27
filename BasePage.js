@@ -125,6 +125,13 @@
         return await children[childIndex].getText();
     }
 
+    async sentKeysToChildByIndexAndParentIndex(locator, parentIndex, childIndex, keys) {
+        let parent = await this.findAll(locator);
+        let children = await parent[parentIndex].findElements(By.xpath("./child::*"));
+        return await children[childIndex].sendKeys(keys);
+    }
+
+
     async findChildByIndexFromPrecedingSibling(locator){
         let knownSibling = await this.find(locator);
         let sibling = await knownSibling.findElement(By.xpath("./preceding-sibling::label"));
