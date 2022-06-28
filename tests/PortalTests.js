@@ -17,6 +17,7 @@
     const SettingsNav = require('../portal/ticketing/SettingsNav/SetingsNav');
     const EventSettingsNav = require('../portal/eventOverview/SettingsNav/SettingsNavs');
     const TaxesAndFeesPage = require('../portal/ticketing/SettingsNav/TaxesAndFeesPage');
+    const TicketQuestionsPage = require('../portal/ticketing/SettingsNav/TicketQuestionsPage')
     const TicketTermsPage = require('../portal/ticketing/SettingsNav/TicketTermsPage');
     const EventsPage = require('../microsites/micrositesPages/EventsPage');
     const LoginComponent = require('../microsites/micrositesComponents/LoginComponent');
@@ -99,6 +100,7 @@
         let bosExtras;
         let bosDetails;
         let bosReview;
+        let questions;
         let wordpress;
 
         let today = new Date();
@@ -615,6 +617,38 @@
              await info.clickActivitiesTab();
              await activityTab.verifyElementsOnActivitiesTab();
          });
+
+        it('Should set ticket questions', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            settingsNav = new SettingsNav(driver);
+            taxesAndFees = new TaxesAndFeesPage(driver);
+            events = new EventsPage(driver);
+            info = new EventInfo(driver);
+            ticketing = new TicketingPage(driver);
+            questions = new TicketQuestionsPage(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(10000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(5000);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await eventOptionTabs.clickSettingsNav();
+            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await settingsNav.clickTicketQuestions();
+            await questions.createSimpleYesNoQuestion(base);
+        });
 
         it('Should check for taxes and fees names and values in portal and microsites', async function (){
 
