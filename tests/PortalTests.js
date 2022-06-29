@@ -25,6 +25,7 @@
     const TicketingPage = require('../microsites/micrositesPages/TicketingPage');
     const TicketsTab = require('../microsites/micrositesComponents/TicketsTab');
     const ExtrasTab = require('../microsites/micrositesComponents/ExtrasTab');
+    const TicketQuestionsModal = require('../microsites/micrositesComponents/TicketQuestionsModal')
     const PayTab = require('../microsites/micrositesComponents/PayTab');
     const ConfirmTab = require('../microsites/micrositesComponents/ConfirmTab');
     const NewCardComponent = require('../microsites/micrositesComponents/NewCardComponent');
@@ -102,6 +103,7 @@
         let bosReview;
         let questions;
         let wordpress;
+        let questionsModal;
 
         let today = new Date();
         let eventName =  (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -618,18 +620,21 @@
              await activityTab.verifyElementsOnActivitiesTab();
          });
 
-        it('Should set ticket questions', async function () {
+        it('Should set ticket question', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventOptionTabs = new EventOptionTabs(driver);
             eventDetails = new GeneralDetailsTab(driver);
             settingsNav = new SettingsNav(driver);
-            taxesAndFees = new TaxesAndFeesPage(driver);
             events = new EventsPage(driver);
             info = new EventInfo(driver);
             ticketing = new TicketingPage(driver);
+            extras = new ExtrasTab(driver);
+            pay = new PayTab(driver);
+            confirm = new ConfirmTab(driver);
             questions = new TicketQuestionsPage(driver);
+            questionsModal = new TicketQuestionsModal(driver);
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
@@ -648,6 +653,31 @@
             await settingsNav.taxesAndFeesSubTabIsDisplayed();
             await settingsNav.clickTicketQuestions();
             await questions.createSimpleYesNoQuestion(base);
+            await events.load();
+            await events.clickSignInButton();
+            await login.waitPopupToBeLoaded();
+            await login.authenticate("parma5555@parma.it", "Pero1234")
+            await events.successMessagePresent();
+            await events.eventCardIsAvailableToClick();
+            await driver.sleep(10000);
+            await events.clickNewEvent(eventName);
+            await info.buyTicketsButtonPresent();
+            await info.clickBuyTicketsButton();
+            await ticketing.nextButtonPresent();
+            await tickets.clickFirstIncreaseButton();
+            await driver.sleep(2000)
+            await ticketing.clickNextButton();
+            await extras.addMoneyTabIsDisplayed();
+            await extras.clickDonateTab();
+            await extras.donateTabIsDisplayed();
+            await extras.make$20Donation();
+            await ticketing.clickNextButton();
+            await pay.savedCardsHeaderIsPresent();
+            await pay.clickFirstCard();
+            await pay.clickPayWithCardButton();
+            // here goes checking the ticket questions
+            await questionsModal.answerSimpleYesNo(base,ticketOneName);
+            await confirm.isOnConfirmTab();
         });
 
         it('Should check for taxes and fees names and values in portal and microsites', async function (){
