@@ -32,11 +32,31 @@
               await this.sentKeys(RESPONSE_INPUT, base + " FANTA");
               await this.click(ADD_NEW_RESPONSE_OPTION);
               await this.sendKeysToElementReturnedFromAnArray(RESPONSE_INPUT, 1, base + " COCA COLA")
-              await this.click(PER_ELIGIBLE_TICKET);
+              //await this.click(PER_ELIGIBLE_TICKET);
               await this.click(SELECT_NO_ANSWERS);
               await this.isDisplayed(SELECT_NO_ANSWERS_OPTIONS,5000);
               await this.clickElementReturnedFromAnArray(SELECT_NO_ANSWERS_OPTIONS,0);
               await this.click(CREATE_BUTTON);
           }
+
+          async createQuestionWithTextInput(base){
+              await this.isDisplayed(TITLE_INPUT, 5000);
+              await this.sentKeys(TITLE_INPUT, base + " Attendee Age");
+              await this.click(TICKETS_SELECT);
+              await this.isDisplayed(TICKETS_LIST, 5000);
+              await this.clickElementReturnedFromAnArray(TICKETS_LIST,0);
+              await this.click(TITLE_INPUT);
+              await this.sentKeys(QUESTION, base + " What is your Age?");
+              await this.sentKeys(RESPONSE_INPUT, base + " Under 18");
+              await this.clickElementReturnedFromAnArray(CHECKBOXES,3);
+              await this.click(ADD_NEW_RESPONSE_OPTION);
+              await this.sendKeysToElementReturnedFromAnArray(RESPONSE_INPUT, 1, base + " 18 and Over")
+              await this.clickElementReturnedFromAnArray(CHECKBOXES,5);
+              await this.click(PER_ELIGIBLE_TICKET);
+              await this.click(SELECT_NO_ANSWERS);
+              await this.isDisplayed(SELECT_NO_ANSWERS_OPTIONS,5000);
+              await this.clickElementReturnedFromAnArray(SELECT_NO_ANSWERS_OPTIONS,0);
+              await this.click(CREATE_BUTTON);
+        }
     }
     module.exports = CreateTicketQuestionModal;

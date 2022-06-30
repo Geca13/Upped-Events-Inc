@@ -21,5 +21,14 @@
             assert.equal(question, base + " Yes & No question");
         }
 
+        async createQuestionWithInput(base){
+            await this.isOnTicketQuestionsPage();
+            let createQuestionModal = new CreateTicketQuestionPage(this.driver);
+            await createQuestionModal.createQuestionWithTextInput(base);
+            await this.isDisplayed(SAVED_QUESTION, 5000);
+            let question = this.getTextFromElementOfArray(SAVED_QUESTION,1);
+            assert.equal(question, base + " Yes & No question");
+        }
+
     }
     module.exports = TicketQuestionsPage;
