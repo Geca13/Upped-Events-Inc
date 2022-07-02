@@ -26,6 +26,13 @@
             await this.isDisplayed(COLUMN_SELECTS,5000);
         }
 
+        async selectTicketByIndexAndSendQuantity(index, quantity){
+            await this.isOnBoxOfficePage();
+            await this.driver.sleep(1000);
+            await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,index,quantity);
+            await this.click(SAVE_BUTTON);
+        }
+
         async selectTwoTickets(){
             await this.isOnBoxOfficePage();
             await this.driver.sleep(1000);

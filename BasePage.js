@@ -55,6 +55,11 @@
         return this.driver.findElements(locator);
     }
 
+    async returnElementsCount(locator){
+      let elements =  await this.findAll(locator);
+      return elements.length
+    }
+
     async click(locator) {
         await this.find(locator).click()
     }

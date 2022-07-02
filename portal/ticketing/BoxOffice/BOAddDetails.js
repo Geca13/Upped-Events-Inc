@@ -1,7 +1,8 @@
     const BasePage = require('../../../BasePage');
     const assert = require('assert')
     const { expect } = require('chai');
-
+    const QUESTION_TITLES = { className: "inner-heading"};
+    const QUESTIONS = { className: "questions"};
     const ORDER_DETAILS_BOX = { id: "Orderdetail" };
     const NEXT_BUTTON = { xpath: "//button[text()='Next']" }
     const PROMO_INPUT = { xpath: "//div[@name='promoCode']//input" }
@@ -12,6 +13,8 @@
     const SUBTOTAL = { className: "sub-total"};
     const TOTAL = { className: "total-due-amount"};
     const VALUES = { className: "w-7" };
+    const QUESTIONS_ROUND_CHECKBOXES = { xpath: "//div[contains(@class, 'round')]//label"}
+    const QUESTION_INPUTS = { tagName: "textarea"}
 
 
 
@@ -22,6 +25,7 @@
         async isOnDetailsPage(){
             await this.isDisplayed(ORDER_DETAILS_BOX,5000);
         }
+
         async continueToPayment(){
             await this.isOnDetailsPage();
             await this.click(NEXT_BUTTON);
@@ -113,6 +117,29 @@
             assert.equal(beforeSubtotal, afterDonation);
             assert.notEqual(0.00,afterDonation);
 
+        }
+
+        async checkForNumberOfCheckBoxes(count){
+            let checkboxes = await this.returnElementsCount(QUESTIONS_ROUND_CHECKBOXES);
+            assert.equal(count, checkboxes);
+        }
+        async checkForNumberOfTextInputs(count){
+            let inputs = await this.returnElementsCount(QUESTION_INPUTS);
+            assert.equal(count, inputs);
+        }
+        async checkForNumberOfQuestions(count){
+            let questions = await this.returnElementsCount(QUESTIONS);
+            assert.equal(count, questions);
+        }
+        async checkForNumberOfQuestionTitles(count){
+            let titles = await this.returnElementsCount(QUESTION_TITLES);
+            assert.equal(count, titles);
+        }
+        async checkQuestionForm(checkboxes, inputs,questions, titles){
+            await this.checkForNumberOfCheckBoxes(checkboxes);
+            await this.checkForNumberOfTextInputs(inputs);
+            await this.checkForNumberOfQuestions(questions);
+            await this.checkForNumberOfQuestionTitles(titles);
         }
 
 
