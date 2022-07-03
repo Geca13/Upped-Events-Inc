@@ -15,6 +15,7 @@
     const VALUES = { className: "w-7" };
     const QUESTIONS_ROUND_CHECKBOXES = { xpath: "//div[contains(@class, 'round')]//label"}
     const QUESTION_INPUTS = { tagName: "textarea"}
+    const RESPONSE_RADIO_TEXT = { className: "text-title"}
 
 
 
@@ -135,11 +136,24 @@
             let titles = await this.returnElementsCount(QUESTION_TITLES);
             assert.equal(count, titles);
         }
-        async checkQuestionForm(checkboxes, inputs,questions, titles){
+        async checkForNumberOfDisplayedOptionLabels(count){
+            let labels = await this.returnElementsCount(RESPONSE_RADIO_TEXT);
+            assert.equal(count, labels);
+        }
+        async checkQuestionForm(checkboxes, inputs,questions, titles, labels){
             await this.checkForNumberOfCheckBoxes(checkboxes);
             await this.checkForNumberOfTextInputs(inputs);
             await this.checkForNumberOfQuestions(questions);
             await this.checkForNumberOfQuestionTitles(titles);
+            await this.checkForNumberOfDisplayedOptionLabels(labels)
+        }
+        async checkForTitleNameByIndex(index,titleName){
+            let title = this.getElementTextFromAnArrayByIndex(QUESTION_TITLES,index);
+            assert.equal(title, titleName);
+        }
+        async checkForQuestionByIndex(index,question){
+            let q = this.getElementTextFromAnArrayByIndex(QUESTIONS,index);
+            assert.equal(q, question);
         }
 
 

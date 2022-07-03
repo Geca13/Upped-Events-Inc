@@ -1353,7 +1353,11 @@
             await bosTickets.isOnBoxOfficePage();
             await bosTickets.selectTicketByIndexAndSendQuantity(0, "1");
             await bosExtras.add20$ToOrderOnExtrasPage();
-            await bosDetails.checkQuestionForm(4, 2, 2, 2);
+            await bosDetails.checkQuestionForm(4, 2, 2, 2, 4);
+            await bosDetails.checkForTitleNameByIndex(0, base + " Yes & No question");
+            await bosDetails.checkForTitleNameByIndex(1, base + " Attendee Age");
+            await bosDetails.checkForQuestionByIndex(1, base + " What is your Age?");
+            await bosDetails.checkForQuestionByIndex(0, base + " What do you prefer?");
             await bosDetails.continueToPayment();
             await bosReview.makePayment(base);
 

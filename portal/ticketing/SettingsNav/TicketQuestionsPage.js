@@ -37,7 +37,7 @@
             await createQuestionModal.createQuestionWithTextInput(base);
             await this.isDisplayed(SAVED_QUESTION, 5000);
             let question = this.getTextFromElementOfArray(SAVED_QUESTION,1);
-            assert.equal(question, base + " Yes & No question");
+            assert.equal(question, base + " Attendee Age");
         }
 
     }
