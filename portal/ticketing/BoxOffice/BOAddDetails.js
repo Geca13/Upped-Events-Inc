@@ -140,6 +140,10 @@
             let labels = await this.returnElementsCount(RESPONSE_RADIO_TEXT);
             assert.equal(count, labels);
         }
+        async checkForOptionsLabelByIndex(index,label){
+            let l = this.getElementTextFromAnArrayByIndex(RESPONSE_RADIO_TEXT,index);
+            assert.equal(l, label);
+        }
         async checkQuestionForm(checkboxes, inputs,questions, titles, labels){
             await this.checkForNumberOfCheckBoxes(checkboxes);
             await this.checkForNumberOfTextInputs(inputs);
@@ -154,6 +158,12 @@
         async checkForQuestionByIndex(index,question){
             let q = this.getElementTextFromAnArrayByIndex(QUESTIONS,index);
             assert.equal(q, question);
+        }
+
+        async answerFirstScenario(){
+            await this.clickAllElementsReturnedFromArray(QUESTIONS_ROUND_CHECKBOXES, 0);
+            await this.clickAllElementsReturnedFromArray(QUESTIONS_ROUND_CHECKBOXES, 3);
+            await this.sendKeysToElementReturnedFromAnArray(QUESTION_INPUTS, 1, "38");
         }
 
 

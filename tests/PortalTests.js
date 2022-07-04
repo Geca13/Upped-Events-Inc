@@ -1358,6 +1358,11 @@
             await bosDetails.checkForTitleNameByIndex(1, base + " Attendee Age");
             await bosDetails.checkForQuestionByIndex(1, base + " What is your Age?");
             await bosDetails.checkForQuestionByIndex(0, base + " What do you prefer?");
+            await bosDetails.checkForOptionsLabelByIndex(0, base + " FANTA");
+            await bosDetails.checkForOptionsLabelByIndex(1, base + " COCA COLA")
+            await bosDetails.checkForOptionsLabelByIndex(2, base + " Under 18");
+            await bosDetails.checkForOptionsLabelByIndex(3, base + " 18 and Over");
+            await bosDetails.answerFirstScenario();
             await bosDetails.continueToPayment();
             await bosReview.makePayment(base);
 
