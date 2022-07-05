@@ -90,22 +90,24 @@
 
     async getEnteredTextInTheInput(locator){
         let input =  await this.find(locator);
-        return await input.getAttribute("value");
+        return input.getAttribute("value");
     }
     async getEnteredTextInTheInputByIndex(locator, index){
         let inputs =  await this.findAll(locator);
         let input = inputs[index];
-        return await input.getAttribute("value");
+        return input.getAttribute("value");
     }
 
     async getTextValueFromElementOfArray(locator, index){
        let inputs =  await this.findAll(locator);
-       return await inputs[index].getAttribute("value");
+       return inputs[index].getAttribute("value");
     }
     async getTextFromElementOfArray(locator, index){
         let elements =  await this.findAll(locator);
         return await elements[index].getText();
     }
+
+
 
     async clearInputField(locator){
         let element = await this.find(locator);

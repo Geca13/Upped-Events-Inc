@@ -106,9 +106,9 @@
         let questionsModal;
 
         let today = new Date();
-        let eventName =  (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        let base = Math.floor(100000 + Math.random() * 900000);
-        //let base = 932033;
+        let eventName = "7-4-16:13:24" //(today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        //let base = Math.floor(100000 + Math.random() * 900000);
+        let base = 196755;
         let ticketOneName = base.toString() +"T1";
         let ticketTwoName = base.toString() +"T2";
         let ticketThreeName = base.toString() +"T3";
@@ -944,8 +944,6 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventDetails.clickUnpublishButton();
-            await eventDetails.publishButtonIsDisplayed();
             await eventOptionTabs.clickTransactionCenterTab();
             await eventOrders.isAtTransactionCenterPage();
             await eventOrders.makeFullRefundWithReinstateTicket();
@@ -1086,7 +1084,7 @@
 
         });
 
-        it('Should make purchase with 100 percent promotion', async function () {
+        it('Should make purchase with 100 percent promotion in box-office', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             createEvent = new CreateEventModal(driver);
@@ -1205,6 +1203,7 @@
             eventDetails = new GeneralDetailsTab(driver);
             settingsNav = new SettingsNav(driver);
             events = new EventsPage(driver);
+            login = new LoginComponent(driver);
             info = new EventInfo(driver);
             ticketing = new TicketingPage(driver);
             extras = new ExtrasTab(driver);
@@ -1212,6 +1211,7 @@
             confirm = new ConfirmTab(driver);
             questions = new TicketQuestionsPage(driver);
             questionsModal = new TicketQuestionsModal(driver);
+            tickets = new TicketsTab(driver);
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
@@ -1219,10 +1219,8 @@
             await dashboard.isAtDashboardPage();
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
-            await driver.sleep(10000);
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await driver.sleep(5000);
             await eventDetails.unpublishButtonIsDisplayed();
             await eventOptionTabs.ticketingTabIsDisplayed();
             await eventOptionTabs.clickTicketingTab();
@@ -1252,7 +1250,6 @@
             await pay.savedCardsHeaderIsPresent();
             await pay.clickFirstCard();
             await pay.clickPayWithCardButton();
-            // here goes checking the ticket questions
             await questionsModal.answerSimpleYesNo(base,ticketOneName);
             await confirm.isOnConfirmTab();
         });
@@ -1265,8 +1262,10 @@
             eventDetails = new GeneralDetailsTab(driver);
             settingsNav = new SettingsNav(driver);
             events = new EventsPage(driver);
+            login = new LoginComponent(driver);
             info = new EventInfo(driver);
             ticketing = new TicketingPage(driver);
+            tickets = new TicketsTab(driver);
             extras = new ExtrasTab(driver);
             pay = new PayTab(driver);
             confirm = new ConfirmTab(driver);
@@ -1326,6 +1325,7 @@
             eventOptionTabs = new EventOptionTabs(driver);
             ticketsNav = new TicketsNav(driver);
             eventTickets = new EventTickets(driver)
+            settingsNav = new SettingsNav(driver);
             questions = new TicketQuestionsPage(driver);
             bosTickets = new BOSelectTickets(driver);
             bosExtras = new BOAddExtras(driver);
@@ -1341,6 +1341,9 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await driver.sleep(2000);
+            await eventDetails.unpublishButtonIsDisplayed();
+            //await eventDetails.clickUnpublishButton();
+            //await eventDetails.publishButtonIsDisplayed();
             await eventOptionTabs.ticketingTabIsDisplayed();
             await eventOptionTabs.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();

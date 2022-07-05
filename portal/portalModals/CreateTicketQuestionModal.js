@@ -1,7 +1,7 @@
     const BasePage = require("../../BasePage");
     const SetImageModal = require('../portalModals/SetImageModal')
     const TITLE_INPUT = { xpath: "//input[@name='title']" };
-    const TICKETS_SELECT = { xpath: "//input[@name='ticketIds']" };
+    const TICKETS_SELECT = { xpath: "//ng-select[@name='ticketIds']" };
     const TICKETS_LIST = { className: "ng-option-label" };
     const QUESTION = { xpath: "//textarea[@name='question_text']" };
     const RESPONSE_INPUT = { xpath: "//div[contains(@class, 'response-question')]//input" }; //list
@@ -52,7 +52,7 @@
               await this.click(ADD_NEW_RESPONSE_OPTION);
               await this.sendKeysToElementReturnedFromAnArray(RESPONSE_INPUT, 1, base + " 18 and Over")
               await this.clickElementReturnedFromAnArray(CHECKBOXES,5);
-              await this.click(PER_ELIGIBLE_TICKET);
+              //await this.click(PER_ELIGIBLE_TICKET);
               await this.click(SELECT_NO_ANSWERS);
               await this.isDisplayed(SELECT_NO_ANSWERS_OPTIONS,5000);
               await this.clickElementReturnedFromAnArray(SELECT_NO_ANSWERS_OPTIONS,0);

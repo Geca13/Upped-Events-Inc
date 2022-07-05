@@ -16,7 +16,7 @@
             super(driver);
         }
         async questionsModalIsDisplayed(){
-            await this.isDisplayed(FINISH_BUTTON,5000);
+            await this.isDisplayed(HEADING,5000);
         }
         async answerSimpleYesNo(base,ticketOneName){
             await this.questionsModalIsDisplayed();
@@ -24,13 +24,18 @@
             assert.equal(heading, "Before You Go...");
             let subHeading = await this.getElementText(SUB_HEADING);
             assert.equal(subHeading, "Please answer the following question");
+            await this.driver.executeScript("document.getElementsByClassName('question-title')[0].style.visibility='hidden'");
+            await this.driver.executeScript("document.getElementsByClassName('responses-container')[0].style.visibility='hidden'");
             let ticketName = await this.getElementText(TICKET_NAME);
             assert.equal(ticketName, ticketOneName);
+            await this.driver.executeScript("document.getElementsByClassName('question-title')[0].style.visibility='visible'");
+            await this.driver.executeScript("document.getElementsByClassName('responses-container')[0].style.visibility='visible'");
+            //await this.driver.executeScript("document.getElementsByClassName('required-que')[0].style.visibility='hidden'");
             let ticketQuestion = await this.getElementText(QUESTION_TITLE);
-            assert.equal(ticketQuestion, base + " What do you prefer?");
-            let optionOne = this.getElementTextFromAnArrayByIndex(RESPONSE_RADIO_TEXT,0);
+            assert.equal(ticketQuestion, base + " What do you prefer? *");
+            let optionOne = await this.getElementTextFromAnArrayByIndex(RESPONSE_RADIO_TEXT,0);
             assert.equal(optionOne, base + " FANTA");
-            let optionTwo = this.getElementTextFromAnArrayByIndex(RESPONSE_RADIO_TEXT,1);
+            let optionTwo = await this.getElementTextFromAnArrayByIndex(RESPONSE_RADIO_TEXT,1);
             assert.equal(optionTwo, base + " COCA COLA");
             await this.clickElementReturnedFromAnArray(RESPONSE_RADIO,0);
             await this.click(FINISH_BUTTON);
@@ -42,13 +47,17 @@
             assert.equal(heading, "Before You Go...");
             let subHeading = await this.getElementText(SUB_HEADING);
             assert.equal(subHeading, "Please answer the following question");
+            await this.driver.executeScript("document.getElementsByClassName('question-title')[0].style.visibility='hidden'");
+            await this.driver.executeScript("document.getElementsByClassName('responses-container')[0].style.visibility='hidden'");
             let ticketName = await this.getElementText(TICKET_NAME);
             assert.equal(ticketName, ticketOneName);
+            await this.driver.executeScript("document.getElementsByClassName('question-title')[0].style.visibility='visible'");
+            await this.driver.executeScript("document.getElementsByClassName('responses-container')[0].style.visibility='visible'");
             let ticketQuestion = await this.getElementText(QUESTION_TITLE);
-            assert.equal(ticketQuestion, base + " What is your Age?");
-            let optionOne = this.getElementTextFromAnArrayByIndex(RESPONSE_RADIO_TEXT,0);
+            assert.equal(ticketQuestion, base + " What is your Age? *");
+            let optionOne = await this.getElementTextFromAnArrayByIndex(RESPONSE_RADIO_TEXT,0);
             assert.equal(optionOne, base + " Under 18");
-            let optionTwo = this.getElementTextFromAnArrayByIndex(RESPONSE_RADIO_TEXT,1);
+            let optionTwo = await this.getElementTextFromAnArrayByIndex(RESPONSE_RADIO_TEXT,1);
             assert.equal(optionTwo, base + " 18 and Over");
             expect(await this.elementIsEnabled(ANSWER_TEXTAREA)).to.be.false;
             await this.clickElementReturnedFromAnArray(RESPONSE_RADIO,0);

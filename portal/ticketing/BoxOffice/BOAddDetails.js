@@ -2,7 +2,7 @@
     const assert = require('assert')
     const { expect } = require('chai');
     const QUESTION_TITLES = { className: "inner-heading"};
-    const QUESTIONS = { className: "questions"};
+    const QUESTIONS = { className: "question"};
     const ORDER_DETAILS_BOX = { id: "Orderdetail" };
     const NEXT_BUTTON = { xpath: "//button[text()='Next']" }
     const PROMO_INPUT = { xpath: "//div[@name='promoCode']//input" }
@@ -121,6 +121,7 @@
         }
 
         async checkForNumberOfCheckBoxes(count){
+            await this.isDisplayed(QUESTIONS_ROUND_CHECKBOXES)
             let checkboxes = await this.returnElementsCount(QUESTIONS_ROUND_CHECKBOXES);
             assert.equal(count, checkboxes);
         }
@@ -141,10 +142,12 @@
             assert.equal(count, labels);
         }
         async checkForOptionsLabelByIndex(index,label){
-            let l = this.getElementTextFromAnArrayByIndex(RESPONSE_RADIO_TEXT,index);
+            let l = await this.getElementTextFromAnArrayByIndex(RESPONSE_RADIO_TEXT,index);
             assert.equal(l, label);
         }
         async checkQuestionForm(checkboxes, inputs,questions, titles, labels){
+            await this.isOnDetailsPage();
+            await this.driver.sleep(5000);
             await this.checkForNumberOfCheckBoxes(checkboxes);
             await this.checkForNumberOfTextInputs(inputs);
             await this.checkForNumberOfQuestions(questions);
@@ -152,18 +155,19 @@
             await this.checkForNumberOfDisplayedOptionLabels(labels)
         }
         async checkForTitleNameByIndex(index,titleName){
-            let title = this.getElementTextFromAnArrayByIndex(QUESTION_TITLES,index);
+            let title = await this.getElementTextFromAnArrayByIndex(QUESTION_TITLES,index);
             assert.equal(title, titleName);
         }
         async checkForQuestionByIndex(index,question){
-            let q = this.getElementTextFromAnArrayByIndex(QUESTIONS,index);
+            let q = await this.getElementTextFromAnArrayByIndex(QUESTIONS,index);
             assert.equal(q, question);
         }
 
         async answerFirstScenario(){
-            await this.clickAllElementsReturnedFromArray(QUESTIONS_ROUND_CHECKBOXES, 0);
-            await this.clickAllElementsReturnedFromArray(QUESTIONS_ROUND_CHECKBOXES, 3);
+            await this.clickElementReturnedFromAnArray(QUESTIONS_ROUND_CHECKBOXES, 0);
+            await this.clickElementReturnedFromAnArray(QUESTIONS_ROUND_CHECKBOXES, 3);
             await this.sendKeysToElementReturnedFromAnArray(QUESTION_INPUTS, 1, "38");
+
         }
 
 
