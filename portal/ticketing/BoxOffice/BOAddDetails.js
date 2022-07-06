@@ -164,7 +164,7 @@
         }
 
         async answerFirstScenario(){
-            await this.clickElementReturnedFromAnArray(QUESTIONS_ROUND_CHECKBOXES, 0);
+            await this.clickElementReturnedFromAnArray(QUESTIONS_ROUND_CHECKBOXES, 1);
             await this.clickElementReturnedFromAnArray(QUESTIONS_ROUND_CHECKBOXES, 3);
             await this.sendKeysToElementReturnedFromAnArray(QUESTION_INPUTS, 1, "38");
 

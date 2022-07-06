@@ -3,6 +3,7 @@
     const Inbox = require("../Inbox/Inbox")
     const PortalLoginPage = require('../portal/portalPages/PortalLoginPage');
     const DashboardPage = require('../portal/dashboard/Dashboard');
+    const AttendeesTab = require('../portal/eventOverview/AttendeesTab')
     const CreateEventModal = require('../portal/portalModals/CreateEventModal');
     const DateTimePickerModal = require('../portal/portalModals/DateTimePickerModal');
     const MyEventsPage = require('../portal/dashboard/MyEventsTab');
@@ -62,6 +63,7 @@
         let eventOptionTabs;
         let createTicket;
         let ticketsNav;
+        let attendees;
         let eventDetails;
         let promotions;
         let newPromotion;
@@ -106,9 +108,9 @@
         let questionsModal;
 
         let today = new Date();
-        let eventName = "7-4-16:13:24" //(today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        //let base = Math.floor(100000 + Math.random() * 900000);
-        let base = 196755;
+        let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let base = Math.floor(100000 + Math.random() * 900000);
+        //let base = 196755;
         let ticketOneName = base.toString() +"T1";
         let ticketTwoName = base.toString() +"T2";
         let ticketThreeName = base.toString() +"T3";
@@ -1368,6 +1370,32 @@
             await bosDetails.answerFirstScenario();
             await bosDetails.continueToPayment();
             await bosReview.makePayment(base);
+
+        });
+
+        it('Should check for ticket questions responces', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            ticketsNav = new TicketsNav(driver);
+            attendees = new AttendeesTab(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(500);
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickAttendeesNav();
+            await attendees.checkForTicketQuestionsResponses(base);
 
         });
 
