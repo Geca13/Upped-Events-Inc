@@ -173,6 +173,8 @@
         await this.isDisplayed(locator,5000);
     }
 
+
+
     async getElementText(locator) {
         return await this.find(locator).getText();
     }
@@ -335,6 +337,12 @@
 
     async elementIsEnabled(locator){
          let element = await this.find(locator);
+         return element.isEnabled();
+    }
+
+    async elementIsEnabledByIndexOfArray(locator,index){
+         let elements = await this.findAll(locator);
+         let element = elements[index];
          return element.isEnabled();
     }
 

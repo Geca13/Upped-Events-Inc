@@ -9,6 +9,7 @@
     const INPUT_ANSWERS = { xpath: "//ol[contains(@class, 'm-l30')]//small" } ; //list
     const ANSWERS_TIMES = { xpath: "//div[contains(@class, 'justify-content-between')]//small" } ; //list
 
+
     class AttendeesTab extends BasePage{
         constructor(driver) {
             super(driver);
@@ -16,9 +17,9 @@
         async isOnAttendeesTab(){
             await this.isDisplayed(ATTENDEES_TABLE,5000);
         }
-        async checkForTicketQuestionsResponses(base){
+        async checkForTicketQuestionsResponsesForTheFirstTwoPurchases(base){
             await this.isOnAttendeesTab();
-            await this.clickElementReturnedFromAnArray(ATTENDEES_RESPONSES_COUNT, 0);
+            await this.clickElementReturnedFromAnArray(ATTENDEES_RESPONSES_COUNT, 1);
             await this.isDisplayed(MODAL_HEADER, 5000);
             await this.driver.sleep(1000);
             let firstAnsweredQuestion = await this.getElementTextFromAnArrayByIndex(QUESTIONS_NAMES, 0);
@@ -42,8 +43,29 @@
             assert.equal(fourthRadioAnswer, base + " 18 and Over")
             let fourthInputAnswer = await this.getElementFromAnArrayByIndex(INPUT_ANSWERS, 3);
             assert.equal(fourthInputAnswer, "38");*/
+        }
 
-
+        async checkForTicketQuestionsResponsesForTheUpdated(base){
+            await this.isOnAttendeesTab();
+            await this.clickElementReturnedFromAnArray(ATTENDEES_RESPONSES_COUNT, 2);
+            await this.isDisplayed(MODAL_HEADER, 5000);
+            await this.driver.sleep(1000);
+            let firstAnsweredQuestion = await this.getElementTextFromAnArrayByIndex(QUESTIONS_NAMES, 0);
+            assert.equal(firstAnsweredQuestion, base + " Yes & No question")
+            let firstQuestionFirstRadioAnswer = await this.getElementTextFromAnArrayByIndex(RADIO_ANSWERS, 0);
+            assert.equal(firstQuestionFirstRadioAnswer, base + " FANTA")
+            let firstQuestionSecondRadioAnswer = await this.getElementTextFromAnArrayByIndex(RADIO_ANSWERS, 1);
+            assert.equal(firstQuestionSecondRadioAnswer, base + " COCA COLA")
+            let firstQuestionThirdRadioAnswerInCombo = await this.getElementTextFromAnArrayByIndex(RADIO_ANSWERS, 2);
+            assert.equal(firstQuestionThirdRadioAnswerInCombo, base + " OTHER")
+            let firstQuestionFirstInputAnswerInCombo = await this.getElementTextFromAnArrayByIndex(INPUT_ANSWERS, 2);
+            assert.equal(firstQuestionFirstInputAnswerInCombo, "Heineken Alcohol Free");
+            let secondAnsweredQuestion = await this.getElementTextFromAnArrayByIndex(QUESTIONS_NAMES, 1);
+            assert.equal(secondAnsweredQuestion, base + " Attendee Age")
+            let secondQuestionFirstRadioAnswerInCombo = await this.getElementTextFromAnArrayByIndex(RADIO_ANSWERS, 3);
+            assert.equal(secondQuestionFirstRadioAnswerInCombo, base + " Under 18")
+            let secondQuestionFirstInputAnswerInCombo = await this.getElementTextFromAnArrayByIndex(INPUT_ANSWERS, 3);
+            assert.equal(secondQuestionFirstInputAnswerInCombo, "15");
         }
     }
     module.exports = AttendeesTab;

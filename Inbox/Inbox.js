@@ -54,7 +54,7 @@
         async acceptVendorInvitation(email){
             await this.loadInbox();
             await this.elementIsDisplayedInInbox('<'+email+'>');
-            await this.driver.sleep(1000)
+            await this.driver.sleep(2000)
             await this.findAndClickTheEmailForNewAccount('<'+email+'>');
             await this.switchToInboxIFrame();
             await this.acceptInvitationButtonIsDisplayed();

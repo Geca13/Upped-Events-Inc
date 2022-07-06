@@ -108,9 +108,9 @@
         let questionsModal;
 
         let today = new Date();
-        let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        let base = Math.floor(100000 + Math.random() * 900000);
-        //let base = 196755;
+        let eventName = "7-6-16:48:30" // (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        //let base = Math.floor(100000 + Math.random() * 900000);
+        let base = 738037;
         let ticketOneName = base.toString() +"T1";
         let ticketTwoName = base.toString() +"T2";
         let ticketThreeName = base.toString() +"T3";
@@ -281,9 +281,9 @@
             await events.load();
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
-            await login.authenticate("parma5555@parma.it", "Pero1234")
+            await login.authenticate("parma5151@parma.it", "Pero1234")
             await events.successMessagePresent();
-            await driver.sleep(75000);
+            await driver.sleep(10000);
             await events.eventCardIsAvailableToClick();
             //await driver.sleep(10000);
             await events.clickNewEvent(eventName);
@@ -622,8 +622,6 @@
              await activityTab.verifyElementsOnActivitiesTab();
          });
 
-
-
         it('Should check for taxes and fees names and values in portal and microsites', async function (){
 
             portalLogin = new PortalLoginPage(driver);
@@ -918,7 +916,7 @@
             await events.load();
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
-            await login.authenticate("parma5555@parma.it", "Pero1234")
+            await login.authenticate("parma15@parma.it", "Pero1234")
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
             await driver.sleep(20000);
@@ -1080,7 +1078,7 @@
             await bosTickets.isOnBoxOfficePage();
             await bosTickets.select18Tickets();
             await bosExtras.add50$ToOrderOnExtrasPage();
-            await bosDetails.addPromotionToTickets(promoFourName);
+            await bosDetails.addPromotionToTickets(promoCodeFour);
             await bosDetails.continueToPayment();
             await bosReview.makePayment(base);
 
@@ -1373,7 +1371,7 @@
 
         });
 
-        it('Should check for ticket questions responces', async function () {
+        it('Should check for first two ticket questions responces', async function () {
 
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
@@ -1395,7 +1393,95 @@
             await driver.sleep(500);
             await eventOptionTabs.ticketingTabIsDisplayed();
             await eventOptionTabs.clickAttendeesNav();
-            await attendees.checkForTicketQuestionsResponses(base);
+            await attendees.checkForTicketQuestionsResponsesForTheFirstTwoPurchases(base);
+
+        });
+
+        it('Should update first ticket question with asked input text', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            settingsNav = new SettingsNav(driver);
+            events = new EventsPage(driver);
+            login = new LoginComponent(driver);
+            info = new EventInfo(driver);
+            ticketing = new TicketingPage(driver);
+            tickets = new TicketsTab(driver);
+            extras = new ExtrasTab(driver);
+            pay = new PayTab(driver);
+            confirm = new ConfirmTab(driver);
+            questions = new TicketQuestionsPage(driver);
+            questionsModal = new TicketQuestionsModal(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(10000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await eventOptionTabs.clickSettingsNav();
+            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await settingsNav.clickTicketQuestions();
+            await questions.updateFirstQuestionToIncludeInputAndForEachTicket(base);
+            await events.load();
+            await events.clickSignInButton();
+            await login.waitPopupToBeLoaded();
+            await login.authenticate("parma15@parma.it", "Pero1234")
+            await events.successMessagePresent();
+            await events.eventCardIsAvailableToClick();
+            await driver.sleep(10000);
+            await events.clickNewEvent(eventName);
+            await info.buyTicketsButtonPresent();
+            await info.clickBuyTicketsButton();
+            await ticketing.nextButtonPresent();
+            await tickets.sendKeysToQtyInput(0,2);
+            await tickets.sendKeysToQtyInput(2,1);
+            await driver.sleep(2000)
+            await ticketing.clickNextButton();
+            await extras.addMoneyTabIsDisplayed();
+            await extras.clickDonateTab();
+            await extras.donateTabIsDisplayed();
+            await extras.make$20Donation();
+            await ticketing.clickNextButton();
+            await pay.savedCardsHeaderIsPresent();
+            await pay.clickFirstCard();
+            await pay.clickPayWithCardButton();
+            await questionsModal.assertFormAndInputAndOption(base,ticketOneName, ticketThreeName)
+            await questionsModal.answerTicketQuestionWithPerTicketQuestions();
+            await confirm.isOnConfirmTab();
+        });
+
+        it('Should check for the update ticket questions responces', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            ticketsNav = new TicketsNav(driver);
+            attendees = new AttendeesTab(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(500);
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickAttendeesNav();
+            await attendees.checkForTicketQuestionsResponsesForTheUpdated(base);
 
         });
 

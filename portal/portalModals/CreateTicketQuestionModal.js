@@ -10,11 +10,13 @@
     const SELECT_NO_ANSWERS = { xpath: "//select[@name='allowed_no_responses']" };
     const SELECT_NO_ANSWERS_OPTIONS = { xpath: "//select[@name='allowed_no_responses']//option" };
     const PER_TRANSACTION = { xpath: "//span[text()='Once per transaction']"}
-    const PER_ELIGIBLE_TICKET = { xpath: "//span[text()='Once per transaction']"}
+    const PER_ELIGIBLE_TICKET = { className: "custom-radio"} //list
     const IMAGE = { xpath: "//input[@type='file']" };
     const CREATE_BUTTON = { xpath: "//button[text()=' Create ']" };
     const CLOSE_BUTTON = { xpath: "//a[text()='Close']" };
     const RESET_BUTTON = { xpath: "//button[text()='Reset']" };
+    const UPDATE_BUTTON = { xpath: "//button[text()=' Update ']" };
+    const BEFORE_EVENT_OPTION = { id: "sms-camp4" };
 
     class CreateTicketQuestionModal extends BasePage{
           constructor(driver) {
@@ -39,6 +41,17 @@
               await this.click(CREATE_BUTTON);
           }
 
+          async updateYesNoQuestion(base){
+              await this.driver.sleep(1000)
+              await this.isDisplayed(TITLE_INPUT, 5000);
+              await this.click(ADD_NEW_RESPONSE_OPTION);
+              await this.sendKeysToElementReturnedFromAnArray(RESPONSE_INPUT, 2, base + " OTHER");
+              await this.moveToElement(BEFORE_EVENT_OPTION)
+              await this.clickElementReturnedFromAnArray(CHECKBOXES,8);
+              await this.clickElementReturnedFromAnArray(PER_ELIGIBLE_TICKET,1);
+              await this.click(UPDATE_BUTTON);
+          }
+
           async createQuestionWithTextInput(base){
               await this.isDisplayed(TITLE_INPUT, 5000);
               await this.sentKeys(TITLE_INPUT, base + " Attendee Age");
@@ -58,5 +71,7 @@
               await this.clickElementReturnedFromAnArray(SELECT_NO_ANSWERS_OPTIONS,0);
               await this.click(CREATE_BUTTON);
         }
+
+
     }
     module.exports = CreateTicketQuestionModal;

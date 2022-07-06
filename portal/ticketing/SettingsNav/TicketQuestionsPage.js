@@ -2,6 +2,8 @@
     const assert = require('assert')
     const CreateTicketQuestionPage = require('../../portalModals/CreateTicketQuestionModal')
     const ADD_BUTTON = { xpath: "//a[text()='Add']" }
+    const EDIT_QUESTION_ICON = { xpath: "//a[contains(@class, 'text-second')]//span" }
+    const DELETE_QUESTION_ICON = { xpath: "//a[contains(@class, 'text-danger')]" }
     const QUESTION_OFF_TOGGLE = {className: 'lc_off' }
     const QUESTION_ON_TOGGLE = {className: 'lc_on' }
     const SAVED_QUESTION = { xpath: "//td[contains(@class, 'column-title')]//span" } //list
@@ -25,6 +27,17 @@
             await this.click(ADD_BUTTON);
             let createQuestionModal = new CreateTicketQuestionPage(this.driver);
             await createQuestionModal.createYesNoQuestion(base);
+            await this.isDisplayed(SAVED_QUESTION, 5000);
+            let question = await this.getTextFromElementOfArray(SAVED_QUESTION,0);
+            assert.equal(question, base + " Yes & No question");
+        }
+
+        async updateFirstQuestionToIncludeInputAndForEachTicket(base){
+            await this.isOnTicketQuestionsPage();
+            await this.isDisplayed(EDIT_QUESTION_ICON,5000)
+            await this.click(EDIT_QUESTION_ICON);
+            let createQuestionModal = new CreateTicketQuestionPage(this.driver);
+            await createQuestionModal.updateYesNoQuestion(base);
             await this.isDisplayed(SAVED_QUESTION, 5000);
             let question = await this.getTextFromElementOfArray(SAVED_QUESTION,0);
             assert.equal(question, base + " Yes & No question");
