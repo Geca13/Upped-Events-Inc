@@ -50,6 +50,15 @@
     const BOAddDetails = require('../portal/ticketing/BoxOffice/BOAddDetails');
     const BOReviewAndPay = require('../portal/ticketing/BoxOffice/BOReviewAndPay');
     const Wordpress = require('../embed/embedPages/Wordpress')
+    const EmbedMainPage = require("../embed/embedPages/EmbedMainPage");
+    const TicketsComponent = require("../embed/embedComponents/TicketsComponent");
+    const SummaryComponent = require("../embed/embedComponents/SummaryComponent");
+    const LoginPage = require("../embed/embedPages/LoginPage");
+    const ExtrasPage = require("../embed/embedPages/ExtrasPage");
+    const PaymentPage = require("../embed/embedPages/PaymentPage");
+    const EmbedOrderDetailsPage = require("../embed/embedPages/EmbedOrderDetailsPage");
+    const DonationComponent = require("../microsites/micrositesComponents/DonationComponent");
+    const ConfirmPage = require("../embed/embedPages/ConfirmPage");
 
 
     describe('Should login to portal create new event and tickets', function () {
@@ -106,11 +115,21 @@
         let questions;
         let wordpress;
         let questionsModal;
+        let donate;
+        let main;
+        let embedTickets;
+        let summary;
+        let embedLogin;
+        let embedExtras;
+        let payment;
+        let orderDetails;
+        let embedConfirm;
+
 
         let today = new Date();
-        let eventName = "7-6-16:48:30" // (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        //let base = Math.floor(100000 + Math.random() * 900000);
-        let base = 738037;
+        let eventName =  (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let base = Math.floor(100000 + Math.random() * 900000);
+        //let base = 738037;
         let ticketOneName = base.toString() +"T1";
         let ticketTwoName = base.toString() +"T2";
         let ticketThreeName = base.toString() +"T3";
@@ -1048,7 +1067,7 @@
             await bosTickets.assertNewPriceAndQuantity();
         });*/
 
-        it('Should make purchase with promotion', async function () {
+        it('Should make purchase with promotion in box-ofice', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             createEvent = new CreateEventModal(driver);
@@ -1481,14 +1500,72 @@
             await driver.sleep(500);
             await eventOptionTabs.ticketingTabIsDisplayed();
             await eventOptionTabs.clickAttendeesNav();
-            await attendees.checkForTicketQuestionsResponsesForTheUpdated(base);
+            await attendees.checkForTicketQuestionsResponsesForTheUpdated(base,2);
 
         });
 
-        /*it('should something', async function () {
-            wordpress = new Wordpress(driver);
-            await wordpress.openWordpressPage();
-            await wordpress.loginToWordpress();
+/*        it('should check ticket questions in embed make a purchase and check for answers', async function () {
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            summary = new SummaryComponent(driver);
+            embedLogin = new LoginPage(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            newCardComponent = new NewCardComponent(driver);
+            donate = new DonationComponent(driver);
+            embedConfirm = new ConfirmPage(driver);
+            questionsModal = new TicketQuestionsModal(driver);
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            ticketsNav = new TicketsNav(driver);
+            attendees = new AttendeesTab(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInput(0, 2)
+            await embedTickets.sentKeysToTicketInput(2, 1)
+            await main.nextButtonIsVisible();
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await driver.sleep(1000);
+            await embedLogin.completeSwitchTo()
+            await embedLogin.isAtFacebookPage();
+            await embedLogin.completeSignInWithFacebook();
+            await driver.switchTo().window(originalWindow);
+            await driver.sleep(7000);
+            await main.switchToIframe();
+            await main.nextButtonIsVisible();
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickSavedCardByIndex(0);
+            await payment.clickConfirmPaymentButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.clickPlaceOrderButton();
+            await questionsModal.assertFormAndInputAndOption(base,ticketOneName, ticketThreeName)
+            await questionsModal.answerTicketQuestionWithPerTicketQuestions();
+            await embedConfirm.isAtConfirmPage();
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(500);
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickAttendeesNav();
+            await attendees.checkForTicketQuestionsResponsesForTheUpdated(base,3);
+
         });*/
 
 

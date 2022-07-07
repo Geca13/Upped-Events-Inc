@@ -45,9 +45,9 @@
             assert.equal(fourthInputAnswer, "38");*/
         }
 
-        async checkForTicketQuestionsResponsesForTheUpdated(base){
+        async checkForTicketQuestionsResponsesForTheUpdated(base,index){
             await this.isOnAttendeesTab();
-            await this.clickElementReturnedFromAnArray(ATTENDEES_RESPONSES_COUNT, 2);
+            await this.clickElementReturnedFromAnArray(ATTENDEES_RESPONSES_COUNT, index);
             await this.isDisplayed(MODAL_HEADER, 5000);
             await this.driver.sleep(1000);
             let firstAnsweredQuestion = await this.getElementTextFromAnArrayByIndex(QUESTIONS_NAMES, 0);
