@@ -59,6 +59,8 @@
     const EmbedOrderDetailsPage = require("../embed/embedPages/EmbedOrderDetailsPage");
     const DonationComponent = require("../microsites/micrositesComponents/DonationComponent");
     const ConfirmPage = require("../embed/embedPages/ConfirmPage");
+    const CreateAccountModal = require("../microsites/micrositesComponents/CreateAccountModal");
+    const MyWalletTab = require('../microsites/account/MyWalletTab');
 
 
     describe('Should login to portal create new event and tickets', function () {
@@ -124,12 +126,15 @@
         let payment;
         let orderDetails;
         let embedConfirm;
+        let myWallet;
+        let userBalance;
+        let userPurchasesTotal;
 
 
         let today = new Date();
         let eventName =  (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         let base = Math.floor(100000 + Math.random() * 900000);
-        //let base = 738037;
+        //let base = 302512;
         let ticketOneName = base.toString() +"T1";
         let ticketTwoName = base.toString() +"T2";
         let ticketThreeName = base.toString() +"T3";
@@ -149,9 +154,15 @@
         let ticketGroupTwo = base.toString() +"TG2";
         let ticketGroupThree = base.toString() +"TG3";
         let ticketGroupFour = base.toString() +"TG4";
-        let firstName = 'fn'+base;
-        let lastName = 'ln'+base;
-        let email = firstName + '@' + lastName+'.com'
+        let vendorFirstName = 'vfn'+base.toString();
+        let vendorLastName = 'vln'+base.toString();
+        let vendorEmail = vendorFirstName + '@' + vendorLastName+'.com';
+        let customerFirstName = 'cfn'+base.toString();
+        let customerLastName = 'cln'+base.toString();
+        let customerEmail = customerFirstName + '@' + customerLastName+'.com';
+        let customerPassword = base.toString() + 'Password';
+        let createAccount;
+
 
 
         beforeEach(async function(){
@@ -163,6 +174,55 @@
         afterEach(async function(){
             await driver.quit()
         })
+
+        it('should create new account on microsites with username and password, verify and login', async function() {
+            events = new EventsPage(driver);
+            createAccount = new CreateAccountModal(driver);
+            inbox = new Inbox(driver);
+            login = new LoginComponent(driver);
+            originalWindow = inbox.getOriginalWindow();
+
+            await events.load();
+            await events.clickSignUpButton();
+            await createAccount.firstCreateAccountModalIsDisplayed();
+            await createAccount.clickSignUpWithEmailButton();
+            await createAccount.secondCreateAccountModalIsDisplayed();
+            await createAccount.fillRandomButValidDataAndCreateAccount(customerFirstName,customerLastName,customerEmail,customerPassword);
+            await inbox.loadInbox();
+            await inbox.elementIsDisplayedInInbox('<'+customerEmail+'>');
+            await driver.sleep(1000)
+            await inbox.findAndClickTheEmailForNewAccount('<'+customerEmail+'>');
+            await inbox.switchToInboxIFrame();
+            await inbox.verifyEmailButtonIsDisplayed();
+            await inbox.verifyEmail();
+            await driver.sleep(1000)
+            await driver.switchTo().defaultContent();
+            await login.getNewlyOpenedTab(originalWindow);
+            await login.waitPopupToBeLoaded();
+            await login.loginAfterVerifyingAccount(customerPassword);
+
+        });
+
+        it('Should set payment card in customer profile',async function () {
+            events = new EventsPage(driver);
+            login = new LoginComponent(driver);
+            myWallet = new MyWalletTab(driver);
+
+            await events.load();
+            await events.clickSignInButton();
+            await login.waitPopupToBeLoaded();
+            await login.authenticate(customerEmail, customerPassword)
+            await events.successMessagePresent();
+            await driver.sleep(10000);
+            await events.goToProfilePage();
+            await myWallet.myWalletScreenIsDisplayed();
+            userBalance = await myWallet.checkBalanceState("$200.00");
+            console.log(userBalance)
+            await myWallet.setNewCardInProfile(customerFirstName, customerLastName);
+            await myWallet.checkCardHolderName(customerFirstName, customerLastName);
+            await myWallet.checkCardBrand("Visa");
+            await myWallet.checkDisplayedCardNumber("1111");
+        });
 
         it('Should create new event,tickets,promotions and make purchases', async function () {
             portalLogin = new PortalLoginPage(driver);
@@ -728,11 +788,11 @@
             await eventDetails.unpublishButtonIsDisplayed();
             await eventOptionTabs.clickPartnerManagementTab();
             await partnersPage.isOnPartnersPage();
-            await partnersPage.inviteVendorToEvent(email, firstName, lastName);
+            await partnersPage.inviteVendorToEvent(vendorEmail, vendorFirstName, vendorLastName);
             await inbox.acceptVendorInvitation(email);
             await driver.switchTo().defaultContent();
             await newVendor.getNewlyOpenedTab(originalWindow);
-            await newVendor.verifyEnteredData(email, firstName, lastName);
+            await newVendor.verifyEnteredData(vendorEmail, vendorFirstName, vendorLastName);
             await newVendor.completeRegistration(base);
 
         });
@@ -744,7 +804,7 @@
             myMenus = new MyMenusPage(driver);
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
-            await portalLogin.vendorLoginWithEmailAndPassword(email,base);
+            await portalLogin.vendorLoginWithEmailAndPassword(vendorEmail,base);
             await dashboard.isAtDashboardPage();
             await eventOptionTabs.clickMenusTab();
             await myMenus.isOnMyMenusPage();
