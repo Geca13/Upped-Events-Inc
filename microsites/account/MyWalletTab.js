@@ -19,11 +19,14 @@
         async myWalletScreenIsDisplayed(){
             await this.isDisplayed(BALANCE_TITLE, 5000);
         }
-        async checkBalanceState(amount){
+        async returnBalanceState(){
            await this.driver.sleep(2000);
            let balance = await this.getElementText(WALLET_BALANCE);
+           return await this.convertPriceStringToDouble(balance.substring(1));
+        }
+        async assertUserBalance(amount){
+           let balance = await this.returnBalanceState();
            assert.equal(balance, amount)
-            return await this.convertPriceStringToDouble(balance.substring(1));
         }
         async checkCardHolderName(firstName,lastName){
             await this.isDisplayed(CARD_CONTAINER,5000);
@@ -43,6 +46,10 @@
             let newCardComponent = new NewCardComponent(this.driver);
             await newCardComponent.fillNewCardWithVisaData(firstName, lastName);
             await this.click(ADD_NEW_CARD_BUTTON);
+        }
+        async calculateBalanceAfterPurchases(userBalance, userPurchasesTotal){
+            let currentBalance = await this.returnBalanceState();
+            assert.equal(currentBalance, userBalance - userPurchasesTotal);
         }
     }
     module.exports = MyWalletTab;

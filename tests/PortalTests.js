@@ -127,14 +127,14 @@
         let orderDetails;
         let embedConfirm;
         let myWallet;
-        let userBalance;
-        let userPurchasesTotal;
+        let createAccount;
+
 
 
         let today = new Date();
-        let eventName =  (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        let base = Math.floor(100000 + Math.random() * 900000);
-        //let base = 302512;
+        let eventName = "7-9-4:33:10" ; (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        //let base = Math.floor(100000 + Math.random() * 900000);
+        let base = 617568;
         let ticketOneName = base.toString() +"T1";
         let ticketTwoName = base.toString() +"T2";
         let ticketThreeName = base.toString() +"T3";
@@ -161,7 +161,8 @@
         let customerLastName = 'cln'+base.toString();
         let customerEmail = customerFirstName + '@' + customerLastName+'.com';
         let customerPassword = base.toString() + 'Password';
-        let createAccount;
+        let userBalance;
+        let userPurchasesTotal = 0.00;
 
 
 
@@ -175,7 +176,7 @@
             await driver.quit()
         })
 
-        it('should create new account on microsites with username and password, verify and login', async function() {
+       /* it('should create new account on microsites with username and password, verify and login', async function() {
             events = new EventsPage(driver);
             createAccount = new CreateAccountModal(driver);
             inbox = new Inbox(driver);
@@ -201,7 +202,7 @@
             await login.waitPopupToBeLoaded();
             await login.loginAfterVerifyingAccount(customerPassword);
 
-        });
+        });*/
 
         it('Should set payment card in customer profile',async function () {
             events = new EventsPage(driver);
@@ -211,17 +212,17 @@
             await events.load();
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
-            await login.authenticate(customerEmail, customerPassword)
+            await login.authenticate(customerEmail, customerPassword);
             await events.successMessagePresent();
             await driver.sleep(10000);
             await events.goToProfilePage();
             await myWallet.myWalletScreenIsDisplayed();
-            userBalance = await myWallet.checkBalanceState("$200.00");
-            console.log(userBalance)
+            userBalance = await myWallet.returnBalanceState();
+            /*await myWallet.assertUserBalance(userBalance, '$200.00');
             await myWallet.setNewCardInProfile(customerFirstName, customerLastName);
             await myWallet.checkCardHolderName(customerFirstName, customerLastName);
             await myWallet.checkCardBrand("Visa");
-            await myWallet.checkDisplayedCardNumber("1111");
+            await myWallet.checkDisplayedCardNumber("1111");*/
         });
 
         it('Should create new event,tickets,promotions and make purchases', async function () {
@@ -252,7 +253,7 @@
             newCardComponent = new NewCardComponent(driver);
             terms = new TicketTermsModal(driver);
 
-            await portalLogin.loadPortalUrl();
+           /* await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await driver.sleep(1000);
             await portalLogin.enterValidCredentialsAndLogin();
@@ -347,7 +348,7 @@
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.createPromotionWith100discountForAllTickets(ticketOneName, promoFiveName, promoCodeFive);
             await promotions.promotionsHeaderIsVisible();
-            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();*/
             /*await eventOptionTabs.clickTicketingTab();
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
@@ -360,7 +361,7 @@
             await events.load();
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
-            await login.authenticate("parma5151@parma.it", "Pero1234")
+            await login.authenticate(customerEmail, customerPassword);
             await events.successMessagePresent();
             await driver.sleep(10000);
             await events.eventCardIsAvailableToClick();
@@ -376,12 +377,6 @@
             await ticketing.nextButtonPresent();
             await tickets.clickFirstIncreaseButton();
             await driver.sleep(2000)
-            let ticketPrice = await tickets.getTicketPrice();
-            console.log(ticketPrice);
-            let subtotal = await ticketing.getSubtotalText();
-            console.log(subtotal);
-            let price = await ticketing.getSummaryPriceText();
-            console.log(parseFloat(price) + parseFloat(price));
             await ticketing.clickNextButton();
             await extras.addMoneyTabIsDisplayed();
             await ticketing.clickNextButton();
@@ -393,6 +388,7 @@
             await pay.payWithWalletButtonIsDisplayed();
             await pay.clickPayWithWalletButton();
             await confirm.isOnConfirmTab();
+            userPurchasesTotal = userPurchasesTotal + parseFloat(await confirm.getPurchaseTotalAmount());
             // assertForTotal
             await ticketing.clickBackToEventInfoButton();
             await info.buyTicketsButtonPresent();
@@ -409,9 +405,11 @@
             await pay.enterPromotionCode(promoCodeThree);
             await pay.clickApplyDiscountButton();
             await ticketing.removeDiscountIconIsDisplayed();
-            await pay.clickFirstCard();
-            await pay.clickPayWithCardButton();
+            await pay.clickPayWithWalletOption();
+            await pay.payWithWalletButtonIsDisplayed();
+            await pay.clickPayWithWalletButton();
             await confirm.isOnConfirmTab();
+            userPurchasesTotal = userPurchasesTotal + await confirm.getPurchaseTotalAmount();
             // assertForTotal
             await ticketing.clickBackToEventInfoButton();
             await info.buyTicketsButtonPresent();
@@ -427,6 +425,7 @@
             await pay.clickFirstCard();
             await pay.clickPayWithCardButton();
             await confirm.isOnConfirmTab();
+            //userPurchasesTotal = userPurchasesTotal + await confirm.getPurchaseTotalAmount();
             // assertForTotal
             await ticketing.clickBackToEventInfoButton();
             await info.buyTicketsButtonPresent();
@@ -450,7 +449,24 @@
        /*     await pay.clickFirstCard();*/
             await pay.clickPayWithCardButton();
             await confirm.isOnConfirmTab();
+            //userPurchasesTotal = userPurchasesTotal + await confirm.getPurchaseTotalAmount();
+            //console.log(userPurchasesTotal)
+        });
 
+        it('Should check balance equals original minus transactions totals',async function () {
+            events = new EventsPage(driver);
+            login = new LoginComponent(driver);
+            myWallet = new MyWalletTab(driver);
+
+            await events.load();
+            await events.clickSignInButton();
+            await login.waitPopupToBeLoaded();
+            await login.authenticate(customerEmail, customerPassword);
+            await events.successMessagePresent();
+            await driver.sleep(10000);
+            await events.goToProfilePage();
+            await myWallet.myWalletScreenIsDisplayed();
+            await myWallet.calculateBalanceAfterPurchases(userBalance, userPurchasesTotal);
         });
 
         it('Should check for sold tickets', async function () {
@@ -789,7 +805,7 @@
             await eventOptionTabs.clickPartnerManagementTab();
             await partnersPage.isOnPartnersPage();
             await partnersPage.inviteVendorToEvent(vendorEmail, vendorFirstName, vendorLastName);
-            await inbox.acceptVendorInvitation(email);
+            await inbox.acceptVendorInvitation(vendorEmail);
             await driver.switchTo().defaultContent();
             await newVendor.getNewlyOpenedTab(originalWindow);
             await newVendor.verifyEnteredData(vendorEmail, vendorFirstName, vendorLastName);
