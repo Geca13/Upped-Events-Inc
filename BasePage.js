@@ -98,6 +98,7 @@
         return input.getAttribute("value");
     }
 
+
     async getTextValueFromElementOfArray(locator, index){
        let inputs =  await this.findAll(locator);
        return inputs[index].getAttribute("value");

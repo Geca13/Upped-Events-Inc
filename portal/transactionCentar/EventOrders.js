@@ -31,12 +31,17 @@
             await this.click(DETAILS_MENU_OPTION);
             let orderDetails = new OrderDetailsModal(this.driver);
             await orderDetails.orderDetailsModalIsDisplayed();
+            let before = await orderDetails.getOrderTotalBeforeRefunds();
             await orderDetails.makeRefundOnAllTicketQuantity();
+            let after = await orderDetails.getOrderTotalAfterRefunds();
+            await orderDetails.closeOrderTotalModal();
             await this.isAtTransactionCenterPage();
-            await this.driver.sleep(500)
+            await this.driver.sleep(500)/*
             let total = await this.getChildByIndex(ORDER_TOTAL_IN_EVENT_ORDERS,0,0)
-            console.log(total);
+            console.log(total);*/
             await this.driver.sleep(5000);
+            let total = before - after
+            return total.toFixed(2);
         }
 
         async

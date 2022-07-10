@@ -26,6 +26,13 @@
         async orderDetailsModalIsDisplayed(){
             await this.isDisplayed(RESEND_TICKETS_BUTTON,5000);
         }
+
+        async getOrderTotalBeforeRefunds(){
+            await this.orderDetailsModalIsDisplayed();
+            let rawBeforeTotal = await this.getChildByIndex(ORDER_DETAILS_MODAL_TOTAL,0,1);
+            let beforeTotal = await this.convertPriceStringToDouble(rawBeforeTotal.substring(1))
+            return beforeTotal.toFixed(2);
+        }
         async makeRefundOnAllTicketQuantity(){
             await this.orderDetailsModalIsDisplayed();
             await this.click(REFUND_TICKETS_BUTTON);
@@ -40,15 +47,20 @@
             await this.clickElementReturnedFromAnArray(OPEN_REFUND_TICKETS_DROPDOWNS,1);
             await this.elementFromArrayOfElementsIsDisplayed(SELECT_TICKET_REFUND_CHECKBOX,1);
             await this.clickAllElementsReturnedFromArray(SELECT_TICKET_REFUND_CHECKBOX);
+            await this.driver.sleep(500);
             await this.sendKeysAllElementsReturnedFromArray(REFUND_AMOUNT_INPUT,"1");
             await this.click(PROCESS_REFUND_BUTTON);
             await this.driver.sleep(500)
-            let total = await this.getChildByIndex(ORDER_DETAILS_MODAL_TOTAL,0,1);
-            console.log(total);
+
+        }
+        async getOrderTotalAfterRefunds(){
+            let rawAfterTotal = await this.getChildByIndex(ORDER_DETAILS_MODAL_TOTAL,0,1);
+            let afterTotal = await this.convertPriceStringToDouble(rawAfterTotal.substring(1))
+            return afterTotal.toFixed(2);
+        }
+        async closeOrderTotalModal(){
             await this.isDisplayed(CLOSE_POPUP_BUTTON,5000)
             await this.click(CLOSE_POPUP_BUTTON);
-
-
         }
     }
     module.exports = OrderDetailsModal;

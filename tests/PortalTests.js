@@ -132,9 +132,9 @@
 
 
         let today = new Date();
-        let eventName = "7-9-4:33:10" ; (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        //let base = Math.floor(100000 + Math.random() * 900000);
-        let base = 617568;
+        let eventName =  (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let base = Math.floor(100000 + Math.random() * 900000);
+        //let base = 746874;
         let ticketOneName = base.toString() +"T1";
         let ticketTwoName = base.toString() +"T2";
         let ticketThreeName = base.toString() +"T3";
@@ -161,7 +161,7 @@
         let customerLastName = 'cln'+base.toString();
         let customerEmail = customerFirstName + '@' + customerLastName+'.com';
         let customerPassword = base.toString() + 'Password';
-        let userBalance;
+        let userBalance = 0.00;
         let userPurchasesTotal = 0.00;
 
 
@@ -176,7 +176,7 @@
             await driver.quit()
         })
 
-       /* it('should create new account on microsites with username and password, verify and login', async function() {
+        it('should create new account on microsites with username and password, verify and login', async function() {
             events = new EventsPage(driver);
             createAccount = new CreateAccountModal(driver);
             inbox = new Inbox(driver);
@@ -202,7 +202,7 @@
             await login.waitPopupToBeLoaded();
             await login.loginAfterVerifyingAccount(customerPassword);
 
-        });*/
+        });
 
         it('Should set payment card in customer profile',async function () {
             events = new EventsPage(driver);
@@ -217,12 +217,13 @@
             await driver.sleep(10000);
             await events.goToProfilePage();
             await myWallet.myWalletScreenIsDisplayed();
-            userBalance = await myWallet.returnBalanceState();
-            /*await myWallet.assertUserBalance(userBalance, '$200.00');
+            userBalance = userBalance + await myWallet.returnBalanceState();
+            await myWallet.assertUserBalance('200');
+            console.log(userBalance);
             await myWallet.setNewCardInProfile(customerFirstName, customerLastName);
             await myWallet.checkCardHolderName(customerFirstName, customerLastName);
             await myWallet.checkCardBrand("Visa");
-            await myWallet.checkDisplayedCardNumber("1111");*/
+            await myWallet.checkDisplayedCardNumber("1111");
         });
 
         it('Should create new event,tickets,promotions and make purchases', async function () {
@@ -253,7 +254,7 @@
             newCardComponent = new NewCardComponent(driver);
             terms = new TicketTermsModal(driver);
 
-           /* await portalLogin.loadPortalUrl();
+            await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await driver.sleep(1000);
             await portalLogin.enterValidCredentialsAndLogin();
@@ -348,7 +349,7 @@
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.createPromotionWith100discountForAllTickets(ticketOneName, promoFiveName, promoCodeFive);
             await promotions.promotionsHeaderIsVisible();
-            await eventOptionTabs.ticketingTabIsDisplayed();*/
+            await eventOptionTabs.ticketingTabIsDisplayed();
             /*await eventOptionTabs.clickTicketingTab();
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
@@ -466,7 +467,9 @@
             await driver.sleep(10000);
             await events.goToProfilePage();
             await myWallet.myWalletScreenIsDisplayed();
-            await myWallet.calculateBalanceAfterPurchases(userBalance, userPurchasesTotal);
+            userBalance = userBalance - userPurchasesTotal;
+            console.log(userBalance);
+            await myWallet.calculateBalanceAfterPurchases(userBalance);
         });
 
         it('Should check for sold tickets', async function () {
@@ -495,30 +498,67 @@
 
         });
 
-        it('Should add shop categories', async function () {
+        it('Should make purchases , make refund and check balance after', async function() {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
+            createEvent = new CreateEventModal(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
             eventOptionTabs = new EventOptionTabs(driver);
-            shopsNavs = new ShopsNavs(driver);
-            shopsCat = new ShopCategoriesPage(driver);
-
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+            eventOrders = new EventOrders(driver);
+            events = new EventsPage(driver);
+            login = new LoginComponent(driver);
+            info = new EventInfo(driver);
+            ticketing = new TicketingPage(driver);
+            tickets = new TicketsTab(driver);
+            extras = new ExtrasTab(driver);
+            pay = new PayTab(driver);
+            confirm = new ConfirmTab(driver);
+            myWallet = new MyWalletTab(driver);
+            await events.load();
+            await events.clickSignInButton();
+            await login.waitPopupToBeLoaded();
+            await login.authenticate(customerEmail, customerPassword)
+            await events.successMessagePresent();
+            await events.eventCardIsAvailableToClick();
+            await driver.sleep(10000);
+            await events.clickNewEvent(eventName);
+            await info.buyTicketsButtonPresent();
+            await info.clickBuyTicketsButton();
+            await ticketing.nextButtonPresent();
+            await tickets.sendKeysToQtyInput(0,"3");
+            await tickets.sendKeysToQtyInput(1,"4");
+            await ticketing.clickNextButton();
+            await extras.addMoneyTabIsDisplayed();
+            await ticketing.clickNextButton();
+            await pay.savedCardsHeaderIsPresent();
+            await pay.clickPayWithWalletOption();
+            await pay.payWithWalletButtonIsDisplayed();
+            await pay.clickPayWithWalletButton();
+            await confirm.isOnConfirmTab();
+            userBalance = userBalance - await confirm.getPurchaseTotalAmount();
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
+            await driver.sleep(1000);
             await dashboard.isAtDashboardPage();
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
-            await driver.sleep(1000);
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.clickShopManagementTab();
-            await shopsNavs.shopCategoriesNavIsDisplayed();
-            await shopsNavs.clickCategoriesNav();
-            await shopsCat.move6CategoriesFromPotentialToOrdered();
-            await driver.sleep(3000);
+            await eventOptionTabs.clickTransactionCenterTab();
+            await eventOrders.isAtTransactionCenterPage();
+            let refundedAmount = await eventOrders.makeFullRefundWithReinstateTicket();
+            userBalance = userBalance + parseFloat(refundedAmount);
+            await events.load();
+            await driver.sleep(5000);
+            await events.goToProfilePage();
+            await myWallet.myWalletScreenIsDisplayed();
+            await myWallet.calculateBalanceAfterRefunds(userBalance);
+
         });
 
         it('Should create ticket groups and tickets', async function() {
@@ -630,6 +670,32 @@
             await tickets.ticketGroupOrNameIsDisplayed(staffTicket);
             await driver.sleep(1000);
 
+        });
+
+        it('Should add shop categories', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            shopsNavs = new ShopsNavs(driver);
+            shopsCat = new ShopCategoriesPage(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.clickShopManagementTab();
+            await shopsNavs.shopCategoriesNavIsDisplayed();
+            await shopsNavs.clickCategoriesNav();
+            await shopsCat.move6CategoriesFromPotentialToOrdered();
+            await driver.sleep(3000);
         });
 
         it('Should make event managed ticketing shop ', async function () {
@@ -752,7 +818,6 @@
             let fee1 = await taxesAndFees.getTaxOrFeeNameByIndex(5);
             let fee2 = await taxesAndFees.getTaxOrFeeNameByIndex(6);
             let tax1value = await taxesAndFees.getTaxOrFeeValueByIndex(1,1);
-            console.log(tax1value);
             let tax2value = await taxesAndFees.getTaxOrFeeValueByIndex(2,1);
             let fee1value = await taxesAndFees.getTaxOrFeeValueByIndex(5,1);
             let fee2value = await taxesAndFees.getTaxOrFeeValueByIndex(6,1);
@@ -773,8 +838,6 @@
             await ticketing.moveToFeesInfoIcon();
             let firstFeeLabel = await ticketing.getMiniTotalValuesByParentAndChildIndex(3, 0)
             let secondFeeLabel = await ticketing.getMiniTotalValuesByParentAndChildIndex(4, 0)
-            console.log(firstFeeLabel);
-            console.log(secondFeeLabel);
             //assert.equal(firstFeeLabel,fee1NameSubstring + ' ('+fee1value+')')  the $ value doesnt appear on hover when qty is 0
             assert.equal(secondFeeLabel,fee2NameSubstring + ' ('+fee2value+')')
 
@@ -987,61 +1050,6 @@
             await pay.clickFirstCard();
             await pay.clickPayWithCardButton();
             await confirm.isOnConfirmTab();
-
-        });
-
-        it('Should make purchases and make refund', async function() {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            createEvent = new CreateEventModal(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-            eventOrders = new EventOrders(driver);
-            events = new EventsPage(driver);
-            login = new LoginComponent(driver);
-            info = new EventInfo(driver);
-            ticketing = new TicketingPage(driver);
-            tickets = new TicketsTab(driver);
-            extras = new ExtrasTab(driver);
-            pay = new PayTab(driver);
-            confirm = new ConfirmTab(driver);
-            await events.load();
-            await events.clickSignInButton();
-            await login.waitPopupToBeLoaded();
-            await login.authenticate("parma15@parma.it", "Pero1234")
-            await events.successMessagePresent();
-            await events.eventCardIsAvailableToClick();
-            await driver.sleep(20000);
-            await events.clickNewEvent(eventName);
-            await info.buyTicketsButtonPresent();
-            await info.clickBuyTicketsButton();
-            await ticketing.nextButtonPresent();
-            await tickets.sendKeysToQtyInput(0,"3");
-            await tickets.sendKeysToQtyInput(1,"4");
-            await ticketing.clickNextButton();
-            await extras.addMoneyTabIsDisplayed();
-            await ticketing.clickNextButton();
-            await pay.savedCardsHeaderIsPresent();
-            await pay.clickPayWithWalletOption();
-            await pay.payWithWalletButtonIsDisplayed();
-            await pay.clickPayWithWalletButton();
-            await confirm.isOnConfirmTab();
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await driver.sleep(1000);
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.clickTransactionCenterTab();
-            await eventOrders.isAtTransactionCenterPage();
-            await eventOrders.makeFullRefundWithReinstateTicket();
 
         });
 

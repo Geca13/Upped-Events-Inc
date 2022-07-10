@@ -47,9 +47,14 @@
             await newCardComponent.fillNewCardWithVisaData(firstName, lastName);
             await this.click(ADD_NEW_CARD_BUTTON);
         }
-        async calculateBalanceAfterPurchases(userBalance, userPurchasesTotal){
+        async calculateBalanceAfterPurchases(userBalance){
             let currentBalance = await this.returnBalanceState();
-            assert.equal(currentBalance, userBalance - userPurchasesTotal);
+            assert.equal(currentBalance, userBalance);
         }
+        async calculateBalanceAfterRefunds(userBalance){
+            let currentBalance = await this.returnBalanceState();
+            assert.equal(currentBalance, parseFloat(userBalance));
+        }
+
     }
     module.exports = MyWalletTab;
