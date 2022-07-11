@@ -203,6 +203,16 @@
         let result = await this.getRawTicketPrice(locator,index);
         return result.substring(2, result.length - 1);
     }
+    async calculateNumbersFromArray(locator){
+         let total = 0.00;
+         let array = await this.findAll(locator);
+         for (let i = 0; i < array.length; i++) {
+              let amountText = await this.getElementTextFromAnArrayByIndex(locator, i);
+              let amount = await this.convertPriceStringToDouble(amountText);
+              total = total + amount;
+         }
+         return total.toFixed(2);
+    }
 
     async getSubstringOfInboxEmailString(text){
          return text.substring(1, text.length - 1);

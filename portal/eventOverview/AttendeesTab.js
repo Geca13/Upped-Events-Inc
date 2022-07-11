@@ -1,4 +1,5 @@
     const BasePage = require('../../BasePage');
+    const UserDetailsModal = require('../portalModals/userDetailsModal/UserDetailsModal');
     const assert = require('assert')
     const ATTENDEES_TABLE = { id: "dataTable" }
     const ATTENDEES_NAMES = { xpath: "//td[contains(@class, 'column-fullname')]//a[contains(@class, 'table-ticket-name')]//span" } //list
@@ -16,6 +17,14 @@
         }
         async isOnAttendeesTab(){
             await this.isDisplayed(ATTENDEES_TABLE,5000);
+        }
+        async checkForCustomerFullNameByIndex(index , firstName, lastName){
+            await this.isOnAttendeesTab();
+            let customer = await this.getElementTextFromAnArrayByIndex(ATTENDEES_NAMES, index);
+            assert.equal(customer, firstName + " " + lastName);
+        }
+        async clickOnCustomerByIndexToOpenUserDetailsModal(index){
+            await this.click(ATTENDEES_NAMES, index);
         }
         async checkForTicketQuestionsResponsesForTheFirstTwoPurchases(base){
             await this.isOnAttendeesTab();

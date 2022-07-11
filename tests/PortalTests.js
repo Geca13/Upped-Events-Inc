@@ -61,6 +61,7 @@
     const ConfirmPage = require("../embed/embedPages/ConfirmPage");
     const CreateAccountModal = require("../microsites/micrositesComponents/CreateAccountModal");
     const MyWalletTab = require('../microsites/account/MyWalletTab');
+    const UserDetailsModal = require('../portal/portalModals/userDetailsModal/UserDetailsModal')
 
 
     describe('Should login to portal create new event and tickets', function () {
@@ -128,13 +129,14 @@
         let embedConfirm;
         let myWallet;
         let createAccount;
+        let userDetails;
 
 
 
         let today = new Date();
-        let eventName =  (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         let base = Math.floor(100000 + Math.random() * 900000);
-        //let base = 746874;
+        //let base = 583733;
         let ticketOneName = base.toString() +"T1";
         let ticketTwoName = base.toString() +"T2";
         let ticketThreeName = base.toString() +"T3";
@@ -162,7 +164,8 @@
         let customerEmail = customerFirstName + '@' + customerLastName+'.com';
         let customerPassword = base.toString() + 'Password';
         let userBalance = 0.00;
-        let userPurchasesTotal = 0.00;
+        let userWalletPurchasesTotal = 0.00;
+        let userTotalPurchases = 0.00;
 
 
 
@@ -389,7 +392,8 @@
             await pay.payWithWalletButtonIsDisplayed();
             await pay.clickPayWithWalletButton();
             await confirm.isOnConfirmTab();
-            userPurchasesTotal = userPurchasesTotal + parseFloat(await confirm.getPurchaseTotalAmount());
+            userWalletPurchasesTotal = userWalletPurchasesTotal + parseFloat(await confirm.getPurchaseTotalAmount());
+
             // assertForTotal
             await ticketing.clickBackToEventInfoButton();
             await info.buyTicketsButtonPresent();
@@ -410,7 +414,7 @@
             await pay.payWithWalletButtonIsDisplayed();
             await pay.clickPayWithWalletButton();
             await confirm.isOnConfirmTab();
-            userPurchasesTotal = userPurchasesTotal + await confirm.getPurchaseTotalAmount();
+            userWalletPurchasesTotal = userWalletPurchasesTotal + await confirm.getPurchaseTotalAmount();
             // assertForTotal
             await ticketing.clickBackToEventInfoButton();
             await info.buyTicketsButtonPresent();
@@ -426,7 +430,7 @@
             await pay.clickFirstCard();
             await pay.clickPayWithCardButton();
             await confirm.isOnConfirmTab();
-            //userPurchasesTotal = userPurchasesTotal + await confirm.getPurchaseTotalAmount();
+            userTotalPurchases = userWalletPurchasesTotal + await confirm.getPurchaseTotalAmount();
             // assertForTotal
             await ticketing.clickBackToEventInfoButton();
             await info.buyTicketsButtonPresent();
@@ -447,11 +451,9 @@
             await newCardComponent.fillNewCardWithValidData();
             await newCardComponent.clickSaveCardCheckbox();
             await pay.payWithCardButtonIsDisplayed();
-       /*     await pay.clickFirstCard();*/
             await pay.clickPayWithCardButton();
             await confirm.isOnConfirmTab();
-            //userPurchasesTotal = userPurchasesTotal + await confirm.getPurchaseTotalAmount();
-            //console.log(userPurchasesTotal)
+            userTotalPurchases = userTotalPurchases + await confirm.getPurchaseTotalAmount();
         });
 
         it('Should check balance equals original minus transactions totals',async function () {
@@ -467,7 +469,7 @@
             await driver.sleep(10000);
             await events.goToProfilePage();
             await myWallet.myWalletScreenIsDisplayed();
-            userBalance = userBalance - userPurchasesTotal;
+            userBalance = userBalance - userWalletPurchasesTotal;
             console.log(userBalance);
             await myWallet.calculateBalanceAfterPurchases(userBalance);
         });
@@ -539,6 +541,7 @@
             await pay.clickPayWithWalletButton();
             await confirm.isOnConfirmTab();
             userBalance = userBalance - await confirm.getPurchaseTotalAmount();
+            userTotalPurchases = userTotalPurchases + await confirm.getPurchaseTotalAmount();
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
@@ -553,11 +556,42 @@
             await eventOrders.isAtTransactionCenterPage();
             let refundedAmount = await eventOrders.makeFullRefundWithReinstateTicket();
             userBalance = userBalance + parseFloat(refundedAmount);
+            userTotalPurchases = userTotalPurchases - parseFloat(refundedAmount);
             await events.load();
             await driver.sleep(5000);
             await events.goToProfilePage();
             await myWallet.myWalletScreenIsDisplayed();
             await myWallet.calculateBalanceAfterRefunds(userBalance);
+
+        });
+
+        it('should make checks in attendees page and user details modal', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            ticketsNav = new TicketsNav(driver);
+            attendees = new AttendeesTab(driver);
+            userDetails = new UserDetailsModal(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(2000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(500);
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickAttendeesNav();
+            await attendees.checkForCustomerFullNameByIndex(0, customerFirstName, customerLastName);
+            await attendees.clickOnCustomerByIndexToOpenUserDetailsModal(0);
+            await userDetails.assertUserInfoLabels(customerEmail);
+            await userDetails.clickTransactionsNav();
+            await userDetails.assertFirstTransactionsData(userTotalPurchases);
 
         });
 

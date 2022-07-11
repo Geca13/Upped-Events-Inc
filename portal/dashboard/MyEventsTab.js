@@ -21,10 +21,10 @@
         }
 
         async createdEventIsInTheTable(eventName){
-            await this.isDisplayed(By.xpath("//*[text()='"+eventName+"']"),5000);
+            await this.isDisplayed(By.xpath("//td[contains(@class, 'column-eventname')]//a[contains(@class, 'table-ticket-name')]//span[text()='"+eventName+"']"),5000);
         }
         async clickTheNewCreatedEventInTheTable(eventName){
-            await this.click(By.xpath("//*[text()='"+eventName+"']"));
+            await this.click(By.xpath("//td[contains(@class, 'column-eventname')]//a[contains(@class, 'table-ticket-name')]//span[text()='"+eventName+"']"));
         }
         async clickEventInTableByName(){
             await this.clickParent(EVENTS_NAMES_SPANS);
