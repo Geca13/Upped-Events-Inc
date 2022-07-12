@@ -2,6 +2,8 @@
     const DateTimePickerModal = require('../portalModals/DateTimePickerModal')
     const PROMOTIONS_HEADER = { xpath: "//*[text()='Promotions']"}
     const ADD_PROMOTION_BUTTON = { xpath: "//*[text()='Add']"}
+    const ADD_TABLE_COLUMN_BUTTON = { xpath: "//a[contains(@class, 'addcolumn_btn')]//span" };
+    const FILTER_BUTTON = { xpath: "//div[contains(@class, 'filter-list-icon')]//i[contains(@class, 'icon-filter')]" }
 
 
 

@@ -1,6 +1,7 @@
     const {By, Key, Keys} = require("selenium-webdriver");
     const until = require('selenium-webdriver').until;
     const WebElement = require('selenium-webdriver').WebElement
+    const fsp = require('fs').promises
 
 
     class BasePage {
@@ -11,6 +12,7 @@
     async visit(url) {
          await this.driver.get(url)
     }
+
 
     async loginWithFacebookEmailAndPassword(emailLocator,email,passwordLocator,password,loginButton){
           await this.sentKeys(emailLocator,email);
@@ -213,12 +215,46 @@
          }
          return total.toFixed(2);
     }
+    async assertNumberedArrayIsSortedAscending(locator){
+          let array = await this.convertStringArrayToNumber(locator);
+            if(array.length === 1){
+                return true;
+              }
+          for (let i = 0; i < array.length-1; i++) {
+             if (array[i] <= array[i + 1]) {
+               return true;
+               } else {
+               return false;
+             }
+          }
+    }
+
+    async assertNumberedArrayIsSortedDescending(locator){
+          let array = await this.convertStringArrayToNumber(locator);
+            if(array.length === 1){
+                return true;
+              }
+          for (let i = 0; i < array.length-1; i++) {
+             if (array[i] >= array[i + 1]) {
+               return true;
+               } else {
+               return false;
+             }
+          }
+    }
+        async convertStringArrayToNumber(locator){
+          let converted = [];
+          let original = await this.findAll(locator);
+          for (let i = 0; i < original.length ; i++){
+              let elementText = await this.getElementTextFromAnArrayByIndex(locator, i);
+              let elementNumber = await this.convertPriceStringToDouble(elementText);
+               converted.push(elementNumber);
+          }
+       return converted;
+    }
 
     async getSubstringOfInboxEmailString(text){
          return text.substring(1, text.length - 1);
-    }
-    async getSubstringWithStartAndEndIndex(locator, start, end){
-
     }
 
     async sentKeys(locator, inputText) {
@@ -413,6 +449,14 @@
         if(await elements[0].getText() !== ''){
          return await this.elementNotInTheDom(locator);
        }
+    }
+
+    async takeScreenshot(location){
+        this.driver.takeScreenshot().then(
+             function(image) {
+        require('fs').writeFileSync(location+'.png', image, 'base64');
+            }
+        );
     }
 
 

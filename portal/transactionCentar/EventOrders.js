@@ -13,6 +13,8 @@
     const DETAILS_MENU_OPTION = { xpath: "//*[text()=' Details ']"}
     const ORDER_DETAILS_MODAL = { tagName: 'order-details-popup'}
     const ORDER_TOTAL_IN_EVENT_ORDERS = { className: 'column-totalamount' }
+    const ADD_TABLE_COLUMN_BUTTON = { xpath: "//a[contains(@class, 'addcolumn_btn')]//span" };
+    const FILTER_BUTTON = { xpath: "//div[contains(@class, 'filter-list-icon')]//i[contains(@class, 'icon-filter')]" }
 
 
 

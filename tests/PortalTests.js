@@ -64,7 +64,7 @@
     const UserDetailsModal = require('../portal/portalModals/userDetailsModal/UserDetailsModal')
 
 
-    describe('Should login to portal create new event and tickets', function () {
+    describe('Should do everything', function () {
         this.timeout(500000);
         let driver;
         let portalLogin;

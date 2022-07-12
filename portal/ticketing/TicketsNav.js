@@ -1,6 +1,7 @@
     const BasePage = require('../../BasePage');
     const {By} = require("selenium-webdriver");
     const Alerts = require('../../Validations&Alerts/Alerts')
+    const ColumnOptionsModal = require('../portalModals/ColumnsOptionsModal')
     const assert = require('assert')
     const ADD_TICKETS_GROUP_BUTTON = { xpath: "//*[text()=' Add Group']" }
     const ADD_TICKET_BUTTON = { xpath: "//*[text()='Add']" }
@@ -18,6 +19,9 @@
     const SOLD_TICKETS_NUMBER = { className: 'column-sold'} //list
     const TOAST_BANNER = { id:'toast-container' }
     const TICKET_GROUP_TAB = { xpath: "//a[@role='tab']" }
+    const TABLE_HEADERS = { xpath: "//th/span" } //list
+    const ADD_TABLE_COLUMN_BUTTON = { xpath: "//a[contains(@class, 'addcolumn_btn')]//span" };
+    const FILTER_BUTTON = { xpath: "//div[contains(@class, 'filter-list-icon')]//i[contains(@class, 'icon-filter')]" }
 
 
 
@@ -91,6 +95,68 @@
             assert.equal(secondTicketSolds,'5')
             assert.equal(thirdTicketSolds,'5')
             assert.equal(fourthTicketSolds,'5')
+
+        }
+
+        async checkForTableColumnsTexts(){
+            let headers = await this.returnElementsCount(TABLE_HEADERS);
+            assert.equal(headers,8);
+            let first = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 0);
+            let second = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 1);
+            let third = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 2);
+            let fourth = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 3);
+            let fifth = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 4);
+            let sixth = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 5);
+            let seventh = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 6);
+            let eight = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 7);
+            assert.equal(first,'Ticket Name');
+            assert.equal(second,'Start Date/Time');
+            assert.equal(third,'End Date/Time');
+            assert.equal(fourth,'Price');
+            assert.equal(fifth,'Quantity');
+            assert.equal(sixth,'Sold');
+            assert.equal(seventh,'Reserved');
+            assert.equal(eight,'Active/Inactive');
+
+        }
+        async manipulateColumnsFromTable(){
+            await this.click(ADD_TABLE_COLUMN_BUTTON);
+            let options = new ColumnOptionsModal(this.driver);
+            await options.checkColumnsAndMakeManipulationsOnTickets();
+            await this.driver.sleep(1000);
+            let headers = await this.returnElementsCount(TABLE_HEADERS);
+            assert.equal(headers,6);
+            let first = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 0);
+            let second = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 1);
+            let third = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 2);
+            let fourth = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 3);
+            let fifth = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 4);
+            let sixth = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 5);
+            assert.equal(first,'Price');
+            assert.equal(second,'Quantity');
+            assert.equal(third,'Ticket Name');
+            assert.equal(fourth,'Sold');
+            assert.equal(fifth,'Reserved');
+            assert.equal(sixth,'Active/Inactive');
+            await this.click(ADD_TABLE_COLUMN_BUTTON);
+            await options.makeNewManipulationsOnTickets();
+            await this.driver.sleep(1000);
+            first = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 0);
+            second = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 1);
+            third = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 2);
+            fourth = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 3);
+            fifth = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 4);
+            sixth = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 5);
+            let seventh = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 6);
+            assert.equal(first,'End Date/Time');
+            assert.equal(second,'Price');
+            assert.equal(third,'Quantity');
+            assert.equal(fourth,'Ticket Name');
+            assert.equal(fifth,'Sold');
+            assert.equal(sixth,'Reserved');
+            assert.equal(seventh,'Active/Inactive');
+            let headers2 = await this.returnElementsCount(TABLE_HEADERS);
+            assert.equal(headers2,7);
 
         }
     }
