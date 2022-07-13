@@ -274,12 +274,30 @@
 
     }
 
-    async dragAndDropElement(locatorSource, locatorTarget){
+    async dragAndDropWithSourceElementOffset(locator, indexSource,indexTarget, horizontal,vertical){
+         let elements = await this.findAll(locator);
+         let source = elements[indexSource];
+         let target = elements[indexTarget];
+         const actions = this.driver.actions();
+         await actions.move({duration:1000,origin:source,horizontal,vertical}).press().perform();
+         await actions.dragAndDrop(source, target).perform();
+    }
+
+    async dragAndDropWithElements(sourceLocator, targetLocator){
+         let source = await this.find(sourceLocator);
+         let target = await this.find(targetLocator);
+         const actions = this.driver.actions();
+         await actions.move({duration:1000,origin:source,x:3,y:3}).press().perform();
+         await actions.dragAndDrop(source, target).perform();
+    }
+
+    async dragAndDropElement(locatorSource,indexSource, locatorTarget){
         const actions = this.driver.actions();
-        let source = this.find(locatorSource);
+        let source = this.findAll(locatorSource);
+        let s = source[indexSource];
         let destination = this.find(locatorTarget);
         //await actions.move({duration:1000,origin:source,x:0,y:0}).press().perform();
-
+/*
         await this.driver.executeScript("function createEvent(typeOfEvent) {\n" + "var event =document.createEvent(\"CustomEvent\");\n"
             + "event.initCustomEvent(typeOfEvent,true, true, null);\n" + "event.dataTransfer = {\n" + "data: {},\n"
             + "setData: function (key, value) {\n" + "this.data[key] = value;\n" + "},\n"
@@ -295,7 +313,7 @@
             + "var dragEndEvent = createEvent('dragend');\n"
             + "dispatchEvent(element, dragEndEvent,dropEvent.dataTransfer);\n" + "}\n" + "\n"
             + "var source = arguments[0];\n" + "var destination = arguments[1];\n"
-            + "simulateHTML5DragAndDrop(source,destination);", source, destination);
+            + "simulateHTML5DragAndDrop(source,destination);", source, destination);*/
         //await actions.move({duration:1000,origin:destination,x:0,y:0}).release().perform();
        // await this.driver.actions().move({origin:source}).press().perform();
         //await this.driver.sleep(1000)
@@ -303,14 +321,16 @@
         //await actions.dragAndDrop(source, destination).perform();
        // await actions.move({duration:2000,origin:source,x:0,y:0}).press().perform();
         //await actions.move({duration:2000,origin:source,x:400,y:0}).release().perform();
-        /*await actions
-            .move({duration:5000,origin:source,x:0,y:0})
+        await actions
+            .move({duration:2000,origin:s,x:0,y:0})
             .press()
-            .move({duration:5000,origin:source,x:150,y:0})
+            .move({duration:2000,origin:s,x:0,y:100})
             .release()
-            .perform();*/
+            .perform();
        // await this.driver.actions().move({origin:target}).release().perform();
-        //await actions.dragAndDrop(source, target).perform();
+        /*await this.driver.sleep(1000);
+        await actions.dragAndDrop(s, destination).perform();
+        await this.driver.sleep(1000);*/
        //await actions.dragAndDropBy(source, 0,150).perform();
         //await actions.clickAndHold(locatorSource).moveToElement(locatorTarget).build().perform(); await actions.dragAndDrop(locatorSource, { x: 0, y: 150 }).perform();
        // await this.driver.sleep(1000);

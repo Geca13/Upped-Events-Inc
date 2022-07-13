@@ -3,12 +3,11 @@
     const CLOSE_MODAL_ARROW = { xpath: "//div[contains(@class, 'column_title')]//span[contains(@class, 'slide-close')]" };
     const SAVE_BUTTON = { xpath: "//a[text()='Save']"};
     const CANCEL_BUTTON = { xpath: "//a[text()='Cancel']"};
-    const CLOSE_MODAL_ARROW = { xpath: "//div[contains(@class, 'column_title')]//span[contains(@class, 'slide-close')]" };
     const COLUMN_NAMES = { xpath: "//div[contains(@class, 'column-groum')]//label" };
     const COLUMN_DRAGS = { xpath: "//div[contains(@class, 'column-groum')]//span" };
     const REMOVE_COLUMN_BUTTON = { xpath: "//a[contains(@class, 'input_close')]" };
     const ADD_COLUMN_BUTTON = { xpath: "//a[contains(@class, 'w-bg')]" };
-    const SELECT_COLUMN_DROPDOWN = { xpath: "//select[contains(@class, 'ng-star-inserted')]" }
+    const SELECT_COLUMN_DROPDOWN = { xpath: "/html/body/lint-modal-window/div/div/listing-columns-popup/div/div[1]/div[2]/select" }
     const SELECT_COLUMN_OPTIONS = { xpath: "//select[contains(@class, 'ng-star-inserted')]//option" }
 
 
@@ -40,10 +39,11 @@
             assert.equal(sixth,'Sold');
             assert.equal(seventh,'Reserved');
             assert.equal(eight,'Active/Inactive');
-            let start = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES,1);
-            let end = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES,2);
+            await this.dragAndDropWithSourceElementOffset(COLUMN_DRAGS,0,3,2,3);
+            await this.driver.sleep(5000);
             await this.clickElementReturnedFromAnArray(REMOVE_COLUMN_BUTTON,1);
-            await this.clickElementReturnedFromAnArray(REMOVE_COLUMN_BUTTON,2);
+            await this.driver.sleep(500);
+            await this.clickElementReturnedFromAnArray(REMOVE_COLUMN_BUTTON,1);
             first = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 0);
             second = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 1);
             third = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 2);
@@ -56,57 +56,42 @@
             assert.equal(fourth,'Sold');
             assert.equal(fifth,'Reserved');
             assert.equal(sixth,'Active/Inactive');
-            await this.click(ADD_COLUMN_BUTTON);
-            await this.isDisplayed(SELECT_COLUMN_DROPDOWN, 5000);
-            await this.click(SELECT_COLUMN_DROPDOWN);
-            await this.isDisplayed(SELECT_COLUMN_OPTIONS);
-            let options = await this.returnElementsCount(SELECT_COLUMN_OPTIONS);
-            assert.equal(options,3);
-            let optionOne = await this.getElementTextFromAnArrayByIndex(SELECT_COLUMN_OPTIONS,0);
-            let optionTwo = await this.getElementTextFromAnArrayByIndex(SELECT_COLUMN_OPTIONS,1);
-            let optionThree = await this.getElementTextFromAnArrayByIndex(SELECT_COLUMN_OPTIONS,2);
-            assert.equal(optionOne,'Select column');
-            assert.equal(optionTwo,start);
-            assert.equal(optionThree,end);
-            await this.dragAndDropElementByOffset(COLUMN_DRAGS, 0,100);
-            await this.takeScreenshot("column_drop")
-            first = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 0);
-            second = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 1);
-            third = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 2);
-            fourth = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 3);
-            fifth = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 4);
-            sixth = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 5);
-            assert.equal(first,'Price');
-            assert.equal(second,'Quantity');
-            assert.equal(third,'Ticket Name');
-            assert.equal(fourth,'Sold');
-            assert.equal(fifth,'Reserved');
-            assert.equal(sixth,'Active/Inactive');
             await this.click(SAVE_BUTTON);
+
         }
 
         async makeNewManipulationsOnTickets(){
             await this.columnOptionsModalIsDisplayed();
-            await this.click(ADD_COLUMN_BUTTON);
-            await this.isDisplayed(SELECT_COLUMN_DROPDOWN, 5000);
-            await this.click(SELECT_COLUMN_DROPDOWN);
-            await this.isDisplayed(SELECT_COLUMN_OPTIONS);
-            await this.clickElementReturnedFromAnArray(SELECT_COLUMN_OPTIONS,2);
-            await this.clickElementReturnedFromAnArray(COLUMN_NAMES, 3);
             let first = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 0);
             let second = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 1);
             let third = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 2);
             let fourth = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 3);
             let fifth = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 4);
             let sixth = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 5);
-            let seventh = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 6);
-            assert.equal(first,'End Date/Time');
+            assert.equal(first,'Ticket Name');
             assert.equal(second,'Price');
             assert.equal(third,'Quantity');
-            assert.equal(fourth,'Ticket Name');
+            assert.equal(fourth,'Sold');
+            assert.equal(fifth,'Reserved');
+            assert.equal(sixth,'Active/Inactive');
+            await this.click(ADD_COLUMN_BUTTON);
+            await this.isDisplayed(SELECT_COLUMN_DROPDOWN, 5000);
+            await this.sentKeys(SELECT_COLUMN_DROPDOWN, "Start Date/Time");
+            first = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 0);
+            second = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 1);
+            third = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 2);
+            fourth = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 3);
+            fifth = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 4);
+            sixth = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 5);
+            let seventh = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 6);
+            assert.equal(first,'Ticket Name');
+            assert.equal(second,'Start Date/Time');
+            assert.equal(third,'Price');
+            assert.equal(fourth,'Quantity');
             assert.equal(fifth,'Sold');
             assert.equal(sixth,'Reserved');
             assert.equal(seventh,'Active/Inactive');
+            await this.click(SAVE_BUTTON);
 
 
         }

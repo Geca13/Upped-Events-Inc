@@ -136,7 +136,7 @@
         let today = new Date();
         let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         let base = Math.floor(100000 + Math.random() * 900000);
-        //let base = 583733;
+        //let base = 907284;
         let ticketOneName = base.toString() +"T1";
         let ticketTwoName = base.toString() +"T2";
         let ticketThreeName = base.toString() +"T3";
@@ -347,7 +347,8 @@
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.createPromotionForMultipleTicketsWithLimitationsWithPercentValue(ticketOneName, promoFourName, promoCodeFour);
             await promotions.promotionsHeaderIsVisible();
-            await promotions.addPromotionButtonIsVisible()
+            await promotions.addPromotionButtonIsVisible();
+            await driver.sleep(2000);
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.createPromotionWith100discountForAllTickets(ticketOneName, promoFiveName, promoCodeFive);
@@ -497,6 +498,35 @@
             await eventOptionTabs.ticketingTabIsDisplayed();
             await eventOptionTabs.clickTicketingTab();
             await ticketsNav.checkForSoldTicketsAfterFirstTest();
+
+        });
+        it('Should check for tickets table columns and make changes', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            ticketsNav = new TicketsNav(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(1000);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.checkForTableColumnsTexts();
+            await ticketsNav.manipulateColumnsFromTable();
+            await driver.sleep(5000);
+
+
 
         });
 
@@ -714,7 +744,6 @@
             eventOptionTabs = new EventOptionTabs(driver);
             shopsNavs = new ShopsNavs(driver);
             shopsCat = new ShopCategoriesPage(driver);
-
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();

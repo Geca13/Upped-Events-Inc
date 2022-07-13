@@ -41,6 +41,7 @@
             await this.driver.sleep(500);
             await this.clickElementReturnedFromAnArray(CATEGORY_ASSOCIATED_OPTIONS, 1);
             await this.driver.sleep(1000);
+            await this.click(CATEGORY_DROPDOWN);
             await this.clickElementReturnedFromAnArray(CALENDAR_ICON, 3)
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
@@ -91,6 +92,7 @@
             await this.driver.sleep(500);
             await this.clickElementReturnedFromAnArray(CATEGORY_ASSOCIATED_OPTIONS, 1);
             await this.driver.sleep(1500);
+            await this.click(CATEGORY_DROPDOWN);
             await this.clickElementReturnedFromAnArray(CALENDAR_ICON, 3)
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
