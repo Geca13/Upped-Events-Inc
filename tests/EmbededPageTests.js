@@ -24,8 +24,8 @@ describe('Embed', function (){
     let newCardComponent;
     let confirm;
     let originalWindow;
-    let eventName = "6-24-9:11:30"
-    let base = "728482"
+    let eventName = "7-13-4:59:25"
+    let base = "491116"
     let donate;
 
     beforeEach(async function(){

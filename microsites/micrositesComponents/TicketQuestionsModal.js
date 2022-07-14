@@ -4,7 +4,7 @@
     const TICKETS_QUESTION_MODAL = { tagName:"ticket-questions-modal"}
     const HEADING = {  className: "heading"}
     const SUB_HEADING = { className: "sub-heading"}
-    const TICKET_NAME = {  className: "ticket-name"} //list
+    const TICKET_NAME = {  xpath: "//div[contains(@class, 'question-container')]//div[contains(@class, 'ticket-name')]"} //list
     const QUESTION_TITLE = { className: "question-title"} //list
     const TICKET_COUNT = { className: "question-label"} //list
     const RESPONSE_RADIO = { xpath: "//div[contains(@class, 'round')]//label" } //list
@@ -176,8 +176,10 @@
             await this.sendKeysToElementReturnedFromAnArray(ANSWER_TEXTAREA, 0, "15");
             await this.clickElementReturnedFromAnArray(RESPONSE_RADIO,2);
             expect(await this.elementIsEnabledByIndexOfArray(ANSWER_TEXTAREA,2)).to.be.false;
+            await this.moveToElementFromArrayByIndex(ANSWER_TEXTAREA,3);
             await this.clickElementReturnedFromAnArray(RESPONSE_RADIO,6);
             expect(await this.elementIsEnabledByIndexOfArray(ANSWER_TEXTAREA,3)).to.be.false;
+            await this.moveToElementFromArrayByIndex(RESPONSE_RADIO,10);
             await this.clickElementReturnedFromAnArray(RESPONSE_RADIO,10);
             expect(await this.elementIsEnabledByIndexOfArray(ANSWER_TEXTAREA,4)).to.be.true;
             await this.sendKeysToElementReturnedFromAnArray(ANSWER_TEXTAREA, 4, "Heineken Alcohol Free");

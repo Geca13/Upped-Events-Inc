@@ -10,6 +10,7 @@
     const COUNTRY_SELECT = { css: "select[formControlName=country_id]" };
     const STATE_SELECT = { css: "select[formControlName=state]" };
     const INPUT_LABELS = { tagName: 'label' }; //list
+    const EMBED_ADD_TO_SAVED_CARD_BUTTON = { xpath: "//*[text()='Add to Saved Card']"}
 
 
 
@@ -35,6 +36,7 @@
         }
 
         async fillNewCardWithVisaData(firstName, lastName){
+            await this.isDisplayed(CARDHOLDER_NAME_INPUT,5000);
             await this.sentKeys(CARDHOLDER_NAME_INPUT,firstName + ' ' + lastName);
             await this.sentKeys(CARD_NUMBER_INPUT,"4111111111111111");
             await this.sentKeys(CVV_INPUT,"900");
@@ -47,6 +49,10 @@
 
         async clickSaveCardCheckbox(){
             await this.click(SAVE_CARD_CHECKBOX)
+        }
+
+        async clickEmbedSaveCardButton(){
+            await this.click(EMBED_ADD_TO_SAVED_CARD_BUTTON)
         }
 
     }

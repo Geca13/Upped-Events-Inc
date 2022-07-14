@@ -4,6 +4,9 @@
     const FACEBOOK_PASSWORD_INPUT = { id: 'pass' }
     const FACEBOOK_LOGIN_BUTTON = { name: 'login' }
     const FACEBOOK_CONTENT = { id: 'content' }
+    const EMAIL_INPUT = { xpath: "//input[@formcontrolname='email']" };
+    const PASSWORD_INPUT = { xpath: "//input[@formcontrolname='password']" };
+    const LOGIN_BUTTON = { xpath: "//*[text()='Login Now']" }
 
 
     class LoginPage extends BasePage {
@@ -26,6 +29,12 @@
 
         async completeSwitchTo(){
            await this.switchToFacebookWindow(FACEBOOK_SIGN_IN_BUTTON);
+        }
+
+        async loginWithEmailAndPassword(email, password){
+            await this.sentKeys(EMAIL_INPUT, email);
+            await this.sentKeys(PASSWORD_INPUT, password);
+            await this.click(LOGIN_BUTTON);
         }
 
 

@@ -10,6 +10,7 @@
             await this.isDisplayed(ORDER_DETAILS_HEADER,5000);
         }
         async clickPlaceOrderButton(){
+            await this.isDisplayed(PLACE_ORDER_BUTTON,5000);
             await this.click(PLACE_ORDER_BUTTON);
         }
 

@@ -1,5 +1,6 @@
     const BasePage = require('../../BasePage');
     const OrderDetailsModal = require('../portalModals/OrderDetailsModal');
+    const PaginationComponent = require('../portalComponents/PaginationComponent');
     const ALL_NAV = { xpath: "//*[text()='All']"}
     const TICKETS_NAV = { xpath: "//*[text()='Tickets']"}
     const ITEMS_NAV = { xpath: "//*[text()=' Items ']"}
@@ -15,6 +16,8 @@
     const ORDER_TOTAL_IN_EVENT_ORDERS = { className: 'column-totalamount' }
     const ADD_TABLE_COLUMN_BUTTON = { xpath: "//a[contains(@class, 'addcolumn_btn')]//span" };
     const FILTER_BUTTON = { xpath: "//div[contains(@class, 'filter-list-icon')]//i[contains(@class, 'icon-filter')]" }
+    const TABLE_ROWS = {  className: "bg-light" } //list
+
 
 
 
@@ -46,7 +49,15 @@
             return total.toFixed(2);
         }
 
-        async
+        async returnTotalTransactionsMade(){
+            await this.isAtTransactionCenterPage();
+            let pagination = new PaginationComponent(this.driver);
+            await pagination.selectXRowsPerPage(50);
+            await this.isDisplayed(TABLE_ROWS,5000);
+            let rows = await this.returnElementsCount(TABLE_ROWS);
+            return rows;
+
+        }
 
     }
     module.exports = EventOrders;

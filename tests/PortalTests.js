@@ -134,9 +134,9 @@
 
 
         let today = new Date();
-        let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        let base = Math.floor(100000 + Math.random() * 900000);
-        //let base = 907284;
+        let eventName = "7-13-4:59:25" //(today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        //let base = Math.floor(100000 + Math.random() * 900000);
+        let base = 491116;
         let ticketOneName = base.toString() +"T1";
         let ticketTwoName = base.toString() +"T2";
         let ticketThreeName = base.toString() +"T3";
@@ -952,8 +952,8 @@
             await myMenus.isOnMyMenusPage();
             await myMenus.createNewMenuAndSetNewName(base);
             await myMenus.createNewSection("Alcoholic Drinks", 0, 1);
-            /*await myMenus.createNewSection("Meat & Snacks", 1, 2);
-            await myMenus.createNewSection("Desserts", 2, 3);*/
+            await myMenus.createNewSection("Meat & Snacks", 1, 2);
+            await myMenus.createNewSection("Desserts", 2, 3);
             await myMenus.createBeerStoutMenuItem();
 
         });
@@ -1508,8 +1508,6 @@
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await driver.sleep(2000);
             await eventDetails.unpublishButtonIsDisplayed();
-            //await eventDetails.clickUnpublishButton();
-            //await eventDetails.publishButtonIsDisplayed();
             await eventOptionTabs.ticketingTabIsDisplayed();
             await eventOptionTabs.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
@@ -1651,7 +1649,7 @@
 
         });
 
-/*        it('should check ticket questions in embed make a purchase and check for answers', async function () {
+        it('should check ticket questions in embed make a purchase and check for answers', async function () {
             main = new EmbedMainPage(driver);
             embedTickets = new TicketsComponent(driver);
             summary = new SummaryComponent(driver);
@@ -1670,6 +1668,7 @@
             eventDetails = new GeneralDetailsTab(driver);
             ticketsNav = new TicketsNav(driver);
             attendees = new AttendeesTab(driver);
+            originalWindow =  driver.getWindowHandle();
 
             await main.openEmbedPage();
             await main.switchToIframe();
@@ -1680,7 +1679,7 @@
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
             await driver.sleep(1000);
-            await embedLogin.completeSwitchTo()
+            await embedLogin.completeSwitchTo();
             await embedLogin.isAtFacebookPage();
             await embedLogin.completeSignInWithFacebook();
             await driver.switchTo().window(originalWindow);
@@ -1713,9 +1712,89 @@
             await eventOptionTabs.clickAttendeesNav();
             await attendees.checkForTicketQuestionsResponsesForTheUpdated(base,3);
 
-        });*/
 
+        });
 
+        it('should check that when new card is saved only one transaction is made',async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            createEvent = new CreateEventModal(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            eventTickets = new EventTickets(driver)
+            settingsNav = new SettingsNav(driver);
+            questions = new TicketQuestionsPage(driver);
+            eventOrders = new EventOrders(driver);
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            summary = new SummaryComponent(driver);
+            embedLogin = new LoginPage(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            newCardComponent = new NewCardComponent(driver);
+            donate = new DonationComponent(driver);
+            embedConfirm = new ConfirmPage(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(2000);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await eventOptionTabs.clickSettingsNav();
+            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await settingsNav.clickTicketQuestions();
+            await questions.isOnTicketQuestionsPage();
+            await questions.clickDeactivateQuestionButton(1);
+            await questions.clickDeactivateQuestionButton(0);
+            await eventOptionTabs.clickTransactionCenterTab();
+            let transactions = await eventOrders.returnTotalTransactionsMade();
+            console.log(transactions);
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInput(0, 2)
+            await embedTickets.sentKeysToTicketInput(2, 1)
+            await main.nextButtonIsVisible();
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await driver.sleep(1000);
+            await embedLogin.loginWithEmailAndPassword(customerEmail, customerPassword);
+            await main.nextButtonIsVisible();
+            await driver.sleep(5000);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.clickNewCardTab();
+            await payment.fillValidDataOnCardOnTheEmbed(customerFirstName,customerLastName);
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.clickPlaceOrderButton();
+            await embedConfirm.isAtConfirmPage();
+            await portalLogin.loadPortalUrl();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(500);
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTransactionCenterTab();
+            let afterTransactions = await eventOrders.returnTotalTransactionsMade();
+            assert.equal(transactions + 1, afterTransactions)
+        });
 
 
     });

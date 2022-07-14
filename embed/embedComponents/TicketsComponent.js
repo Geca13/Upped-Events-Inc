@@ -1,6 +1,7 @@
     const BasePage = require("../../BasePage");
     const assert = require('assert')
     const TICKET_SELECT = { tagName: 'select'};
+    const TICKETS_LIST = { className: "tickets-list" }
 
     class TicketsComponent extends BasePage {
         constructor(driver) {
@@ -21,7 +22,9 @@
             assert.equal(thirdSelectValue,2);
             assert.equal(fourthSelectValue,0);
 
-
+        }
+        async ticketSelectIsDisplayed(){
+            await this.isDisplayed(TICKETS_LIST, 5000);
         }
 
 

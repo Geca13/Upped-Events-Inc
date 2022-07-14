@@ -1,4 +1,5 @@
     const BasePage = require('../../BasePage');
+    const NewCardComponent = require('../../microsites/micrositesComponents/NewCardComponent');
     const CARD_SERVICE_TAB = { xpath: "//*[text()='Pay with Card or Service']"}
     const NEW_CARD_TAB = { xpath: "//*[text()='Pay with New Card']"}
     const DISCOUNT_INPUT = { className: "discount"}
@@ -7,6 +8,7 @@
     const PAY_WALLET_BUTTON = { xpath: "//*[text()='Pay with wallet']"}
     const CONFIRM_PAYMENT_BUTTON = { xpath: "//*[text()='Confirm Payment']"}
     const SAVED_CARD = { className: "user-card" } //list
+
 
 
 
@@ -35,7 +37,13 @@
             await this.click(PAY_WALLET_BUTTON);
         }
         async clickNewCardTab(){
+            await this.isAtPaymentPage();
             await this.click(NEW_CARD_TAB);
+        }
+        async fillValidDataOnCardOnTheEmbed(firstName,lastName){
+            let newCard = new NewCardComponent(this.driver);
+            await newCard.fillNewCardWithVisaData(firstName, lastName);
+            await newCard.clickEmbedSaveCardButton();
         }
         async enterPromoCode(promoCode){
             await this.sentKeys(DISCOUNT_INPUT,promoCode);

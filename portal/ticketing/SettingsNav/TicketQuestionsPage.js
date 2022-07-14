@@ -18,6 +18,11 @@
             await this.clickElementReturnedFromAnArray(QUESTION_OFF_TOGGLE,index);
             await this.driver.sleep(500);
         }
+        async clickDeactivateQuestionButton(index){
+            await this.isDisplayed(QUESTION_ON_TOGGLE,5000);
+            await this.clickElementReturnedFromAnArray(QUESTION_ON_TOGGLE,index);
+            await this.driver.sleep(500);
+        }
 
         async isOnTicketQuestionsPage(){
             await this.isDisplayed(ADD_BUTTON,5000);
