@@ -30,6 +30,8 @@
             await this.click(SETTINGS_NAV);
         }
         async clickBoxOfficeNav(){
+            await this.isDisplayed(BOX_OFFICE_NAV,5000);
+            await this.moveToElement(BOX_OFFICE_NAV)
             await this.click(BOX_OFFICE_NAV);
         }
 

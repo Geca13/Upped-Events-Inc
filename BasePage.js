@@ -90,6 +90,10 @@
         await this.isDisplayed(this.driver.findElement(By.xpath("//*[text()='"+text+"']")));
     }
 
+    async clickBackspaceKey(locator){
+          await this.sentKeys(locator, Key.BACK_SPACE);
+    }
+
     async getEnteredTextInTheInput(locator){
         let input =  await this.find(locator);
         return input.getAttribute("value");
@@ -114,6 +118,11 @@
 
     async clearInputField(locator){
         let element = await this.find(locator);
+        await element.clear();
+    }
+    async clearInputFieldByIndex(locator,index){
+        let elements = await this.findAll(locator);
+        let element = await elements[index];
         await element.clear();
     }
 
@@ -287,6 +296,16 @@
          let source = await this.find(sourceLocator);
          let target = await this.find(targetLocator);
          const actions = this.driver.actions();
+         await actions.move({duration:5000,origin:source,x:3,y:3}).press().perform();
+         await actions.dragAndDrop(source, target).perform();
+    }
+
+    async dragAndDropWithElementsWithIndexes(sourceLocator, targetLocator,indexSource,indexTarget,){
+         let from = this.findAll(sourceLocator);
+         let source = await from[indexSource];
+         let to = this.findAll(targetLocator);
+         let target = await to[indexTarget];
+         const actions = this.driver.actions();
          await actions.move({duration:1000,origin:source,x:3,y:3}).press().perform();
          await actions.dragAndDrop(source, target).perform();
     }
@@ -381,6 +400,12 @@
     async switchToAnIframe(locator){
          let frame = await this.find(locator)
          await this.driver.switchTo().frame(frame);
+    }
+    async acceptAlert(){
+         await this.driver.wait(until.alertIsPresent());
+         let alert = await this.driver.switchTo().alert();
+         await alert.accept();
+         await this.driver.sleep(500);
     }
     async getOriginalWindowOrTab(){
         return await this.driver.getWindowHandle();

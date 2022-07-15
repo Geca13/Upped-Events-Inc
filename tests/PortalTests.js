@@ -61,7 +61,8 @@
     const ConfirmPage = require("../embed/embedPages/ConfirmPage");
     const CreateAccountModal = require("../microsites/micrositesComponents/CreateAccountModal");
     const MyWalletTab = require('../microsites/account/MyWalletTab');
-    const UserDetailsModal = require('../portal/portalModals/userDetailsModal/UserDetailsModal')
+    const UserDetailsModal = require('../portal/portalModals/userDetailsModal/UserDetailsModal');
+    const EventCapacitySubNav = require('../portal/ticketing/SettingsNav/EventCapacitySubNav');
 
 
     describe('Should do everything', function () {
@@ -130,6 +131,7 @@
         let myWallet;
         let createAccount;
         let userDetails;
+        let capacity;
 
 
 
@@ -500,6 +502,7 @@
             await ticketsNav.checkForSoldTicketsAfterFirstTest();
 
         });
+
         it('Should check for tickets table columns and make changes', async function () {
 
             portalLogin = new PortalLoginPage(driver);
@@ -952,9 +955,11 @@
             await myMenus.isOnMyMenusPage();
             await myMenus.createNewMenuAndSetNewName(base);
             await myMenus.createNewSection("Alcoholic Drinks", 0, 1);
-            await myMenus.createNewSection("Meat & Snacks", 1, 2);
-            await myMenus.createNewSection("Desserts", 2, 3);
+            //await myMenus.createNewSection("Meat & Snacks", 1, 2);
+            //await myMenus.createNewSection("Desserts", 2, 3);
             await myMenus.createBeerStoutMenuItem();
+            await myMenus.dragMenuItemToMenuSection();
+            await driver.sleep(2500)
 
         });
 
@@ -1497,6 +1502,7 @@
             bosExtras = new BOAddExtras(driver);
             bosDetails = new BOAddDetails(driver);
             bosReview = new BOReviewAndPay(driver);
+
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
@@ -1794,6 +1800,182 @@
             await eventOptionTabs.clickTransactionCenterTab();
             let afterTransactions = await eventOrders.returnTotalTransactionsMade();
             assert.equal(transactions + 1, afterTransactions)
+        });
+
+        it('should set limitation on tickets per account and fail payment in box office',async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            createEvent = new CreateEventModal(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            capacity = new EventCapacitySubNav(driver);
+            ticketsNav = new TicketsNav(driver);
+            eventTickets = new EventTickets(driver)
+            settingsNav = new SettingsNav(driver);
+            bosTickets = new BOSelectTickets(driver);
+            bosExtras = new BOAddExtras(driver);
+            bosDetails = new BOAddDetails(driver);
+            bosReview = new BOReviewAndPay(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(2000);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await eventOptionTabs.clickSettingsNav();
+            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await settingsNav.clickEventCapacity();
+            await capacity.setLimitPerAccount("26");
+            await eventTickets.clickBoxOfficeNav();
+            await bosTickets.isOnBoxOfficePage();
+            await bosTickets.selectTicketByIndexAndSendQuantity(0, "5");
+            await bosExtras.add20$ToOrderOnExtrasPage();
+            await bosDetails.continueToPayment();
+            await bosReview.makePayment(base);
+        });
+
+        it('should check ticket limitations exist in embed and microsites', async function () {
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedLogin = new LoginPage(driver);
+            events = new EventsPage(driver);
+            login = new LoginComponent(driver);
+            info = new EventInfo(driver);
+            ticketing = new TicketingPage(driver);
+            tickets = new TicketsTab(driver);
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInput(0, 6)
+            await embedTickets.sentKeysToTicketInput(2, 6)
+            await embedTickets.sentKeysToTicketInput(1, 6)
+            await embedTickets.sentKeysToTicketInput(3, 15);
+            await main.nextButtonIsVisible();
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await driver.sleep(1000);
+            await embedLogin.loginWithEmailAndPassword("parma15@parma.it", "Pero1234");
+            await main.nextButtonIsVisible();
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await main.limitInfoMessageIsDisplayed("27");
+            await events.load();
+            await events.eventCardIsAvailableToClick();
+            await driver.sleep(5000);
+            await events.clickNewEvent(eventName);
+            await info.buyTicketsButtonPresent();
+            await info.clickBuyTicketsButton();
+            await ticketing.nextButtonPresent();
+            await tickets.sendKeysToQtyInput(1,8);
+            await tickets.sendKeysToQtyInput(2,10);
+            await tickets.sendKeysToQtyInput(3,10);
+            await ticketing.clickNextButton();
+            await ticketing.limitInfoMessageIsDisplayed("27");
+            await driver.sleep(1000);
+
+        });
+
+        it('should remove limitation on tickets per account and make payments on embed and microsites with larger quantity',async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            createEvent = new CreateEventModal(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            capacity = new EventCapacitySubNav(driver);
+            ticketsNav = new TicketsNav(driver);
+            eventTickets = new EventTickets(driver)
+            settingsNav = new SettingsNav(driver);
+
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedLogin = new LoginPage(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            embedConfirm = new ConfirmPage(driver);
+
+            events = new EventsPage(driver);
+            login = new LoginComponent(driver);
+            info = new EventInfo(driver);
+            ticketing = new TicketingPage(driver);
+            tickets = new TicketsTab(driver);
+            extras = new ExtrasTab(driver);
+            pay = new PayTab(driver);
+            confirm = new ConfirmTab(driver);
+            myWallet = new MyWalletTab(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(2000);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await eventOptionTabs.clickSettingsNav();
+            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await settingsNav.clickEventCapacity();
+            await capacity.removeLimit();
+            await driver.sleep(2000);
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInput(0, 6)
+            await embedTickets.sentKeysToTicketInput(2, 6)
+            await embedTickets.sentKeysToTicketInput(1, 6)
+            await embedTickets.sentKeysToTicketInput(3, 15);
+            await main.nextButtonIsVisible();
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await driver.sleep(1000);
+            await embedLogin.loginWithEmailAndPassword("parma15@parma.it", "Pero1234");
+            await main.nextButtonIsVisible();
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickSavedCardByIndex(0);
+            await payment.clickConfirmPaymentButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.clickPlaceOrderButton();
+            await embedConfirm.isAtConfirmPage();
+            await events.load();
+            await events.eventCardIsAvailableToClick();
+            await driver.sleep(5000);
+            await events.clickNewEvent(eventName);
+            await info.buyTicketsButtonPresent();
+            await info.clickBuyTicketsButton();
+            await ticketing.nextButtonPresent();
+            await tickets.sendKeysToQtyInput(1,8);
+            await tickets.sendKeysToQtyInput(2,10);
+            await tickets.sendKeysToQtyInput(3,10);
+            await ticketing.clickNextButton();
+            await extras.addMoneyTabIsDisplayed();
+            await ticketing.clickNextButton();
+            await pay.savedCardsHeaderIsPresent();
+            await pay.clickPayWithWalletOption();
+            await pay.payWithWalletButtonIsDisplayed();
+            await pay.clickPayWithWalletButton();
+            await confirm.isOnConfirmTab();
+
         });
 
 

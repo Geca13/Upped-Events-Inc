@@ -1,17 +1,19 @@
     const BasePage = require('../../BasePage');
     const { Key, Keys} = require("selenium-webdriver");
     const SetImageModal = require('../portalModals/SetImageModal');
+    const MenuSchedulerPage = require('../eventModules/MenuSchedulerPage');
     const CREATE_NEW_MENU_LINK = { xpath: "//*[text()=' Create New Menu']"}
     const MY_MENUS_NAV = { xpath: "//*[text()='My Menus ']"}
     const MENU_NAV = { xpath: "//*[text()='Menu ']"} // IN SHOPS MANAGEMENT
     const MENU_SCHEDULER_NAV = { xpath: "//*[text()='Menu Scheduler']"}
     const ADD_NEW_SECTION_BUTTON = { xpath: "//*[text()='Add New Section ']"}
     const MENU_SECTION = { className:'justify-content-center' }//list
-    const MENU_ITEM_FROM_LIST = { className: 'cdk-drag' }
+    const MENU_ITEM_FROM_LIST = { className: 'cdk-drag' } //list
     const MENU_TITLE_INPUT = { xpath: "//input[@name='menuTitle']" };
     const EDIT_ICON = { className: 'fa-pencil'};
     const SAVE_MENU_NAME_ICON = { className: 'fa-check'};
     const SECTION_TITLE_INPUT = { xpath: "//input[@name='sectionName']" };
+    const ADD_NEW_MENU_BUTTON = { xpath: "//button[text()='Add New Menu ']"}
     const ADD_NEW_MENU_ITEM_BUTTON = { xpath: "//*[text()='Add ']"}
     const ADD_NEW_MENU_ITEM_FROM_SECTION_BUTTON = { xpath: "//*[text()='Add New Item ']"}
     const MAIN_CATEGORIES_DROPDOWN = { className:'dropdown-menu-right'}
@@ -29,6 +31,13 @@
     const NEW_ITEM_SUBCATEGORY_DROPDOWN = { xpath: "//select-picker[@formcontrolname='subCategory']" };
     const NEW_ITEM_IMAGE_INPUT = { xpath: "//input[@type='file']" };
     const ADD_SAVE_ITEM_BUTTON = { xpath: "//*[text()='Add Item']"}
+    const MENUS = { xpath: "//a[contains(@class, 'menuHref')]"}
+    const MENU_ICON = { xpath: "//a[contains(@class, 'icon-dots-wrapper')]"}
+    const EDIT_MENU_OPTION = { xpath: "//a[text()=' Edit ']"}
+    const DUPLICATE_MENU_OPTION = { xpath: "//a[text()=' Duplicate ']"}
+    const DELETE_MENU_OPTION = { xpath: "//a[text()=' Delete ']"}
+    const NO_RECORD_MESSAGE = { xpath: "//h5[text()='No record available']"}
+    const DROP = { xpath: "/html/body/app-root/site-dashboard/div/div/div[2]/div/app-event-menu-management/div/div/div/div/div/div[2]/div[2]/app-add-edit-event-menus/div[2]/div[1]/menu-menus-view/div/div[2]/div/div/div[2]"}
 
 
     const CATEGORY_SUBCATEGORY_DROPDOWNS = { tagName: 'select'}// list
@@ -82,6 +91,7 @@
         }
 
         async isOnMyMenusPage(){
+            await this.deleteMenuIfExistsAndRefresh();
             await this.isDisplayed(CREATE_NEW_MENU_LINK,15000);
         }
         async createNewMenuAndSetNewName(base){
@@ -162,7 +172,21 @@
             //let section = sections[sectionIndex];
             //let menuItems = await this.findAll(MENU_ITEM_FROM_LIST);
             //let menuItem = menuItems[menuItemIndex];
-            await this.dragAndDropElementByOffset(MENU_ITEM_FROM_LIST, -150,-40);
+            await this.dragAndDropWithElements(MENU_ITEM_FROM_LIST,DROP);
+        }
+
+        async deleteMenuIfExistsAndRefresh(){
+            let menus = await this.findAll(MENUS);
+            if (menus.length > 0){
+                await this.click(MENU_ICON);
+                await this.isDisplayed(DELETE_MENU_OPTION,5000);
+                await this.acceptAlert();
+                await this.isDisplayed(NO_RECORD_MESSAGE,5000);
+                await this.click(MENU_SCHEDULER_NAV);
+                let scheduler = new MenuSchedulerPage(this.driver);
+                await scheduler.clickMyMenusNav();
+                await this.isDisplayed(CREATE_NEW_MENU_LINK,5000);
+            }
         }
     }
     module.exports = MyMenusPage;

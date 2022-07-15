@@ -1,5 +1,6 @@
    /* const { Builder, By, until } = require('selenium-webdriver'); */
    const BasePage = require('../../BasePage');
+   const Alerts = require('../../Validations&Alerts/Alerts')
    const assert = require('assert')
    const IFRAME = { id: "uwWidget"}
    const TERMS_CHECKBOX = { xpath: "//input[@type='checkbox']"}
@@ -36,6 +37,7 @@
       }
 
       async clickTicketTermsCheckbox(){
+         await this.isDisplayed(TERMS_CHECKBOX, 5000);
          await this.click(TERMS_CHECKBOX)
       }
 
@@ -46,6 +48,10 @@
       async clickNextPageButton(){
         await this.click(NEXT_BUTTON)
       }
+      async limitInfoMessageIsDisplayed(number){
+            let info = new Alerts(this.driver);
+            await info.correctInfoMessageIsDisplayed("You have exceeded maximum (" + number + ") limit to buy tickets");
+        }
 
 
    }

@@ -31,6 +31,7 @@
 
         async clickFirstIncreaseButton(){
             await this.elementFromArrayOfElementsIsDisplayed(INCREASE_QTY_BUTTONS,0)
+            await this.driver.sleep(500);
             await this.click(INCREASE_QTY_BUTTONS);
         }
 
@@ -38,6 +39,7 @@
             return await this.getSubstringOfBracketedPriceString(TICKETS_PRICES,1)
         }
         async sendKeysToQtyInput(index,qty){
+           await this.clearInputFieldByIndex(QTY_INPUTS,index)
            await this.sendKeysToElementReturnedFromAnArray(QTY_INPUTS,index,qty);
         }
         async clickIncreaseQtyButtonByIndex(index){

@@ -1,4 +1,5 @@
     const BasePage = require("../../BasePage");
+    const Alerts = require('../../Validations&Alerts/Alerts')
     const TICKETS_TAB = { xpath: "//*[text()='Tickets']"}
     const LOGIN_TAB = { xpath: "//*[text()='Login']"}
     const EXTRAS_TAB = { xpath: "//*[text()='Extras']"}
@@ -69,6 +70,10 @@
         }
         async removeDiscountIconIsDisplayed(){
             await this.isDisplayed(DISCOUNT_TRASH_ICON,5000);
+        }
+        async limitInfoMessageIsDisplayed(number){
+            let info = new Alerts(this.driver);
+            await info.correctInfoMessageIsDisplayed("You have exceeded maximum (" + number + ") limit to buy tickets");
         }
     }
 

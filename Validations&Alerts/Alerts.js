@@ -38,6 +38,14 @@
         await this.elementIsNotDisplayed(TOAST_MESSAGE,15000);
     }
 
+    async correctInfoMessageIsDisplayed(expected){
+        await this.isDisplayed(TOAST_MESSAGE,5000);
+        await this.driver.sleep(500);
+        let alertMessage = await this.getElementText(TOAST_MESSAGE);
+        assert.equal(expected,alertMessage);
+
+    }
+
 
 
 
