@@ -193,8 +193,28 @@
     async getFontColorFromAnArray(locator, index){
         let elements = await this.findAll(locator)
         return elements[index].getCssValue('color')
-
     }
+
+    async checkIfClassIsApplied(locator, index, clas){
+        let seperated = [];
+        let elements = await this.findAll(locator);
+        let element = elements[index];
+        let classes = await element.getAttribute('class');
+        console.log(classes)
+        let clases = classes.split(' ');
+        for (const item of clases) {
+            seperated.push(item)
+        }
+        let i = seperated.length;
+        while (i--){
+            if(seperated[i] == clas){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     async getElementTextFromAnArrayByIndex(locator, index){
         let elements = await this.findAll(locator);
         return await elements[index].getText();
@@ -288,7 +308,7 @@
          let source = elements[indexSource];
          let target = elements[indexTarget];
          const actions = this.driver.actions();
-         await actions.move({duration:1000,origin:source,horizontal,vertical}).press().perform();
+         await actions.move({duration:2000,origin:source,horizontal,vertical}).press().perform();
          await actions.dragAndDrop(source, target).perform();
     }
 
@@ -296,17 +316,17 @@
          let source = await this.find(sourceLocator);
          let target = await this.find(targetLocator);
          const actions = this.driver.actions();
-         await actions.move({duration:5000,origin:source,x:3,y:3}).press().perform();
+         await actions.move({duration:1000,origin:source,x:3,y:3}).press().perform();
          await actions.dragAndDrop(source, target).perform();
     }
 
-    async dragAndDropWithElementsWithIndexes(sourceLocator, targetLocator,indexSource,indexTarget,){
+    async dragAndDropWithElementsWithIndexes(sourceLocator, targetLocator,indexSource,indexTarget){
          let from = this.findAll(sourceLocator);
          let source = await from[indexSource];
          let to = this.findAll(targetLocator);
          let target = await to[indexTarget];
          const actions = this.driver.actions();
-         await actions.move({duration:1000,origin:source,x:3,y:3}).press().perform();
+         await actions.move({duration:1000,origin:source,x:2,y:3}).press().perform();
          await actions.dragAndDrop(source, target).perform();
     }
 
@@ -502,6 +522,20 @@
         require('fs').writeFileSync(location+'.png', image, 'base64');
             }
         );
+    }
+    async conditionalClick(locator1, locator2, locator3){
+        let first = await this.findAll(locator1);
+        console.log(first.length)
+        if (first.length > 0){
+            await this.click(locator2)
+        }else {
+            await this.click(locator3);
+        }
+
+    }
+
+    async timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
     }
 
 

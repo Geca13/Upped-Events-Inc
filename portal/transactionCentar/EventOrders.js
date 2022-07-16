@@ -1,6 +1,8 @@
     const BasePage = require('../../BasePage');
     const OrderDetailsModal = require('../portalModals/OrderDetailsModal');
     const PaginationComponent = require('../portalComponents/PaginationComponent');
+    const assert = require('assert');
+    const { expect } = require('chai');
     const ALL_NAV = { xpath: "//*[text()='All']"}
     const TICKETS_NAV = { xpath: "//*[text()='Tickets']"}
     const ITEMS_NAV = { xpath: "//*[text()=' Items ']"}
@@ -17,6 +19,8 @@
     const ADD_TABLE_COLUMN_BUTTON = { xpath: "//a[contains(@class, 'addcolumn_btn')]//span" };
     const FILTER_BUTTON = { xpath: "//div[contains(@class, 'filter-list-icon')]//i[contains(@class, 'icon-filter')]" }
     const TABLE_ROWS = {  className: "bg-light" } //list
+    const TABLE_HEADS = {  xpath: "//th[contains(@class , 'sorting')]" } //list
+    const ORDERS_IDS = { xpath: "//td[contains(@class , 'column-id')]//a[contains(@class , 'table-ticket-name')]//span" }
 
 
 
@@ -53,10 +57,31 @@
             await this.isAtTransactionCenterPage();
             let pagination = new PaginationComponent(this.driver);
             await pagination.selectXRowsPerPage(50);
+            await this.takeScreenshot("bg-light")
             await this.isDisplayed(TABLE_ROWS,5000);
             let rows = await this.returnElementsCount(TABLE_ROWS);
             return rows;
+        }
 
+        async assertOrderIdsAreShownInDescendingOrder(){
+            await this.isAtTransactionCenterPage();
+            await this.isDisplayed(ORDERS_IDS,5000);
+            expect(await this.assertNumberedArrayIsSortedDescending(ORDERS_IDS)).to.be.true;
+        }
+
+        async assertOrderIdsAreShownInAscendingOrder(){
+            await this.isAtTransactionCenterPage();
+            await this.isDisplayed(ORDERS_IDS,5000);
+            expect(await this.checkIfClassIsApplied(TABLE_HEADS, 0, "sorted")).to.be.false;
+            expect(await this.checkIfClassIsApplied(TABLE_HEADS, 0, "desc")).to.be.true;
+            await this.clickElementReturnedFromAnArray(TABLE_HEADS,0);
+            await this.timeout(1000);
+            expect(await this.checkIfClassIsApplied(TABLE_HEADS, 0, "sorted")).to.be.true;
+            await this.clickElementReturnedFromAnArray(TABLE_HEADS,0);
+            await this.timeout(1000);
+            expect(await this.assertNumberedArrayIsSortedAscending(ORDERS_IDS)).to.be.true;
+            await this.timeout(1000);
+            //expect(await this.checkIfClassIsApplied(TABLE_HEADS, 0, "desc")).to.be.true;
         }
 
     }

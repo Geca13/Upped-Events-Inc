@@ -91,11 +91,11 @@
         }
 
         async isOnMyMenusPage(){
-            await this.deleteMenuIfExistsAndRefresh();
-            await this.isDisplayed(CREATE_NEW_MENU_LINK,15000);
+            await this.isDisplayed(MENU_SCHEDULER_NAV,15000);
         }
         async createNewMenuAndSetNewName(base){
-            await this.click(CREATE_NEW_MENU_LINK);
+            await this.driver.sleep(2000);
+            await this.conditionalClick(MENUS,ADD_NEW_MENU_BUTTON,CREATE_NEW_MENU_LINK);
             await this.isDisplayed(ADD_NEW_SECTION_BUTTON,15000);
             await this.moveToElement(MENU_TITLE_INPUT);
             await this.isDisplayed(EDIT_ICON,5000);
@@ -124,11 +124,17 @@
             await this.click(ADD_NEW_MENU_ITEM_FROM_SECTION_BUTTON);
             //await this.driver.executeScript("document.getElementsByClassName('dropdown-menu-right')[0].style.visibility='visible'");
             await this.isDisplayed(MAIN_CATEGORIES_DROPDOWN,5000);
+            await this.timeout(500);
+            await this.takeScreenshot("categories")
+            await this.timeout(500);
             await this.click(BEVERAGE_OPTION);
+            await this.timeout(500);
+            await this.takeScreenshot("selected")
             await this.isDisplayed(NEW_ITEM_NAME_INPUT,5000);
             await this.sentKeys(NEW_ITEM_NAME_INPUT, "Heineken Beer Stout");
             await this.sentKeys(NEW_ITEM_PRICE_INPUT, "7.5");
             await this.click(NEW_ITEM_CATEGORY_DROPDOWN);
+            await this.takeScreenshot("Beer")
             await this.isDisplayed(BEER_CATEGORY,5000);
             await this.click(BEER_CATEGORY);
             await this.click(NEW_ITEM_SUBCATEGORY_DROPDOWN);
@@ -180,6 +186,7 @@
             if (menus.length > 0){
                 await this.click(MENU_ICON);
                 await this.isDisplayed(DELETE_MENU_OPTION,5000);
+                await this.click(DELETE_MENU_OPTION);
                 await this.acceptAlert();
                 await this.isDisplayed(NO_RECORD_MESSAGE,5000);
                 await this.click(MENU_SCHEDULER_NAV);

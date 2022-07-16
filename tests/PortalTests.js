@@ -136,9 +136,9 @@
 
 
         let today = new Date();
-        let eventName = "7-13-4:59:25" //(today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let eventName = "7-16-2:51:47" // (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         //let base = Math.floor(100000 + Math.random() * 900000);
-        let base = 491116;
+        let base = 113630 ;
         let ticketOneName = base.toString() +"T1";
         let ticketTwoName = base.toString() +"T2";
         let ticketThreeName = base.toString() +"T3";
@@ -528,9 +528,6 @@
             await ticketsNav.checkForTableColumnsTexts();
             await ticketsNav.manipulateColumnsFromTable();
             await driver.sleep(5000);
-
-
-
         });
 
         it('Should make purchases , make refund and check balance after', async function() {
@@ -1868,7 +1865,7 @@
             await main.nextButtonIsVisible();
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
-            await main.limitInfoMessageIsDisplayed("27");
+            await main.limitInfoMessageIsDisplayed("23");
             await events.load();
             await events.eventCardIsAvailableToClick();
             await driver.sleep(5000);
@@ -1880,7 +1877,7 @@
             await tickets.sendKeysToQtyInput(2,10);
             await tickets.sendKeysToQtyInput(3,10);
             await ticketing.clickNextButton();
-            await ticketing.limitInfoMessageIsDisplayed("27");
+            await ticketing.limitInfoMessageIsDisplayed("23");
             await driver.sleep(1000);
 
         });
@@ -1975,6 +1972,34 @@
             await pay.payWithWalletButtonIsDisplayed();
             await pay.clickPayWithWalletButton();
             await confirm.isOnConfirmTab();
+
+        });
+
+        it('Should assert correct id sortering in transaction center ', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            createEvent = new CreateEventModal(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+            eventOrders = new EventOrders(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await driver.sleep(1000);
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.clickTransactionCenterTab();
+            await eventOrders.isAtTransactionCenterPage();
+            await eventOrders.assertOrderIdsAreShownInDescendingOrder();
+            await eventOrders.assertOrderIdsAreShownInAscendingOrder();
 
         });
 

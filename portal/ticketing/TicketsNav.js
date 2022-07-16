@@ -158,6 +158,8 @@
             assert.equal(seventh,'Active/Inactive');
             let headers2 = await this.returnElementsCount(TABLE_HEADERS);
             assert.equal(headers2,7);
+            await this.click(ADD_TABLE_COLUMN_BUTTON);
+            await options.changeColumnOrdersByColumnIndex();
 
         }
     }
