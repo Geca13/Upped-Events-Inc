@@ -276,10 +276,15 @@
           let original = await this.findAll(locator);
           for (let i = 0; i < original.length ; i++){
               let elementText = await this.getElementTextFromAnArrayByIndex(locator, i);
+              if(elementText.includes('$')){
+                  elementText = elementText.substring(1);
+              }
               let elementNumber = await this.convertPriceStringToDouble(elementText);
                converted.push(elementNumber);
           }
+          console.log(converted)
        return converted;
+
     }
 
     async getSubstringOfInboxEmailString(text){

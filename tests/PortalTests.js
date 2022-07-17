@@ -136,9 +136,9 @@
 
 
         let today = new Date();
-        let eventName = "7-16-2:51:47" // (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        //let base = Math.floor(100000 + Math.random() * 900000);
-        let base = 113630 ;
+        let eventName = (today.getMonth()+1)+'-'+today.getDate() + '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let base = Math.floor(100000 + Math.random() * 900000);
+        //let base = 113630 ;
         let ticketOneName = base.toString() +"T1";
         let ticketTwoName = base.toString() +"T2";
         let ticketThreeName = base.toString() +"T3";
@@ -699,7 +699,7 @@
             await events.load();
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
-            await login.authenticate("parma5555@parma.it", "Pero1234")
+            await login.authenticate("parma55555@parma.it", "Pero1234")
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
             await driver.sleep(15000);
@@ -1027,7 +1027,7 @@
             await events.load();
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
-            await login.authenticate("parma5555@parma.it", "Pero1234")
+            await login.authenticate("parma55555@parma.it", "Pero1234")
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
             await driver.sleep(10000);
@@ -1161,7 +1161,7 @@
             await inbox.checkAdditionalEmailIsSend(base);
         });
 
-        /*it('Should add quantity and set new price', async function () {
+        it('Should add quantity and set new price', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             createEvent = new CreateEventModal(driver);
@@ -1214,7 +1214,7 @@
             await bosTickets.isOnBoxOfficePage();
             await bosTickets.isOnBoxOfficePage();
             await bosTickets.assertNewPriceAndQuantity();
-        });*/
+        });
 
         it('Should make purchase with promotion in box-ofice', async function () {
             portalLogin = new PortalLoginPage(driver);
@@ -1399,7 +1399,7 @@
             await events.load();
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
-            await login.authenticate("parma5555@parma.it", "Pero1234")
+            await login.authenticate("parma55555@parma.it", "Pero1234")
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
             await driver.sleep(10000);
@@ -1460,7 +1460,7 @@
             await events.load();
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
-            await login.authenticate("parma5555@parma.it", "Pero1234")
+            await login.authenticate("parma55555@parma.it", "Pero1234")
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
             await driver.sleep(10000);
@@ -1975,7 +1975,7 @@
 
         });
 
-        it('Should assert correct id sortering in transaction center ', async function () {
+        it('Should assert correct sort by id column in transaction center ', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             createEvent = new CreateEventModal(driver);
@@ -2000,6 +2000,62 @@
             await eventOrders.isAtTransactionCenterPage();
             await eventOrders.assertOrderIdsAreShownInDescendingOrder();
             await eventOrders.assertOrderIdsAreShownInAscendingOrder();
+
+        });
+
+        it('Should assert correct sort by price column in transaction center ', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            createEvent = new CreateEventModal(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+            eventOrders = new EventOrders(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await driver.sleep(1000);
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.clickTransactionCenterTab();
+            await eventOrders.isAtTransactionCenterPage();
+            await eventOrders.assertPricesAreShownInDescendingOrder();
+            await eventOrders.assertPricesAreShownInAscendingOrder();
+
+        });
+
+        it('Should assert correct sort by items purchased column in transaction center ', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            createEvent = new CreateEventModal(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+            eventOrders = new EventOrders(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await driver.sleep(1000);
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.clickTransactionCenterTab();
+            await eventOrders.isAtTransactionCenterPage();
+            await eventOrders.assertItemsAreShownInDescendingOrder();
+            await eventOrders.assertItemsAreShownInAscendingOrder();
 
         });
 

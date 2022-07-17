@@ -21,6 +21,8 @@
     const TABLE_ROWS = {  className: "bg-light" } //list
     const TABLE_HEADS = {  xpath: "//th[contains(@class , 'sorting')]" } //list
     const ORDERS_IDS = { xpath: "//td[contains(@class , 'column-id')]//a[contains(@class , 'table-ticket-name')]//span" }
+    const ORDERS_AMOUNTS = { xpath: "//td[contains(@class , 'column-totalamount')]//span" }
+    const ORDERS_ITEMS = { xpath: "//td[contains(@class , 'column-items')]//span" }
 
 
 
@@ -80,6 +82,56 @@
             await this.clickElementReturnedFromAnArray(TABLE_HEADS,0);
             await this.timeout(1000);
             expect(await this.assertNumberedArrayIsSortedAscending(ORDERS_IDS)).to.be.true;
+            await this.timeout(1000);
+            //expect(await this.checkIfClassIsApplied(TABLE_HEADS, 0, "desc")).to.be.true;
+        }
+
+        async assertPricesAreShownInDescendingOrder(){
+            await this.isAtTransactionCenterPage();
+            await this.isDisplayed(ORDERS_IDS,5000);
+            expect(await this.checkIfClassIsApplied(TABLE_HEADS, 4, "sorted")).to.be.false;
+            await this.clickElementReturnedFromAnArray(TABLE_HEADS,4);
+            await this.timeout(4000);
+            expect(await this.checkIfClassIsApplied(TABLE_HEADS, 4, "sorted")).to.be.true;
+            //expect(await this.checkIfClassIsApplied(TABLE_HEADS, 4, "desc")).to.be.true;
+            await this.timeout(1000);
+            expect(await this.assertNumberedArrayIsSortedDescending(ORDERS_AMOUNTS)).to.be.true;
+            await this.timeout(1000);
+        }
+        async assertPricesAreShownInAscendingOrder(){
+            await this.isAtTransactionCenterPage();
+            await this.isDisplayed(ORDERS_IDS,5000);
+            await this.clickElementReturnedFromAnArray(TABLE_HEADS,4);
+            await this.timeout(1000);
+            expect(await this.checkIfClassIsApplied(TABLE_HEADS, 4, "sorted")).to.be.true;
+            //expect(await this.checkIfClassIsApplied(TABLE_HEADS, 4, "asc")).to.be.true;
+            await this.timeout(1000);
+            expect(await this.assertNumberedArrayIsSortedAscending(ORDERS_AMOUNTS)).to.be.true;
+            await this.timeout(1000);
+            //expect(await this.checkIfClassIsApplied(TABLE_HEADS, 0, "desc")).to.be.true;
+        }
+
+        async assertItemsAreShownInDescendingOrder(){
+            await this.isAtTransactionCenterPage();
+            await this.isDisplayed(ORDERS_IDS,5000);
+            expect(await this.checkIfClassIsApplied(TABLE_HEADS, 3, "sorted")).to.be.false;
+            await this.clickElementReturnedFromAnArray(TABLE_HEADS,3);
+            await this.timeout(4000);
+            expect(await this.checkIfClassIsApplied(TABLE_HEADS, 3, "sorted")).to.be.true;
+            //expect(await this.checkIfClassIsApplied(TABLE_HEADS, 4, "desc")).to.be.true;
+            await this.timeout(1000);
+            expect(await this.assertNumberedArrayIsSortedDescending(ORDERS_ITEMS)).to.be.true;
+            await this.timeout(1000);
+        }
+        async assertItemsAreShownInAscendingOrder(){
+            await this.isAtTransactionCenterPage();
+            await this.isDisplayed(ORDERS_IDS,5000);
+            await this.clickElementReturnedFromAnArray(TABLE_HEADS,3);
+            await this.timeout(1000);
+            expect(await this.checkIfClassIsApplied(TABLE_HEADS, 3, "sorted")).to.be.true;
+            //expect(await this.checkIfClassIsApplied(TABLE_HEADS, 3, "asc")).to.be.true;
+            await this.timeout(1000);
+            expect(await this.assertNumberedArrayIsSortedAscending(ORDERS_ITEMS)).to.be.true;
             await this.timeout(1000);
             //expect(await this.checkIfClassIsApplied(TABLE_HEADS, 0, "desc")).to.be.true;
         }

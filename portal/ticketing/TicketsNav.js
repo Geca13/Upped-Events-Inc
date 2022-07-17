@@ -72,7 +72,7 @@
         }
 
         async clickAddTicketButton(){
-            await this.driver.sleep(500);
+            await this.timeout(1000)
             await this.click(ADD_TICKET_BUTTON);
         }
         async clickAllTicketsTab(){
