@@ -10,6 +10,8 @@
     const ORDER_TYPE_SELECT = { xpath: "//label[text()='Order Type']/preceding-sibling::ng-select" };
     const MINIMUM_PRICE_INPUT = { xpath: "//label[text()='Price Min.']/preceding-sibling::input" };
     const MAXIMUM_PRICE_INPUT = { xpath: "//label[text()='Price Max.']/preceding-sibling::input" };
+    const MINIMUM_ITEMS_INPUT = { xpath: "//label[text()='Items Min.']/preceding-sibling::input" };
+    const MAXIMUM_ITEMS_INPUT = { xpath: "//label[text()='Items Max.']/preceding-sibling::input" };
     const TRANSACTIONS_STATUS_SELECT = { xpath: "//label[text()='Status']/preceding-sibling::ng-select" };
     const PAYMENT_MODE_SELECT = { xpath: "//label[text()='Payment Mode']/preceding-sibling::ng-select" };
     const SELLER_SELECT = { xpath: "//label[text()='Seller']/preceding-sibling::ng-select" };
@@ -41,6 +43,90 @@
     class Filters extends BasePage{
         constructor(driver) {
             super(driver);
+        }
+
+        async filtersModalIsOpened(){
+            await this.isDisplayed(ORDER_ID_INPUT, 5000);
+            await this.timeout(500);
+        }
+        async filterByIdInTransactionCenter(id){
+            await this.filtersModalIsOpened();
+            await this.click(ORDER_ID_INPUT);
+            await this.timeout(500);
+            await this.sentKeys(ORDER_ID_INPUT, id);
+            await this.click(APPLY_BUTTON);
+            await this.timeout(1000);
+        }
+
+        async filterByMinimumPriceInTransactionCenter(){
+            await this.filtersModalIsOpened();
+            await this.click(MINIMUM_PRICE_INPUT);
+            await this.timeout(500);
+            await this.sentKeys(MINIMUM_PRICE_INPUT, "25.00");
+            await this.click(APPLY_BUTTON);
+            await this.timeout(1000);
+        }
+        async filterByMaximumPriceInTransactionCenter(){
+            await this.filtersModalIsOpened();
+            await this.click(MAXIMUM_PRICE_INPUT);
+            await this.timeout(500);
+            await this.sentKeys(MAXIMUM_PRICE_INPUT, "25.00");
+            await this.click(APPLY_BUTTON);
+            await this.timeout(1000);
+        }
+        async filterByPriceRangeInTransactionCenter(){
+            await this.filtersModalIsOpened();
+            await this.click(MINIMUM_PRICE_INPUT);
+            await this.timeout(500);
+            await this.sentKeys(MINIMUM_PRICE_INPUT, "20.00");
+            await this.timeout(500);
+            await this.click(MAXIMUM_PRICE_INPUT);
+            await this.timeout(500);
+            await this.sentKeys(MAXIMUM_PRICE_INPUT, "25.00");
+            await this.click(APPLY_BUTTON);
+            await this.timeout(1000);
+        }
+        async filterByUserInTransactionCenter(base){
+            await this.filtersModalIsOpened();
+            await this.timeout(500);
+            await this.sentKeys(USER_INPUT, base + " " + base);
+            await this.click(APPLY_BUTTON);
+            await this.timeout(1000);
+        }
+        async filterByPartialNameInTransactionCenter(){
+            await this.filtersModalIsOpened();
+            await this.timeout(500);
+            await this.sentKeys(USER_INPUT, "Mar");
+            await this.click(APPLY_BUTTON);
+            await this.timeout(1000);
+        }
+        async filterByMinimumItemsInTransactionCenter(){
+            await this.filtersModalIsOpened();
+            await this.click(MINIMUM_ITEMS_INPUT);
+            await this.timeout(500);
+            await this.sentKeys(MINIMUM_ITEMS_INPUT, "2");
+            await this.click(APPLY_BUTTON);
+            await this.timeout(1000);
+        }
+        async filterByMaximumItemsInTransactionCenter(){
+            await this.filtersModalIsOpened();
+            await this.click(MAXIMUM_ITEMS_INPUT);
+            await this.timeout(500);
+            await this.sentKeys(MAXIMUM_ITEMS_INPUT, "2");
+            await this.click(APPLY_BUTTON);
+            await this.timeout(1000);
+        }
+        async filterByItemsRangeInTransactionCenter(){
+            await this.filtersModalIsOpened();
+            await this.click(MINIMUM_ITEMS_INPUT);
+            await this.timeout(500);
+            await this.sentKeys(MINIMUM_ITEMS_INPUT, "3");
+            await this.timeout(500);
+            await this.click(MAXIMUM_ITEMS_INPUT);
+            await this.timeout(500);
+            await this.sentKeys(MAXIMUM_ITEMS_INPUT, "5");
+            await this.click(APPLY_BUTTON);
+            await this.timeout(1000);
         }
     }
     module.exports = Filters;

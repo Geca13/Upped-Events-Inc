@@ -220,6 +220,16 @@
         return await elements[index].getText();
     }
 
+    async returnArrayOfStrings(locator){
+        let array = [];
+        let elements = await this.findAll(locator);
+        for(let i = 0; i < elements.length; i++){
+            let string = await elements[i].getText();
+            array.push(string);
+        }
+        return array;
+    }
+
     async getSubstringOfPriceString(locator,parentIndex, childIndex){
         let result = await this.getChildByIndex(locator,parentIndex, childIndex);
         return result.substring(1);

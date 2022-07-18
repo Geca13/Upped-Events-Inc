@@ -42,7 +42,7 @@
             await this.clickAddShopDropdown();
             await this.addVendorOptionIsDisplayed();
             await this.clickAddShopOption();
-            await this.driver.sleep(500)
+            await this.timeout(500);
             let shopModal = new CreateShopModal(this.driver);
             await shopModal.createVendorShop(base);
 

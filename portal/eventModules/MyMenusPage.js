@@ -8,7 +8,7 @@
     const MENU_SCHEDULER_NAV = { xpath: "//*[text()='Menu Scheduler']"}
     const ADD_NEW_SECTION_BUTTON = { xpath: "//*[text()='Add New Section ']"}
     const MENU_SECTION = { className:'justify-content-center' }//list
-    const MENU_ITEM_FROM_LIST = { className: 'cdk-drag' } //list
+    const MENU_ITEM_FROM_LIST = { xpath: "//div[contains(@class, 'items-listing')]//div[contains(@class, 'cdk-drag')]"} //list
     const MENU_TITLE_INPUT = { xpath: "//input[@name='menuTitle']" };
     const EDIT_ICON = { className: 'fa-pencil'};
     const SAVE_MENU_NAME_ICON = { className: 'fa-check'};
@@ -37,7 +37,7 @@
     const DUPLICATE_MENU_OPTION = { xpath: "//a[text()=' Duplicate ']"}
     const DELETE_MENU_OPTION = { xpath: "//a[text()=' Delete ']"}
     const NO_RECORD_MESSAGE = { xpath: "//h5[text()='No record available']"}
-    const DROP = { xpath: "/html/body/app-root/site-dashboard/div/div/div[2]/div/app-event-menu-management/div/div/div/div/div/div[2]/div[2]/app-add-edit-event-menus/div[2]/div[1]/menu-menus-view/div/div[2]/div/div/div[2]"}
+    const DROP = { xpath: "//div[contains(@class, 'container')]//div[@cdkdroplistconnectedto='list-2']"}
 
 
     const CATEGORY_SUBCATEGORY_DROPDOWNS = { tagName: 'select'}// list
@@ -104,21 +104,21 @@
             await this.clearInputField(MENU_TITLE_INPUT);
             await this.sentKeys(MENU_TITLE_INPUT,base + "'s Menu")
             await this.click(SAVE_MENU_NAME_ICON);
-            await this.driver.sleep(2000);
+            await this.timeout(1500);
         }
 
         async createNewSection(sectionName, sectionIndex, editIconIndex){
             await this.click(ADD_NEW_SECTION_BUTTON);
-            await this.driver.sleep(1500);
+            await this.timeout(1500);
             await this.isDisplayedFromArray(SECTION_TITLE_INPUT,sectionIndex,5000);
             await this.moveToElementFromArrayByIndex(SECTION_TITLE_INPUT,sectionIndex);
-            await this.driver.sleep(500);
+            await this.timeout(500);
             await this.moveToElementFromArrayByIndex(EDIT_ICON,editIconIndex);
             await this.clickElementReturnedFromAnArray(EDIT_ICON,editIconIndex);
             await this.clearInputFieldByIndexAndSendKeys(SECTION_TITLE_INPUT,sectionIndex,sectionName);
             //await this.sentKeys(SECTION_TITLE_INPUT,sectionName);
             await this.click(SAVE_MENU_NAME_ICON);
-            await this.driver.sleep(500);
+            await this.timeout(500);
         }
         async createBeerStoutMenuItem(){
             await this.click(ADD_NEW_MENU_ITEM_FROM_SECTION_BUTTON);
@@ -145,14 +145,14 @@
             await this.sentKeys(NEW_ITEM_IMAGE_INPUT,"D:\\Upped-Events-Inc\\static\\heineken.jpg");
             let imager = new SetImageModal(this.driver);
             await imager.setImageModalIsDisplayed();
-            await this.driver.sleep(2000);
+            await this.timeout(1500);
             await imager.setHeinekenImageToCenter();
             await imager.clickSetButton();
             await this.isDisplayed(ADD_SAVE_ITEM_BUTTON,5000);
             await this.click(ADD_SAVE_ITEM_BUTTON);
-            await this.driver.sleep(2000);
+            await this.timeout(1500);
             //await this.simulateDragAndDrop(MENU_ITEM_FROM_LIST,MENU_SECTION);
-            await this.driver.sleep(2000);
+            await this.timeout(5500);
         }
 
         async createMenuForTickets(eventName){
@@ -162,15 +162,15 @@
             await this.isDisplayed(SELECT_TICKET_GROUP_HEADER,5000);
             await this.isDisplayed(SEARCH_EVENT_INPUT,5000);
             await this.sentKeys(SEARCH_EVENT_INPUT,eventName);
-            await this.driver.sleep(500);
+            await this.timeout(500);
             await this.sentKeys(SEARCH_EVENT_INPUT, Key.BACK_SPACE)
-            await this.driver.sleep(500);
+            await this.timeout(500);
             await this.driver.executeScript("document.getElementsByClassName('header')[0].click()");
-            await this.driver.sleep(5000);
+            await this.timeout(2500);
             await this.driver.executeScript("document.getElementsByClassName('myRipple2')[0].click()");
-            await this.driver.sleep(500);
+            await this.timeout(500);
             await this.click(SELECT_TICKET_GROUP_BUTTON);
-            await this.driver.sleep(2000);
+            await this.timeout(1500);
         }
 
         async dragMenuItemToMenuSection(){
@@ -178,6 +178,8 @@
             //let section = sections[sectionIndex];
             //let menuItems = await this.findAll(MENU_ITEM_FROM_LIST);
             //let menuItem = menuItems[menuItemIndex];
+            await this.timeout(1500);
+
             await this.dragAndDropWithElements(MENU_ITEM_FROM_LIST,DROP);
         }
 

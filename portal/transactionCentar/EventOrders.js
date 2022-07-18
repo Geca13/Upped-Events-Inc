@@ -1,6 +1,7 @@
     const BasePage = require('../../BasePage');
     const OrderDetailsModal = require('../portalModals/OrderDetailsModal');
     const PaginationComponent = require('../portalComponents/PaginationComponent');
+    const Filters = require('../portalModals/Filters');
     const assert = require('assert');
     const { expect } = require('chai');
     const ALL_NAV = { xpath: "//*[text()='All']"}
@@ -21,6 +22,7 @@
     const TABLE_ROWS = {  className: "bg-light" } //list
     const TABLE_HEADS = {  xpath: "//th[contains(@class , 'sorting')]" } //list
     const ORDERS_IDS = { xpath: "//td[contains(@class , 'column-id')]//a[contains(@class , 'table-ticket-name')]//span" }
+    const USERS = { xpath: "//td[contains(@class , 'column-username')]//a[contains(@class , 'table-ticket-name')]//span" }
     const ORDERS_AMOUNTS = { xpath: "//td[contains(@class , 'column-totalamount')]//span" }
     const ORDERS_ITEMS = { xpath: "//td[contains(@class , 'column-items')]//span" }
 
@@ -33,10 +35,11 @@
         }
         async isAtTransactionCenterPage(){
             await this.isDisplayed(TRANSACTIONS_VIEW_TAB,5000);
+            await this.timeout(500);
         }
         async makeFullRefundWithReinstateTicket(){
             await this.isAtTransactionCenterPage();
-            await this.driver.sleep(2000);
+            await this.timeout(500);
             await this.clickElementReturnedFromAnArray(ORDER_DETAILS_MENU,0);
             await this.isDisplayed(DETAILS_MENU_OPTION,5000);
             await this.click(DETAILS_MENU_OPTION);
@@ -47,10 +50,11 @@
             let after = await orderDetails.getOrderTotalAfterRefunds();
             await orderDetails.closeOrderTotalModal();
             await this.isAtTransactionCenterPage();
-            await this.driver.sleep(500)/*
+            await this.timeout(500);
+/*
             let total = await this.getChildByIndex(ORDER_TOTAL_IN_EVENT_ORDERS,0,0)
             console.log(total);*/
-            await this.driver.sleep(5000);
+            await this.timeout(2500);
             let total = before - after
             return total.toFixed(2);
         }
@@ -134,6 +138,159 @@
             expect(await this.assertNumberedArrayIsSortedAscending(ORDERS_ITEMS)).to.be.true;
             await this.timeout(1000);
             //expect(await this.checkIfClassIsApplied(TABLE_HEADS, 0, "desc")).to.be.true;
+        }
+
+        async filterByOrderId(){
+            await this.isAtTransactionCenterPage();
+            await this.isDisplayed(ORDERS_IDS);
+            await this.timeout(500);
+            let orderIds = await this.returnElementsCount(ORDERS_IDS);
+            assert.notEqual(orderIds, 1);
+            let id = await this.getElementTextFromAnArrayByIndex(ORDERS_IDS, 4);
+            let user = await this.getElementTextFromAnArrayByIndex(USERS, 4);
+            let amount = await this.getElementTextFromAnArrayByIndex(ORDERS_AMOUNTS, 4);
+            let items = await this.getElementTextFromAnArrayByIndex(ORDERS_ITEMS, 4);
+            await this.click(FILTER_BUTTON);
+            let filter = new Filters(this.driver)
+            await filter.filterByIdInTransactionCenter(id);
+            let filteredOrderIds = await this.returnElementsCount(ORDERS_IDS);
+            assert.equal(filteredOrderIds, 1);
+            let filteredId = await this.getElementTextFromAnArrayByIndex(ORDERS_IDS, 0);
+            let filteredUser = await this.getElementTextFromAnArrayByIndex(USERS, 0);
+            let filteredAmount = await this.getElementTextFromAnArrayByIndex(ORDERS_AMOUNTS, 0);
+            let filteredItems = await this.getElementTextFromAnArrayByIndex(ORDERS_ITEMS, 0);
+            assert.equal(id, filteredId);
+            assert.equal(user, filteredUser);
+            assert.equal(amount, filteredAmount);
+            assert.equal(items, filteredItems);
+        }
+
+        async filterByPriceMinAndAssertValues(){
+            await this.isAtTransactionCenterPage();
+            await this.isDisplayed(ORDERS_IDS);
+            await this.timeout(500);
+            let orderIds = await this.returnElementsCount(ORDERS_IDS);
+            await this.click(FILTER_BUTTON);
+            let filter = new Filters(this.driver)
+            await filter.filterByMinimumPriceInTransactionCenter();
+            let filteredOrderIds = await this.returnElementsCount(ORDERS_IDS);
+            assert.notEqual(filteredOrderIds, orderIds);
+            let amounts = await this.convertStringArrayToNumber(ORDERS_AMOUNTS);
+            for (let i = 0; i < amounts.length ; i++){
+                expect(amounts[i]).to.be.greaterThan(24.99)
+            }
+        }
+
+        async filterByPriceMaxAndAssertValues(){
+            await this.isAtTransactionCenterPage();
+            await this.isDisplayed(ORDERS_IDS);
+            await this.timeout(500);
+            let orderIds = await this.returnElementsCount(ORDERS_IDS);
+            await this.click(FILTER_BUTTON);
+            let filter = new Filters(this.driver)
+            await filter.filterByMaximumPriceInTransactionCenter();
+            let filteredOrderIds = await this.returnElementsCount(ORDERS_IDS);
+            assert.notEqual(filteredOrderIds, orderIds);
+            let amounts = await this.convertStringArrayToNumber(ORDERS_AMOUNTS);
+            for (let i = 0; i < amounts.length ; i++){
+                expect(amounts[i]).to.be.lessThan(25.01)
+            }
+        }
+
+        async filterByPriceRangeAndAssertValues(){
+            await this.isAtTransactionCenterPage();
+            await this.isDisplayed(ORDERS_IDS);
+            await this.timeout(500);
+            let orderIds = await this.returnElementsCount(ORDERS_IDS);
+            await this.click(FILTER_BUTTON);
+            let filter = new Filters(this.driver)
+            await filter.filterByPriceRangeInTransactionCenter();
+            let filteredOrderIds = await this.returnElementsCount(ORDERS_IDS);
+            assert.notEqual(filteredOrderIds, orderIds);
+            let amounts = await this.convertStringArrayToNumber(ORDERS_AMOUNTS);
+            for (let i = 0; i < amounts.length ; i++){
+                expect(amounts[i]).to.be.within(19.99, 25.01)
+            }
+        }
+
+        async filterByMinPurchasedItemsAndAssertValues(){
+            await this.isAtTransactionCenterPage();
+            await this.isDisplayed(ORDERS_IDS);
+            await this.timeout(500);
+            let orderIds = await this.returnElementsCount(ORDERS_IDS);
+            await this.click(FILTER_BUTTON);
+            let filter = new Filters(this.driver)
+            await filter.filterByMinimumItemsInTransactionCenter();
+            let filteredOrderIds = await this.returnElementsCount(ORDERS_IDS);
+            assert.notEqual(filteredOrderIds, orderIds);
+            let amounts = await this.convertStringArrayToNumber(ORDERS_ITEMS);
+            for (let i = 0; i < amounts.length ; i++){
+                expect(amounts[i]).to.be.greaterThan(1.99)
+            }
+        }
+
+        async filterByMaxPurchasedItemsAndAssertValues(){
+            await this.isAtTransactionCenterPage();
+            await this.isDisplayed(ORDERS_IDS);
+            await this.timeout(500);
+            let orderIds = await this.returnElementsCount(ORDERS_IDS);
+            await this.click(FILTER_BUTTON);
+            let filter = new Filters(this.driver)
+            await filter.filterByMaximumItemsInTransactionCenter();
+            let filteredOrderIds = await this.returnElementsCount(ORDERS_IDS);
+            assert.notEqual(filteredOrderIds, orderIds);
+            let amounts = await this.convertStringArrayToNumber(ORDERS_ITEMS);
+            for (let i = 0; i < amounts.length ; i++){
+                expect(amounts[i]).to.be.lessThan(2.01)
+            }
+        }
+
+        async filterByPurchasedItemsRangeAndAssertValues(){
+            await this.isAtTransactionCenterPage();
+            await this.isDisplayed(ORDERS_IDS);
+            await this.timeout(500);
+            let orderIds = await this.returnElementsCount(ORDERS_IDS);
+            await this.click(FILTER_BUTTON);
+            let filter = new Filters(this.driver)
+            await filter.filterByItemsRangeInTransactionCenter();
+            let filteredOrderIds = await this.returnElementsCount(ORDERS_IDS);
+            assert.notEqual(filteredOrderIds, orderIds);
+            let amounts = await this.convertStringArrayToNumber(ORDERS_ITEMS);
+            for (let i = 0; i < amounts.length ; i++){
+                expect(amounts[i]).to.be.within(2.99, 5.01)
+            }
+        }
+        async filterByFullUserAndAssertValues(base){
+            await this.isAtTransactionCenterPage();
+            await this.isDisplayed(ORDERS_IDS);
+            await this.timeout(500);
+            let orderIds = await this.returnElementsCount(ORDERS_IDS);
+            await this.click(FILTER_BUTTON);
+            let filter = new Filters(this.driver)
+            await filter.filterByUserInTransactionCenter(base);
+            let filteredOrderIds = await this.returnElementsCount(ORDERS_IDS);
+            assert.notEqual(filteredOrderIds, orderIds);
+            let users = await this.returnArrayOfStrings(USERS);
+
+            for (let i = 0; i < users.length ; i++){
+                assert.equal(users[i], base + ' ' + base);
+            }
+        }
+
+        async filterByPartialUserNameAndAssertValues(){
+            await this.isAtTransactionCenterPage();
+            await this.isDisplayed(ORDERS_IDS);
+            await this.timeout(500);
+            let orderIds = await this.returnElementsCount(ORDERS_IDS);
+            await this.click(FILTER_BUTTON);
+            let filter = new Filters(this.driver)
+            await filter.filterByPartialNameInTransactionCenter();
+            let filteredOrderIds = await this.returnElementsCount(ORDERS_IDS);
+            assert.notEqual(filteredOrderIds, orderIds);
+            let users = await this.returnArrayOfStrings(USERS);
+            for (let i = 0; i < users.length ; i++){
+                expect(users[i]).to.include('Mar');
+            }
         }
 
     }
