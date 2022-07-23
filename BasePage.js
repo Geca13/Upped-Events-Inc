@@ -71,10 +71,66 @@
          //await this.moveToElementWithElement(element);
          await element.click();
     }
+    async locateElementsByText(text){
+          let elements = await this.driver.findElements(By.xpath("//*[text()='"+text+"']"))
+          return elements;
+    }
+    async locateSingleElementByText(text){
+          let element = await this.driver.findElement(By.xpath("//*[text()='"+text+"']"))
+          return element;
+    }
 
     async clickElementByText(text){
          let element = await this.driver.findElement(By.xpath("//*[text()='"+text+"']"));
          await element.click();
+    }
+
+    async clickParentForElementFoundByText(text){
+          let element = await this.driver.findElement(By.xpath("//*[text()='"+text+"']"))
+          let parent = await element.findElement(By.xpath("ancestor::div"));
+          await parent.click();
+    }
+
+    async findEventCardImageSrcAttributeValue(text){
+          let shortname = await this.locateSingleElementByText(text);
+          let shortnameParent = await shortname.findElement(By.xpath(".."));
+          let shortnameParentPrecedingSibling = await shortnameParent.findElement(By.xpath("preceding-sibling::div"));
+          let img = await shortnameParentPrecedingSibling.findElement(By.xpath("./child::img"));
+          let srcAttribute = await img.getAttribute('src');
+          return srcAttribute;
+    }
+
+    async returnImgSrcAttribute(locator){
+          await this.timeout(5000)
+        let img = await this.find(locator);
+        let src = await img.getAttribute('src');
+        return src;
+
+    }
+
+    async numberWithCommas(locator) {
+          let x = await this.getEnteredTextInTheInput(locator);
+          return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    async formatDateTimeInputToIncludeComma(locator) {
+          let array = []
+          let fullDate = []
+          let value = await this.getEnteredTextInTheInput(locator);
+          array = value.split(" ");
+          fullDate = array[0].split("/")
+          let formatedYear = fullDate[2].substring(2);
+          let formated = array[0].substring(0,5) + formatedYear  + ', ' + array[1]+ ' ' + array[2];
+          return formated;
+    }
+
+    async getOnlyFullDateFromDateTimeInput(locator){
+          let fullDateTime = []
+          let dateTimeValue = await this.getEnteredTextInTheInput(locator);
+          fullDateTime = dateTimeValue.split(" ")
+          let date = fullDateTime[0];
+          return date;
+
     }
 
     async clickElementByTextFromArray(text, index){
@@ -214,6 +270,18 @@
         return false;
     }
 
+    async returnIndexWhenTextIsKnown(locator,text){
+          let array = await this.findAll(locator)
+            for(let i = 0; i < array.length; i++){
+                console.log(await array[i].getText())
+                if(await array[i].getText() === text){
+                    return i;
+                }else{
+                    return 0;
+                }
+            }
+    }
+
 
     async getElementTextFromAnArrayByIndex(locator, index){
         let elements = await this.findAll(locator);
@@ -228,6 +296,18 @@
             array.push(string);
         }
         return array;
+    }
+    async returnUniqueStringValues(locator){
+          let unique = [];
+          let array = await this.findAll(locator);
+          for (let i = 0; i < array.length; i++){
+              let string = await this.getElementTextFromAnArrayByIndex(locator, i);
+              if(!unique.includes(string)){
+                  unique.push(string)
+              }
+          }
+          console.log(unique.length)
+          return unique;
     }
 
     async getSubstringOfPriceString(locator,parentIndex, childIndex){
@@ -550,8 +630,9 @@
     }
 
     async timeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return await new Promise(resolve => setTimeout(resolve, ms));
     }
+
 
 
 }

@@ -11,13 +11,16 @@
 
         async authenticate(username, password) {
           await this.driver.findElement(EMAIL_INPUT).sendKeys(username)
+          await this.timeout(500);
           await this.driver.findElement(PASSWORD_INPUT).sendKeys(password)
+          await this.timeout(500);
           await this.driver.findElement(SUBMIT_BUTTON).click()
+          await this.timeout(500);
         }
         async loginWithNewPassword(email, password){
               await this.sentKeys(EMAIL_INPUT,email);
               await this.sentKeys(PASSWORD_INPUT, password);
-              await this.driver.sleep(500)
+              await this.timeout(500);
               await this.click(SUBMIT_BUTTON);
         }
 
@@ -36,7 +39,7 @@
         async loginAfterVerifyingAccount(password){
             await this.sentKeys(PASSWORD_INPUT, password);
             await this.click(SUBMIT_BUTTON)
-            await this.driver.sleep(5000);
+            await this.timeout(5000);
         }
 }
 

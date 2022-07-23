@@ -18,7 +18,8 @@
         assert.equal(alertTitle,'Saved!');
         let alertMessage = await this.getElementText(TOAST_MESSAGE);
         assert.equal(alertMessage,message);
-        await this.elementNotInTheDom(TOAST_BANNER);
+        await this.timeout(5000);
+
     }
 
     async successAlertIsDisplayed(text){
@@ -27,22 +28,23 @@
         assert.equal(alertTitle,'Success');
         let alertMessage = await this.getElementText(TOAST_MESSAGE);
         assert.equal(text,alertMessage);
-        await this.elementNotInTheDom(TOAST_BANNER);
-    }
+        await this.timeout(5000);
+        }
     async errorAlertIsDisplayed(text){
         await this.isDisplayed(TOAST_BANNER,15000);
         let alertTitle = await this.getElementText(TOAST_TITLE);
         assert.equal(alertTitle,'Error');
         let alertMessage = await this.getElementText(TOAST_MESSAGE);
         assert.equal(text,alertMessage);
-        await this.elementIsNotDisplayed(TOAST_MESSAGE,15000);
+        await this.timeout(5000);
     }
 
     async correctInfoMessageIsDisplayed(expected){
         await this.isDisplayed(TOAST_MESSAGE,5000);
-        await this.driver.sleep(500);
+        await this.timeout(500);
         let alertMessage = await this.getElementText(TOAST_MESSAGE);
         assert.equal(expected,alertMessage);
+        await this.timeout(5000);
 
     }
 

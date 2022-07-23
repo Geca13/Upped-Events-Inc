@@ -4,6 +4,7 @@
     const SET_DATE_TIME_BUTTON = { xpath: "//*[normalize-space(text())='Set']"};
     const CANCEL_DATE_TIME_BUTTON = { xpath: "//*[text()='Cancel']"};
     const HOUR_MINUTES_INPUTS = { className: "owl-dt-timer-input" }; //list
+    const PM_BUTTON = { xpath: "//*[text()=' PM ']"};
 
 
     class DateTimePickerModal extends BasePage {
@@ -22,13 +23,16 @@
         }
         async clickSetButton(){
             await this.click(SET_DATE_TIME_BUTTON);
-            await this.driver.sleep(1000)
+            await this.timeout(1000)
         }
         async clickCancelButton(){
             await this.click(CANCEL_DATE_TIME_BUTTON);
         }
         async datePickerIsNotVisible(){
             await this.isNotDisplayed(SET_DATE_TIME_BUTTON,30000)
+        }
+        async clickPMButton(){
+            await this.click(PM_BUTTON)
         }
 
          getHoursNow(){
@@ -43,7 +47,7 @@
         async enterTimeNow(){
            let hours = await this.getElementFromAnArrayByIndex(HOUR_MINUTES_INPUTS,0);
            hours.clear();
-           await this.driver.sleep(500);
+           await this.timeout(500)
            let hour = this.getHoursNow();
           await hours.sendKeys(hour);
         }

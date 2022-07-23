@@ -32,9 +32,9 @@
             await this.isDisplayed(IMAGE_CROP_MODAL);
             await this.click(SET_CROPPED_IMAGE_BUTTON);
             await this.isDisplayed(SAVE_DESIGN_BUTTON);
-            await this.driver.sleep(500);
+            await this.timeout(500);
             await this.click(SAVE_DESIGN_BUTTON);
-            await this.driver.sleep(1500);
+            await this.timeout(1500);
         }
     }
     module.exports = EventCardDesignPage;

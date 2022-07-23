@@ -7,11 +7,18 @@
     const EMAIL_INPUT = { xpath: "//input[@formcontrolname='email']" };
     const PASSWORD_INPUT = { xpath: "//input[@formcontrolname='password']" };
     const LOGIN_BUTTON = { xpath: "//*[text()='Login Now']" }
+    const AGREE_BUTTON = { xpath: "//*[text()='Agree']" }
 
 
     class LoginPage extends BasePage {
         constructor(driver) {
             super(driver);
+        }
+
+        async clickAgreeButton(){
+            await this.isDisplayed(AGREE_BUTTON,5000);
+            await this.timeout(500);
+            await this.click(AGREE_BUTTON);
         }
 
         async isAtLoginPage(){

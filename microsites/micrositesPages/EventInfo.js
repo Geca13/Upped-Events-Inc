@@ -1,4 +1,5 @@
     const BasePage = require("../../BasePage");
+    const assert = require("assert");
     const PAGE_TITLE = { className: 'information-title' }
     const BUY_TICKETS_BUTTON = { xpath: "//*[text()=' Buy Tickets ']"}
     const WISHLIST_BUTTON = { xpath: "//*[text()=' Add to Wishlist ']"}
@@ -12,6 +13,7 @@
     const SHORT_TAGS = { className: 'eventTags' }
     const VERTICAL_LINE = { className: 'line-straight' }
     const EVENT_INFO = { className: 'event-info' }
+    const EVENT_INFO_BUTTONS = { xpath: "//button[@ng-reflect-ng-class='template1ReadMore']" }//list
 
     class EventInfo extends BasePage{
     constructor(driver) {
@@ -42,6 +44,11 @@
         return await this.isDisplayed(BUY_TICKETS_BUTTON,5000);
     }
 
+    async wishListButtonIsDisplayed(){
+        await this.isDisplayed(WISHLIST_BUTTON, 5000);
+        await this.timeout(500);
+    }
+
     async clickWishlistButton(){
         await this.click(WISHLIST_BUTTON);
     }
@@ -56,6 +63,16 @@
     }
     async clickLocationTab(){
         await this.click(LOCATION_TAB);
+    }
+    async assertEventInfoPageImageIsAMatch(src){
+        let infoSrc = await this.returnImgSrcAttribute(FEATURED_IMAGE);
+        assert.equal(infoSrc,src);
+    }
+
+    async assertNoTicketsAvailableButtonText(){
+        let ticketsButton = await this.getElementTextFromAnArrayByIndex(EVENT_INFO_BUTTONS,1);
+        assert.equal(ticketsButton, "No tickets available for sale")
+        await this.timeout(500);
     }
 
 

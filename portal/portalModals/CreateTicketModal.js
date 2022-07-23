@@ -1,4 +1,4 @@
-    const BasePage = require('../../BasePage');
+const BasePage = require('../../BasePage');
     const DateTimePickerModal = require('../portalModals/DateTimePickerModal')
     const CREATE_TICKET_HEADER = { xpath: "//*[text()='Create Ticket']"}
     const TICKET_NAME_INPUT = { xpath: "//input[@id='name']" };
@@ -47,14 +47,15 @@
             await this.sentKeys(TICKET_QUANTITY_INPUT, '000');
             await this.sentKeys(TICKET_PRICE_INPUT, ticketPrice);
             await this.click(TICKET_START_DATE_INPUT);
-            await this.driver.sleep(1000);
+            await this.timeout(1500)
 
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.enterTimeNow();
-            await this.driver.sleep(1500);
+            //await startDatePicker.clickPMButton();
+            await this.timeout(1500)
             await startDatePicker.clickSetButton();
-            await this.driver.sleep(1500);
+            await this.timeout(1500)
             await this.saveTicketButtonIsVisible();
             await this.click(SAVE_TICKET_BUTTON);
             await this.driver.sleep(500);
@@ -66,17 +67,17 @@
             await this.sentKeys(TICKET_DESCRIPTION_INPUT, ticketName + ' description');
             await this.sentKeys(TICKET_RULES_INPUT, ticketName + ' rules');
             await this.clearInputField(TICKET_QUANTITY_INPUT);
-            await this.driver.sleep(500);
+            await this.timeout(1500)
             await this.sentKeys(TICKET_QUANTITY_INPUT, ticketQty);
             await this.sentKeys(TICKET_PRICE_INPUT, "5");
             await this.click(TICKET_START_DATE_INPUT);
-            await this.driver.sleep(1000);
+            await this.timeout(1500)
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.enterTimeNow();
-            await this.driver.sleep(1500);
+            await this.timeout(1500)
             await startDatePicker.clickSetButton();
-            await this.driver.sleep(1500);
+            await this.timeout(1500)
             await this.saveTicketButtonIsVisible();
             await this.click(SAVE_TICKET_BUTTON);
         }
@@ -88,16 +89,16 @@
             await this.sentKeys(TICKET_QUANTITY_INPUT, '0');
             await this.sentKeys(TICKET_PRICE_INPUT, ticketPrice);
             await this.click(TICKET_START_DATE_INPUT);
-            await this.driver.sleep(1000);
+            await this.timeout(1500)
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.enterTimeNow();
-            await this.driver.sleep(1500);
+            await this.timeout(1500)
             await startDatePicker.clickSetButton();
-            await this.driver.sleep(1500);
+            await this.timeout(1500)
             await this.click(TICKET_TYPE_OPTIONS_BUTTON);
             //await this.isDisplayed(OFF_BUTTON,5000);
-            await this.driver.sleep(1500);
+            await this.timeout(1500)
             await this.clickLastElementReturnedFromAnArray(OFF_BUTTON)
             await this.click(TICKET_TYPE_DROPDOWNS);
             await this.isDisplayed(TICKET_STAFF_OPTION,5000);
@@ -108,7 +109,7 @@
             await this.click(TICKET_STAFF_WILL_SELECT_DEPARTMENT);
             await this.saveTicketButtonIsVisible();
             await this.click(SAVE_TICKET_BUTTON);
-            await this.driver.sleep(2500);
+            await this.timeout(1500)
             console.log("Successfully finished")
         }
 

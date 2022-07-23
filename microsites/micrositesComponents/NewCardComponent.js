@@ -10,7 +10,7 @@
     const COUNTRY_SELECT = { css: "select[formControlName=country_id]" };
     const STATE_SELECT = { css: "select[formControlName=state]" };
     const INPUT_LABELS = { tagName: 'label' }; //list
-    const EMBED_ADD_TO_SAVED_CARD_BUTTON = { xpath: "//*[text()='Add to Saved Card']"}
+    const EMBED_ADD_TO_SAVED_CARD_BUTTON = { xpath: "//*[text()='Add to Saved Cards']"}
 
 
 

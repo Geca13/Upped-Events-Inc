@@ -15,11 +15,13 @@
             await this.isDisplayed(PROMOTIONS_HEADER,5000)
         }
         async clickAddPromotionButton(){
-            await this.driver.sleep(500);
+            await this.timeout(500);
             await this.click(ADD_PROMOTION_BUTTON)
         }
         async addPromotionButtonIsVisible(){
-            await this.isDisplayed(ADD_PROMOTION_BUTTON)
+            await this.timeout(500);
+            await this.isDisplayed(ADD_PROMOTION_BUTTON, 5000);
+            await this.timeout(500);
         }
 
     }

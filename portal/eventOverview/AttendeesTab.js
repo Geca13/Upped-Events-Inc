@@ -28,9 +28,9 @@
         }
         async checkForTicketQuestionsResponsesForTheFirstTwoPurchases(base){
             await this.isOnAttendeesTab();
-            await this.clickElementReturnedFromAnArray(ATTENDEES_RESPONSES_COUNT, 1);
+            await this.clickElementReturnedFromAnArray(ATTENDEES_RESPONSES_COUNT, 2);
             await this.isDisplayed(MODAL_HEADER, 5000);
-            await this.driver.sleep(1000);
+            await this.timeout(1000);
             let firstAnsweredQuestion = await this.getElementTextFromAnArrayByIndex(QUESTIONS_NAMES, 0);
             assert.equal(firstAnsweredQuestion, base + " Yes & No question")
             let firstRadioAnswer = await this.getElementTextFromAnArrayByIndex(RADIO_ANSWERS, 0);
@@ -58,7 +58,7 @@
             await this.isOnAttendeesTab();
             await this.clickElementReturnedFromAnArray(ATTENDEES_RESPONSES_COUNT, index);
             await this.isDisplayed(MODAL_HEADER, 5000);
-            await this.driver.sleep(1000);
+            await this.timeout(500);
             let firstAnsweredQuestion = await this.getElementTextFromAnArrayByIndex(QUESTIONS_NAMES, 0);
             assert.equal(firstAnsweredQuestion, base + " Yes & No question")
             let firstQuestionFirstRadioAnswer = await this.getElementTextFromAnArrayByIndex(RADIO_ANSWERS, 0);

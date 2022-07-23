@@ -20,7 +20,8 @@
             await this.isDisplayed(BALANCE_TITLE, 5000);
         }
         async returnBalanceState(){
-           await this.driver.sleep(2000);
+           await this.timeout(2000);
+           await this.isDisplayed(WALLET_BALANCE);
            let balance = await this.getElementText(WALLET_BALANCE);
            return await this.convertPriceStringToDouble(balance.substring(1));
         }

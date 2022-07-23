@@ -42,6 +42,7 @@
             await this.click(PRIMARY_CONTACT_NAV);
         }
         async clickDesignNav(){
+            await this.moveToElement(DESIGN_NAV)
             await this.click(DESIGN_NAV);
         }
 
@@ -71,7 +72,7 @@
             await this.click(MAP_AND_AGENDA_TAB);
         }
         async clickShopManagementTab(){
-            await this.driver.sleep(5000);
+            await this.timeout(5000)
             await this.isDisplayed(SHOP_MANAGEMENT_TAB,5000);
             await this.click(SHOP_MANAGEMENT_TAB);
         }

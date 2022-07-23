@@ -30,6 +30,7 @@
 
       async isInFrame(eventName){
          await this.driver.executeScript("document.body.style.transform='scale(0.8, 0.8)'");
+         await this.timeout(5000);
          await this.isDisplayed(EVENT_NAME,5000);
          let extractedEventName = await this.getElementText(EVENT_NAME);
          assert.equal(eventName,extractedEventName)
@@ -43,7 +44,8 @@
 
 
       async nextButtonIsVisible(){
-         await this.isDisplayed(EVENT_NAME,5000);
+         await this.isDisplayed(NEXT_BUTTON,5000);
+         await this.timeout(500);
       }
       async clickNextPageButton(){
         await this.click(NEXT_BUTTON)

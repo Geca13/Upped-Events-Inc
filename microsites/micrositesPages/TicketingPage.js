@@ -15,7 +15,7 @@
     const LOGIN_LINK = { className: 'login-link' }
     const INFO_ICONS = { className: 'fa-info-circle' } //list
     const SUMMARY_TOOLTIPS = { className: 'tooltip-inner' } //list
-    const CLOSE_BUTTON = { className: 'fa-times' }
+    const CLOSE_BUTTON = { xpath: "//div[contains(@class , 'content')]//div[contains(@class , 'close-btn')]//i" }
     const TAXES_CONTAINER = { css:'div[tooltipclass=maxWidthInitial]'}
     const QTY_INPUTS = { tagName: 'input' } //list
     const TAXES_TOOLTIP = { id: 'ngb-tooltip-1' }
@@ -74,6 +74,12 @@
         async limitInfoMessageIsDisplayed(number){
             let info = new Alerts(this.driver);
             await info.correctInfoMessageIsDisplayed("You have exceeded maximum (" + number + ") limit to buy tickets");
+        }
+
+        async clickCloseTicketingPopupButton(){
+            await this.isDisplayed(CLOSE_BUTTON, 5000);
+            await this.click(CLOSE_BUTTON);
+            await this.timeout(1000);
         }
     }
 

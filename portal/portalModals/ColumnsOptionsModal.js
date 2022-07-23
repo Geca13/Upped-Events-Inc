@@ -24,7 +24,7 @@
         async changeColumnOrdersByColumnIndex(){
             await this.columnOptionsModalIsDisplayed();
             await this.dragAndDropWithElementsWithIndexes(COLUMN_DRAGS, COLUMN_DRAGS,0, 3);
-            await this.dragAndDropWithSourceElementOffset(COLUMN_DRAGS, COLUMN_DRAGS, 2,5);
+            //await this.dragAndDropWithSourceElementOffset(COLUMN_DRAGS, COLUMN_DRAGS, 2,5);
         }
         async checkColumnsAndMakeManipulationsOnTickets(){
             await this.columnOptionsModalIsDisplayed();
@@ -44,11 +44,8 @@
             assert.equal(sixth,'Sold');
             assert.equal(seventh,'Reserved');
             assert.equal(eight,'Active/Inactive');
-            await this.driver.sleep(5000);
-            await this.dragAndDropWithSourceElementOffset(COLUMN_DRAGS,1,3,2,3);
-            await this.driver.sleep(5000);
             await this.clickElementReturnedFromAnArray(REMOVE_COLUMN_BUTTON,1);
-            await this.driver.sleep(500);
+            await this.timeout(500)
             await this.clickElementReturnedFromAnArray(REMOVE_COLUMN_BUTTON,1);
             first = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 0);
             second = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 1);

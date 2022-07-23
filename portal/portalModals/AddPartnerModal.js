@@ -40,22 +40,22 @@
             await this.isOnNewPartnerModal();
             await this.clickPartnerTypeDropdown();
             await this.isDisplayed(VENDOR_MERCHANT_OPTION,5000);
-            await this.driver.sleep(2000);
+            await this.timeout(2000);
             await this.click(VENDOR_MERCHANT_OPTION);
-            await this.driver.sleep(500);
+            await this.timeout(500);
             await this.clickElementReturnedFromAnArray(DROPDOWNS,2);
             await this.isDisplayed(INVITE_EMAIL_OPTION,5000);
             await this.click(INVITE_EMAIL_OPTION);
             await this.clickElementReturnedFromAnArray(DROPDOWNS,3);
             await this.isDisplayed(INDIVIDUAL_OPTION,5000);
             await this.click(INDIVIDUAL_OPTION);
-            await this.driver.sleep(500);
+            await this.timeout(500);
             await this.sentKeys(EMAIL_INPUT,email);
             await this.sentKeys(FIRST_NAME_INPUT,firstName);
             await this.sentKeys(LAST_NAME_INPUT,lastName);
             await this.sentKeys(MESSAGE_TEXTAREA,'Come work in our event');
             await this.click(SEND_INVITE_BUTTON);
-            await this.driver.sleep(1500);
+            await this.timeout(4500);
         }
 
     }

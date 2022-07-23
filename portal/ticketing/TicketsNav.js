@@ -22,6 +22,7 @@
     const TABLE_HEADERS = { xpath: "//th/span" } //list
     const ADD_TABLE_COLUMN_BUTTON = { xpath: "//a[contains(@class, 'addcolumn_btn')]//span" };
     const FILTER_BUTTON = { xpath: "//div[contains(@class, 'filter-list-icon')]//i[contains(@class, 'icon-filter')]" }
+    const NO_TICKETS_MESSAGE = { xpath: "//div[@class='data-empty']//h5" }
 
 
 
@@ -51,19 +52,19 @@
 
         async clickActivateTicketToggle(index){
             let toggle = await this.getElementFromAnArrayByIndex(TICKET_TOGGLE,index);
-            await this.driver.sleep(1500)
+            await this.timeout(2000);
             await toggle.click();
         }
         async confirmActivationButton(){
             await this.click(TICKET_ACTIVATION_YES_BUTTON);
         }
         async createTicketsGroup(groupName){
-            await this.driver.sleep(1000);
+            await this.timeout(1000);
             await this.click(ADD_TICKETS_GROUP_BUTTON);
             await this.isDisplayed(TICKETS_GROUP_NAME_INPUT,15000);
             await this.sentKeys(TICKETS_GROUP_NAME_INPUT, groupName);
             await this.click(SAVE_TICKETS_GROUP_BUTTON);
-            await this.driver.sleep(2000)
+            await this.timeout(2000)
             //await this.locateElementByTextAndClick(" " +groupName +" ");
         }
 
@@ -161,6 +162,14 @@
             await this.click(ADD_TABLE_COLUMN_BUTTON);
             await options.changeColumnOrdersByColumnIndex();
 
+        }
+
+        async assertNoTicketsMessageText(){
+            await this.isDisplayed(NO_TICKETS_MESSAGE);
+            await this.timeout(1000);
+            let message = await this.getElementText(NO_TICKETS_MESSAGE);
+            assert.equal(message,"You do not currently have any ticket.");
+            await this.timeout(1000);
         }
     }
     module.exports = TicketsNav;

@@ -33,14 +33,14 @@
 
         async createVendorShop(base) {
             await this.isDisplayed(SHOP_NAME_INPUT);
-            await this.driver.sleep(2000);
+            await this.timeout(1000);
             await this.sentKeys(SHOP_NAME_INPUT, base + " shops name");
             await this.click(MAKE_FEATURED_CHECKBOX)
             await this.sentKeys(DESCRIPTION_INPUT, base + " shops description");
             await this.click(CATEGORY_DROPDOWN);
-            await this.driver.sleep(500);
+            await this.timeout(1000);
             await this.clickElementReturnedFromAnArray(CATEGORY_ASSOCIATED_OPTIONS, 1);
-            await this.driver.sleep(1000);
+            await this.timeout(1000);
             await this.click(CATEGORY_DROPDOWN);
             await this.clickElementReturnedFromAnArray(CALENDAR_ICON, 3)
             let startDatePicker = new DateTimePickerModal(this.driver);
@@ -48,14 +48,14 @@
             await startDatePicker.select13Day();
             await startDatePicker.clickSetButton();
             await startDatePicker.clickSetButton();
-            await this.driver.sleep(2000);
+            await this.timeout(1000);
             await this.clickElementReturnedFromAnArray(CALENDAR_ICON, 4);
             let endDatePicker = new DateTimePickerModal(this.driver);
             await endDatePicker.datePickerIsVisible();
             await endDatePicker.select13Day();
             await endDatePicker.clickSetButton();
             await endDatePicker.clickSetButton();
-            await this.driver.sleep(2000)
+            await this.timeout(1000);
             await this.clickElementReturnedFromAnArray(SELECTS, 1);
             await this.isDisplayed(VIRTUAL_SHOP_OPTION);
             await this.clickElementByText(base + " Bar");
@@ -64,34 +64,34 @@
             await this.isDisplayed(PARTNER_MANAGEMENT_LIST_OPTION, 5000);
             await this.click(PARTNER_MANAGEMENT_LIST_OPTION);
             await this.isDisplayed(VENDOR_EMAIL);
-            await this.driver.sleep(2500)
+            await this.timeout(1000);
             await this.clickLastElementReturnedFromAnArray(CHECKBOX)
             //await this.driver.executeScript("document.getElementsByClassName('myRipple2')[3].click()");
             //await this.driver.sleep(2000)
             await this.sentKeys(UPLOAD_PHOTO_INPUT, "D:\\Upped-Events-Inc\\static\\bar.jpg");
-            await this.driver.sleep(2000)
+            await this.timeout(1000);
             let imager = new SetImageModal(this.driver);
             await imager.setImageModalIsDisplayed();
             await imager.clickSetButton();
             await this.isDisplayed(TAGS_INPUT, 5000);
             await this.sentKeys(TAGS_INPUT, base + ' tag');
             await this.clickEnterKey(TAGS_INPUT);
-            await this.driver.sleep(500)
+            await this.timeout(1000);
             await this.click(ADD_SHOP_BUTTON);
-            await this.driver.sleep(2000);
+            await this.timeout(2000);
 
         }
 
         async addShopForTickets(base) {
             await this.isDisplayed(SHOP_NAME_INPUT);
-            await this.driver.sleep(2000);
+            await this.timeout(1000);
             await this.sentKeys(SHOP_NAME_INPUT, base + " tickets shop name");
             await this.click(MAKE_FEATURED_CHECKBOX)
             await this.sentKeys(DESCRIPTION_INPUT, "Tickets for cash ");
             await this.click(CATEGORY_DROPDOWN);
-            await this.driver.sleep(500);
+            await this.timeout(1000);
             await this.clickElementReturnedFromAnArray(CATEGORY_ASSOCIATED_OPTIONS, 1);
-            await this.driver.sleep(1500);
+            await this.timeout(1000);
             await this.click(CATEGORY_DROPDOWN);
             await this.clickElementReturnedFromAnArray(CALENDAR_ICON, 3)
             let startDatePicker = new DateTimePickerModal(this.driver);
@@ -99,34 +99,35 @@
             await startDatePicker.select13Day();
             await startDatePicker.clickSetButton();
             await startDatePicker.clickSetButton();
-            await this.driver.sleep(2000);
+            await this.timeout(1000);
             await this.clickElementReturnedFromAnArray(CALENDAR_ICON, 4);
             let endDatePicker = new DateTimePickerModal(this.driver);
             await endDatePicker.datePickerIsVisible();
             await endDatePicker.select13Day();
             await endDatePicker.clickSetButton();
             await endDatePicker.clickSetButton();
-            await this.driver.sleep(2000)
+            await this.timeout(1000);
             await this.clickElementReturnedFromAnArray(SELECTS, 1);
-            await this.driver.sleep(2000)
+            await this.timeout(1000);
             await this.isDisplayed(VIRTUAL_SHOP_OPTION);
-            await this.driver.sleep(2000)
+            await this.timeout(1000);
             await this.clickElementByText(base + " Tickets");
             await this.isDisplayed(SELECT_PARTNER_DROPDOWN, 5000);
             await this.click(SELECT_PARTNER_DROPDOWN);
             await this.isDisplayed(EVENT_MANAGE_OPTION, 5000);
             await this.click(EVENT_MANAGE_OPTION);
             await this.sentKeys(UPLOAD_PHOTO_INPUT, "D:\\Upped-Events-Inc\\static\\tickets.jpg");
-            await this.driver.sleep(2000)
+            await this.timeout(2000);
             let imager = new SetImageModal(this.driver);
             await imager.setImageModalIsDisplayed();
+            await this.timeout(1000);
             await imager.clickSetButton();
             await this.isDisplayed(TAGS_INPUT, 5000);
             await this.sentKeys(TAGS_INPUT, base + ' ticketing tag');
             await this.clickEnterKey(TAGS_INPUT);
-            await this.driver.sleep(500)
+            await this.timeout(1000);
             await this.click(ADD_SHOP_BUTTON)
-            await this.driver.sleep(2000);
+            await this.timeout(2000);
         }
     }
     module.exports = CreateShopModal;

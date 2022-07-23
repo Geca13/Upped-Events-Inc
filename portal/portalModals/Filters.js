@@ -36,6 +36,7 @@
     const PARTNER_NAME_INPUT = { xpath: "//label[text()='partner Name']/preceding-sibling::input" };
     const ACTIVE_INACTIVE_INPUT = { xpath: "//label[text()='Active/Inactive']/preceding-sibling::input" };
     const NEXT_ACTION_INPUT = { xpath: "//label[text()='Next Action']/preceding-sibling::input" };
+    const REMOVE_SELECTED_STATUS = { xpath: "//span[contains(@class, 'left')]" }
 
 
 
@@ -96,7 +97,7 @@
         async filterByPartialNameInTransactionCenter(){
             await this.filtersModalIsOpened();
             await this.timeout(500);
-            await this.sentKeys(USER_INPUT, "Mar");
+            await this.sentKeys(USER_INPUT, "Laz");
             await this.click(APPLY_BUTTON);
             await this.timeout(1000);
         }
@@ -104,7 +105,7 @@
             await this.filtersModalIsOpened();
             await this.click(MINIMUM_ITEMS_INPUT);
             await this.timeout(500);
-            await this.sentKeys(MINIMUM_ITEMS_INPUT, "2");
+            await this.sentKeys(MINIMUM_ITEMS_INPUT, "10");
             await this.click(APPLY_BUTTON);
             await this.timeout(1000);
         }
@@ -125,6 +126,45 @@
             await this.click(MAXIMUM_ITEMS_INPUT);
             await this.timeout(500);
             await this.sentKeys(MAXIMUM_ITEMS_INPUT, "5");
+            await this.click(APPLY_BUTTON);
+            await this.timeout(1000);
+        }
+
+        async filterByUserAndPriceRangeInTransactionCenter(base){
+            await this.filtersModalIsOpened();
+            await this.timeout(500);
+            await this.sentKeys(MINIMUM_PRICE_INPUT, "20.00");
+            await this.timeout(500);
+            await this.click(MAXIMUM_PRICE_INPUT);
+            await this.timeout(500);
+            await this.sentKeys(MAXIMUM_PRICE_INPUT, "25.00");
+            await this.timeout(500);
+            await this.sentKeys(USER_INPUT, base + " " + base);
+            await this.click(APPLY_BUTTON);
+            await this.timeout(1000);
+        }
+
+        async filterByStatusInTransactionCenter(index) {
+            await this.filtersModalIsOpened();
+            await this.timeout(500);
+            await this.click(TRANSACTIONS_STATUS_SELECT);
+            await this.timeout(500);
+            await this.isDisplayed(VISIBLE_SELECT_OPTIONS,5000);
+        }
+
+        async returnOptionName(index) {
+            await this.timeout(1500);
+            let option = await this.getElementTextFromAnArrayByIndex(VISIBLE_SELECT_OPTIONS, index);
+            return option;
+        }
+        async selectOptionFromDropdown(index){
+            let selectedOption = await this.findAll(REMOVE_SELECTED_STATUS);
+            if (selectedOption.length === 1){
+                await this.click(REMOVE_SELECTED_STATUS);
+                await this.timeout(500);
+            }
+            await this.clickElementReturnedFromAnArray(VISIBLE_SELECT_OPTIONS, index);
+            await this.timeout(500);
             await this.click(APPLY_BUTTON);
             await this.timeout(1000);
         }

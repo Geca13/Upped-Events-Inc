@@ -7,7 +7,7 @@ class ConfirmPage extends BasePage {
         super(driver);
     }
     async isAtConfirmPage(){
-        await this.isDisplayed(VIEW_RECEIPT_BUTTON,60000)
+        await this.isDisplayed(VIEW_RECEIPT_BUTTON,90000)
     }
     async goBackToStartPage(){
         await this.click(DONE_BUTTON)

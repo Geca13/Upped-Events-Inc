@@ -24,7 +24,7 @@
             await this.isDisplayed(MANAGER_CODE_INPUT,5000);
         }
         async loginToTheOverrideModal(){
-            await this.sentKeys(MANAGER_CODE_INPUT, "now you see me");
+            await this.sentKeys(MANAGER_CODE_INPUT, "0000");
             await this.click(CONFIRM_OVERRIDE);
             await this.isDisplayed(VALID_CODE_MESSAGE,5000);
         }

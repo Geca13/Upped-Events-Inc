@@ -59,27 +59,31 @@
             let override = new OverrideTicketModal(this.driver);
             await override.overrideModalIsDisplayed();
             await override.loginToTheOverrideModal();
-            await override.overrideTicketQuantity("1");
-            await this.driver.sleep(500)
+            //await override.overrideTicketQuantity("1");
+            await this.timeout(500);
             await override.setNewPrice('.5');
             await override.clickSaveChangesButton();
-            await this.driver.sleep(5000);
+            await this.timeout(1500);
+            let newPrice = await this.getElementText(OVERRIDEN_TICKET_PRICE);
+            assert.equal(newPrice,'$1.5');
+            let fontColor = await this.getFontColorFromAnArray(OVERRIDEN_TICKET_PRICE,0);
+            assert.equal(fontColor,'rgba(255, 0, 0, 1)');
         }
 
-        async assertNewPriceAndQuantity(){
+        /*async assertNewPriceAndQuantity(){
             await this.isOnBoxOfficePage();
-            await this.driver.sleep(2000)
+            await this.timeout(2000)
             let originalPrice = await this.getTextFromElementOfArray(COLUMN_PRICE,0);
             assert.equal(originalPrice,'1');
             await this.clickElementReturnedFromAnArray(COLUMN_SELECTS,0);
-            await this.driver.sleep(500);
+            await this.timeout(500);
             await this.clickElementReturnedFromAnArray(OVERRIDEN_QUANTITY_OPTIONS,0);
             await this.isDisplayed(OVERRIDEN_TICKET_PRICE,5000);
             let newPrice = await this.getElementText(OVERRIDEN_TICKET_PRICE);
             assert.equal(newPrice,'1.5');
             let fontColor = await this.getFontColorFromAnArray(OVERRIDEN_TICKET_PRICE,0);
             assert.equal(fontColor,'rgba(255, 0, 0, 1)');
-        }
+        }*/
         async selectFourIndividualTickets(){
             await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,0,"1");
             await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,1,"1");

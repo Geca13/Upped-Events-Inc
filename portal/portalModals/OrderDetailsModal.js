@@ -54,6 +54,7 @@
 
         }
         async getOrderTotalAfterRefunds(){
+            await this.timeout(2000);
             let rawAfterTotal = await this.getChildByIndex(ORDER_DETAILS_MODAL_TOTAL,0,1);
             let afterTotal = await this.convertPriceStringToDouble(rawAfterTotal.substring(1))
             return afterTotal.toFixed(2);

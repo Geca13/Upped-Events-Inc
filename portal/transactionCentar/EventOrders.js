@@ -25,6 +25,7 @@
     const USERS = { xpath: "//td[contains(@class , 'column-username')]//a[contains(@class , 'table-ticket-name')]//span" }
     const ORDERS_AMOUNTS = { xpath: "//td[contains(@class , 'column-totalamount')]//span" }
     const ORDERS_ITEMS = { xpath: "//td[contains(@class , 'column-items')]//span" }
+    const ORDERS_STATUS = { xpath: "//td[contains(@class , 'column-statusname')]//span" }
 
 
 
@@ -153,6 +154,7 @@
             await this.click(FILTER_BUTTON);
             let filter = new Filters(this.driver)
             await filter.filterByIdInTransactionCenter(id);
+            await this.timeout(2000)
             let filteredOrderIds = await this.returnElementsCount(ORDERS_IDS);
             assert.equal(filteredOrderIds, 1);
             let filteredId = await this.getElementTextFromAnArrayByIndex(ORDERS_IDS, 0);
@@ -289,7 +291,47 @@
             assert.notEqual(filteredOrderIds, orderIds);
             let users = await this.returnArrayOfStrings(USERS);
             for (let i = 0; i < users.length ; i++){
-                expect(users[i]).to.include('Mar');
+                expect(users[i]).to.include('Laz');
+            }
+        }
+
+        async filterByFullUserPriceRangeAndAssertValues(base){
+            await this.isAtTransactionCenterPage();
+            await this.isDisplayed(ORDERS_IDS);
+            await this.timeout(500);
+            let orderIds = await this.returnElementsCount(ORDERS_IDS);
+            await this.click(FILTER_BUTTON);
+            let filter = new Filters(this.driver)
+            await filter.filterByUserAndPriceRangeInTransactionCenter(base);
+            let filteredOrderIds = await this.returnElementsCount(ORDERS_IDS);
+            assert.notEqual(filteredOrderIds, orderIds);
+            let users = await this.returnArrayOfStrings(USERS);
+            let amounts = await this.convertStringArrayToNumber(ORDERS_AMOUNTS);
+            for (let i = 0; i < users.length ; i++){
+                assert.equal(users[i], base + ' ' + base);
+                expect(amounts[i]).to.be.within(19.99, 25.01)
+            }
+        }
+
+        async filterByAllStatusOptionsAndAssertValues(){
+            await this.isAtTransactionCenterPage();
+            await this.isDisplayed(ORDERS_IDS);
+            await this.timeout(500);
+            let filter = new Filters(this.driver)
+            let pagination = new PaginationComponent(this.driver);
+            await pagination.selectXRowsPerPage(50);
+            let orderIds = await this.returnElementsCount(ORDERS_IDS);
+            let allStatuses = await this.returnUniqueStringValues(ORDERS_STATUS);
+            for(let i = 0; i < allStatuses.length; i++){
+               await this.click(FILTER_BUTTON);
+               await filter.filterByStatusInTransactionCenter(i);
+               let selected = await filter.returnOptionName(i);
+               await filter.selectOptionFromDropdown(i);
+               let filteredStatuses = await this.returnArrayOfStrings(ORDERS_STATUS);
+               await this.timeout(3000)
+               for (let y = 0; y < filteredStatuses.length ; y++) {
+                   assert.equal(filteredStatuses[y], selected);
+               }
             }
         }
 
