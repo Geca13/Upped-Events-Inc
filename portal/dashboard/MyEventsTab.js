@@ -43,10 +43,8 @@
         async assertCorrectValuesAfterCreation(text,eventName,address,startDate,endDate,attendees){
             await this.isDisplayed(EVENTS_NAMES_SPANS,5000);
             await this.timeout(500)
-
-            let i = await this.returnIndexWhenTextIsKnown(EVENTS_NAMES_SPANS, text)
-            console.log(i)
-            await this.timeout(2000)
+            let i = await this.returnIndexWhenTextIsKnown(EVENTS_NAMES_SPANS, text);
+            await this.timeout(1000);
             let savedName = await this.getElementTextFromAnArrayByIndex(EVENTS_NAMES_SPANS, i);
             await this.moveToElementFromArrayByIndex(EVENTS_ADDRESSES,i);
             await this.isDisplayed(ADDRESS_TOOLTIP,5000);
@@ -60,6 +58,58 @@
             assert.equal(savedStartDateTime,startDate);
             assert.equal(savedEndDateTime,endDate);
             assert.equal(savedEventSize,attendees);
+        }
+
+        async getEventStartDate(eventName){
+            let startDateAndTime = []
+            let date = []
+            await this.isDisplayed(EVENTS_NAMES_SPANS,5000);
+            await this.timeout(500);
+            let i = await this.returnIndexWhenTextIsKnown(EVENTS_NAMES_SPANS, eventName);
+            let savedStartDateTime = await this.getElementTextFromAnArrayByIndex(EVENTS_START_DATE_TIME, i);
+            startDateAndTime = await savedStartDateTime.split(', ');
+            date = startDateAndTime[0].split('/')
+            let formattedDate = await this.getMonth(date[0]) + " " + await this.getOrdinalDay(date[1]);
+            return formattedDate;
+
+        }
+
+        async getEventEndDate(eventName){
+            let endDateAndTime = []
+            let date = []
+            await this.isDisplayed(EVENTS_NAMES_SPANS,5000);
+            await this.timeout(500);
+            let i = await this.returnIndexWhenTextIsKnown(EVENTS_NAMES_SPANS, eventName);
+            let savedEndDateTime = await this.getElementTextFromAnArrayByIndex(EVENTS_END_DATE_TIME, i);
+            endDateAndTime = await savedEndDateTime.split(', ');
+            date = endDateAndTime[0].split('/')
+            let formattedDate = await this.getMonth(date[0]) + " " + await this.getOrdinalDay(date[1]);
+            return formattedDate;
+
+        }
+        async getEventStartTime(eventName){
+            let startDateAndTime = []
+            let time = []
+            await this.isDisplayed(EVENTS_NAMES_SPANS,5000);
+            await this.timeout(500);
+            let i = await this.returnIndexWhenTextIsKnown(EVENTS_NAMES_SPANS, eventName);
+            let savedStartDateTime = await this.getElementTextFromAnArrayByIndex(EVENTS_START_DATE_TIME, i);
+            startDateAndTime = await savedStartDateTime.split(', ');
+            time = startDateAndTime[1].split(' ')
+            let formattedTime = time[0] + time[1].toLowerCase();
+            return formattedTime;
+        }
+        async getEventEndTime(eventName){
+            let endDateAndTime = []
+            let time = []
+            await this.isDisplayed(EVENTS_NAMES_SPANS,5000);
+            await this.timeout(500);
+            let i = await this.returnIndexWhenTextIsKnown(EVENTS_NAMES_SPANS, eventName);
+            let savedEndDateTime = await this.getElementTextFromAnArrayByIndex(EVENTS_END_DATE_TIME, i);
+            endDateAndTime = await savedEndDateTime.split(', ');
+            time = endDateAndTime[1].split(' ')
+            let formattedTime = time[0] + time[1].toLowerCase();
+            return formattedTime;
         }
 
 

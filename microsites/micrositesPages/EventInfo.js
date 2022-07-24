@@ -12,8 +12,9 @@
     const FEATURED_IMAGE = { className: 'featured-image' }
     const SHORT_TAGS = { className: 'eventTags' }
     const VERTICAL_LINE = { className: 'line-straight' }
-    const EVENT_INFO = { className: 'event-info' }
+    const EVENT_INFO = { xpath: "//div[@class='col-md-12']//div[@ng-reflect-ng-class='template1Text']//div[@class='detail-text']" }
     const EVENT_INFO_BUTTONS = { xpath: "//button[@ng-reflect-ng-class='template1ReadMore']" }//list
+
 
     class EventInfo extends BasePage{
     constructor(driver) {
@@ -75,6 +76,23 @@
         await this.timeout(500);
     }
 
+    async assertBuyTicketsButtonText(){
+        let ticketsButton = await this.getElementTextFromAnArrayByIndex(EVENT_INFO_BUTTONS,1);
+        assert.equal(ticketsButton, "Buy Tickets")
+        await this.timeout(500);
+    }
+    async assertTicketsDateAvailableButtonText(date){
+        let ticketsButton = await this.getElementTextFromAnArrayByIndex(EVENT_INFO_BUTTONS,1);
+        assert.equal(ticketsButton, "Tickets will be available From " + date);
+        await this.timeout(500);
+    }
+    async assertDateAndTimeOnEventInfo(portalDateAndTime){
+        await this.timeout(1500);
+        let dateAndTime = await this.getElementTextFromAnArrayByIndex(EVENT_INFO,0);
+        let formattedDateAndTime = dateAndTime.substring(0, 19) + " " + dateAndTime.substring(20, 21) + " " + dateAndTime.substring(22);
+        assert.equal(formattedDateAndTime, portalDateAndTime);
+        await this.timeout(500);
+    }
 
 }
 

@@ -139,6 +139,7 @@
         let base = 920807 ;
         let eventName = base.toString();
         let ticketOneName = base.toString() +"T1";
+        let ticketOneQuantity = 999;
         let ticketTwoName = base.toString() +"T2";
         let ticketThreeName = base.toString() +"T3";
         let ticketFourName = base.toString() +"T4";
@@ -181,7 +182,7 @@
         })
 
 
-        it('should create new event and verify data in events page',async function () {
+        it('should create new event and verify data in events page and General Details',async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             createEvent = new CreateEventModal(driver);
@@ -340,6 +341,156 @@
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.assertNoTicketsMessageText();
         });
+
+        it('should create first ticket and check data in tickets table and update modal ',async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await driver.sleep(1000);
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(5000);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.createFirstTicketAndAssertDataOnTicketsAndUpdate(ticketOneName,"1",ticketOneQuantity);
+
+        });
+
+        it('should check button text and when tickets are activated/deactivated ',async function () {
+
+            events = new EventsPage(driver);
+            info = new EventInfo(driver);
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            await events.load();
+            await driver.sleep(1000);
+
+            await events.eventCardIsAvailableToClick();
+            await events.clickNewEvent(eventName);
+            await info.wishListButtonIsDisplayed();
+            await info.assertNoTicketsAvailableButtonText();
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await driver.sleep(1000);
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(5000);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickActivateTicketToggle(ticketOneName);
+            await events.load();
+            await events.eventCardIsAvailableToClick();
+            await events.clickNewEvent(eventName);
+            await info.wishListButtonIsDisplayed();
+            await info.assertBuyTicketsButtonText()
+        });
+
+        it('should check button text when tickets are in the future ',async function () {
+            events = new EventsPage(driver);
+            info = new EventInfo(driver);
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+            dateTime = new DateTimePickerModal(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await driver.sleep(1000);
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(5000);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickEditTicketButton(0);
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.clickStartDateTimeInput();
+            await dateTime.datePickerIsVisible();
+            await dateTime.updateTimeToXMinLater(5);
+            let date = await dateTime.getSelectedFullDateFromPicker();
+            await dateTime.clickSetButton();
+            await createTicket.clickEndDateTimeInput();
+            await dateTime.datePickerIsVisible();
+            await dateTime.updateHourByOne();
+            await createTicket.clickSaveTicketButton();
+
+            await events.load();
+            await events.eventCardIsAvailableToClick();
+            await events.clickNewEvent(eventName);
+            await info.wishListButtonIsDisplayed();
+            await info.assertTicketsDateAvailableButtonText(date);
+        });
+
+        it('should check correct date and time on general details and eventInfo pages',async function () {
+            events = new EventsPage(driver);
+            info = new EventInfo(driver);
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await driver.sleep(1000);
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            let startDate = await myEvents.getEventStartDate(eventName);
+            let endDate = await myEvents.getEventEndDate(eventName);
+            let startTime = await myEvents.getEventStartTime(eventName);
+            let endTime = await myEvents.getEventEndTime(eventName);
+            let portalDateAndTime = startDate + ' - ' + endDate + ' | ' + startTime + ' - ' + endTime + ' EDT';
+            await events.load();
+            await events.eventCardIsAvailableToClick();
+            await events.clickNewEvent(eventName);
+            await info.wishListButtonIsDisplayed();
+            await info.assertDateAndTimeOnEventInfo(portalDateAndTime);
+        });
+
+
+
+
 
         it('Should create new event,tickets,promotions and make purchases', async function () {
             portalLogin = new PortalLoginPage(driver);

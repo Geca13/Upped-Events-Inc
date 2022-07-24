@@ -1,14 +1,16 @@
     const BasePage = require('../../BasePage');
     const {By} = require("selenium-webdriver");
     const Alerts = require('../../Validations&Alerts/Alerts')
-    const ColumnOptionsModal = require('../portalModals/ColumnsOptionsModal')
+    const ColumnOptionsModal = require('../portalModals/ColumnsOptionsModal');
+    const CreateTicketModal = require('../portalModals/CreateTicketModal')
     const assert = require('assert')
     const ADD_TICKETS_GROUP_BUTTON = { xpath: "//*[text()=' Add Group']" }
     const ADD_TICKET_BUTTON = { xpath: "//*[text()='Add']" }
     const ALL_TICKETS_TAB = { xpath: "//*[text()=' All ']" }
     const ACTIVE_TICKETS_TAB = { xpath: "//*[text()=' Active ']" }
     const INACTIVE_TICKETS_TAB = { xpath: "//*[text()=' Inactive ']" }
-    const TICKET_TOGGLE = {className: 'lc_off' }
+    const DEACTIVATED_TICKET_TOGGLE = {className: 'lc_off' }
+    const ACTIVATED_TICKET_TOGGLE = {className: 'lc_on' }
     const TICKET_ACTIVATION_MODAL = { tagName: 'response-message-popup' }
     const TICKET_ACTIVATION_YES_BUTTON = { xpath: "//*[text()='Yes']" }
     const TICKET_ACTIVATION_NO_BUTTON = { xpath: "//*[text()='No']" }
@@ -16,13 +18,19 @@
     const TICKETS_GROUP_NAME_INPUT = { xpath: "//input[@placeholder='Group Name']" }
     const SAVE_TICKETS_GROUP_BUTTON = { xpath: "//i[@aria-hidden='true']" }
     const CANCEL_TICKETS_GROUP_BUTTON = { xpath: "//i[@aria-hidden='true']" }
-    const SOLD_TICKETS_NUMBER = { className: 'column-sold'} //list
     const TOAST_BANNER = { id:'toast-container' }
     const TICKET_GROUP_TAB = { xpath: "//a[@role='tab']" }
     const TABLE_HEADERS = { xpath: "//th/span" } //list
     const ADD_TABLE_COLUMN_BUTTON = { xpath: "//a[contains(@class, 'addcolumn_btn')]//span" };
     const FILTER_BUTTON = { xpath: "//div[contains(@class, 'filter-list-icon')]//i[contains(@class, 'icon-filter')]" }
     const NO_TICKETS_MESSAGE = { xpath: "//div[@class='data-empty']//h5" }
+    const TICKETS_NAMES = { className: "column-name" };
+    const TICKETS_START_DATES = { className: "column-startdate" }
+    const TICKETS_END_DATES = { className: "column-enddate" }
+    const TICKETS_PRICES = { className: "column-price" };
+    const TICKETS_QUANTITIES = { className: "column-quantity" };
+    const SOLD_TICKETS_NUMBER = { className: 'column-sold'} //list
+    const EDIT_TICKET_BUTTONS = { className: 'text-second'} //list
 
 
 
@@ -40,6 +48,40 @@
             await this.isDisplayed(TICKET_ACTIVATION_MODAL, 15000)
         }
 
+        async createFirstTicket(ticketOneName,ticketPrice,ticketOneQuantity){
+            await this.addTicketButtonIsDisplayed();
+            let newTicket = new CreateTicketModal(this.driver);
+            await newTicket.createNewTicket(ticketOneName,ticketPrice,ticketOneQuantity)
+
+        }
+        async assertCorrectDataIsDisplayedInTableAfterCreatingFirstTicket(name,start,end,price,quantity){
+            await this.isDisplayed(TICKETS_NAMES,5000);
+            await this.timeout(500)
+
+            let i = await this.returnIndexWhenTextIsKnown(TICKETS_NAMES, name);
+            console.log(i)
+            await this.timeout(2000)
+            let savedName = await this.getElementTextFromAnArrayByIndex(TICKETS_NAMES, i);
+            let savedStartDateTime = await this.getElementTextFromAnArrayByIndex(TICKETS_START_DATES, i);
+            let savedEndDateTime = await this.getElementTextFromAnArrayByIndex(TICKETS_END_DATES, i);
+            let savedPrice = await this.getElementTextFromAnArrayByIndex(TICKETS_PRICES, i);
+            let savedQuantity = await this.getElementTextFromAnArrayByIndex(TICKETS_QUANTITIES, i);
+            let soldQuantity = await this.getElementTextFromAnArrayByIndex(SOLD_TICKETS_NUMBER, i);
+            assert.equal(savedName,name);
+            assert.equal(savedStartDateTime,start);
+            assert.equal(savedEndDateTime,end);
+            assert.equal(savedPrice,price);
+            assert.equal(savedQuantity,quantity);
+            assert.equal(soldQuantity,'0');
+            await this.clickEditTicketButton(i);
+            await this.timeout(1500)
+        }
+
+        async clickEditTicketButton(index){
+            await this.isDisplayed(EDIT_TICKET_BUTTONS,5000);
+            await this.clickElementReturnedFromAnArray(EDIT_TICKET_BUTTONS,index)
+        }
+
         async savedTicketBannerIsDisplayed(){
             let saved = new Alerts(this.driver);
             await saved.savedAlertIsDisplayed('Ticket saved successfully!');
@@ -50,13 +92,22 @@
             await success.successAlertIsDisplayed('Saved successfully');
         }
 
-        async clickActivateTicketToggle(index){
-            let toggle = await this.getElementFromAnArrayByIndex(TICKET_TOGGLE,index);
-            await this.timeout(2000);
+        async clickActivateTicketToggle(ticketName){
+            await this.isDisplayed(TICKETS_NAMES,5000);
+            let i = await this.returnIndexWhenTextIsKnown(TICKETS_NAMES, ticketName);
+            let toggle = await this.getElementFromAnArrayByIndex(DEACTIVATED_TICKET_TOGGLE,i);
+            await this.timeout(1000);
             await toggle.click();
+            await this.activateTicketModalIsDisplayed();
+            await this.confirmActivationButton();
+
+
         }
         async confirmActivationButton(){
+            await this.isDisplayed(TICKET_ACTIVATION_YES_BUTTON,5000);
+            await this.timeout(500);
             await this.click(TICKET_ACTIVATION_YES_BUTTON);
+            await this.isDisplayed(ACTIVATED_TICKET_TOGGLE,5000);
         }
         async createTicketsGroup(groupName){
             await this.timeout(1000);

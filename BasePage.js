@@ -130,7 +130,10 @@
           fullDateTime = dateTimeValue.split(" ")
           let date = fullDateTime[0];
           return date;
-
+    }
+    async returnNumberWith$Sign(locator){
+          let number = await this.getEnteredTextInTheInput(locator);
+          return '$'+number;
     }
 
     async clickElementByTextFromArray(text, index){
@@ -273,11 +276,8 @@
     async returnIndexWhenTextIsKnown(locator,text){
           let array = await this.findAll(locator)
             for(let i = 0; i < array.length; i++){
-                console.log(await array[i].getText())
-                if(await array[i].getText() === text){
+                if(await array[i].getText() == text){
                     return i;
-                }else{
-                    return 0;
                 }
             }
     }
@@ -631,6 +631,19 @@
 
     async timeout(ms) {
     return await new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async getMonth(m){
+          let index = parseInt(m);
+          const months = [" ","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+          let month = months[index];
+          return month;
+    }
+    async getOrdinalDay(d){
+          let index = parseInt(d);
+          const days = [' ','1st','2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th', '21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th', '29th', '30th', '31st'];
+          let day = days[index];
+          return day;
     }
 
 
