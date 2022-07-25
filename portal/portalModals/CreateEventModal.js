@@ -36,7 +36,7 @@
             await this.isDisplayed(CREATE_EVENT_BUTTON,15000);
         }
 
-        async fillFormWithValidDataAndSave(eventName){
+        async fillFormWithValidDataAndSave(eventName,shortName){
             await this.sentKeys(EVENT_NAME_INPUT, eventName);
             await this.click(OCCUR_SELECT);
             await this.occurrenceOptionsAreDisplayed();
@@ -62,9 +62,9 @@
             //await this.click(CREATE_EVENT_BUTTON);
             let name = await this.getEnteredTextInTheInput(EVENT_NAME_INPUT)
             let location = await this.getEnteredTextInTheInput(ENTERED_ADDRESS);
-            let origStart = await this.getEnteredTextInTheInput(EVENT_NAME_INPUT)
-            let origEnd = await this.getEnteredTextInTheInput(ENTERED_ADDRESS);
-            let origAtt = await this.getEnteredTextInTheInput(ENTERED_ADDRESS);
+            let origStart = await this.getEnteredTextInTheInput(START_DATE_TIME_PICKER)
+            let origEnd = await this.getEnteredTextInTheInput(END_DATE_TIME_PICKER);
+            let origAtt = await this.getEnteredTextInTheInput(EVENT_ATTENDEES_INPUT);
             let start = await this.formatDateTimeInputToIncludeComma(START_DATE_TIME_PICKER);
             let end =await this.formatDateTimeInputToIncludeComma(END_DATE_TIME_PICKER);
             let attendees = await this.numberWithCommas(EVENT_ATTENDEES_INPUT);
@@ -79,8 +79,8 @@
             await myEvents.assertCorrectValuesAfterCreation(eventName,name,location,start,end,attendees);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             let details = new GeneralDetailsTab(this.driver);
-            await details.unpublishButtonIsDisplayed();
-            await details.verifyDetailsInGeneralDetailsPageAfterCreation(eventName,name,name,location,origStart,origEnd,origAtt,description);
+            await details.publishButtonIsDisplayed();
+            await details.verifyDetailsInGeneralDetailsPageAfterCreation(shortName, name,location,origStart,origEnd,origAtt,description);
 
 
         }

@@ -67,7 +67,7 @@
     }
     async eventCardIsAvailableToClick(){
         return await this.isDisplayed(EVENT_CARD,25000)
-        await this.timeout(10000);
+        await this.timeout(5000);
     }
     async clickEvent(){
         await this.click(EVENT);

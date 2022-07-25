@@ -2,11 +2,13 @@
     const Validations = require('../../Validations&Alerts/Validations');
     const assert = require('assert')
     const CLOSE_MODAL_BUTTON = { className: 'close-btn' };
+    const SIGN_UP_BUTTONS = { xpath: "//button//span[contains(@class, 'justify-content-center')]"}
     const SIGN_UP_WITH_FACEBOOK_BUTTON = { xpath: "//*[text()='Sign Up with Facebook']"}
     const SIGN_UP_WITH_GOOGLE_BUTTON = { xpath: "//*[text()='Sign Up with Google']"}
     const SIGN_UP_WITH_EMAIL_BUTTON = { xpath: "//*[text()='Sign Up with Email']"}
-    const SIGN_IN_LINK = { xpath: "//*[text()='Sign In']"}
-    const CREATE_AN_ACCOUNT_MODAL_TITLE = { xpath: "//*[text()='Create an Account']"}
+    const SIGN_IN_LINK = { xpath: "//div[contains(@class, 'text-center')]//a[contains(@class, 'cursor-pointer')]"}
+    const CREATE_AN_ACCOUNT_MODAL_TITLE = { xpath: "//div[contains(@class, 'login-container')]//h3[contains(@class, 'title')]"}
+    const CREATE_AN_ACCOUNT_MODAL_DESCRIPTION = { xpath: "//div[contains(@class, 'login-container')]//p[contains(@class, 'title-subtext')]"}
     const FIRST_NAME_INPUT = { id: 'firstName'}
     const LAST_NAME_INPUT = { id: 'lastName'}
     const EMAIL_INPUT = { id: 'email'}
@@ -23,10 +25,26 @@
             super(driver);
         }
         async firstCreateAccountModalIsDisplayed(){
-            await this.isDisplayed(SIGN_UP_WITH_EMAIL_BUTTON,5000)
+            await this.isDisplayed(SIGN_UP_WITH_EMAIL_BUTTON,5000);
+            let header = await this.getElementText(CREATE_AN_ACCOUNT_MODAL_TITLE);
+            let description = await this.getElementText(CREATE_AN_ACCOUNT_MODAL_DESCRIPTION);
+            let google = await this.getElementTextFromAnArrayByIndex(SIGN_UP_BUTTONS, 0);
+            let facebook = await this.getElementTextFromAnArrayByIndex(SIGN_UP_BUTTONS, 1);
+            let email = await this.getElementTextFromAnArrayByIndex(SIGN_UP_BUTTONS, 2);
+            let link = await this.getElementText(SIGN_IN_LINK);
+            assert.equal(header,"Create an Account");
+            assert.equal(description,"It only takes about a minute with Google or FaceBook!");
+            assert.equal(google,"Sign Up with Google");
+            assert.equal(facebook,"Sign Up with Facebook");
+            assert.equal(email,"Sign Up with Email");
+            assert.equal(link,"Sign In");
+
         }
         async secondCreateAccountModalIsDisplayed(){
-            await this.isDisplayed(CREATE_AN_ACCOUNT_MODAL_TITLE,5000)
+            await this.isDisplayed(FIRST_NAME_INPUT,5000);
+
+
+
         }
         async clickSignUpWithEmailButton(){
             await this.click(SIGN_UP_WITH_EMAIL_BUTTON)
@@ -41,19 +59,21 @@
             await this.sentKeys(LAST_NAME_INPUT, lastName);
             await this.sentKeys(EMAIL_INPUT, email);
             await this.click(GENDER_SELECT);
-            await this.driver.sleep(500);
+            await this.timeout(500)
             await this.clickElementReturnedFromAnArray(GENDER_SELECT_OPTIONS,0);
             await this.sentKeys(DOB_INPUT, '11112000');
             await this.sentKeys(PASSWORD_INPUT, password);
             await this.sentKeys(VERIFY_PASSWORD_INPUT, password);
             await this.click(CREATE_ACCOUNT_BUTTON);
-            await this.driver.sleep(2000);
+            await this.timeout(1500)
         }
 
         async allValidationsAreShown(){
             let validations = new Validations(this.driver);
             await this.click(CREATE_ACCOUNT_BUTTON);
+
             await validations.allValidationsAreDisplayed();
+            await validations.assertValidationMessagesTexts();
             let count7 = await validations.validationMessagesCount();
             assert.equal(count7,7);
             await this.sentKeys(FIRST_NAME_INPUT, "Mark");
@@ -73,7 +93,7 @@
             let count4 = await validations.validationMessagesCount();
             assert.equal(count4,4);
             await this.click(GENDER_SELECT);
-            await this.driver.sleep(500);
+            await this.timeout(500);
             await this.clickElementReturnedFromAnArray(GENDER_SELECT_OPTIONS,0);
             await validations.allValidationsAreNotDisplayedExceptDobPasswordAndVerifyPassword();
             let count3 = await validations.validationMessagesCount();

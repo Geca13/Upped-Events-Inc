@@ -20,6 +20,7 @@
         }
         async elementIsDisplayedInInbox(text) {
             await this.elementByTextWithoutSpacesIsDisplayed(text);
+            await this.timeout(1000)
         }
         async findAndClickTheEmailForNewAccount(email){
             await this.locateElementByTextAndClick(email);
@@ -32,7 +33,8 @@
         }
 
         async verifyEmail(){
-            await this.click(VERIFY_EMAIL_BUTTON)
+            await this.click(VERIFY_EMAIL_BUTTON);
+            await this.timeout(1000)
         }
         async verifyEmailButtonIsDisplayed(){
             await this.isDisplayed(VERIFY_EMAIL_BUTTON,5000)
@@ -54,7 +56,7 @@
         async acceptVendorInvitation(email){
             await this.loadInbox();
             await this.elementIsDisplayedInInbox('<'+email+'>');
-            await this.driver.sleep(2000)
+            await this.timeout(2000)
             await this.findAndClickTheEmailForNewAccount('<'+email+'>');
             await this.switchToInboxIFrame();
             await this.acceptInvitationButtonIsDisplayed();

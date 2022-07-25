@@ -67,7 +67,7 @@
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.enterTimeNow();
-            await startDatePicker.clickPMButton();
+            //await startDatePicker.clickPMButton();
             await this.timeout(1500)
             await startDatePicker.clickSetButton();
             await this.timeout(1500)

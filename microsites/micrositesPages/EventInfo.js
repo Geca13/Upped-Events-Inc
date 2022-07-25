@@ -1,5 +1,6 @@
     const BasePage = require("../../BasePage");
     const assert = require("assert");
+    const DetailsTab = require('../micrositesComponents/DetailsTab')
     const PAGE_TITLE = { className: 'information-title' }
     const BUY_TICKETS_BUTTON = { xpath: "//*[text()=' Buy Tickets ']"}
     const WISHLIST_BUTTON = { xpath: "//*[text()=' Add to Wishlist ']"}
@@ -12,6 +13,8 @@
     const FEATURED_IMAGE = { className: 'featured-image' }
     const SHORT_TAGS = { className: 'eventTags' }
     const VERTICAL_LINE = { className: 'line-straight' }
+    const SHORTNAME = { xpath: "//div[@class='col-md-12']//div[@class='shortname']"};
+    const FULLNAME = { xpath: "//div[@class='col-md-12']//div[@class='full-event-name']"}
     const EVENT_INFO = { xpath: "//div[@class='col-md-12']//div[@ng-reflect-ng-class='template1Text']//div[@class='detail-text']" }
     const EVENT_INFO_BUTTONS = { xpath: "//button[@ng-reflect-ng-class='template1ReadMore']" }//list
 
@@ -92,6 +95,22 @@
         let formattedDateAndTime = dateAndTime.substring(0, 19) + " " + dateAndTime.substring(20, 21) + " " + dateAndTime.substring(22);
         assert.equal(formattedDateAndTime, portalDateAndTime);
         await this.timeout(500);
+    }
+
+    async assertLocationNamesAndDescriptionOnEventInfo(location,eventName,shortName,description){
+        await this.timeout(1500);
+        let extractedLocation = await this.getElementTextFromAnArrayByIndex(EVENT_INFO,1);
+        let extractedShortName = await this.getElementText(SHORTNAME);
+        let extractedFullName = await this.getElementText(FULLNAME);
+        assert.equal(extractedLocation, location);
+        assert.equal(extractedShortName, shortName);
+        assert.equal(extractedFullName, eventName);
+        let details = new DetailsTab(this.driver)
+        let detailsTabEventFullName = await details.getEventFullName();
+        let detailsTabEventDescription = await details.getEventDescription();
+        assert.equal(detailsTabEventFullName, eventName);
+        assert.equal(detailsTabEventDescription, description);
+        console.log("Completed");
     }
 
 }

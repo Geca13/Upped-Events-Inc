@@ -63,7 +63,8 @@
     const MyWalletTab = require('../microsites/account/MyWalletTab');
     const UserDetailsModal = require('../portal/portalModals/userDetailsModal/UserDetailsModal');
     const EventCapacitySubNav = require('../portal/ticketing/SettingsNav/EventCapacitySubNav');
-    const PhotosTab = require('../microsites/micrositesComponents/PhotosTab')
+    const PhotosTab = require('../microsites/micrositesComponents/PhotosTab');
+    const DetailsTab = require('../microsites/micrositesComponents/DetailsTab');
 
     describe('Should do everything', function () {
         this.timeout(500000);
@@ -133,11 +134,13 @@
         let userDetails;
         let capacity;
         let photo;
+        let detailsTab;
 
 
         //let base = Math.floor(100000 + Math.random() * 900000);
-        let base = 920807 ;
-        let eventName = base.toString();
+        let base = 665798 ;
+        let eventName =  base.toString() + " FullEventName";
+        let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
         let ticketOneQuantity = 999;
         let ticketTwoName = base.toString() +"T2";
@@ -195,7 +198,7 @@
             await dashboard.isAtDashboardPage();
             await dashboard.clickCreateEventButton();
             await createEvent.createEventModalIsDisplayed();
-            await createEvent.fillFormWithValidDataAndSave(eventName);
+            await createEvent.fillFormWithValidDataAndSave(eventName,shortName);
         });
 
         it('should check event published/unpublished',async function () {
@@ -207,8 +210,7 @@
 
             await events.load();
             await events.eventCardIsAvailableToClick();
-            await driver.sleep(10000);
-            await events.assertEventIsNotVisible(eventName);
+            await events.assertEventIsNotVisible(shortName);
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await driver.sleep(1000);
@@ -224,7 +226,7 @@
             await eventDetails.publishEventAndAssertLabelBeforeAndAfter();
             await events.load();
             await events.eventCardIsAvailableToClick();
-            await events.assertEventIsVisible(eventName);
+            await events.assertEventIsVisible(shortName);
             await portalLogin.loadPortalUrl();
             await dashboard.isAtDashboardPage();
             await dashboard.clickMyEventsTab();
@@ -267,8 +269,8 @@
             await eventDetails.unpublishButtonIsDisplayed();
             await events.load();
             await events.eventCardIsAvailableToClick();
-            await events.assertEventIsVisible(eventName);
-            await events.assertPlaceholderImageIsSetWhenImageIsNotSet(eventName);
+            await events.assertEventIsVisible(shortName);
+            await events.assertPlaceholderImageIsSetWhenImageIsNotSet(shortName);
             await portalLogin.loadPortalUrl();
             await dashboard.isAtDashboardPage();
             await dashboard.clickMyEventsTab();
@@ -285,8 +287,8 @@
             await eventCardDesignPage.uploadImage();
             await events.load();
             await events.eventCardIsAvailableToClick();
-            await events.assertEventIsVisible(eventName);
-            await events.assertPlaceholderImageIsRemovedWhenImageIsSet(eventName);
+            await events.assertEventIsVisible(shortName);
+            await events.assertPlaceholderImageIsRemovedWhenImageIsSet(shortName);
         });
         it('should check event image is in card, event info and galery',async function () {
 
@@ -295,9 +297,9 @@
             photo = new PhotosTab(this.driver);
             await events.load();
             await events.eventCardIsAvailableToClick();
-            await events.assertEventIsVisible(eventName);
-            let src = await events.returnImageSrc(eventName);
-            await events.clickNewEvent(eventName);
+            await events.assertEventIsVisible(shortName);
+            let src = await events.returnImageSrc(shortName);
+            await events.clickNewEvent(shortName);
             await info.wishListButtonIsDisplayed();
             await info.assertEventInfoPageImageIsAMatch(src);
             await info.clickPhotosTab();
@@ -321,7 +323,7 @@
             await driver.sleep(1000);
 
             await events.eventCardIsAvailableToClick();
-            await events.clickNewEvent(eventName);
+            await events.clickNewEvent(shortName);
             await info.wishListButtonIsDisplayed();
             await info.assertNoTicketsAvailableButtonText();
             await portalLogin.loadPortalUrl();
@@ -384,9 +386,8 @@
             ticketsNav = new TicketsNav(driver);
             await events.load();
             await driver.sleep(1000);
-
             await events.eventCardIsAvailableToClick();
-            await events.clickNewEvent(eventName);
+            await events.clickNewEvent(shortName);
             await info.wishListButtonIsDisplayed();
             await info.assertNoTicketsAvailableButtonText();
             await portalLogin.loadPortalUrl();
@@ -407,7 +408,7 @@
             await ticketsNav.clickActivateTicketToggle(ticketOneName);
             await events.load();
             await events.eventCardIsAvailableToClick();
-            await events.clickNewEvent(eventName);
+            await events.clickNewEvent(shortName);
             await info.wishListButtonIsDisplayed();
             await info.assertBuyTicketsButtonText()
         });
@@ -443,7 +444,7 @@
             await createTicket.ticketNameInputIsDisplayed();
             await createTicket.clickStartDateTimeInput();
             await dateTime.datePickerIsVisible();
-            await dateTime.updateTimeToXMinLater(5);
+            await dateTime.updateTimeToXMinLater(3);
             let date = await dateTime.getSelectedFullDateFromPicker();
             await dateTime.clickSetButton();
             await createTicket.clickEndDateTimeInput();
@@ -453,19 +454,18 @@
 
             await events.load();
             await events.eventCardIsAvailableToClick();
-            await events.clickNewEvent(eventName);
+            await events.clickNewEvent(shortName);
             await info.wishListButtonIsDisplayed();
             await info.assertTicketsDateAvailableButtonText(date);
         });
 
-        it('should check correct date and time on general details and eventInfo pages',async function () {
+        it('should check correct date and time from portal events and microsites eventInfo pages',async function () {
             events = new EventsPage(driver);
             info = new EventInfo(driver);
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
@@ -483,14 +483,85 @@
             let portalDateAndTime = startDate + ' - ' + endDate + ' | ' + startTime + ' - ' + endTime + ' EDT';
             await events.load();
             await events.eventCardIsAvailableToClick();
-            await events.clickNewEvent(eventName);
+            await events.clickNewEvent(shortName);
             await info.wishListButtonIsDisplayed();
             await info.assertDateAndTimeOnEventInfo(portalDateAndTime);
         });
 
+        it('should get location, description and names from event details and assert on event info ',async function () {
+            events = new EventsPage(driver);
+            info = new EventInfo(driver);
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+            detailsTab = new DetailsTab(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await driver.sleep(1000);
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(5000);
+            await eventDetails.unpublishButtonIsDisplayed();
+            let location = await eventDetails.getCityAndState();
+            let description = await eventDetails.getEventDescription();
+            await events.load();
+            await events.eventCardIsAvailableToClick();
+            await events.clickNewEvent(shortName);
+            await info.wishListButtonIsDisplayed();
+            await info.assertLocationNamesAndDescriptionOnEventInfo(location,eventName,shortName,description);
+
+        });
+
+        it('Should check for proper validation messages', async function() {
+           events = new EventsPage(driver);
+           createAccount = new CreateAccountModal(driver);
+           await events.load();
+           await events.clickSignUpButton();
+           await createAccount.firstCreateAccountModalIsDisplayed();
+           await createAccount.clickSignUpWithEmailButton();
+           await createAccount.secondCreateAccountModalIsDisplayed();
+           await createAccount.allValidationsAreShown()
+       });
+
+       it('should create new account on microsites with username and password, verify and login', async function() {
+            events = new EventsPage(driver);
+            createAccount = new CreateAccountModal(driver);
+            inbox = new Inbox(driver);
+            login = new LoginComponent(driver);
+            originalWindow = inbox.getOriginalWindow();
+
+            await events.load();
+            await events.clickSignUpButton();
+            await createAccount.firstCreateAccountModalIsDisplayed();
+            await createAccount.clickSignUpWithEmailButton();
+            await createAccount.secondCreateAccountModalIsDisplayed();
+            await createAccount.fillRandomButValidDataAndCreateAccount(customerFirstName,customerLastName,customerEmail,customerPassword);
+            await inbox.loadInbox();
+            await inbox.elementIsDisplayedInInbox('<'+customerEmail+'>');
+            await inbox.findAndClickTheEmailForNewAccount('<'+customerEmail+'>');
+            await inbox.switchToInboxIFrame();
+            await inbox.verifyEmailButtonIsDisplayed();
+            await inbox.verifyEmail();
+            await driver.switchTo().defaultContent();
+            await login.getNewlyOpenedTab(originalWindow);
+            await login.waitPopupToBeLoaded();
+            await login.loginAfterVerifyingAccount(customerPassword);
+
+        });
 
 
 
+/*
 
         it('Should create new event,tickets,promotions and make purchases', async function () {
             portalLogin = new PortalLoginPage(driver);
@@ -608,7 +679,7 @@
             await newPromotion.createPromotionWith100discountForAllTickets(ticketOneName, promoFiveName, promoCodeFive);
             await promotions.promotionsHeaderIsVisible();
             await eventOptionTabs.ticketingTabIsDisplayed();
-            /*await eventOptionTabs.clickTicketingTab();
+            /!*await eventOptionTabs.clickTicketingTab();
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
             await createTicket.createStaffTicket(staffTicket,"3");
@@ -616,38 +687,12 @@
             await ticketsNav.clickActivateTicketToggle(4);
             await ticketsNav.activateTicketModalIsDisplayed();
             await ticketsNav.confirmActivationButton();
-            await eventOptionTabs.ticketingTabIsDisplayed();*/
+            await eventOptionTabs.ticketingTabIsDisplayed();*!/
 
 
-        });
+        });*/
 
-        it('should create new account on microsites with username and password, verify and login', async function() {
-            events = new EventsPage(driver);
-            createAccount = new CreateAccountModal(driver);
-            inbox = new Inbox(driver);
-            login = new LoginComponent(driver);
-            originalWindow = inbox.getOriginalWindow();
 
-            await events.load();
-            await events.clickSignUpButton();
-            await createAccount.firstCreateAccountModalIsDisplayed();
-            await createAccount.clickSignUpWithEmailButton();
-            await createAccount.secondCreateAccountModalIsDisplayed();
-            await createAccount.fillRandomButValidDataAndCreateAccount(customerFirstName,customerLastName,customerEmail,customerPassword);
-            await inbox.loadInbox();
-            await inbox.elementIsDisplayedInInbox('<'+customerEmail+'>');
-            await driver.sleep(1000)
-            await inbox.findAndClickTheEmailForNewAccount('<'+customerEmail+'>');
-            await inbox.switchToInboxIFrame();
-            await inbox.verifyEmailButtonIsDisplayed();
-            await inbox.verifyEmail();
-            await driver.sleep(1000)
-            await driver.switchTo().defaultContent();
-            await login.getNewlyOpenedTab(originalWindow);
-            await login.waitPopupToBeLoaded();
-            await login.loginAfterVerifyingAccount(customerPassword);
-
-        });
 
         it('Should set payment card in customer profile',async function () {
             events = new EventsPage(driver);
