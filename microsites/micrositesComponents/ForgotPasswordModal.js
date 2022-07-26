@@ -20,19 +20,19 @@
             await login.waitPopupToBeLoaded();
             await login.clickForgotPasswordLink();
             await this.isDisplayed(SUBMIT_BUTTON,5000);
-            await this.driver.sleep(1000)
+            await this.timeout(500);
             await this.click(SUBMIT_BUTTON);
             await validations.emailInputValidationIsDisplayed();
             let validation = await validations.getValidationErrorText();
             assert.equal(validation,'Email is required');
             await this.sentKeys(FORGOT_EMAIL_INPUT,'parma100');
             await this.click(SUBMIT_BUTTON);
-            await this.driver.sleep(1000)
+            await this.timeout(1000);
             let invalid = await validations.getValidationErrorText();
             assert.equal(invalid,'Invalid email');
             await this.sentKeys(FORGOT_EMAIL_INPUT,'@parma.it');
             await this.click(SUBMIT_BUTTON);
-            await this.driver.sleep(5000);
+            await this.timeout(1500);
         }
 
 

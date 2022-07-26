@@ -17,7 +17,9 @@
             super(driver);
         }
         async myWalletScreenIsDisplayed(){
+            await this.timeout(500);
             await this.isDisplayed(BALANCE_TITLE, 5000);
+            await this.timeout(500);
         }
         async returnBalanceState(){
            await this.timeout(2000);

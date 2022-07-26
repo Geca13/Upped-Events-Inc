@@ -95,9 +95,8 @@
         async clickActivateTicketToggle(ticketName){
             await this.isDisplayed(TICKETS_NAMES,5000);
             let i = await this.returnIndexWhenTextIsKnown(TICKETS_NAMES, ticketName);
-            let toggle = await this.getElementFromAnArrayByIndex(DEACTIVATED_TICKET_TOGGLE,i);
-            await this.timeout(1000);
-            await toggle.click();
+            await this.timeout(2000);
+            await this.clickElementReturnedFromAnArray(DEACTIVATED_TICKET_TOGGLE,i);
             await this.activateTicketModalIsDisplayed();
             await this.confirmActivationButton();
 

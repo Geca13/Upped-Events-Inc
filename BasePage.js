@@ -162,6 +162,11 @@
         let input = inputs[index];
         return input.getAttribute("value");
     }
+    async getPlaceholderTextFromInputByIndex(locator, index){
+        let inputs =  await this.findAll(locator);
+        let input = inputs[index];
+        return input.getAttribute("placeholder");
+    }
 
 
     async getTextValueFromElementOfArray(locator, index){

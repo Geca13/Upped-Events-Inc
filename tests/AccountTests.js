@@ -105,5 +105,5 @@
            await loginCom.loginWithNewPassword(email,password)
            await events.accountDropdownIsDisplayed();
            await driver.sleep(1000);
-       })
+       });
    })

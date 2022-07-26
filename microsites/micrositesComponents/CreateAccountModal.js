@@ -1,5 +1,6 @@
     const BasePage = require('../../BasePage');
     const Validations = require('../../Validations&Alerts/Validations');
+    const Alerts = require('../../Validations&Alerts/Alerts');
     const assert = require('assert')
     const CLOSE_MODAL_BUTTON = { className: 'close-btn' };
     const SIGN_UP_BUTTONS = { xpath: "//button//span[contains(@class, 'justify-content-center')]"}
@@ -19,6 +20,7 @@
     const VERIFY_PASSWORD_INPUT = { name:'confirmPassword'}
     const CREATE_ACCOUNT_BUTTON = { xpath: "//*[text()='Create Account']"}
     const EMAIL_IS_INVALID_MESSAGE = {  xpath: "//*[text()=' Email is invalid ']" }
+
 
     class CreateAccountModal extends BasePage {
         constructor(driver) {
@@ -65,7 +67,10 @@
             await this.sentKeys(PASSWORD_INPUT, password);
             await this.sentKeys(VERIFY_PASSWORD_INPUT, password);
             await this.click(CREATE_ACCOUNT_BUTTON);
-            await this.timeout(1500)
+            await this.timeout(1500);
+            let alert = new Alerts(this.driver);
+            await alert.successAlertIsDisplayed("Thank you for creating your account. A verification email has been sent to your email address. Please check your spam folder!")
+
         }
 
         async allValidationsAreShown(){

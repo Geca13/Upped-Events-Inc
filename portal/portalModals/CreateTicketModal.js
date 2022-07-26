@@ -113,14 +113,14 @@
             await this.sentKeys(TICKET_DESCRIPTION_INPUT, ticketName + ' description');
             await this.sentKeys(TICKET_RULES_INPUT, ticketName + ' rules');
             await this.clearInputField(TICKET_QUANTITY_INPUT);
-            await this.sentKeys(TICKET_QUANTITY_INPUT, ticketOneQuantity.toString());
+            await this.sentKeys(TICKET_QUANTITY_INPUT, ticketOneQuantity);
             await this.sentKeys(TICKET_PRICE_INPUT, ticketPrice);
             await this.click(TICKET_START_DATE_INPUT);
             await this.timeout(1500)
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.enterTimeNow();
-            await startDatePicker.clickPMButton();
+            //await startDatePicker.clickPMButton();
             await this.timeout(1500)
             await startDatePicker.clickSetButton();
             await this.timeout(1500)

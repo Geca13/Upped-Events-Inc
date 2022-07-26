@@ -20,7 +20,7 @@
         }
         async elementIsDisplayedInInbox(text) {
             await this.elementByTextWithoutSpacesIsDisplayed(text);
-            await this.timeout(1000)
+            await this.timeout(3000)
         }
         async findAndClickTheEmailForNewAccount(email){
             await this.locateElementByTextAndClick(email);
@@ -42,6 +42,7 @@
 
         async clickResetPasswordButton(){
             await this.click(RESET_PASSWORD_BUTTON)
+            await this.timeout(1000);
         }
         async resetPasswordButtonIsDisplayed(){
             await this.isDisplayed(RESET_PASSWORD_BUTTON,5000)

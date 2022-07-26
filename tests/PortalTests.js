@@ -65,6 +65,9 @@
     const EventCapacitySubNav = require('../portal/ticketing/SettingsNav/EventCapacitySubNav');
     const PhotosTab = require('../microsites/micrositesComponents/PhotosTab');
     const DetailsTab = require('../microsites/micrositesComponents/DetailsTab');
+    const AccountPage = require('../microsites/account/AccountPage');
+    const ForgotPasswordModal = require("../microsites/micrositesComponents/ForgotPasswordModal");
+    const ResetPasswordPage = require("../microsites/micrositesPages/ResetPasswordPage");
 
     describe('Should do everything', function () {
         this.timeout(500000);
@@ -135,10 +138,13 @@
         let capacity;
         let photo;
         let detailsTab;
+        let account;
+        let forgotPassword;
+        let resetPassword;
 
 
-        //let base = Math.floor(100000 + Math.random() * 900000);
-        let base = 665798 ;
+        let base = Math.floor(100000 + Math.random() * 900000);
+        //let base = 848276 ;
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -184,8 +190,7 @@
             await driver.quit()
         })
 
-
-        it('should create new event and verify data in events page and General Details',async function () {
+       /* it('should create new event and verify data in events page and General Details',async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             createEvent = new CreateEventModal(driver);
@@ -290,6 +295,7 @@
             await events.assertEventIsVisible(shortName);
             await events.assertPlaceholderImageIsRemovedWhenImageIsSet(shortName);
         });
+
         it('should check event image is in card, event info and galery',async function () {
 
             events = new EventsPage(driver);
@@ -522,7 +528,7 @@
 
         });
 
-        it('Should check for proper validation messages', async function() {
+        it('Should check for proper validation messages on create an account modal', async function() {
            events = new EventsPage(driver);
            createAccount = new CreateAccountModal(driver);
            await events.load();
@@ -533,7 +539,18 @@
            await createAccount.allValidationsAreShown()
        });
 
-       it('should create new account on microsites with username and password, verify and login', async function() {
+        it('should check for elements , validations and alerts on login modal',async function () {
+            events = new EventsPage(driver);
+            login = new LoginComponent(driver);
+            await events.load();
+            await events.clickSignInButton();
+            await login.waitPopupToBeLoaded();
+            await login.verifyElementsOnSignInModal();
+            await login.verifyValidationsAndAlerts();
+
+        });
+
+        it('should create new account on microsites with username and password, verify and login', async function() {
             events = new EventsPage(driver);
             createAccount = new CreateAccountModal(driver);
             inbox = new Inbox(driver);
@@ -559,138 +576,217 @@
 
         });
 
+        it('should login and verify the data is correct in my profile page',async function () {
+            events = new EventsPage(driver);
+            login = new LoginComponent(driver);
+            myWallet = new MyWalletTab(driver);
+            account = new AccountPage(driver)
+            await events.load();
+            await events.clickSignInButton();
+            await login.waitPopupToBeLoaded();
+            await login.authenticate(customerEmail, customerPassword);
+            await events.goToProfilePage();
+            await myWallet.myWalletScreenIsDisplayed();
+            await account.verifyDataAfterSignUp(customerFirstName, customerLastName, customerEmail);
+
+        });
+
+        it('should login and update user gender, phone and location in edit profile',async function () {
+            events = new EventsPage(driver);
+            login = new LoginComponent(driver);
+            myWallet = new MyWalletTab(driver);
+            account = new AccountPage(driver)
+            await events.load();
+            await events.clickSignInButton();
+            await login.waitPopupToBeLoaded();
+            await login.authenticate(customerEmail, customerPassword);
+            await events.goToProfilePage();
+            await myWallet.myWalletScreenIsDisplayed();
+            await account.updateUserProfile(base);
+
+        });
+
+        it('Should display correct validation errors and finally complete forgot password scenario', async function() {
+           events = new EventsPage(driver);
+           forgotPassword = new ForgotPasswordModal(driver);
+           login = new LoginComponent(driver);
+           resetPassword = new ResetPasswordPage(driver);
+           inbox = new Inbox(driver);
+           let password = "Pass" + Math.floor(100000 + Math.random() * 900000);
+           let email = 'parma100@parma.it';
+           originalWindow = inbox.getOriginalWindow();
+           await events.load();
+           await events.clickSignInButton();
+           await forgotPassword.forgetPasswordScenarioWithValidations();
+           await inbox.loadInbox();
+           await inbox.elementIsDisplayedInInbox('<'+email+'>');
+           await inbox.findAndClickTheEmailForNewAccount('<'+email+'>');
+           await inbox.switchToInboxIFrame();
+           await inbox.resetPasswordButtonIsDisplayed();
+           await inbox.clickResetPasswordButton();
+           await driver.switchTo().defaultContent();
+           await login.getNewlyOpenedTab(originalWindow);
+           await resetPassword.completeResetPasswordScenarioWithValidations(password);
+           await events.signInButtonIsDisplayed();
+           await events.clickSignInButton();
+           await login.waitPopupToBeLoaded();
+           await login.loginWithNewPassword(email,password)
+           await events.accountDropdownIsDisplayed();
+           await driver.sleep(1000);
+       });*/
 
 
-/*
+
+
+        it('should create new account on microsites with username and password, verify and login', async function() {
+            events = new EventsPage(driver);
+            createAccount = new CreateAccountModal(driver);
+            inbox = new Inbox(driver);
+            login = new LoginComponent(driver);
+            originalWindow = inbox.getOriginalWindow();
+
+            await events.load();
+            await events.clickSignUpButton();
+            await createAccount.firstCreateAccountModalIsDisplayed();
+            await createAccount.clickSignUpWithEmailButton();
+            await createAccount.secondCreateAccountModalIsDisplayed();
+            await createAccount.fillRandomButValidDataAndCreateAccount(customerFirstName,customerLastName,customerEmail,customerPassword);
+            await inbox.loadInbox();
+            await inbox.elementIsDisplayedInInbox('<'+customerEmail+'>');
+            await inbox.findAndClickTheEmailForNewAccount('<'+customerEmail+'>');
+            await inbox.switchToInboxIFrame();
+            await inbox.verifyEmailButtonIsDisplayed();
+            await inbox.verifyEmail();
+            await driver.switchTo().defaultContent();
+            await login.getNewlyOpenedTab(originalWindow);
+            await login.waitPopupToBeLoaded();
+            await login.loginAfterVerifyingAccount(customerPassword);
+
+        });
 
         it('Should create new event,tickets,promotions and make purchases', async function () {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            createEvent = new CreateEventModal(driver);
-            myEvents = new MyEventsPage(driver);
-            dateTime = new DateTimePickerModal(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            createTicket = new CreateTicketModal(driver);
-            ticketsNav = new TicketsNav(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            promotions = new PromotionsPage(driver);
-            newPromotion = new AddNewPromotionModal(driver);
-            settingsNav = new SettingsNav(driver);
-            taxesAndFees = new TaxesAndFeesPage(driver);
-            ticketTerms = new TicketTermsPage(driver);
-            eventCardDesignPage = new EventCardDesignPage(driver);
-            eventDesignNavs = new DesignNavs(driver);
+                    portalLogin = new PortalLoginPage(driver);
+                    dashboard = new DashboardPage(driver);
+                    createEvent = new CreateEventModal(driver);
+                    myEvents = new MyEventsPage(driver);
+                    dateTime = new DateTimePickerModal(driver);
+                    eventOptionTabs = new EventOptionTabs(driver);
+                    createTicket = new CreateTicketModal(driver);
+                    ticketsNav = new TicketsNav(driver);
+                    eventDetails = new GeneralDetailsTab(driver);
+                    promotions = new PromotionsPage(driver);
+                    newPromotion = new AddNewPromotionModal(driver);
+                    settingsNav = new SettingsNav(driver);
+                    taxesAndFees = new TaxesAndFeesPage(driver);
+                    ticketTerms = new TicketTermsPage(driver);
+                    eventCardDesignPage = new EventCardDesignPage(driver);
+                    eventDesignNavs = new DesignNavs(driver);
 
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await driver.sleep(1000);
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickCreateEventButton();
-            await createEvent.createEventModalIsDisplayed();
-            await createEvent.fillFormWithValidDataAndSave(eventName);
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickDesignNav();
-            await eventDesignNavs.clickEventCardDesignSubNav();
-            await eventCardDesignPage.uploadPhotoInputIsDisplayed();
-            await eventCardDesignPage.uploadImage();
-            await eventOptionTabs.clickGeneralDetailsNav();
-            await eventDetails.publishButtonIsDisplayed();
-            await eventDetails.clickPublishButton();
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            //await createTicket.createNewTicket(ticketOneName,"5");
-            await createTicket.createNewTicket(ticketOneName,"1.0");
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(ticketOneName);
-            await ticketsNav.clickActivateTicketToggle(0);
-            await ticketsNav.activateTicketModalIsDisplayed();
-            await ticketsNav.confirmActivationButton();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            //await createTicket.createNewTicket(ticketTwoName,"10");
-            await createTicket.createNewTicket(ticketTwoName,"1.2");
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(ticketTwoName);
-            await ticketsNav.clickActivateTicketToggle(1);
-            await ticketsNav.activateTicketModalIsDisplayed();
-            await ticketsNav.confirmActivationButton();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            //await createTicket.createNewTicket(ticketThreeName,"15");
-            await createTicket.createNewTicket(ticketThreeName,"0.75");
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(ticketThreeName);
-            await ticketsNav.clickActivateTicketToggle(2);
-            await ticketsNav.activateTicketModalIsDisplayed();
-            await ticketsNav.confirmActivationButton();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            //await createTicket.createNewTicket(ticketFourName,"20");
-            await createTicket.createNewTicket(ticketFourName,"0.25");
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(ticketFourName);
-            await ticketsNav.clickActivateTicketToggle(3);
-            await ticketsNav.activateTicketModalIsDisplayed();
-            await ticketsNav.confirmActivationButton();
-            await eventOptionTabs.clickSettingsNav();
-            await ticketTerms.termsPageIsDisplayed();
-            await ticketTerms.saveTerms();
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickTaxesAndFeesSubNav();
-            await taxesAndFees.createTaxesAndFeesForEventTickets();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.promotionsHeaderIsVisible();
-            await promotions.addPromotionButtonIsVisible()
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.createPromotionForOneTicketWith$Value(ticketOneName, promoOneName, promoCodeOne);
-            await promotions.promotionsHeaderIsVisible();
-            await promotions.addPromotionButtonIsVisible()
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.createPromotionForMembersWithPercentValue(ticketTwoName, promoTwoName, promoCodeTwo);
-            await promotions.promotionsHeaderIsVisible();
-            await promotions.addPromotionButtonIsVisible()
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.createPromotionForMultipleTicketsWithLimitationsWithPercentValue(ticketOneName, promoThreeName, promoCodeThree);
-            await promotions.promotionsHeaderIsVisible();
-            await promotions.addPromotionButtonIsVisible()
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.createPromotionForMultipleTicketsWithLimitationsWithPercentValue(ticketOneName, promoFourName, promoCodeFour);
-            await promotions.promotionsHeaderIsVisible();
-            await promotions.addPromotionButtonIsVisible();
-            await driver.sleep(2000);
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.createPromotionWith100discountForAllTickets(ticketOneName, promoFiveName, promoCodeFive);
-            await promotions.promotionsHeaderIsVisible();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            /!*await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createStaffTicket(staffTicket,"3");
-            await ticketsNav.createdTicketIsInTheTable(staffTicket);
-            await ticketsNav.clickActivateTicketToggle(4);
-            await ticketsNav.activateTicketModalIsDisplayed();
-            await ticketsNav.confirmActivationButton();
-            await eventOptionTabs.ticketingTabIsDisplayed();*!/
+                    await portalLogin.loadPortalUrl();
+                    await portalLogin.isAtPortalLoginPage();
+                    await driver.sleep(1000);
+                    await portalLogin.enterValidCredentialsAndLogin();
+                    await dashboard.isAtDashboardPage();
 
 
-        });*/
+                    await dashboard.clickCreateEventButton();
+                    await createEvent.createEventModalIsDisplayed();
+                    await createEvent.fillFormWithValidDataAndSave(eventName,shortName);
+
+                    /*await dashboard.clickMyEventsTab();
+                    await myEvents.eventsTableIsDisplayed();
+                    await myEvents.createdEventIsInTheTable(eventName);
+                    await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+                    await eventOptionTabs.ticketingTabIsDisplayed();*/
+
+                    await eventOptionTabs.ticketingTabIsDisplayed();
+                    await eventOptionTabs.clickDesignNav();
+                    await eventDesignNavs.clickEventCardDesignSubNav();
+                    await eventCardDesignPage.uploadPhotoInputIsDisplayed();
+                    await eventCardDesignPage.uploadImage();
+                    await eventOptionTabs.clickGeneralDetailsNav();
+                    await eventDetails.publishButtonIsDisplayed();
+                    await eventDetails.clickPublishButton();
+                    await eventDetails.unpublishButtonIsDisplayed();
+                    await eventOptionTabs.ticketingTabIsDisplayed();
+                    await eventOptionTabs.clickTicketingTab();
+                    await ticketsNav.clickAddTicketButton();
+                    await createTicket.ticketNameInputIsDisplayed();
+                    //await createTicket.createNewTicket(ticketOneName,"5");
+                    await createTicket.createNewTicket(ticketOneName,"1.0",ticketOneQuantity);
+                    await ticketsNav.addTicketButtonIsDisplayed();
+                    await ticketsNav.createdTicketIsInTheTable(ticketOneName);
+                    await ticketsNav.clickActivateTicketToggle(ticketOneName);
+                    await ticketsNav.addTicketButtonIsDisplayed();
+                    await ticketsNav.clickAddTicketButton();
+                    await createTicket.ticketNameInputIsDisplayed();
+                    await createTicket.createNewTicket(ticketTwoName,"1.2",ticketOneQuantity);
+                    await ticketsNav.addTicketButtonIsDisplayed();
+                    await ticketsNav.createdTicketIsInTheTable(ticketTwoName);
+                    await ticketsNav.clickActivateTicketToggle(ticketTwoName);
+                    await ticketsNav.addTicketButtonIsDisplayed();
+                    await ticketsNav.clickAddTicketButton();
+                    await createTicket.ticketNameInputIsDisplayed();
+                    await createTicket.createNewTicket(ticketThreeName,"0.75",ticketOneQuantity);
+                    await ticketsNav.addTicketButtonIsDisplayed();
+                    await ticketsNav.createdTicketIsInTheTable(ticketThreeName);
+                    await ticketsNav.clickActivateTicketToggle(ticketThreeName);
+                    await ticketsNav.addTicketButtonIsDisplayed();
+                    await ticketsNav.clickAddTicketButton();
+                    await createTicket.ticketNameInputIsDisplayed();
+                    await createTicket.createNewTicket(ticketFourName,"0.25",ticketOneQuantity);
+                    await ticketsNav.addTicketButtonIsDisplayed();
+                    await ticketsNav.createdTicketIsInTheTable(ticketFourName);
+                    await ticketsNav.clickActivateTicketToggle(ticketFourName);
+                    await eventOptionTabs.clickSettingsNav();
+                    await ticketTerms.termsPageIsDisplayed();
+                    await ticketTerms.saveTerms();
+                    await settingsNav.taxesAndFeesSubTabIsDisplayed();
+                    await settingsNav.clickTaxesAndFeesSubNav();
+                    await taxesAndFees.createTaxesAndFeesForEventTickets();
+                    await eventOptionTabs.ticketingTabIsDisplayed();
+                    await eventOptionTabs.clickPromotionsTab();
+                    await promotions.promotionsHeaderIsVisible();
+                    await promotions.addPromotionButtonIsVisible()
+                    await promotions.clickAddPromotionButton();
+                    await newPromotion.addPromotionModalIsDisplayed();
+                    await newPromotion.createPromotionForOneTicketWith$Value(ticketOneName, promoOneName, promoCodeOne);
+                    await promotions.promotionsHeaderIsVisible();
+                    await promotions.addPromotionButtonIsVisible()
+                    await promotions.clickAddPromotionButton();
+                    await newPromotion.addPromotionModalIsDisplayed();
+                    await newPromotion.createPromotionForMembersWithPercentValue(ticketTwoName, promoTwoName, promoCodeTwo);
+                    await promotions.promotionsHeaderIsVisible();
+                    await promotions.addPromotionButtonIsVisible()
+                    await promotions.clickAddPromotionButton();
+                    await newPromotion.addPromotionModalIsDisplayed();
+                    await newPromotion.createPromotionForMultipleTicketsWithLimitationsWithPercentValue(ticketOneName, promoThreeName, promoCodeThree);
+                    await promotions.promotionsHeaderIsVisible();
+                    await promotions.addPromotionButtonIsVisible()
+                    await promotions.clickAddPromotionButton();
+                    await newPromotion.addPromotionModalIsDisplayed();
+                    await newPromotion.createPromotionForMultipleTicketsWithLimitationsWithPercentValue(ticketOneName, promoFourName, promoCodeFour);
+                    await promotions.promotionsHeaderIsVisible();
+                    await promotions.addPromotionButtonIsVisible();
+                    await driver.sleep(2000);
+                    await promotions.clickAddPromotionButton();
+                    await newPromotion.addPromotionModalIsDisplayed();
+                    await newPromotion.createPromotionWith100discountForAllTickets(ticketOneName, promoFiveName, promoCodeFive);
+                    await promotions.promotionsHeaderIsVisible();
+                    await eventOptionTabs.ticketingTabIsDisplayed();
+                    /*await eventOptionTabs.clickTicketingTab();
+                    await ticketsNav.clickAddTicketButton();
+                    await createTicket.ticketNameInputIsDisplayed();
+                    await createTicket.createStaffTicket(staffTicket,"3");
+                    await ticketsNav.createdTicketIsInTheTable(staffTicket);
+                    await ticketsNav.clickActivateTicketToggle(staffTicket);
+                    await ticketsNav.activateTicketModalIsDisplayed();
+                    await ticketsNav.confirmActivationButton();
+                    await eventOptionTabs.ticketingTabIsDisplayed();*/
+
+
+                });
 
 
 
@@ -703,7 +799,6 @@
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
             await login.authenticate(customerEmail, customerPassword);
-            await driver.sleep(10000);
             await events.goToProfilePage();
             await myWallet.myWalletScreenIsDisplayed();
             userBalance = userBalance + await myWallet.returnBalanceState();
@@ -733,7 +828,7 @@
             await login.authenticate(customerEmail, customerPassword);
             await driver.sleep(10000);
             await events.eventCardIsAvailableToClick();
-            await events.clickNewEvent(eventName);
+            await events.clickNewEvent(shortName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.termsButtonPresent();
@@ -779,8 +874,7 @@
             await login.authenticate(customerEmail, customerPassword);
             await driver.sleep(10000);
             await events.eventCardIsAvailableToClick();
-            await events.clickNewEvent(eventName);
-            await events.clickNewEvent(eventName);
+            await events.clickNewEvent(shortName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.termsButtonPresent();
@@ -828,7 +922,7 @@
             await login.authenticate(customerEmail, customerPassword);
             await driver.sleep(10000);
             await events.eventCardIsAvailableToClick();
-            await events.clickNewEvent(eventName);
+            await events.clickNewEvent(shortName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.termsButtonPresent();
@@ -871,7 +965,7 @@
             await login.authenticate(customerEmail, customerPassword);
             await driver.sleep(10000);
             await events.eventCardIsAvailableToClick();
-            await events.clickNewEvent(eventName);
+            await events.clickNewEvent(shortName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.termsButtonPresent();
@@ -998,7 +1092,7 @@
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
             await driver.sleep(10000);
-            await events.clickNewEvent(eventName);
+            await events.clickNewEvent(shortName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.nextButtonPresent();
@@ -1101,42 +1195,42 @@
             await ticketsNav.clickGroupTabByIndex(2);
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketTwoName,"10");
+            await createTicket.createNewTicket(ticketTwoName,"10",ticketOneQuantity);
             await driver.sleep(5000);
             await ticketsNav.addTicketButtonIsDisplayed();
             await driver.sleep(5000);
             await ticketsNav.createdTicketIsInTheTable(ticketTwoName);
             await driver.sleep(5000);
-            await ticketsNav.clickActivateTicketToggle(0);
-            await ticketsNav.activateTicketModalIsDisplayed();
-            await ticketsNav.confirmActivationButton();
+            await ticketsNav.clickActivateTicketToggle(ticketTwoName);
+           // await ticketsNav.activateTicketModalIsDisplayed();
+           // await ticketsNav.confirmActivationButton();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.createTicketsGroup(ticketGroupThree);
             await ticketsNav.clickGroupTabByIndex(3);
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketThreeName,"15");
+            await createTicket.createNewTicket(ticketThreeName,"15",ticketOneQuantity);
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.createdTicketIsInTheTable(ticketThreeName);
-            await ticketsNav.clickActivateTicketToggle(0);
-            await ticketsNav.activateTicketModalIsDisplayed();
-            await ticketsNav.confirmActivationButton();
+            await ticketsNav.clickActivateTicketToggle(ticketThreeName);
+           // await ticketsNav.activateTicketModalIsDisplayed();
+           // await ticketsNav.confirmActivationButton();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketFourName,"20");
+            await createTicket.createNewTicket(ticketFourName,"20",ticketOneQuantity);
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.createdTicketIsInTheTable(ticketFourName);
             await ticketsNav.createTicketsGroup(ticketGroupFour);
             await ticketsNav.clickGroupTabByIndex(4);
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(staffTicket,"25");
+            await createTicket.createNewTicket(staffTicket,"25","5");
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.createdTicketIsInTheTable(staffTicket);
-            await ticketsNav.clickActivateTicketToggle(0);
-            await ticketsNav.activateTicketModalIsDisplayed();
-            await ticketsNav.confirmActivationButton();
+            await ticketsNav.clickActivateTicketToggle(staffTicket);
+            //await ticketsNav.activateTicketModalIsDisplayed();
+           // await ticketsNav.confirmActivationButton();
             await ticketsNav.addTicketButtonIsDisplayed();
             await events.load();
             await events.clickSignInButton();
@@ -1144,8 +1238,7 @@
             await login.authenticate("parma55555@parma.it", "Pero1234")
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
-            await driver.sleep(15000);
-            await events.clickNewEvent(eventName);
+            await events.clickNewEvent(shortName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.nextButtonPresent();
@@ -1279,7 +1372,7 @@
              await events.load();
              await events.eventCardIsAvailableToClick();
              await driver.sleep(10000);
-             await events.clickNewEvent(eventName);
+             await events.clickNewEvent(shortName);
              await info.lineupTabIsDisplayed();
              await info.clickLineupTab()
              await lineup.checkLineupForPerformances();
@@ -1331,7 +1424,7 @@
             await events.load();
             await events.eventCardIsAvailableToClick();
             await driver.sleep(15000);
-            await events.clickNewEvent(eventName);
+            await events.clickNewEvent(shortName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.nextButtonPresent();
@@ -1473,7 +1566,7 @@
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
             await driver.sleep(10000);
-            await events.clickNewEvent(eventName);
+            await events.clickNewEvent(shortName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.nextButtonPresent();
@@ -1630,7 +1723,7 @@
             await bosTickets.addNewQuantityAndSetNewPrice();
         });
 
-        it('Should assert proper color and values', async function () {
+        /*it('Should assert proper color and values', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             createEvent = new CreateEventModal(driver);
@@ -1654,9 +1747,9 @@
             await ticketsNav.addTicketButtonIsDisplayed();
             await eventTickets.clickBoxOfficeNav();
             await bosTickets.isOnBoxOfficePage();
-            await bosTickets.isOnBoxOfficePage();
+            //await bosTickets.isOnBoxOfficePage();
             await bosTickets.assertNewPriceAndQuantity();
-        });
+        });*/
 
         it('Should make purchase with promotion in box-ofice', async function () {
             portalLogin = new PortalLoginPage(driver);
@@ -1845,7 +1938,7 @@
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
             await driver.sleep(10000);
-            await events.clickNewEvent(eventName);
+            await events.clickNewEvent(shortName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.nextButtonPresent();
@@ -1906,7 +1999,7 @@
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
             await driver.sleep(10000);
-            await events.clickNewEvent(eventName);
+            await events.clickNewEvent(shortName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.nextButtonPresent();
@@ -2047,7 +2140,7 @@
             await events.successMessagePresent();
             await events.eventCardIsAvailableToClick();
             await driver.sleep(10000);
-            await events.clickNewEvent(eventName);
+            await events.clickNewEvent(shortName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.nextButtonPresent();
@@ -2311,7 +2404,7 @@
             await events.load();
             await events.eventCardIsAvailableToClick();
             await driver.sleep(5000);
-            await events.clickNewEvent(eventName);
+            await events.clickNewEvent(shortName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.nextButtonPresent();
@@ -2399,7 +2492,7 @@
             await events.load();
             await events.eventCardIsAvailableToClick();
             await driver.sleep(5000);
-            await events.clickNewEvent(eventName);
+            await events.clickNewEvent(shortName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.nextButtonPresent();
@@ -2998,7 +3091,7 @@
 
             await dashboard.clickCreateEventButton();
             await createEvent.createEventModalIsDisplayed();
-            await createEvent.fillFormWithValidDataAndSave(eventName);
+            await createEvent.fillFormWithValidDataAndSave(eventName, shortName);
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
@@ -3106,7 +3199,7 @@
             await driver.sleep(10000);
             await events.eventCardIsAvailableToClick();
             //await driver.sleep(10000);
-            await events.clickNewEvent(eventName);
+            await events.clickNewEvent(shortName);
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.termsButtonPresent();

@@ -23,7 +23,7 @@
             await validations.passwordInputLengthValidationIsDisplayed();
             await validations.passwordInputRegexValidationIsDisplayed();
             await this.find(PASSWORD_INPUT).clear();
-            await this.driver.sleep(2000)
+            await this.timeout(2000);
             await this.sentKeys(PASSWORD_INPUT, password );
             console.log(password)
             await this.sentKeys(CONFIRM_PASSWORD_INPUT,password );

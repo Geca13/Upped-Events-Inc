@@ -38,6 +38,7 @@
         await this.isDisplayed(DROPDOWN_PAYMENT_INFO_OPTION,5000);
         await this.click(DROPDOWN_PAYMENT_INFO_OPTION);
     }
+
     async logOut(){
         await this.accountDropdownIsDisplayed();
         await this.click(ACCOUNT_DROPDOWN);
