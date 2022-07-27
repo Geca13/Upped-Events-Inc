@@ -43,9 +43,25 @@
         }
         async addTicketButtonIsDisplayed(){
             await this.isDisplayed(ADD_TICKET_BUTTON, 15000)
+            await this.timeout(1000);
         }
         async activateTicketModalIsDisplayed(){
             await this.isDisplayed(TICKET_ACTIVATION_MODAL, 15000)
+        }
+
+        async getTicketPriceForTicket(name){
+            await this.isDisplayed(TICKETS_NAMES,5000);
+            await this.timeout(500)
+            let i = await this.returnIndexWhenTextIsKnown(TICKETS_NAMES, name);
+            let price = await this.getElementTextFromAnArrayByIndex(TICKETS_PRICES,i);
+            let convertedSubstring = price.substring(1);
+            let converted = parseFloat(convertedSubstring);
+            return converted;
+        }
+
+        async getTicketIndexByTicketName(name){
+            let i = await this.returnIndexWhenTextIsKnown(TICKETS_NAMES, name);
+            return i;
         }
 
         async createFirstTicket(ticketOneName,ticketPrice,ticketOneQuantity){
@@ -57,9 +73,7 @@
         async assertCorrectDataIsDisplayedInTableAfterCreatingFirstTicket(name,start,end,price,quantity){
             await this.isDisplayed(TICKETS_NAMES,5000);
             await this.timeout(500)
-
             let i = await this.returnIndexWhenTextIsKnown(TICKETS_NAMES, name);
-            console.log(i)
             await this.timeout(2000)
             let savedName = await this.getElementTextFromAnArrayByIndex(TICKETS_NAMES, i);
             let savedStartDateTime = await this.getElementTextFromAnArrayByIndex(TICKETS_START_DATES, i);
@@ -80,6 +94,14 @@
         async clickEditTicketButton(index){
             await this.isDisplayed(EDIT_TICKET_BUTTONS,5000);
             await this.clickElementReturnedFromAnArray(EDIT_TICKET_BUTTONS,index)
+        }
+
+        async clickEditTicketButtonByTicketName(ticketOneName){
+            await this.isDisplayed(TICKETS_NAMES,5000);
+            let i = await this.returnIndexWhenTextIsKnown(TICKETS_NAMES, ticketOneName);
+            await this.timeout(2000);
+            await this.clickElementReturnedFromAnArray(EDIT_TICKET_BUTTONS,i);
+            await this.timeout(1000);
         }
 
         async savedTicketBannerIsDisplayed(){

@@ -22,6 +22,7 @@
 
         async eventsTableIsDisplayed(){
             await this.isDisplayed(EVENTS_TABLE,5000);
+            await this.timeout(1000);
         }
 
         async successBannerIsDisplayed(){

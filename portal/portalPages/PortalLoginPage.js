@@ -13,6 +13,7 @@
         }
         async isAtPortalLoginPage(){
             await this.isDisplayed(SIGN_IN_BUTTON, 30000)
+            await this.timeout(1000);
         }
 
 

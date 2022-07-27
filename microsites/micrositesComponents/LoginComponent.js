@@ -22,8 +22,10 @@
           await this.timeout(500);
           await this.driver.findElement(PASSWORD_INPUT).sendKeys(password)
           await this.timeout(500);
-          await this.driver.findElement(SUBMIT_BUTTON).click()
-          await this.timeout(10000);
+          await this.driver.findElement(SUBMIT_BUTTON).click();
+          let alerts = new Alerts(this.driver)
+          await alerts.successAlertIsDisplayed("Successfully logged in");
+          await this.timeout(5000);
         }
         async loginWithNewPassword(email, password){
               await this.sentKeys(EMAIL_INPUT,email);

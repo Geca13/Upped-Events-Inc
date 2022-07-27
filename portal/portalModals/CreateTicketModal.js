@@ -182,5 +182,25 @@
             console.log("Successfully finished")
         }
 
+        async getTicketNameValue(){
+            let name = await this.getEnteredTextInTheInput(TICKET_NAME_INPUT);
+            return name;
+        }
+
+        async getTicketDescriptionValue(){
+            let description = await this.getEnteredTextInTheInput(TICKET_DESCRIPTION_INPUT);
+            return description;
+        }
+
+        async getTicketRulesValue(){
+            let rules = await this.getEnteredTextInTheInput(TICKET_RULES_INPUT);
+            return rules;
+        }
+
+        async getTicketPriceValue(){
+            let price = await this.getEnteredTextInTheInput(TICKET_PRICE_INPUT);
+            return parseFloat(price).toFixed(2)
+        }
+
     }
     module.exports = CreateTicketModal;

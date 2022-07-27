@@ -178,8 +178,6 @@
         return await elements[index].getText();
     }
 
-
-
     async clearInputField(locator){
         let element = await this.find(locator);
         await element.clear();
@@ -213,7 +211,6 @@
         let children = await parent[parentIndex].findElements(By.xpath("./child::*"));
         return await children[childIndex].sendKeys(keys);
     }
-
 
     async findChildByIndexFromPrecedingSibling(locator){
         let knownSibling = await this.find(locator);
@@ -249,8 +246,6 @@
         await this.isDisplayed(locator,5000);
     }
 
-
-
     async getElementText(locator) {
         return await this.find(locator).getText();
     }
@@ -264,7 +259,6 @@
         let elements = await this.findAll(locator);
         let element = elements[index];
         let classes = await element.getAttribute('class');
-        console.log(classes)
         let clases = classes.split(' ');
         for (const item of clases) {
             seperated.push(item)
@@ -282,10 +276,12 @@
           let array = await this.findAll(locator)
             for(let i = 0; i < array.length; i++){
                 if(await array[i].getText() == text){
+
                     return i;
                 }
             }
     }
+
 
 
     async getElementTextFromAnArrayByIndex(locator, index){
@@ -334,10 +330,11 @@
          let array = await this.findAll(locator);
          for (let i = 0; i < array.length; i++) {
               let amountText = await this.getElementTextFromAnArrayByIndex(locator, i);
-              let amount = await this.convertPriceStringToDouble(amountText);
+              let amount = await parseFloat(amountText);
               total = total + amount;
          }
-         return total.toFixed(2);
+         let fixed = total.toFixed(2)
+         return fixed;
     }
     async assertNumberedArrayIsSortedAscending(locator){
           let array = await this.convertStringArrayToNumber(locator);
@@ -366,7 +363,8 @@
              }
           }
     }
-        async convertStringArrayToNumber(locator){
+
+    async convertStringArrayToNumber(locator){
           let converted = [];
           let original = await this.findAll(locator);
           for (let i = 0; i < original.length ; i++){
@@ -374,8 +372,8 @@
               if(elementText.includes('$')){
                   elementText = elementText.substring(1);
               }
-              let elementNumber = await this.convertPriceStringToDouble(elementText);
-               converted.push(elementNumber);
+              let elementNumber = await parseFloat(elementText);
+              converted.push(elementNumber);
           }
           console.log(converted)
        return converted;
@@ -391,8 +389,9 @@
     }
 
     async convertPriceStringToDouble(priceString){
-        let convertedPrice = parseFloat(priceString);
-        return convertedPrice;
+        let convertedPrice = await parseFloat(priceString);
+        let price = await convertedPrice.toFixed(2)
+        return price;
     }
 
     async dragAndDropElementByOffset(locatorSource, horizontal, vertical) {
@@ -495,6 +494,7 @@
          let element = await this.find(locator);
          await actions.move({duration:500,origin:element,x:0,y:0}).perform();
     }
+
     async moveToElementFromArrayByIndex(locator,index) {
          const actions = this.driver.actions({bridge: true});
          let elements = await this.findAll(locator);
@@ -508,25 +508,30 @@
          await actions.move({duration:2500,origin:element,x:horizontal,y:vertical}).press().release().perform();
          await actions.doubleClick(element);
     }
+
     async moveAwayFromElementLocation(locator, horizontal, vertical) {
          const actions = this.driver.actions();
          let element = await this.find(locator);
          await actions.move({duration:2500,origin:element,x:horizontal,y:vertical}).perform();
     }
+
     async moveToElementWithElement(element) {
          const actions = this.driver.actions({bridge: true});
          await actions.move({duration:2000,origin:element,x:0,y:0}).perform();
     }
+
     async switchToAnIframe(locator){
          let frame = await this.find(locator)
          await this.driver.switchTo().frame(frame);
     }
+
     async acceptAlert(){
          await this.driver.wait(until.alertIsPresent());
          let alert = await this.driver.switchTo().alert();
          await alert.accept();
          await this.driver.sleep(500);
     }
+
     async getOriginalWindowOrTab(){
         return await this.driver.getWindowHandle();
     }
@@ -606,7 +611,7 @@
 
     async elementIsNotDisplayed(locator, timeout){
         await this.driver.wait(until.elementIsNotVisible(this.find(locator)), timeout)
-        }
+    }
 
     async elementNotInTheDom(locator){
 
@@ -623,6 +628,7 @@
             }
         );
     }
+
     async conditionalClick(locator1, locator2, locator3){
         let first = await this.findAll(locator1);
         console.log(first.length)
@@ -635,7 +641,7 @@
     }
 
     async timeout(ms) {
-    return await new Promise(resolve => setTimeout(resolve, ms));
+        return await new Promise(resolve => setTimeout(resolve, ms));
     }
 
     async getMonth(m){
@@ -644,6 +650,7 @@
           let month = months[index];
           return month;
     }
+
     async getOrdinalDay(d){
           let index = parseInt(d);
           const days = [' ','1st','2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th', '21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th', '29th', '30th', '31st'];
@@ -713,8 +720,7 @@
     }
 
 
-
-}
+    }
 
      module.exports = BasePage;
 

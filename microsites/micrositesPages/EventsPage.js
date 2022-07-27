@@ -12,6 +12,9 @@
     const DROPDOWN_MY_EVENTS_OPTION = { xpath: "//a[text()='My Events']" }
     const DROPDOWN_PAYMENT_INFO_OPTION = { xpath: "//a[text()='Payment Info']" }
     const DROPDOWN_LOGOUT_OPTION = { xpath: "//a[text()='Logout']" }
+    const DROPDOWN_OPTIONS = { className: "dropdown-item" }
+    const DROPDOWN_OPTIONS_ICONS = { xpath: "//a[contains(@class, 'dropdown-item')]//i" }
+
 
     class EventsPage extends BasePage{
         constructor(driver) {
@@ -37,6 +40,36 @@
         await this.click(ACCOUNT_DROPDOWN);
         await this.isDisplayed(DROPDOWN_PAYMENT_INFO_OPTION,5000);
         await this.click(DROPDOWN_PAYMENT_INFO_OPTION);
+    }
+    async checkAccountDropdownTextOptions(){
+        await this.accountDropdownIsDisplayed();
+        await this.click(ACCOUNT_DROPDOWN);
+        await this.isDisplayed(DROPDOWN_PAYMENT_INFO_OPTION,5000);
+        await this.timeout(1500)
+        let profile = await this.getElementTextFromAnArrayByIndex(DROPDOWN_OPTIONS,0);
+        let receipts = await this.getElementTextFromAnArrayByIndex(DROPDOWN_OPTIONS,1);
+        let events = await this.getElementTextFromAnArrayByIndex(DROPDOWN_OPTIONS,2);
+        let payment = await this.getElementTextFromAnArrayByIndex(DROPDOWN_OPTIONS,3);
+        let logout = await this.getElementTextFromAnArrayByIndex(DROPDOWN_OPTIONS,4);
+        assert.equal(profile,"Profile");
+        assert.equal(receipts,"Receipts");
+        assert.equal(events,"My Events");
+        assert.equal(payment,"Payment Info");
+        assert.equal(logout,"Logout");
+
+    }
+    async checkAccountDropdownIconsOptions(){
+        let profile = await this.checkIfClassIsApplied(DROPDOWN_OPTIONS_ICONS,0, "fa-user");
+        let receipts = await this.checkIfClassIsApplied(DROPDOWN_OPTIONS_ICONS,1, "fa-receipt");
+        let events = await this.checkIfClassIsApplied(DROPDOWN_OPTIONS_ICONS,2, "fa-calendar-week");
+        let payment = await this.checkIfClassIsApplied(DROPDOWN_OPTIONS_ICONS,3, "fa-file-invoice-dollar");
+        let logout = await this.checkIfClassIsApplied(DROPDOWN_OPTIONS_ICONS,4, "fa-sign-out-alt");
+        assert.equal(profile,true);
+        assert.equal(receipts,true);
+        assert.equal(events,true);
+        assert.equal(payment,true);
+        assert.equal(logout,true);
+
     }
 
     async logOut(){
@@ -68,7 +101,7 @@
     }
     async eventCardIsAvailableToClick(){
         return await this.isDisplayed(EVENT_CARD,25000)
-        await this.timeout(5000);
+        await this.timeout(1000);
     }
     async clickEvent(){
         await this.click(EVENT);

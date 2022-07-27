@@ -47,15 +47,18 @@
         async assertCardTotalEqualsOrdersTotal(){
             await this.isOnTransactionScreen();
             let calculated = await this.calculateNumbersFromArray(ORDERS_TOTALS);
-            let convertedCalculated = await this.convertPriceStringToDouble(calculated);
+            let convertedCalculated = parseFloat(calculated);
             let cardTotal = await this.getElementTextFromAnArrayByIndex(TOP_CARDS_DATA,0);
-            let converted = parseFloat(cardTotal.substring(1));
+            let substring = cardTotal.substring(1);
+            let converted = parseFloat(substring);
             assert.equal(convertedCalculated ,converted);
         }
         async assertTotalFromTransactionsOnTransactionsScreenTotal(total){
             let cardTotal = await this.getElementTextFromAnArrayByIndex(TOP_CARDS_DATA,0);
-            let converted = parseFloat(cardTotal.substring(1));
-            assert.equal(total.toFixed(2) ,converted.toFixed(2));
+            let cardTotalSubstring = cardTotal.substring(1);
+            let convertedCardTotal = parseFloat(cardTotalSubstring);
+            let fixedTotal = total.toFixed(2);
+            assert.equal(fixedTotal ,convertedCardTotal);
         }
 
     }

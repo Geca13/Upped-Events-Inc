@@ -22,19 +22,19 @@
            assert.equal(ticketsTotal,subTotal);
            let taxes = await this.getTaxesValue();
            let fees = await this.getFeesValue();
-           let calculatedTotal = await this.convertPriceStringToDouble(subTotal) + await this.convertPriceStringToDouble(taxes) + await this.convertPriceStringToDouble(fees);
+           let calculatedTotal = parseFloat(subTotal) + parseFloat(taxes) + parseFloat(fees);
            let total = await this.getTotalValue();
            assert.equal(calculatedTotal.toFixed(2),total);
         }
         async calculateSubtotalAndTotalAfterDonationIsAdded(){
             let ticketsTotal = await this.getTicketsTotal();
             let donation = await this.getDonationValue();
-            let calculatedDonation = await this.convertPriceStringToDouble(ticketsTotal) + await this.convertPriceStringToDouble(donation);
+            let calculatedDonation =parseFloat(ticketsTotal) + parseFloat(donation);
             let subTotal = await this.getSubtotalValue();
             assert.equal(calculatedDonation.toFixed(2),subTotal);
             let taxes = await this.getTaxesValue();
             let fees = await this.getFeesValue();
-            let calculatedTotal = await this.convertPriceStringToDouble(subTotal) + await this.convertPriceStringToDouble(taxes) + await this.convertPriceStringToDouble(fees);
+            let calculatedTotal = parseFloat(subTotal) + parseFloat(taxes) + parseFloat(fees);
             let total = await this.getTotalValue();
             assert.equal(calculatedTotal.toFixed(2),total);
         }
@@ -44,33 +44,39 @@
         }
         async getTicketsTotal(){
             let rawTickets =  await this.getSubstringOfPriceString(TICKET_COUNT_AND_TICKET_TOTAL_PARENT, 0, 1);
-            let tickets = await this.convertPriceStringToDouble(rawTickets);
-            return tickets.toFixed(2);
+            let tickets = parseFloat(rawTickets);
+            let ticketsToFixed = tickets.toFixed(2);
+            return ticketsToFixed;
         }
         async getDonationValue(){
             let rawDonation =  await this.getSubstringOfPriceString(DONATIONS_PARENT, 0, 1)
-            let donation = await this.convertPriceStringToDouble(rawDonation);
-            return donation.toFixed(2);
+            let donation = parseFloat(rawDonation);
+            let donationToFixed = donation.toFixed(2);
+            return donationToFixed ;
         }
         async getSubtotalValue(){
             let rawSubtotal =  await this.getSubstringOfPriceString(SUBTOTAL_PARENT, 0, 1)
-            let subtotal = await this.convertPriceStringToDouble( rawSubtotal );
-            return subtotal.toFixed(2);
+            let subtotal = parseFloat( rawSubtotal );
+            let subtotalToFixed = subtotal.toFixed(2);
+            return subtotalToFixed ;
         }
         async getTaxesValue(){
             let rawTaxes =  await this.getSubstringOfPriceString(TAXES_PARENT, 0, 1);
-            let taxes = await this.convertPriceStringToDouble(rawTaxes);
-            return taxes.toFixed(2);
+            let taxes = parseFloat(rawTaxes);
+            let taxesToFixed = taxes.toFixed(2);
+            return taxesToFixed ;
         }
         async getFeesValue(){
             let rawFees =  await this.getSubstringOfPriceString(FEES_PARENT, 0, 1);
-            let fees = await this.convertPriceStringToDouble(rawFees);
-            return fees.toFixed(2);
+            let fees = parseFloat(rawFees);
+            let feesToFixed = fees.toFixed(2);
+            return feesToFixed ;
         }
         async getTotalValue(){
             let rawTotal =  await this.getSubstringOfPriceString(TOTAL_PARENT, 0, 1);
-            let total = await this.convertPriceStringToDouble(rawTotal);
-            return total.toFixed(2);
+            let total = parseFloat(rawTotal);
+            let totalToFixed = total.toFixed(2);
+            return totalToFixed ;
         }
 
 

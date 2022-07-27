@@ -30,8 +30,10 @@
         async getOrderTotalBeforeRefunds(){
             await this.orderDetailsModalIsDisplayed();
             let rawBeforeTotal = await this.getChildByIndex(ORDER_DETAILS_MODAL_TOTAL,0,1);
-            let beforeTotal = await this.convertPriceStringToDouble(rawBeforeTotal.substring(1))
-            return beforeTotal.toFixed(2);
+            let substringTotal = rawBeforeTotal.substring(1)
+            let beforeTotal = parseFloat(substringTotal);
+            let fixed = beforeTotal.toFixed(2)
+            return fixed;
         }
         async makeRefundOnAllTicketQuantity(){
             await this.orderDetailsModalIsDisplayed();
@@ -56,8 +58,10 @@
         async getOrderTotalAfterRefunds(){
             await this.timeout(2000);
             let rawAfterTotal = await this.getChildByIndex(ORDER_DETAILS_MODAL_TOTAL,0,1);
-            let afterTotal = await this.convertPriceStringToDouble(rawAfterTotal.substring(1))
-            return afterTotal.toFixed(2);
+            let afterTotalSubstring = rawAfterTotal.substring(1);
+            let afterTotalFloat = parseFloat(afterTotalSubstring);
+            let afterTotal = afterTotalFloat.toFixed(2)
+            return afterTotal;
         }
         async closeOrderTotalModal(){
             await this.isDisplayed(CLOSE_POPUP_BUTTON,5000)

@@ -18,9 +18,10 @@
             await this.click(FACEBOOK_SHARE_BUTTON);
         }
         async getPurchaseTotalAmount(){
-            let total = await this.getElementText(TOTAL_AMOUNT);
-            console.log(total.substring(8))
-            return await this.convertPriceStringToDouble(total.substring(8));
+            let rawTotal = await this.getElementText(TOTAL_AMOUNT);
+            let totalSubstring = rawTotal.substring(8)
+            let total = parseFloat(totalSubstring)
+            return total;
         }
     }
     module.exports = ConfirmTab;
