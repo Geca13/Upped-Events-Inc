@@ -2,7 +2,7 @@
     const NewCardComponent = require('../micrositesComponents/NewCardComponent')
     const assert = require('assert')
     const BALANCE_TITLE = { xpath: "//div[contains(@class, 'title')]" }
-    const WALLET_BALANCE = { xpath: "//div[contains(@class, 'wallet-balance')]" };
+    const WALLET_BALANCE = { xpath: "//div[@class='wallets-list-container']//div[3]" };
     const CARD_CONTAINER = { xpath: "//div[contains(@class, 'card-detail')]" };
     const CARD_INFO = { xpath: "//span[contains(@class, 'card-title')]" }; // list - name index 0, card type index 2
     const CARD_NUMBER = { xpath: "//span[contains(@class, 'card-number')]" }; //list
@@ -24,7 +24,7 @@
         async returnBalanceState(){
            await this.timeout(2000);
            await this.isDisplayed(WALLET_BALANCE);
-
+           await this.timeout(2000);
            let rawBalance = await this.getElementText(WALLET_BALANCE);
            console.log(rawBalance + " raw")
            let stringBalance = rawBalance.substring(1);

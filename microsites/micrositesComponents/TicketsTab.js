@@ -67,8 +67,12 @@
             assert.equal(price, ticketPrice);
             assert.equal(description, ticketDescription);
 
+        }
 
-
+        async getFirstTicketStringWith$Price(){
+            let bracketedPrice = await this.getElementText(TICKETS_PRICES);
+            let cleaned = bracketedPrice.substring(1, bracketedPrice.length - 1);
+            return cleaned;
         }
     }
 

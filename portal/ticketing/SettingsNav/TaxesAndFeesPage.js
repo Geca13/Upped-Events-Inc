@@ -1,4 +1,5 @@
     const BasePage = require('../../../BasePage');
+    const assert = require("assert");
     const INCLUDED_TAXES_RADIO = { xpath: "//*[text()=' Included, the price listed is the total price the attendee will pay ']"}
     const EXCLUDED_TAXES_RADIO = { xpath: "//*[text()=' Excluded, taxes and fees will be added on top of the ticket price ']"}
     const TAX_NAME_INPUT = { name: 'name' }
@@ -9,6 +10,8 @@
     const SAVE_TAXES_AND_FEES_BUTTON = { xpath: "//*[text()='Save']"}
     const TAXES_AND_FEES_NAMES = { className: 'inner-elements-full'}
     const TAXES_AND_FEES_VALUES = { tagName: 'tr'}
+    const DELETE_TAX_OR_FEE = { className: "icon-del" }
+    const EDIT_TAX_OR_FEE = { xpath: "//tbody//tr//td//span[@class='icon-edit-bg']" }
 
 
 
@@ -18,8 +21,11 @@
             super(driver);
         }
 
+
+
         async includeExcludeIsVisible(){
-           await this.isDisplayed(INCLUDED_TAXES_RADIO, 5000)
+           await this.isDisplayed(INCLUDED_TAXES_RADIO, 5000);
+           await this.timeout(1000);
         }
         async taxNameInputIsVisible(){
             await this.isDisplayed(TAX_NAME_INPUT, 5000)
@@ -81,6 +87,13 @@
 
         async getTaxOrFeeValueByIndex(parentIndex, childIndex){
             return await this.getChildByIndex(TAXES_AND_FEES_VALUES, parentIndex, childIndex);
+        }
+
+        async assertTaxesAndFeesAreNotCreated(){
+            await this.includeExcludeIsVisible();
+            let editButtons = await this.returnElementsCount(EDIT_TAX_OR_FEE);
+            assert.equal(editButtons,0);
+            await this.timeout(1000);
         }
 
 

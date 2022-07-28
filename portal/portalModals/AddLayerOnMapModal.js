@@ -46,8 +46,7 @@
             await this.saveLayerButtonIsDisplayed();
             await this.timeout(1500)
             await this.click(SAVE_LAYER_BUTTON);
-            await this.driver.sleep(2000);
-        }
+            await this.timeout(2000);        }
 
         async addTicketingLocationOnMap(base){
             await this.sentKeys(TITLE_INPUT, base + " Tickets");

@@ -235,7 +235,8 @@
     async clickLastElementReturnedFromAnArray(locator){
         let elements = await this.findAll(locator);
         let lastElement = elements.length - 1;
-        await elements[lastElement].click();
+        let element = elements[lastElement]
+        await element.click();
     }
     async sendKeysToElementReturnedFromAnArray(locator,index,keys){
         let element = await this.getElementFromAnArrayByIndex(locator, index);
@@ -255,6 +256,7 @@
     }
 
     async checkIfClassIsApplied(locator, index, clas){
+        await this.timeout(1000);
         let seperated = [];
         let elements = await this.findAll(locator);
         let element = elements[index];

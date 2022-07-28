@@ -21,7 +21,7 @@
         async addPromotionButtonIsVisible(){
             await this.timeout(500);
             await this.isDisplayed(ADD_PROMOTION_BUTTON, 5000);
-            await this.timeout(500);
+            await this.timeout(2000);
         }
 
     }

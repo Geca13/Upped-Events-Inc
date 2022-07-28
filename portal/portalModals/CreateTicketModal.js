@@ -25,6 +25,7 @@
     const TICKET_STAFF_SECURITY_DEPARTMENT = { xpath: "//*[text()='Security']"}
     const SAVE_TICKET_BUTTON = { xpath: "//*[text()=' Save ']"};
     const OFF_BUTTON = { xpath: "//*[text()='OFF']"};
+    const BUYER_TOTAL_VALUE = { xpath: "//span[contains(@class , 'price')]" }
 
 
 

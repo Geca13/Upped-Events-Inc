@@ -175,7 +175,7 @@
         }
         async checkQuestionForm(checkboxes, inputs,questions, titles, labels){
             await this.isOnDetailsPage();
-            await this.driver.sleep(5000);
+            await this.timeout(2000);
             await this.checkForNumberOfCheckBoxes(checkboxes);
             await this.checkForNumberOfTextInputs(inputs);
             await this.checkForNumberOfQuestions(questions);

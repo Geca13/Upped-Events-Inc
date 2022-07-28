@@ -53,13 +53,13 @@
             await this.typesDropdownOptionsAreDisplayed();
             await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_OPTIONS,3);
             await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_SELECTS,0);
-            await this.driver.sleep(1000);
+            await this.timeout(1000)
             await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_SELECTS,1);
-            await this.driver.sleep(1000);
+            await this.timeout(1000)
             //await this.locationOptionsAreDisplayed();
             await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_OPTIONS,7);
             await this.clickElementReturnedFromAnArray(TYPE_AND_LOCATION_SELECTS,1);
-            await this.driver.sleep(500);
+            await this.timeout(500)
             await this.sentKeys(PERFORMANCE_DESCRIPTION_TEXTAREA, "Best comedy tv shows");
             await this.sentKeys(TAG_INPUT, "Bartowski");
             await this.clickElementReturnedFromAnArray(ADD_TAG_BUTTON,3);
@@ -71,7 +71,7 @@
             await this.sentKeys(UPLOAD_PHOTO_INPUT,"D:\\Upped\\static\\chuck.jpg");
             await this.isDisplayed(SET_IMAGE_BUTTON,5000);
             await this.click(SET_IMAGE_BUTTON);
-            await this.driver.sleep(500);
+            await this.timeout(500)
             await this.click(SET_IMAGE_BUTTON);
             await this.isAtCreatePerformanceModal();
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='hidden'");
@@ -80,9 +80,9 @@
             await this.moveToElement(ADD_REMINDER_LINK);
             await this.sentKeys(PERFORMANCE_REMINDERS_MESSAGE_TEXTAREA,'Sarah Walker');
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='visible'");
-            await this.driver.sleep(500);
+            await this.timeout(500)
             await this.click(SAVE_PERFORMANCE_BUTTON);
-            await this.driver.sleep(5000);
+            await this.timeout(5000)
 
         }
 

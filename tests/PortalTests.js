@@ -143,7 +143,7 @@
         let resetPassword;
 
 
-        let base =  Math.floor(100000 + Math.random() * 900000);
+        let base = Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -680,10 +680,55 @@
             await info.wishListButtonIsDisplayed();
             await info.clickBuyTicketsButton();
             await tickets.assertFirstTicketInfoEqualsInPortalUpdateModalAndMicrosites(index, ticketName, ticketPrice, ticketDescription);
+        });
+
+        it('should check ticket price equals subtotal and total when no taxes and fees ',async function () {
+            events = new EventsPage(driver);
+            info = new EventInfo(driver);
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            tickets = new TicketsTab(driver);
+            createTicket = new CreateTicketModal(driver);
+            settingsNav = new SettingsNav(driver);
+            taxesAndFees = new TaxesAndFeesPage(driver);
+            ticketing = new TicketingPage(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await eventOptionTabs.clickSettingsNav();
+            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await settingsNav.clickTaxesAndFeesSubNav();
+            await taxesAndFees.assertTaxesAndFeesAreNotCreated();
+
+            await events.load();
+            await events.eventCardIsAvailableToClick();
+            await events.clickNewEvent(shortName);
+            await info.wishListButtonIsDisplayed();
+            await info.clickBuyTicketsButton();
+            await ticketing.assertWhenTicketsAreNotSelectedSubtotalAndTotalAre0();
+            let ticketPrice = await tickets.getFirstTicketStringWith$Price();
+            await tickets.clickFirstIncreaseButton();
+            await ticketing.assertWhenTicketIsSelectedButNoTaxesAndFeesSubtotalAndTotalEqualTicketPrice(ticketPrice);
+            
+        });
+
+        it('should add tax and check if bayer total is updated in ticket update modal', function () {
+            
         });*/
-
-
-
 
 
         it('should create new account on microsites with username and password, verify and login', async function() {
@@ -817,7 +862,6 @@
                     await newPromotion.createPromotionForMultipleTicketsWithLimitationsWithPercentValue(ticketOneName, promoFourName, promoCodeFour);
                     await promotions.promotionsHeaderIsVisible();
                     await promotions.addPromotionButtonIsVisible();
-                    await driver.sleep(2000);
                     await promotions.clickAddPromotionButton();
                     await newPromotion.addPromotionModalIsDisplayed();
                     await newPromotion.createPromotionWith100discountForAllTickets(ticketOneName, promoFiveName, promoCodeFive);
@@ -895,8 +939,7 @@
             await confirm.isOnConfirmTab();
             userWalletPurchasesTotal = userWalletPurchasesTotal + parseFloat(await confirm.getPurchaseTotalAmount());
             await ticketing.clickCloseTicketingPopupButton();
-            await driver.sleep(10000);
-            await events.logOut();
+
 
         });
 
@@ -943,8 +986,6 @@
             await confirm.isOnConfirmTab();
             userWalletPurchasesTotal = userWalletPurchasesTotal + await confirm.getPurchaseTotalAmount();
             await ticketing.clickCloseTicketingPopupButton();
-            await driver.sleep(10000);
-            await events.logOut();
 
         });
 
@@ -985,8 +1026,6 @@
             await confirm.isOnConfirmTab();
             userTotalPurchases = userWalletPurchasesTotal + await confirm.getPurchaseTotalAmount();
             await ticketing.clickCloseTicketingPopupButton();
-            await driver.sleep(10000);
-            await events.logOut();
 
         });
 
@@ -1034,8 +1073,6 @@
             await confirm.isOnConfirmTab();
             userTotalPurchases = userTotalPurchases + await confirm.getPurchaseTotalAmount();
             await ticketing.clickCloseTicketingPopupButton();
-            await driver.sleep(10000);
-            await events.logOut();
         });
 
         it('Should check balance equals original minus transactions totals',async function () {
@@ -2210,7 +2247,7 @@
             await driver.sleep(500);
             await eventOptionTabs.ticketingTabIsDisplayed();
             await eventOptionTabs.clickAttendeesNav();
-            await attendees.checkForTicketQuestionsResponsesForTheUpdated(base,2);
+            await attendees.checkForTicketQuestionsResponsesForTheUpdated(base,3);
 
         });
 

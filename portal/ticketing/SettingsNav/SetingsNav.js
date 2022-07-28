@@ -13,8 +13,10 @@
             super(driver);
         }
 
+
         async taxesAndFeesSubTabIsDisplayed(){
             await this.isDisplayed(TAXES_AND_FEES_SUBNAV,5000)
+            await this.timeout(1000);
         }
         async clickTaxesAndFeesSubNav(){
             await this.click(TAXES_AND_FEES_SUBNAV,5000)

@@ -1,5 +1,6 @@
     const BasePage = require("../../BasePage");
     const Alerts = require('../../Validations&Alerts/Alerts')
+    const assert = require("assert");
     const TICKETS_TAB = { xpath: "//*[text()='Tickets']"}
     const LOGIN_TAB = { xpath: "//*[text()='Login']"}
     const EXTRAS_TAB = { xpath: "//*[text()='Extras']"}
@@ -10,7 +11,10 @@
     const PREVIOUS_BUTTON = { xpath: "//*[text()=' Previous ']"}
     const PAGE_TITLE = { className: 'information-title' }
     const SUMMARY_ELEMENTS = { className: 'mini-total' } //list
-    const GRAND_TOTAL = { className: 'grand-total' }
+    const GRAND_TOTAL_VALUE = { xpath: "//div[@class='grand-total']//div[2]" }
+    const GRAND_TOTAL_LABEL = { xpath: "//div[@class='grand-total']//div" }
+    const SUBTOTAL_TOTAL_VALUE = { xpath: "//div[@class='mini-total']//div[2]" }
+    const SUBTOTAL_TOTAL_LABEL = { xpath: "//div[@class='mini-total']//div" }
     const LOGIN_INFO_MESSAGE = { className: 'message-text' }
     const LOGIN_LINK = { className: 'login-link' }
     const INFO_ICONS = { className: 'fa-info-circle' } //list
@@ -42,7 +46,8 @@
             return await this.getChildByIndex(SUMMARY_ELEMENTS,parentIndex,childIndex);
         }
         async nextButtonPresent() {
-            return await this.isDisplayed(NEXT_BUTTON,5000);
+            await this.isDisplayed(NEXT_BUTTON,5000);
+            await this.timeout(500);
         }
         async termsButtonPresent() {
             return await this.isDisplayed(TICKET_TERMS_BUTTON,5000);
@@ -54,7 +59,7 @@
             await this.click(TICKET_TERMS_BUTTON);
         }
         async clickBackToEventInfoButton(){
-            await this.driver.sleep(10000);
+            await this.timeout(7000);
             await this.isDisplayed(BACK_TO_EVENT_INFO_BUTTON,10000);
             await this.click(BACK_TO_EVENT_INFO_BUTTON);
         }
@@ -79,7 +84,23 @@
         async clickCloseTicketingPopupButton(){
             await this.isDisplayed(CLOSE_BUTTON, 5000);
             await this.click(CLOSE_BUTTON);
-            await this.timeout(1000);
+            await this.timeout(3000);
+        }
+
+        async assertWhenTicketsAreNotSelectedSubtotalAndTotalAre0(){
+            await this.nextButtonPresent();
+            let subtotal = await this.getElementText(SUBTOTAL_TOTAL_VALUE);
+            let total = await this.getElementText(GRAND_TOTAL_VALUE);
+            assert.equal(subtotal,'$0.00');
+            assert.equal(total,subtotal);
+        }
+
+        async assertWhenTicketIsSelectedButNoTaxesAndFeesSubtotalAndTotalEqualTicketPrice(ticketPrice){
+            await this.nextButtonPresent();
+            let subtotal = await this.getElementText(SUBTOTAL_TOTAL_VALUE);
+            let total = await this.getElementText(GRAND_TOTAL_VALUE);
+            assert.equal(subtotal,ticketPrice);
+            assert.equal(total,ticketPrice);
         }
     }
 
