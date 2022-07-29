@@ -143,7 +143,7 @@
         let resetPassword;
 
 
-        let base = Math.floor(100000 + Math.random() * 900000);
+        let base = 890518 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -189,7 +189,7 @@
             await driver.quit()
         })
 
-       /* it('should create new event and verify data in events page and General Details',async function () {
+        it('should create new event and verify data in events page and General Details',async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             createEvent = new CreateEventModal(driver);
@@ -390,22 +390,18 @@
             eventOptionTabs = new EventOptionTabs(driver);
             ticketsNav = new TicketsNav(driver);
             await events.load();
-            await driver.sleep(1000);
             await events.eventCardIsAvailableToClick();
             await events.clickNewEvent(shortName);
             await info.wishListButtonIsDisplayed();
             await info.assertNoTicketsAvailableButtonText();
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
-            await driver.sleep(1000);
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
-            await driver.sleep(1000);
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await driver.sleep(5000);
             await eventDetails.unpublishButtonIsDisplayed();
             await eventOptionTabs.ticketingTabIsDisplayed();
             await eventOptionTabs.clickTicketingTab();
@@ -484,12 +480,10 @@
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
-            await driver.sleep(1000);
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
-            await driver.sleep(1000);
             await myEvents.createdEventIsInTheTable(eventName);
             let startDate = await myEvents.getEventStartDate(eventName);
             let endDate = await myEvents.getEventEndDate(eventName);
@@ -517,15 +511,12 @@
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
-            await driver.sleep(1000);
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
-            await driver.sleep(1000);
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await driver.sleep(5000);
             await eventDetails.unpublishButtonIsDisplayed();
             let location = await eventDetails.getCityAndState();
             let description = await eventDetails.getEventDescription();
@@ -594,7 +585,7 @@
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
             await login.authenticate(customerEmail, customerPassword);
-            await events.goToProfilePage();
+            await events.goToWalletPage();
             await myWallet.myWalletScreenIsDisplayed();
             await account.verifyDataAfterSignUp(customerFirstName, customerLastName, customerEmail);
 
@@ -609,7 +600,7 @@
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
             await login.authenticate(customerEmail, customerPassword);
-            await events.goToProfilePage();
+            await events.goToWalletPage();
             await myWallet.myWalletScreenIsDisplayed();
             await account.updateUserProfile(base);
 
@@ -641,7 +632,7 @@
            await login.waitPopupToBeLoaded();
            await login.loginWithNewPassword(email,password)
            await events.accountDropdownIsDisplayed();
-           await driver.sleep(1000);
+
         });
 
         it('should check ticket info in portal and microsites match',async function () {
@@ -726,9 +717,93 @@
             
         });
 
-        it('should add tax and check if bayer total is updated in ticket update modal', function () {
-            
-        });*/
+        it('should add excluded tax and check if bayer total is updated in ticket update modal', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            tickets = new TicketsTab(driver);
+            createTicket = new CreateTicketModal(driver);
+            settingsNav = new SettingsNav(driver);
+            taxesAndFees = new TaxesAndFeesPage(driver);
+            eventTickets = new EventTickets(driver)
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            let index = await ticketsNav.getTicketIndexByTicketName(ticketOneName);
+            await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.assertTicketPriceEqualsBuyerTotalPriceWhenNoTaxesOrFees();
+            await createTicket.closeCreateUpdateTicketModal();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await eventOptionTabs.clickSettingsNav();
+            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await settingsNav.clickTaxesAndFeesSubNav();
+            await taxesAndFees.addOneTaxForTickets();
+            await taxesAndFees.clickSaveTaxesAndFeesButton();
+            let savedTaxValue = await taxesAndFees.getFloatNumberForTaxOrFee(1,1);
+            await eventTickets.clickTicketsTab();
+            await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
+            await createTicket.assertBuyerTotalEqualsTicketPriceMultipliedByTaxPercentage(savedTaxValue);
+
+            let ticketName = await createTicket.getTicketNameValue();
+            let ticketBuyerPrice = await createTicket.getTicketBuyerPriceValue();
+            let ticketPrice = await createTicket.getTicketPriceValue();
+
+        });
+
+
+        it('should check when excluded taxes subtotal equals ticket price and total equals grand total ', async function () {
+            events = new EventsPage(driver);
+            info = new EventInfo(driver);
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            tickets = new TicketsTab(driver);
+            createTicket = new CreateTicketModal(driver);
+            ticketing = new TicketingPage(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            let index = await ticketsNav.getTicketIndexByTicketName(ticketOneName);
+            await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
+            await createTicket.ticketNameInputIsDisplayed();
+            let ticketName = await createTicket.getTicketNameValue();
+            let ticketBuyerPrice = await createTicket.getTicketBuyerPriceValue();
+            let ticketPrice = await createTicket.getTicketPriceValue();
+            await events.load();
+            await events.eventCardIsAvailableToClick();
+            await events.clickNewEvent(shortName);
+            await info.wishListButtonIsDisplayed();
+            await info.clickBuyTicketsButton();
+            await tickets.clickFirstIncreaseButton();
+            await ticketing.assertTicketPriceEqualsSubtotalAndBuyerTotalEqualsGrandTotal(index, ticketName, ticketPrice, ticketBuyerPrice);
+        });
 
 
         it('should create new account on microsites with username and password, verify and login', async function() {
@@ -889,7 +964,7 @@
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
             await login.authenticate(customerEmail, customerPassword);
-            await events.goToProfilePage();
+            await events.goToWalletPage();
             await myWallet.myWalletScreenIsDisplayed();
             userBalance = userBalance + await myWallet.returnBalanceState();
             await myWallet.assertUserBalance('200.00');
@@ -1083,7 +1158,7 @@
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
             await login.authenticate(customerEmail, customerPassword);
-            await events.goToProfilePage();
+            await events.goToWalletPage();
             await myWallet.myWalletScreenIsDisplayed();
             userBalance = userBalance - userWalletPurchasesTotal;
             console.log(userBalance);
@@ -1200,7 +1275,7 @@
             userTotalPurchases = userTotalPurchases - parseFloat(refundedAmount);
             await events.load();
             await driver.sleep(5000);
-            await events.goToProfilePage();
+            await events.goToWalletPage();
             await myWallet.myWalletScreenIsDisplayed();
             await myWallet.calculateBalanceAfterRefunds(userBalance);
 
@@ -3099,7 +3174,7 @@
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
             await login.authenticate(customerEmail, customerPassword);
-            await events.goToProfilePage();
+            await events.goToWalletPage();
             await myWallet.myWalletScreenIsDisplayed();
             userBalance = userBalance + await myWallet.returnBalanceState();
             console.log( userBalance + " balance")
@@ -3341,7 +3416,7 @@
             await login.waitPopupToBeLoaded();
             await login.authenticate(customerEmail, customerPassword);
             await driver.sleep(10000);
-            await events.goToProfilePage();
+            await events.goToWalletPage();
             await myWallet.myWalletScreenIsDisplayed();
             userBalance = userBalance - userWalletPurchasesTotal;
             console.log(userBalance);
@@ -3458,7 +3533,7 @@
             userTotalPurchases = userTotalPurchases - parseFloat(refundedAmount);
             await events.load();
             await driver.sleep(5000);
-            await events.goToProfilePage();
+            await events.goToWalletPage();
             await myWallet.myWalletScreenIsDisplayed();
             await myWallet.calculateBalanceAfterRefunds(userBalance);
 

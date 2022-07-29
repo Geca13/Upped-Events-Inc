@@ -193,6 +193,19 @@
             return description;
         }
 
+        async getTicketBuyerPriceValue(){
+            let rawBuyerTotal = await this.getElementText(BUYER_TOTAL_VALUE);
+            let buyerTotalString = rawBuyerTotal.substring(1);
+            let buyerTotalFloat = parseFloat(buyerTotalString)
+            return buyerTotalFloat;
+        }
+
+        async assertTicketPriceEqualsBuyerTotalPriceWhenNoTaxesOrFees(){
+            let price = await this.getTicketPriceValue();
+            let buyerTotal = await this.getTicketBuyerPriceValue();
+            assert.equal(price, buyerTotal);
+        }
+
         async getTicketRulesValue(){
             let rules = await this.getEnteredTextInTheInput(TICKET_RULES_INPUT);
             return rules;
@@ -200,7 +213,24 @@
 
         async getTicketPriceValue(){
             let price = await this.getEnteredTextInTheInput(TICKET_PRICE_INPUT);
-            return parseFloat(price).toFixed(2)
+            let float = parseFloat(price);
+            let fixed = float.toFixed(2)
+            return fixed;
+        }
+
+        async closeCreateUpdateTicketModal(){
+            await this.click(CANCEL_BUTTON);
+            await this.timeout(1500);
+        }
+
+        async assertBuyerTotalEqualsTicketPriceMultipliedByTaxPercentage(savedTaxValue){
+            await this.ticketNameInputIsDisplayed();
+            let price = await this.getTicketPriceValue();
+            let buyerCalculated = parseFloat(price) + parseFloat(price) / 100 * savedTaxValue ;
+            let fixedBuyerCalculated = buyerCalculated.toFixed(2);
+            let buyerTotal = await this.getTicketBuyerPriceValue();
+            assert.equal(fixedBuyerCalculated, buyerTotal);
+
         }
 
     }

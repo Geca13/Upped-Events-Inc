@@ -34,8 +34,9 @@
     }
     async accountDropdownIsDisplayed(){
         await this.isDisplayed(ACCOUNT_DROPDOWN,10000);
+        await this.timeout(1000);
     }
-    async goToProfilePage(){
+    async goToWalletPage(){
         await this.accountDropdownIsDisplayed();
         await this.click(ACCOUNT_DROPDOWN);
         await this.isDisplayed(DROPDOWN_PAYMENT_INFO_OPTION,5000);

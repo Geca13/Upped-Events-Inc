@@ -1,5 +1,6 @@
     const BasePage = require('../../../BasePage');
     const assert = require("assert");
+    const Alerts = require('../../../Validations&Alerts/Alerts')
     const INCLUDED_TAXES_RADIO = { xpath: "//*[text()=' Included, the price listed is the total price the attendee will pay ']"}
     const EXCLUDED_TAXES_RADIO = { xpath: "//*[text()=' Excluded, taxes and fees will be added on top of the ticket price ']"}
     const TAX_NAME_INPUT = { name: 'name' }
@@ -21,8 +22,6 @@
             super(driver);
         }
 
-
-
         async includeExcludeIsVisible(){
            await this.isDisplayed(INCLUDED_TAXES_RADIO, 5000);
            await this.timeout(1000);
@@ -40,7 +39,13 @@
             await this.click(EXCLUDED_TAXES_RADIO)
         }
 
+        async addOneTaxForTickets(){
+            await this.setFirstTaxForTickets("Check Tax", "13.17");
+
+        }
+
         async setFirstTaxForTickets(taxName, taxValue){
+            await this.timeout(2000)
             await this.sentKeys(TAX_NAME_INPUT, taxName);
 
             await this.sendKeysToElementReturnedFromAnArray(PERCENT_RATE_INPUTS,0,taxValue);
@@ -55,20 +60,22 @@
         }
         async setPercentFeeForTickets(feeName, feeValue){
             await this.sentKeys(FEE_NAME_INPUT, feeName);
-
             await this.sendKeysToElementReturnedFromAnArray(PERCENT_RATE_INPUTS,4,feeValue);
-
             await this.clickElementReturnedFromAnArray(ADD_BUTTONS,1)
         }
+
         async set$FeeForTickets(feeName, feeValue){
             await this.sentKeys(FEE_NAME_INPUT, feeName);
-
             await this.sentKeys(FEE_$_VALUE_INPUT, feeValue);
-
             await this.clickElementReturnedFromAnArray(ADD_BUTTONS,1)
+
         }
         async clickSaveTaxesAndFeesButton(){
-            await this.click(SAVE_TAXES_AND_FEES_BUTTON)
+            await this.click(SAVE_TAXES_AND_FEES_BUTTON);
+            await this.timeout(500);
+            let alerts = new Alerts(this.driver)
+            await alerts.successAlertIsDisplayed("Saved successfully")
+
         }
         async createTaxesAndFeesForEventTickets(){
             await this.includeExcludeIsVisible();
@@ -88,6 +95,13 @@
         async getTaxOrFeeValueByIndex(parentIndex, childIndex){
             return await this.getChildByIndex(TAXES_AND_FEES_VALUES, parentIndex, childIndex);
         }
+
+        async getFloatNumberForTaxOrFee(parentIndex,childIndex){
+            let fullValue = await this.getTaxOrFeeValueByIndex(parentIndex,childIndex);
+            let cleanedValue = fullValue.substring(0, fullValue.length -1);
+            let parsed = parseFloat(cleanedValue);
+            return parsed;
+    }
 
         async assertTaxesAndFeesAreNotCreated(){
             await this.includeExcludeIsVisible();
