@@ -98,6 +98,7 @@
             await this.click(PROMOTIONS_TAB);
         }
         async clickSettingsNav(){
+            await this.moveToElement(SETTINGS_NAV);
             await this.click(SETTINGS_NAV);
         }
 

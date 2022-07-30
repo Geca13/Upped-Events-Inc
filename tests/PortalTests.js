@@ -143,7 +143,7 @@
         let resetPassword;
 
 
-        let base = 890518 // Math.floor(100000 + Math.random() * 900000);
+        let base =  267263 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -182,6 +182,7 @@
         beforeEach(async function(){
             driver = await new Builder().forBrowser('chrome').build();
             await driver.manage().window().maximize();
+            driver.execute("document.body.style.zoom='80%'")
 
         });
 
@@ -765,7 +766,7 @@
         });
 
 
-        it('should check when excluded taxes subtotal equals ticket price and total equals grand total ', async function () {
+        it('should check when excluded taxes subtotal equals ticket price and buyer total equals grand total ', async function () {
             events = new EventsPage(driver);
             info = new EventInfo(driver);
             portalLogin = new PortalLoginPage(driver);
@@ -790,10 +791,8 @@
             await eventOptionTabs.ticketingTabIsDisplayed();
             await eventOptionTabs.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
-            let index = await ticketsNav.getTicketIndexByTicketName(ticketOneName);
             await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
             await createTicket.ticketNameInputIsDisplayed();
-            let ticketName = await createTicket.getTicketNameValue();
             let ticketBuyerPrice = await createTicket.getTicketBuyerPriceValue();
             let ticketPrice = await createTicket.getTicketPriceValue();
             await events.load();
@@ -802,7 +801,7 @@
             await info.wishListButtonIsDisplayed();
             await info.clickBuyTicketsButton();
             await tickets.clickFirstIncreaseButton();
-            await ticketing.assertTicketPriceEqualsSubtotalAndBuyerTotalEqualsGrandTotal(index, ticketName, ticketPrice, ticketBuyerPrice);
+            await ticketing.assertTicketPriceEqualsSubtotalAndBuyerTotalEqualsGrandTotal( ticketPrice, ticketBuyerPrice);
         });
 
 
@@ -2358,6 +2357,7 @@
             await driver.sleep(1000);
             await embedLogin.completeSwitchTo();
             await embedLogin.isAtFacebookPage();
+            await driver.sleep(10000);
             await embedLogin.completeSignInWithFacebook();
             await driver.switchTo().window(originalWindow);
             await driver.sleep(7000);

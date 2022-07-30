@@ -102,6 +102,14 @@
             assert.equal(subtotal,ticketPrice);
             assert.equal(total,ticketPrice);
         }
+
+        async assertTicketPriceEqualsSubtotalAndBuyerTotalEqualsGrandTotal( ticketPrice, ticketBuyerPrice){
+            await this.nextButtonPresent();
+            let subtotal = await this.getElementText(SUBTOTAL_TOTAL_VALUE);
+            let total = await this.getElementText(GRAND_TOTAL_VALUE);
+            assert.equal(subtotal.substring(1),ticketPrice);
+            assert.equal(total.substring(1),ticketBuyerPrice);
+        }
     }
 
 
