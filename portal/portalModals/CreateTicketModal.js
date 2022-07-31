@@ -233,5 +233,16 @@
 
         }
 
+        async assertBuyerTotalEqualsTicketPricePlus$Fee(saved$FeeValue){
+            let price = await this.getTicketPriceValue();
+            let priceFloated = parseFloat(price);
+            let substringFee = saved$FeeValue.substring(1);
+            let feeFloated = parseFloat(substringFee);
+            let calculatedBuyer = priceFloated + feeFloated;
+            let fixedFee = calculatedBuyer.toFixed(2);
+            let buyerTotal = await this.getTicketBuyerPriceValue();
+            assert.equal(fixedFee, buyerTotal )
+        }
+
     }
     module.exports = CreateTicketModal;

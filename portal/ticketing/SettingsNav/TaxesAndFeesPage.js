@@ -13,6 +13,7 @@
     const TAXES_AND_FEES_VALUES = { tagName: 'tr'}
     const DELETE_TAX_OR_FEE = { className: "icon-del" }
     const EDIT_TAX_OR_FEE = { xpath: "//tbody//tr//td//span[@class='icon-edit-bg']" }
+    const GET_TAX_OR_FEE_VALUE = { xpath: "//tr//td[2]" }
 
 
 
@@ -41,15 +42,12 @@
 
         async addOneTaxForTickets(){
             await this.setFirstTaxForTickets("Check Tax", "13.17");
-
         }
 
         async setFirstTaxForTickets(taxName, taxValue){
             await this.timeout(2000)
             await this.sentKeys(TAX_NAME_INPUT, taxName);
-
             await this.sendKeysToElementReturnedFromAnArray(PERCENT_RATE_INPUTS,0,taxValue);
-
             await this.clickElementReturnedFromAnArray(ADD_BUTTONS,0)
         }
         async setSecondTaxForTickets(taxName, taxValue){
@@ -65,6 +63,7 @@
         }
 
         async set$FeeForTickets(feeName, feeValue){
+            await this.timeout(1500);
             await this.sentKeys(FEE_NAME_INPUT, feeName);
             await this.sentKeys(FEE_$_VALUE_INPUT, feeValue);
             await this.clickElementReturnedFromAnArray(ADD_BUTTONS,1)
@@ -92,6 +91,10 @@
             return await this.getElementTextFromAnArrayByIndex(TAXES_AND_FEES_NAMES, index);
         }
 
+        async get$FeeFromInputByIndex(index){
+            return await this.getElementTextFromAnArrayByIndex(GET_TAX_OR_FEE_VALUE, index);
+        }
+
         async getTaxOrFeeValueByIndex(parentIndex, childIndex){
             return await this.getChildByIndex(TAXES_AND_FEES_VALUES, parentIndex, childIndex);
         }
@@ -101,13 +104,20 @@
             let cleanedValue = fullValue.substring(0, fullValue.length -1);
             let parsed = parseFloat(cleanedValue);
             return parsed;
-    }
+        }
 
         async assertTaxesAndFeesAreNotCreated(){
             await this.includeExcludeIsVisible();
             let editButtons = await this.returnElementsCount(EDIT_TAX_OR_FEE);
             assert.equal(editButtons,0);
             await this.timeout(1000);
+        }
+
+        async clickRemoveTaxOrFeeButtonByIndex(index) {
+            await this.isDisplayed(DELETE_TAX_OR_FEE, 5000);
+            await this.timeout(500);
+            await this.clickElementReturnedFromAnArray(DELETE_TAX_OR_FEE,index);
+            await this.timeout(500);
         }
 
 

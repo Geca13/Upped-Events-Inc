@@ -18,8 +18,11 @@
         }
 
         async clickTicketsTab(){
-            await this.click(TICKETS_NAV);
+            await this.moveToElement(TICKETS_NAV);
+            await this.isDisplayed(TICKETS_NAV,5000)
             await this.timeout(500);
+            await this.click(TICKETS_NAV);
+            await this.timeout(1000);
         }
         async clickSeatingPlanTab(){
             await this.click(SEATING_PLAN_NAV);

@@ -1,4 +1,5 @@
     const BasePage = require("../../BasePage");
+    const Alerts = require('../../Validations&Alerts/Alerts')
     const PAY_CONTAINER = { className: 'pay-container' };
     const PAY_TABS = { className: 'box-container' };
     const SAVED_CARDS_HEADER = { xpath: "//*[text()='Saved Cards']"};
@@ -20,6 +21,7 @@
         }
         async savedCardsHeaderIsPresent() {
             return await this.isDisplayed(SAVED_CARDS_HEADER,5000);
+            await this.timeout(1000);
         }
         async clickFirstCard(){
             await this.click(SAVED_CARDS_LIST);
@@ -56,6 +58,13 @@
         }
         async enterPromotionCode(promoCode){
             await this.sentKeys(DISCOUNT_CODE_INPUT,promoCode);
+        }
+
+        async promotionForStaffErrorMessageIsDisplayed(){
+            let alert = new Alerts(this.driver)
+            await alert.errorAlertIsDisplayed("Unfortunately, it appears that your account is not eligible for one or more of the tickets in your cart. " +
+                "If you believe this is an error, please ensure that you are logged in with the appropriate email address and" +
+                "/or reach out to null at null to discuss further.")
         }
 
     }

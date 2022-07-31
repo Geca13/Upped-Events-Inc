@@ -143,7 +143,7 @@
         let resetPassword;
 
 
-        let base =  267263 // Math.floor(100000 + Math.random() * 900000);
+        let base =   Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -759,12 +759,7 @@
             await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
             await createTicket.assertBuyerTotalEqualsTicketPriceMultipliedByTaxPercentage(savedTaxValue);
 
-            let ticketName = await createTicket.getTicketNameValue();
-            let ticketBuyerPrice = await createTicket.getTicketBuyerPriceValue();
-            let ticketPrice = await createTicket.getTicketPriceValue();
-
         });
-
 
         it('should check when excluded taxes subtotal equals ticket price and buyer total equals grand total ', async function () {
             events = new EventsPage(driver);
@@ -803,6 +798,98 @@
             await tickets.clickFirstIncreaseButton();
             await ticketing.assertTicketPriceEqualsSubtotalAndBuyerTotalEqualsGrandTotal( ticketPrice, ticketBuyerPrice);
         });
+
+        it('should remove tax and add $ value fee', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            tickets = new TicketsTab(driver);
+            createTicket = new CreateTicketModal(driver);
+            settingsNav = new SettingsNav(driver);
+            taxesAndFees = new TaxesAndFeesPage(driver);
+            eventTickets = new EventTickets(driver)
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await eventTickets.clickSettingsTab();
+            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await settingsNav.clickTaxesAndFeesSubNav();
+            await taxesAndFees.clickRemoveTaxOrFeeButtonByIndex(0);
+            await taxesAndFees.clickSaveTaxesAndFeesButton();
+            await eventTickets.clickTicketsTab();
+            await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.assertTicketPriceEqualsBuyerTotalPriceWhenNoTaxesOrFees();
+            await createTicket.closeCreateUpdateTicketModal();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await eventTickets.clickSettingsTab();
+            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await settingsNav.clickTaxesAndFeesSubNav();
+            await taxesAndFees.set$FeeForTickets("Check $ Fee", ".17");
+            await taxesAndFees.clickSaveTaxesAndFeesButton();
+            let saved$FeeValue = await taxesAndFees.get$FeeFromInputByIndex(1);
+            await eventTickets.clickTicketsTab();
+            await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
+            await createTicket.assertBuyerTotalEqualsTicketPricePlus$Fee(saved$FeeValue);
+
+        });
+
+         it('should add excluded tax again and check if bayer total is updated in ticket update modal', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            tickets = new TicketsTab(driver);
+            createTicket = new CreateTicketModal(driver);
+            settingsNav = new SettingsNav(driver);
+            taxesAndFees = new TaxesAndFeesPage(driver);
+            eventTickets = new EventTickets(driver)
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.assertTicketPriceEqualsBuyerTotalPriceWhenNoTaxesOrFees();
+            await createTicket.closeCreateUpdateTicketModal();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await eventOptionTabs.clickSettingsNav();
+            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await settingsNav.clickTaxesAndFeesSubNav();
+            await taxesAndFees.addOneTaxForTickets();
+            await taxesAndFees.clickSaveTaxesAndFeesButton();
+            let savedTaxValue = await taxesAndFees.getFloatNumberForTaxOrFee(1,1);
+            await eventTickets.clickTicketsTab();
+            await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
+            await createTicket.assertBuyerTotalEqualsTicketPriceMultipliedByTaxPercentageAndAdded$Fee(savedTaxValue);
+
+        });
+
 
 
         it('should create new account on microsites with username and password, verify and login', async function() {
@@ -1063,7 +1150,7 @@
 
         });
 
-        it('should make purchase with needs explanation on tickets promotions for one ticket',async function () {
+        it('should make purchase with card ',async function () {
             events = new EventsPage(driver);
             login = new LoginComponent(driver);
             info = new EventInfo(driver);
@@ -1103,7 +1190,7 @@
 
         });
 
-        it('should make purchase with needs second explanation on tickets promotions for one ticket',async function () {
+        it('should make purchase with new card',async function () {
             events = new EventsPage(driver);
             login = new LoginComponent(driver);
             info = new EventInfo(driver);
@@ -1123,21 +1210,12 @@
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.termsButtonPresent();
-            /*await ticketing.clickTermsButton();
-            await terms.ticketTermsModalIsDisplayed();
-            await terms.clickCloseTermsModalButton();*/
-
             await ticketing.nextButtonPresent();
             await tickets.clickIncreaseQtyButtonByIndex(0);
-            //await tickets.clickIncreaseQtyButtonByIndex(4);
-            //await for exceeding staff ticket
             await ticketing.clickNextButton();
             await extras.addMoneyTabIsDisplayed();
             await ticketing.clickNextButton();
             await pay.savedCardsHeaderIsPresent();
-            await pay.enterPromotionCode(promoCodeTwo);
-            await pay.clickApplyDiscountButton();
-            await driver.sleep(2000);
             await pay.clickPayWithNewCardTab();
             await newCardComponent.isAtNewCardTab();
             await newCardComponent.fillNewCardWithValidData();
@@ -1147,6 +1225,39 @@
             await confirm.isOnConfirmTab();
             userTotalPurchases = userTotalPurchases + await confirm.getPurchaseTotalAmount();
             await ticketing.clickCloseTicketingPopupButton();
+        });
+
+        it('should throw invalid promotion when promotion is for staff',async function () {
+            events = new EventsPage(driver);
+            login = new LoginComponent(driver);
+            info = new EventInfo(driver);
+            ticketing = new TicketingPage(driver);
+            tickets = new TicketsTab(driver);
+            extras = new ExtrasTab(driver);
+            pay = new PayTab(driver);
+            confirm = new ConfirmTab(driver);
+            newCardComponent = new NewCardComponent(driver);
+            terms = new TicketTermsModal(driver);
+            await events.load();
+            await events.clickSignInButton();
+            await login.waitPopupToBeLoaded();
+            await login.authenticate(customerEmail, customerPassword);
+            await events.eventCardIsAvailableToClick();
+            await events.clickNewEvent(shortName);
+            await info.buyTicketsButtonPresent();
+            await info.clickBuyTicketsButton();
+            await ticketing.termsButtonPresent();
+            await ticketing.nextButtonPresent();
+            await tickets.clickIncreaseQtyButtonByIndex(0);
+            await ticketing.clickNextButton();
+            await extras.addMoneyTabIsDisplayed();
+            await ticketing.clickNextButton();
+            await pay.savedCardsHeaderIsPresent();
+            await pay.enterPromotionCode(promoCodeTwo);
+            await pay.clickApplyDiscountButton();
+            await pay.promotionForStaffErrorMessageIsDisplayed();
+            await driver.sleep(2000);
+
         });
 
         it('Should check balance equals original minus transactions totals',async function () {
