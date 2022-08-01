@@ -38,6 +38,7 @@
 
         async ticketNameInputIsDisplayed(){
             await this.isDisplayed(TICKET_NAME_INPUT, 5000)
+            await this.timeout(1000);
         }
         async saveTicketButtonIsVisible(){
             await this.isDisplayed(SAVE_TICKET_BUTTON, 5000)
@@ -242,6 +243,16 @@
             let fixedFee = calculatedBuyer.toFixed(2);
             let buyerTotal = await this.getTicketBuyerPriceValue();
             assert.equal(fixedFee, buyerTotal )
+        }
+
+        async assertBuyerTotalEqualsTicketPriceMultipliedByTaxPercentageAndAdded$Fee(savedTaxValue, saved$FeeValue){
+            await this.ticketNameInputIsDisplayed();
+            let price = await this.getTicketPriceValue();
+            let feeSubstring = saved$FeeValue.substring(1);
+            let feeParsed = parseFloat(feeSubstring);
+            let buyerCalculated = (parseFloat(price) + parseFloat(price) / 100 * savedTaxValue) + feeParsed ;
+            let buyerTotal = await this.getTicketBuyerPriceValue();
+            assert.equal(buyerCalculated.toFixed(2), buyerTotal )
         }
 
     }

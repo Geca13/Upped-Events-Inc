@@ -37,6 +37,7 @@
         }
 
         async sendKeysToQtyInput(index,qty){
+           await this.isDisplayed(QTY_INPUTS,5000)
            await this.clearInputFieldByIndex(QTY_INPUTS,index)
            await this.sendKeysToElementReturnedFromAnArray(QTY_INPUTS,index,qty);
         }

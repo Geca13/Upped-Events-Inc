@@ -143,7 +143,7 @@
         let resetPassword;
 
 
-        let base =   Math.floor(100000 + Math.random() * 900000);
+        let base = 292760 //  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -873,20 +873,61 @@
             await eventOptionTabs.ticketingTabIsDisplayed();
             await eventOptionTabs.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.assertTicketPriceEqualsBuyerTotalPriceWhenNoTaxesOrFees();
-            await createTicket.closeCreateUpdateTicketModal();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await eventOptionTabs.clickSettingsNav();
+            await eventTickets.clickSettingsTab();
             await settingsNav.taxesAndFeesSubTabIsDisplayed();
             await settingsNav.clickTaxesAndFeesSubNav();
             await taxesAndFees.addOneTaxForTickets();
             await taxesAndFees.clickSaveTaxesAndFeesButton();
             let savedTaxValue = await taxesAndFees.getFloatNumberForTaxOrFee(1,1);
+            let saved$FeeValue = await taxesAndFees.get$FeeFromInputByIndex(2);
             await eventTickets.clickTicketsTab();
             await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
-            await createTicket.assertBuyerTotalEqualsTicketPriceMultipliedByTaxPercentageAndAdded$Fee(savedTaxValue);
+            await createTicket.assertBuyerTotalEqualsTicketPriceMultipliedByTaxPercentageAndAdded$Fee(savedTaxValue, saved$FeeValue);
+
+        });
+
+         it('should calculate subtotal and total on multiple tickets with tax and fee', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            settingsNav = new SettingsNav(driver);
+            taxesAndFees = new TaxesAndFeesPage(driver);
+            eventTickets = new EventTickets(driver)
+            events = new EventsPage(driver);
+            info = new EventInfo(driver);
+            tickets = new TicketsTab(driver);
+            ticketing = new TicketingPage(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await eventTickets.clickSettingsTab();
+            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await settingsNav.clickTaxesAndFeesSubNav();
+            await taxesAndFees.includeExcludeIsVisible();
+            let savedTaxValue = await taxesAndFees.getFloatNumberForTaxOrFee(1,1);
+            let saved$FeeValue = await taxesAndFees.get$FeeFromInputByIndex(2);
+            await events.load();
+            await events.eventCardIsAvailableToClick();
+            await events.clickNewEvent(shortName);
+            await info.wishListButtonIsDisplayed();
+            await info.clickBuyTicketsButton();
+            await tickets.sendKeysToQtyInput(0,3);
+            await ticketing.assertTicketsSubtotalMultipliedByTaxesAndFeesForEachTicketEqualsGrandTotal( savedTaxValue, saved$FeeValue);
+
 
         });
 
