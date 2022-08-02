@@ -91,6 +91,21 @@
             await this.timeout(1500)
         }
 
+        async assertTicketNamePriceAndQuantity(name,price,quantity){
+            await this.isDisplayed(TICKETS_NAMES,5000);
+            await this.timeout(500)
+            let i = await this.returnIndexWhenTextIsKnown(TICKETS_NAMES, name);
+            await this.timeout(2000)
+            console.log(i + " i")
+            let savedName = await this.getElementTextFromAnArrayByIndex(TICKETS_NAMES, i);
+            let savedPrice = await this.getElementTextFromAnArrayByIndex(TICKETS_PRICES, i);
+            let savedQuantity = await this.getElementTextFromAnArrayByIndex(TICKETS_QUANTITIES, i);
+            assert.equal(savedName,name);
+            assert.equal(savedPrice.substring(1),price);
+            assert.equal(savedQuantity,quantity);
+            await this.timeout(500)
+        }
+
         async clickEditTicketButton(index){
             await this.isDisplayed(EDIT_TICKET_BUTTONS,5000);
             await this.clickElementReturnedFromAnArray(EDIT_TICKET_BUTTONS,index)
@@ -121,9 +136,9 @@
             await this.clickElementReturnedFromAnArray(DEACTIVATED_TICKET_TOGGLE,i);
             await this.activateTicketModalIsDisplayed();
             await this.confirmActivationButton();
-
-
+            await this.timeout(2000);
         }
+
         async confirmActivationButton(){
             await this.isDisplayed(TICKET_ACTIVATION_YES_BUTTON,5000);
             await this.timeout(500);
