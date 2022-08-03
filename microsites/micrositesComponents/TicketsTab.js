@@ -75,6 +75,28 @@
             let cleaned = bracketedPrice.substring(1, bracketedPrice.length - 1);
             return cleaned;
         }
+
+        async getCleanPriceByIndex(index){
+
+            let priceByIndex = await this.getElementTextFromAnArrayByIndex(TICKETS_PRICES, index)
+            let cleanPrice = priceByIndex.substring(2, priceByIndex.length - 1)
+            let parsed = parseFloat(cleanPrice);
+            return parsed;
+        }
+
+        async getSubtotalFromMultipleTicketsTypes(){
+            let subtotal = 0.00;
+            let inputs = await this.findAll(QTY_INPUTS);
+            for(let i = 0; i < inputs.length ; i++) {
+                let inputValue = await this.getTextValueFromElementOfArray(QTY_INPUTS, i);
+                if(parseInt(inputValue) > 0 ) {
+                    let price = await this.getCleanPriceByIndex(i)
+                    subtotal = subtotal + (price * parseInt(inputValue))
+                }
+            }
+            return subtotal;
+        }
+
     }
 
     module.exports = TicketsTab;

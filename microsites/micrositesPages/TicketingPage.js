@@ -1,5 +1,6 @@
     const BasePage = require("../../BasePage");
     const Alerts = require('../../Validations&Alerts/Alerts')
+    const TicketsTab = require('../micrositesComponents/TicketsTab')
     const assert = require("assert");
     const TICKETS_TAB = { xpath: "//*[text()='Tickets']"}
     const LOGIN_TAB = { xpath: "//*[text()='Login']"}
@@ -124,6 +125,27 @@
             let substringTotal = total.substring(1);
             let floatedTotal = parseFloat(substringTotal);
             assert.equal(calculatedGrandTotal ,floatedTotal);
+        }
+
+        async assertTicketsSubtotalMultipliedByTaxesAndFeesForEachTicketEqualsGrandTotalForMultipleTicketsAndQty( savedTaxValue, saved$FeeValue){
+            await this.nextButtonPresent();
+            let tickets = new TicketsTab(this.driver);
+            let subtotal = await tickets.getSubtotalFromMultipleTicketsTypes();
+            let rawExtractedSubtotal = await this.getElementText(SUBTOTAL_TOTAL_VALUE);
+            let extractedSubtotal = rawExtractedSubtotal.substring(1);
+            let parsedExtracted = parseFloat(extractedSubtotal);
+            assert.equal(subtotal.toFixed(2) ,parsedExtracted);
+            let subtotalPlusTaxes = (subtotal + subtotal / 100 * savedTaxValue);
+            let feeSubstring = saved$FeeValue.substring(1);
+            let feeParsed = parseFloat(feeSubstring);
+            let totalFees = 10 * feeParsed ;
+            let calculatedGrandTotal = parseFloat(subtotalPlusTaxes.toFixed(2)) + parseFloat(totalFees.toFixed(2));
+            let total = await this.getElementText(GRAND_TOTAL_VALUE);
+            let substringTotal = total.substring(1);
+            let floatedTotal = parseFloat(substringTotal);
+            assert.equal(calculatedGrandTotal.toFixed(2) ,floatedTotal);
+
+
         }
     }
 
