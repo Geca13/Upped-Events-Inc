@@ -255,6 +255,16 @@
         return elements[index].getCssValue('color')
     }
 
+    async getBackgroundColorFromAnArray(locator, index){
+        let elements = await this.findAll(locator)
+        return elements[index].getCssValue('background-color')
+    }
+
+    async getBackgroundFromAnArray(locator, index){
+        let elements = await this.findAll(locator)
+        return elements[index].getCssValue('background-color')
+    }
+
     async checkIfClassIsApplied(locator, index, clas){
         await this.timeout(1000);
         let seperated = [];

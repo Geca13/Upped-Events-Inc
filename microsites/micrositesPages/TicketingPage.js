@@ -7,6 +7,7 @@
     const EXTRAS_TAB = { xpath: "//*[text()='Extras']"}
     const PAY_TAB = { xpath: "//*[text()='Pay']"}
     const CONFIRM_TAB = { xpath: "//*[text()='Confirm']"}
+    const NAV_BUTTONS = { xpath: "//li[contains(@class , 'nav-item')]//button[contains(@class , 'btnTabClass')]" }
     const BACK_TO_EVENT_INFO_BUTTON = { xpath: "//*[text()=' Back to Event Info ']"}
     const NEXT_BUTTON = { xpath: "//*[text()='Next']"}
     const PREVIOUS_BUTTON = { xpath: "//*[text()=' Previous ']"}
@@ -28,6 +29,7 @@
     const CHILDREN = { xpath: "./child::*"}
     const DISCOUNT_TRASH_ICON = { xpath: "//*[text()='Discount ']"}
     const TICKET_TERMS_BUTTON = { className: 'terms-btn' }
+
 
 
     class TicketingPage extends BasePage {
@@ -145,7 +147,39 @@
             let floatedTotal = parseFloat(substringTotal);
             assert.equal(calculatedGrandTotal.toFixed(2) ,floatedTotal);
 
+        }
+        async navButtonsCount(count){
+            let buttons = await this.returnElementsCount(NAV_BUTTONS);
+            assert.equal(buttons, count);
+        }
+        async navButtonNameByIndex(index, buttonName){
+            let button = await this.getElementTextFromAnArrayByIndex(NAV_BUTTONS, index)
+            assert.equal(button, buttonName);
+        }
 
+        async navButtonStyleWhenNotActive(index){
+             await this.nextButtonPresent();
+             let loginTab = await this.checkIfClassIsApplied(NAV_BUTTONS,index, "active");
+             assert.equal(loginTab, false);
+             let fontColor = await this.getFontColorFromAnArray(NAV_BUTTONS,0);
+             assert.equal(fontColor,'rgba(0, 0, 0, 1)');
+             let backgroundColor = await this.getBackgroundColorFromAnArray(NAV_BUTTONS,1);
+             assert.equal(backgroundColor,'transparent');
+        }
+
+        async assertElementsOnTicketingLoginPage(){
+             await this.nextButtonPresent();
+             let loginTab = await this.checkIfClassIsApplied(NAV_BUTTONS,1, "active");
+             assert.equal(loginTab, true);
+             let fontColor = await this.getFontColorFromAnArray(NAV_BUTTONS,0);
+             assert.equal(fontColor,'rgba(255, 255, 255, 1)');
+             let backgroundColor = await this.getBackgroundColorFromAnArray(NAV_BUTTONS,1);
+             assert.equal(backgroundColor,'rgba(88, 88, 88, 1)');
+        }
+
+        async notLoggedInErrorMessageIsDisplayed(){
+            let alert = new Alerts(this.driver);
+            await alert.errorInfoMessageIsDisplayed("You haven't logged in yet");
         }
     }
 

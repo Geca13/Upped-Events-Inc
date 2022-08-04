@@ -68,6 +68,7 @@
     const AccountPage = require('../microsites/account/AccountPage');
     const ForgotPasswordModal = require("../microsites/micrositesComponents/ForgotPasswordModal");
     const ResetPasswordPage = require("../microsites/micrositesPages/ResetPasswordPage");
+    const LoginTab = require("../microsites/micrositesComponents/LoginTab")
 
     describe('Should do everything', function () {
         this.timeout(500000);
@@ -141,9 +142,10 @@
         let account;
         let forgotPassword;
         let resetPassword;
+        let loginTab;
 
 
-        let base = 828158 // Math.floor(100000 + Math.random() * 900000);
+        let base =  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -1038,6 +1040,30 @@
 
         });
 
+        it('should check that when not logged in login page is displayed on ticketing path and assert data',async function () {
+            events = new EventsPage(driver);
+            info = new EventInfo(driver);
+            tickets = new TicketsTab(driver);
+            ticketing = new TicketingPage(driver);
+            loginTab = new LoginTab(driver);
+
+            await events.load();
+            await events.eventCardIsAvailableToClick();
+            await events.clickNewEvent(shortName);
+            await info.wishListButtonIsDisplayed();
+            await info.clickBuyTicketsButton();
+            await ticketing.navButtonsCount(5);
+            await ticketing.navButtonNameByIndex(1, "Login");
+            await ticketing.navButtonStyleWhenNotActive(1);
+            await tickets.clickFirstIncreaseButton();
+            await ticketing.clickNextButton();
+            await ticketing.notLoggedInErrorMessageIsDisplayed();
+            await ticketing.assertElementsOnTicketingLoginPage();
+            await loginTab.assertSectionTitlesAndSubtitlesNames();
+            await loginTab.assertButtonsNamesAndInputPlaceholders();
+            await loginTab.assertButtonsFontAndBackgroundColors();
+
+        });
 
 
 
@@ -1305,7 +1331,7 @@
 
         });
 
-        it('should make purchase with card ',async function () {
+        it('should make purchase with saved card ',async function () {
             events = new EventsPage(driver);
             login = new LoginComponent(driver);
             info = new EventInfo(driver);

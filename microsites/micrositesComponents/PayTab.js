@@ -39,6 +39,7 @@
             await this.click(PAY_WITH_WALLET_OPTION);
         }
         async clickPayWithWalletButton(){
+            await this.timeout(500);
             await this.click(PAY_WITH_WALLET_BUTTON);
         }
         async payWithWalletButtonIsDisplayed() {
