@@ -145,7 +145,7 @@
         let loginTab;
 
 
-        let base =  Math.floor(100000 + Math.random() * 900000);
+        let base = 238698 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -1040,6 +1040,28 @@
 
         });
 
+        it('should check that when logged in the login page on ticketing path is not displayed',async function () {
+            events = new EventsPage(driver);
+            info = new EventInfo(driver);
+            login = new LoginComponent(driver);
+            ticketing = new TicketingPage(driver);
+
+            await events.load();
+            await events.clickSignInButton();
+            await login.waitPopupToBeLoaded();
+            await login.authenticate("parma15@parma.it", "Pero1234");
+            await events.eventCardIsAvailableToClick();
+            await events.clickNewEvent(shortName);
+            await info.wishListButtonIsDisplayed();
+            await info.clickBuyTicketsButton();
+            await ticketing.navButtonsCount(4);
+            await ticketing.navButtonNameByIndex(0, "Tickets");
+            await ticketing.navButtonNameByIndex(1, "Extras");
+            await ticketing.navButtonNameByIndex(2, "Pay");
+            await ticketing.navButtonNameByIndex(3, "Confirm");
+
+        });
+
         it('should check that when not logged in login page is displayed on ticketing path and assert data',async function () {
             events = new EventsPage(driver);
             info = new EventInfo(driver);
@@ -1064,7 +1086,6 @@
             await loginTab.assertButtonsFontAndBackgroundColors();
 
         });
-
 
 
 

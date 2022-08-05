@@ -26,9 +26,9 @@
             assert.equal(loginEmailTitle, "Login with Email");
             let noAccountTitle = await this.getElementTextFromAnArrayByIndex(SECTIONS_TITLES,2);
             assert.equal(noAccountTitle, "Don't have an account?");
-            let loginEmailSubtitle = await this.getElementTextFromAnArrayByIndex(SECTIONS_TITLES,0);
+            let loginEmailSubtitle = await this.getElementTextFromAnArrayByIndex(SECTION_SUBTITLES,0);
             assert.equal(loginEmailSubtitle, "Login with email if you don't have a Google or Facebook account.");
-            let noAccountSubtitle = await this.getElementTextFromAnArrayByIndex(SECTIONS_TITLES,1);
+            let noAccountSubtitle = await this.getElementTextFromAnArrayByIndex(SECTION_SUBTITLES,1);
             assert.equal(noAccountSubtitle, "It only takes about a minute!");
         }
 

@@ -149,10 +149,12 @@
 
         }
         async navButtonsCount(count){
+            await this.timeout(1000)
             let buttons = await this.returnElementsCount(NAV_BUTTONS);
             assert.equal(buttons, count);
         }
         async navButtonNameByIndex(index, buttonName){
+            await this.timeout(1000)
             let button = await this.getElementTextFromAnArrayByIndex(NAV_BUTTONS, index)
             assert.equal(button, buttonName);
         }
@@ -161,17 +163,17 @@
              await this.nextButtonPresent();
              let loginTab = await this.checkIfClassIsApplied(NAV_BUTTONS,index, "active");
              assert.equal(loginTab, false);
-             let fontColor = await this.getFontColorFromAnArray(NAV_BUTTONS,0);
+             let fontColor = await this.getFontColorFromAnArray(NAV_BUTTONS,1);
              assert.equal(fontColor,'rgba(0, 0, 0, 1)');
              let backgroundColor = await this.getBackgroundColorFromAnArray(NAV_BUTTONS,1);
-             assert.equal(backgroundColor,'transparent');
+             assert.equal(backgroundColor,'rgba(0, 0, 0, 0)');
         }
 
         async assertElementsOnTicketingLoginPage(){
-             await this.nextButtonPresent();
+             await this.timeout(1000)
              let loginTab = await this.checkIfClassIsApplied(NAV_BUTTONS,1, "active");
              assert.equal(loginTab, true);
-             let fontColor = await this.getFontColorFromAnArray(NAV_BUTTONS,0);
+             let fontColor = await this.getFontColorFromAnArray(NAV_BUTTONS,1);
              assert.equal(fontColor,'rgba(255, 255, 255, 1)');
              let backgroundColor = await this.getBackgroundColorFromAnArray(NAV_BUTTONS,1);
              assert.equal(backgroundColor,'rgba(88, 88, 88, 1)');
