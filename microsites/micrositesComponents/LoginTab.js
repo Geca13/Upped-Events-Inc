@@ -19,6 +19,19 @@
             super(driver);
         }
 
+        async isAtLoginTab(){
+            await this.isDisplayed(EMAIL_INPUT, 5000);
+        }
+
+        async loginWithEmailAndPasswordOnLoginTab(customerEmail,customerPassword){
+            await this.isAtLoginTab();
+            await this.sentKeys(EMAIL_INPUT, customerEmail);
+            await this.sentKeys(PASSWORD_INPUT, customerPassword);
+            await this.timeout(500);
+            await this.click(LOGIN_BUTTON);
+            await this.timeout(500);
+        }
+
         async assertSectionTitlesAndSubtitlesNames(){
             let loginToContinueTitle = await this.getElementTextFromAnArrayByIndex(SECTIONS_TITLES,0);
             assert.equal(loginToContinueTitle, "Please Login to Continue");

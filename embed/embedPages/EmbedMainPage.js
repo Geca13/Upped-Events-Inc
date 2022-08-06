@@ -13,6 +13,7 @@
    const CHANGE_LOGIN_LINK = { className: 'change' }
    const EVENT_INFO_BANNER = { className: 'event-info' }
    const EVENT_NAME = { className: 'event-title' }
+   const NO_TICKETS_MESSAGE = { xpath: "//p[contains(@class, 'pt-5')]" }
 
 
    class EmbedMainPage extends BasePage {
@@ -25,8 +26,13 @@
 
       }
       async switchToIframe(){
+         await this.isDisplayed(IFRAME , 20000)
          await this.switchToAnIframe(IFRAME);
       }
+
+      async getNewlyOpenedTab(originalWindow){
+           await this.switchToNewlyOpenedWindowOrTab(originalWindow);
+        }
 
       async isInFrame(eventName){
          await this.driver.executeScript("document.body.style.transform='scale(0.8, 0.8)'");
@@ -35,6 +41,12 @@
          let extractedEventName = await this.getElementText(EVENT_NAME);
          assert.equal(eventName,extractedEventName)
 
+      }
+
+      async assertNoTicketsMessageIsDisplayed(){
+         await this.isDisplayed(NO_TICKETS_MESSAGE,5000);
+         let message = await this.getElementText(NO_TICKETS_MESSAGE);
+         assert.equal(message, "No tickets are currently available for this event");
       }
 
       async clickTicketTermsCheckbox(){
@@ -51,9 +63,14 @@
         await this.click(NEXT_BUTTON)
       }
       async limitInfoMessageIsDisplayed(number){
-            let info = new Alerts(this.driver);
-            await info.correctInfoMessageIsDisplayed("You have exceeded maximum (" + number + ") limit to buy tickets");
-        }
+        let info = new Alerts(this.driver);
+        await info.correctInfoMessageIsDisplayed("You have exceeded maximum (" + number + ") limit to buy tickets");
+      }
+
+      async successLoginMessageIsDisplayed(){
+         let alert = new Alerts(this.driver);
+         await alert.successAlertIsDisplayed("Successfully logged in")
+      }
 
 
    }

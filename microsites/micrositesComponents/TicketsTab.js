@@ -16,6 +16,8 @@
             super(driver);
         }
 
+
+
         async clickAllTicketsGroupButton(){
             await this.click(ALL_TICKETS_GROUP);
         }
@@ -77,11 +79,23 @@
         }
 
         async getCleanPriceByIndex(index){
-
             let priceByIndex = await this.getElementTextFromAnArrayByIndex(TICKETS_PRICES, index)
             let cleanPrice = priceByIndex.substring(2, priceByIndex.length - 1)
             let parsed = parseFloat(cleanPrice);
             return parsed;
+        }
+
+        async assertThatPreviouslyAddedQuantitiesAreStillAppliedAfterLoggingIn(qtyFour,qtyTwo,qtyOne,qtyThree){
+            await this.isDisplayed(QTY_INPUTS, 5000);
+            await this.timeout(500);
+            let firstInput = await this.getEnteredTextInTheInputByIndex(QTY_INPUTS,0);
+            let secondInput = await this.getEnteredTextInTheInputByIndex(QTY_INPUTS,1);
+            let thirdInput = await this.getEnteredTextInTheInputByIndex(QTY_INPUTS,2);
+            let fourthInput = await this.getEnteredTextInTheInputByIndex(QTY_INPUTS,3);
+            assert.equal(firstInput, qtyFour);
+            assert.equal(secondInput, qtyTwo);
+            assert.equal(thirdInput, qtyOne);
+            assert.equal(fourthInput, qtyThree);
         }
 
         async getSubtotalFromMultipleTicketsTypes(){

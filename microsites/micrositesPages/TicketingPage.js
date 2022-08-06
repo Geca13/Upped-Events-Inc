@@ -1,6 +1,7 @@
     const BasePage = require("../../BasePage");
     const Alerts = require('../../Validations&Alerts/Alerts')
     const TicketsTab = require('../micrositesComponents/TicketsTab')
+    const LoginTab = require('../micrositesComponents/LoginTab')
     const assert = require("assert");
     const TICKETS_TAB = { xpath: "//*[text()='Tickets']"}
     const LOGIN_TAB = { xpath: "//*[text()='Login']"}
@@ -169,7 +170,14 @@
              assert.equal(backgroundColor,'rgba(0, 0, 0, 0)');
         }
 
-        async assertElementsOnTicketingLoginPage(){
+        async assertNavButtonToBeActiveByIndexAndAssertName(index, buttonName){
+            let button = await this.checkIfClassIsApplied(NAV_BUTTONS,index, "active");
+            assert.equal(button, true);
+            let name = await this.getElementTextFromAnArrayByIndex(NAV_BUTTONS,index);
+            assert.equal(button, buttonName);
+        }
+
+        async assertLoginTabStyleOnTicketingLoginPage(){
              await this.timeout(1000)
              let loginTab = await this.checkIfClassIsApplied(NAV_BUTTONS,1, "active");
              assert.equal(loginTab, true);
@@ -182,6 +190,27 @@
         async notLoggedInErrorMessageIsDisplayed(){
             let alert = new Alerts(this.driver);
             await alert.errorInfoMessageIsDisplayed("You haven't logged in yet");
+        }
+
+        async assertLoginLinkIsDisplayedAndText(){
+            await this.isDisplayed(LOGIN_INFO_MESSAGE, 5000);
+            let message = await this.getElementText(LOGIN_INFO_MESSAGE);
+            assert.equal(message, "You will be able to update your tickets, apply discount codes, and/or access user-specific tickets after you login.")
+        }
+        async clickLoginLinkAndAssertLoginTabStyle(){
+            await this.click(LOGIN_LINK);
+            let login = new LoginTab(this.driver);
+            await login.isAtLoginTab();
+            await this.assertLoginTabStyleOnTicketingLoginPage();
+        }
+
+        async assertCorrectBehaviorAfterSuccessfulLogin(){
+            await this.navButtonsCount(4);
+            let alert = new Alerts(this.driver)
+            await alert.successAlertIsDisplayed("Sucessfully logged in")
+            let loginTab = await this.returnElementsCount(LOGIN_TAB);
+            assert.equal(loginTab, 0);
+
         }
     }
 

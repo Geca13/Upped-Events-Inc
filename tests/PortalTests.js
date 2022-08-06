@@ -69,6 +69,7 @@
     const ForgotPasswordModal = require("../microsites/micrositesComponents/ForgotPasswordModal");
     const ResetPasswordPage = require("../microsites/micrositesPages/ResetPasswordPage");
     const LoginTab = require("../microsites/micrositesComponents/LoginTab")
+    const CreateAccountPage = require("../embed/embedPages/CreateAccountPage");
 
     describe('Should do everything', function () {
         this.timeout(500000);
@@ -143,9 +144,10 @@
         let forgotPassword;
         let resetPassword;
         let loginTab;
+        let embedCreate;
 
 
-        let base = 238698 // Math.floor(100000 + Math.random() * 900000);
+        let base =  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -388,6 +390,17 @@
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickAddTicketButton();
             await createTicket.createFirstTicketAndAssertDataOnTicketsAndUpdate(ticketOneName,ticketOnePrice,ticketOneQuantity);
+
+        });
+
+        it('should get no tickets available message on embed when tickets are not activated ',async function () {
+
+            main = new EmbedMainPage(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.assertNoTicketsMessageIsDisplayed()
 
         });
 
@@ -1080,12 +1093,105 @@
             await tickets.clickFirstIncreaseButton();
             await ticketing.clickNextButton();
             await ticketing.notLoggedInErrorMessageIsDisplayed();
-            await ticketing.assertElementsOnTicketingLoginPage();
+            await ticketing.assertLoginTabStyleOnTicketingLoginPage();
             await loginTab.assertSectionTitlesAndSubtitlesNames();
             await loginTab.assertButtonsNamesAndInputPlaceholders();
             await loginTab.assertButtonsFontAndBackgroundColors();
 
         });
+
+        it('should login on ticketing path and confirm login / logout link presence',async function () {
+            events = new EventsPage(driver);
+            info = new EventInfo(driver);
+            tickets = new TicketsTab(driver);
+            ticketing = new TicketingPage(driver);
+            loginTab = new LoginTab(driver);
+
+            await events.load();
+            await events.eventCardIsAvailableToClick();
+            await events.clickNewEvent(shortName);
+            await info.wishListButtonIsDisplayed();
+            await info.clickBuyTicketsButton();
+            await ticketing.assertLoginLinkIsDisplayedAndText();
+            await ticketing.navButtonNameByIndex(1, "Login");
+            await ticketing.clickLoginLinkAndAssertLoginTabStyle();
+            await loginTab.loginWithEmailAndPasswordOnLoginTab(customerEmail,customerPassword);
+            await ticketing.assertCorrectBehaviorAfterSuccessfulLogin();
+            await ticketing.navButtonNameByIndex(1, "Extras");
+            await ticketing.assertNavButtonToBeActiveByIndexAndAssertName(0, "Tickets")();
+
+        });
+
+        it('should select tickets then login and after the ticket quantitis should be selected', async function () {
+            let qtyOne = 3;
+            let qtyTwo = 5;
+            let qtyThree = 9;
+            let qtyFour = 2;
+            events = new EventsPage(driver);
+            info = new EventInfo(driver);
+            tickets = new TicketsTab(driver);
+            ticketing = new TicketingPage(driver);
+            loginTab = new LoginTab(driver);
+
+            await events.load();
+            await events.eventCardIsAvailableToClick();
+            await events.clickNewEvent(shortName);
+            await info.wishListButtonIsDisplayed();
+            await info.clickBuyTicketsButton();
+            await tickets.sendKeysToQtyInput(0,qtyFour);
+            await tickets.sendKeysToQtyInput(1,qtyTwo);
+            await tickets.sendKeysToQtyInput(2,qtyOne);
+            await tickets.sendKeysToQtyInput(3,qtyThree);
+            await ticketing.clickNextButton();
+            await loginTab.isAtLoginTab();
+            await loginTab.loginWithEmailAndPasswordOnLoginTab(customerEmail, customerPassword);
+            await tickets.assertThatPreviouslyAddedQuantitiesAreStillAppliedAfterLoggingIn(qtyFour,qtyTwo,qtyOne,qtyThree);
+
+        });
+
+        it('should create new account on embed with mobile view login and get success login message', async function () {
+            let email = "emmmbed" + base + "@embed.com" ;
+            let firstName = base + "embed";
+            let lastName = "embed" + base;
+            let password = base + "P@ss";
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedLogin = new LoginPage(driver);
+            embedCreate = new CreateAccountPage(driver);
+            inbox = new Inbox(driver);
+            originalWindow = inbox.getOriginalWindow();
+
+            await main.openEmbedPage();
+            driver.manage().window().setRect({width: 414, height: 896 });
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInput(0, 2);
+            await main.nextButtonIsVisible();
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.clickRegisterLink();
+            await embedCreate.createAccountOnEmbed(firstName, lastName, email, password);
+            await inbox.loadInbox();
+            await inbox.elementIsDisplayedInInbox('<'+email+'>');
+            await inbox.findAndClickTheEmailForNewAccount('<'+email+'>');
+            await inbox.switchToInboxIFrame();
+            await inbox.verifyEmailButtonIsDisplayed();
+            await inbox.verifyEmail();
+            await driver.switchTo().defaultContent();
+            await main.getNewlyOpenedTab(originalWindow);
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInput(0, 2);
+            await main.nextButtonIsVisible();
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(email, password);
+            await driver.sleep(4000);
+
+            console.log( " Completed Successfully ")
+
+        });
+
 
 
 
@@ -1944,8 +2050,8 @@
             await myMenus.isOnMyMenusPage();
             await myMenus.createNewMenuAndSetNewName(base);
             await myMenus.createNewSection("Alcoholic Drinks", 0, 1);
-            //await myMenus.createNewSection("Meat & Snacks", 1, 2);
-            //await myMenus.createNewSection("Desserts", 2, 3);
+            await myMenus.createNewSection("Meat & Snacks", 1, 2);
+            await myMenus.createNewSection("Desserts", 2, 3);
             await myMenus.createBeerStoutMenuItem();
             await myMenus.dragMenuItemToMenuSection();
             await driver.sleep(2500)
@@ -2706,6 +2812,7 @@
         });
 
         it('should check that when new card is saved only one transaction is made',async function () {
+
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             createEvent = new CreateEventModal(driver);
@@ -2728,7 +2835,7 @@
             donate = new DonationComponent(driver);
             embedConfirm = new ConfirmPage(driver);
 
-            await portalLogin.loadPortalUrl();
+            /*await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
@@ -2749,7 +2856,7 @@
             await questions.clickDeactivateQuestionButton(1);
             await questions.clickDeactivateQuestionButton(0);
             await eventOptionTabs.clickTransactionCenterTab();
-            let transactions = await eventOrders.returnTotalTransactionsMade();
+            let transactions = await eventOrders.returnTotalTransactionsMade();*/
             await main.openEmbedPage();
             await main.switchToIframe();
             await main.isInFrame(eventName);

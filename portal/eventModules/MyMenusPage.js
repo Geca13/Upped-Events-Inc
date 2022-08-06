@@ -121,13 +121,14 @@
             await this.timeout(500);
         }
         async createBeerStoutMenuItem(){
-            await this.click(ADD_NEW_MENU_ITEM_FROM_SECTION_BUTTON);
-            //await this.driver.executeScript("document.getElementsByClassName('dropdown-menu-right')[0].style.visibility='visible'");
-            await this.isDisplayed(MAIN_CATEGORIES_DROPDOWN,5000);
-            await this.timeout(500);
+            await this.click(ADD_NEW_MENU_ITEM_BUTTON);
+            //await this.click(ADD_NEW_MENU_ITEM_FROM_SECTION_BUTTON);
+            await this.driver.executeScript("document.getElementsByClassName('dropdown-menu-right')[0].style.visibility='visible'");
+            //await this.isDisplayed(MAIN_CATEGORIES_DROPDOWN,5000);
+            //await this.timeout(500);
             await this.takeScreenshot("categories")
             await this.timeout(500);
-            await this.click(BEVERAGE_OPTION);
+            await this.clickElementReturnedFromAnArray(BEVERAGE_OPTION,3);
             await this.timeout(500);
             await this.takeScreenshot("selected")
             await this.isDisplayed(NEW_ITEM_NAME_INPUT,5000);
