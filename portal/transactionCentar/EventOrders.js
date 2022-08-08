@@ -179,7 +179,7 @@
             assert.notEqual(filteredOrderIds, orderIds);
             let amounts = await this.convertStringArrayToNumber(ORDERS_AMOUNTS);
             for (let i = 0; i < amounts.length ; i++){
-                expect(amounts[i]).to.be.greaterThan(24.99)
+                expect(amounts[i]).to.be.greaterThan(29.99)
             }
         }
 

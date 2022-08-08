@@ -63,7 +63,7 @@
             await this.filtersModalIsOpened();
             await this.click(MINIMUM_PRICE_INPUT);
             await this.timeout(500);
-            await this.sentKeys(MINIMUM_PRICE_INPUT, "25.00");
+            await this.sentKeys(MINIMUM_PRICE_INPUT, "30.00");
             await this.click(APPLY_BUTTON);
             await this.timeout(1000);
         }
@@ -71,7 +71,7 @@
             await this.filtersModalIsOpened();
             await this.click(MAXIMUM_PRICE_INPUT);
             await this.timeout(500);
-            await this.sentKeys(MAXIMUM_PRICE_INPUT, "25.00");
+            await this.sentKeys(MAXIMUM_PRICE_INPUT, "20.00");
             await this.click(APPLY_BUTTON);
             await this.timeout(1000);
         }

@@ -140,11 +140,11 @@
 
             let afterRawDonationSubString = afterRawDonation.substring(2);
             let afterDonation = parseFloat(afterRawDonationSubString);
-            assert.equal(0.00, afterSubtotal);
-            assert.equal(0.00, afterTaxes);
-            assert.equal(0.00, afterFees);
-            assert.equal(beforeSubtotal, afterDonation);
-            assert.notEqual(0.00,afterDonation);
+            assert.equal( afterSubtotal,0.00);
+            assert.equal( afterTaxes, 0.00);
+            assert.equal( afterFees ,0.00);
+            assert.equal(afterDonation, beforeSubtotal);
+            assert.notEqual(afterDonation, 0.00,);
 
         }
 

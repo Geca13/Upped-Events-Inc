@@ -157,8 +157,8 @@
         }
 
         async createMenuForTickets(eventName){
-            await this.click(ADD_NEW_MENU_ITEM_FROM_SECTION_BUTTON);
-            await this.isDisplayed(MAIN_CATEGORIES_DROPDOWN,5000);
+            await this.click(ADD_NEW_MENU_ITEM_BUTTON);
+            await this.isDisplayed(TICKET_OPTION,5000);
             await this.click(TICKET_OPTION);
             await this.isDisplayed(SELECT_TICKET_GROUP_HEADER,5000);
             await this.isDisplayed(SEARCH_EVENT_INPUT,5000);

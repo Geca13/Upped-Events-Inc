@@ -25,6 +25,7 @@
            let calculatedTotal = parseFloat(subTotal) + parseFloat(taxes) + parseFloat(fees);
            let total = await this.getTotalValue();
            assert.equal(calculatedTotal.toFixed(2),total);
+           await this.timeout(1000);
         }
         async calculateSubtotalAndTotalAfterDonationIsAdded(){
             let ticketsTotal = await this.getTicketsTotal();
@@ -77,6 +78,20 @@
             let total = parseFloat(rawTotal);
             let totalToFixed = total.toFixed(2);
             return totalToFixed ;
+        }
+
+        async assertSummaryEqualsBeforeSignIn( ticketsTotal, ticketsSubtotal, taxes, fees, total){
+            let afterTicketsTotal = await this.getTicketsTotal();
+            let afterSubTotal = await this.getSubtotalValue();
+            let afterTaxes = await this.getTaxesValue();
+            let afterFees = await this.getFeesValue();
+            let afterTotal = await this.getTotalValue();
+            assert.equal(afterTicketsTotal,ticketsTotal);
+            assert.equal(afterSubTotal,ticketsSubtotal);
+            assert.equal(afterTaxes,taxes);
+            assert.equal(afterFees,fees);
+            assert.equal(afterTotal,total);
+            await this.timeout(1000);
         }
 
 

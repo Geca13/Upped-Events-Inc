@@ -2,16 +2,39 @@
     const assert = require('assert')
     const TICKET_SELECT = { tagName: 'select'};
     const TICKETS_LIST = { className: "tickets-list" }
+    const TICKET_NOT_AVAILABLE_SOLD = { xpath: "//div[contains(@class, 'quantity-container')]//span" }
+    const TICKET_CONTAINER = { xpath: "//li[contains(@class, 'list-group-item')]" }
+    const TICKET_NAME_AND_PRICE = { className: "name" }
+    const TICKET_RULES_ICON = { xpath: "//span[@class= 'ticket-info']//i" }
 
     class TicketsComponent extends BasePage {
         constructor(driver) {
             super(driver);
         }
 
+
+        async assertFullTicketNameDisplay(ticketOneName, ticketOnePrice){
+            await this.driver.executeScript("document.getElementsByClassName('ticket-info')[0].style.visibility='hidden'");
+            let fullName = await this.getElementText(TICKET_NAME_AND_PRICE);
+            assert.equal(fullName, ticketOneName + ' ($'+ticketOnePrice + ')')
+        }
+
+        async assertNumberOfTickets(number){
+            let tickets = await this.returnElementsCount(TICKET_CONTAINER);
+            assert.equal(tickets, number);
+        }
+
         async sentKeysToTicketInput(index, quantity){
             let input = await this.getElementFromAnArrayByIndex(TICKET_SELECT, index);
             await input.sendKeys(quantity);
         }
+
+        async assertTicketNotAvailableMessageIsDisplayed(){
+            await this.isDisplayed(TICKET_NOT_AVAILABLE_SOLD, 5000);
+            let message = await this.getElementText(TICKET_NOT_AVAILABLE_SOLD);
+            assert.equal(message, "Ticket not available!")
+        }
+
         async confirmEnteredValuesBeforeLogin(){
             //let firstSelectValue = this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 0);
             let secondSelectValue = this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 1);
@@ -23,7 +46,7 @@
             assert.equal(fourthSelectValue,0);
 
         }
-        async ticketSelectIsDisplayed(){
+        async ticketListIsDisplayed(){
             await this.isDisplayed(TICKETS_LIST, 5000);
         }
 

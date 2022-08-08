@@ -63,8 +63,9 @@
             assert.equal(currentBalance, userBalance);
         }
         async calculateBalanceAfterRefunds(userBalance){
+            let calculatedBalance = await userBalance.toFixed(2);
             let currentBalance = await this.returnBalanceState();
-            assert.equal(currentBalance, parseFloat(userBalance));
+            assert.equal(currentBalance, calculatedBalance);
         }
 
     }
