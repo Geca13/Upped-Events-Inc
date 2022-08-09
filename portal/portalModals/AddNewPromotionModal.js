@@ -79,7 +79,7 @@
             await this.isDisplayed(SAVE_PROMOTION_BUTTON)
             await this.timeout(500)
             await this.click(SAVE_PROMOTION_BUTTON);
-            await this.timeout(500)
+            await this.timeout(1500)
         }
 
         async createPromotionForMembersWithPercentValue(ticketName, promoName, promoCode){
@@ -113,7 +113,7 @@
             await this.isDisplayed(SAVE_PROMOTION_BUTTON)
             await this.timeout(1000)
             await this.click(SAVE_PROMOTION_BUTTON);
-            await this.timeout(1000)
+            await this.timeout(1500)
         }
 
         async createPromotionForMultipleTicketsWithLimitationsWithPercentValue(ticketNameOne, promoName, promoCode){
@@ -155,7 +155,7 @@
             await this.isDisplayed(SAVE_PROMOTION_BUTTON)
             await this.timeout(1000)
             await this.click(SAVE_PROMOTION_BUTTON);
-            await this.timeout(1000)
+            await this.timeout(1500)
         }
 
         async createPromotionWith100discountForAllTickets(ticketNameOne, promoName, promoCode){
@@ -188,7 +188,7 @@
             await this.isDisplayed(SAVE_PROMOTION_BUTTON)
             await this.timeout(1000)
             await this.click(SAVE_PROMOTION_BUTTON);
-            await this.timeout(1000)
+            await this.timeout(1500)
         }
 
 

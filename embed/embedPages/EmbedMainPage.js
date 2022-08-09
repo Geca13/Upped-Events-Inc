@@ -58,9 +58,11 @@
       async nextButtonIsVisible(){
          await this.isDisplayed(NEXT_BUTTON,5000);
          await this.timeout(500);
+
       }
       async clickNextPageButton(){
         await this.click(NEXT_BUTTON)
+         await this.timeout(500);
       }
       async limitInfoMessageIsDisplayed(number){
         let info = new Alerts(this.driver);

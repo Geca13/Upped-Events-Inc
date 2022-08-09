@@ -24,6 +24,7 @@
 
         async verifyDataAfterSignUp(firstName, lastName, email){
             await this.accountComponentIsDisplayed();
+            await this.timeout(1000);
             let fullName = await this.getElementText(PROFILE_FULL_NAME);
             let emailLabel = await this.getElementTextFromAnArrayByIndex(PROFILE_LABELS,0);
             let phoneLabel = await this.getElementTextFromAnArrayByIndex(PROFILE_LABELS,1);

@@ -16,7 +16,7 @@
         async assertFullTicketNameDisplay(ticketOneName, ticketOnePrice){
             await this.driver.executeScript("document.getElementsByClassName('ticket-info')[0].style.visibility='hidden'");
             let fullName = await this.getElementText(TICKET_NAME_AND_PRICE);
-            assert.equal(fullName, ticketOneName + ' ($'+ticketOnePrice + ')')
+            assert.equal(fullName, ticketOneName + ' ($'+ticketOnePrice + '.00)')
         }
 
         async assertNumberOfTickets(number){

@@ -149,13 +149,13 @@
         let addMoney;
 
 
-        let base = 663711 // Math.floor(100000 + Math.random() * 900000);
+        let base = 765607 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
         let embedTicketQuantity = 2;
         let ticketOneQuantity = 999;
-        let ticketOnePrice = "1.00";
+        let ticketOnePrice = "1";
         let ticketTwoName = base.toString() +"T2";
         let ticketTwoQuantity = 888;
         let ticketTwoPrice = "1.2";
@@ -618,32 +618,6 @@
 
         });
 
-        it('should create new account on microsites with username and password, verify and login', async function() {
-            events = new EventsPage(driver);
-            createAccount = new CreateAccountModal(driver);
-            inbox = new Inbox(driver);
-            login = new LoginComponent(driver);
-            originalWindow = inbox.getOriginalWindow();
-
-            await events.load();
-            await events.clickSignUpButton();
-            await createAccount.firstCreateAccountModalIsDisplayed();
-            await createAccount.clickSignUpWithEmailButton();
-            await createAccount.secondCreateAccountModalIsDisplayed();
-            await createAccount.fillRandomButValidDataAndCreateAccount(customerFirstName,customerLastName,customerEmail,customerPassword);
-            await inbox.loadInbox();
-            await inbox.elementIsDisplayedInInbox('<'+customerEmail+'>');
-            await inbox.findAndClickTheEmailForNewAccount('<'+customerEmail+'>');
-            await inbox.switchToInboxIFrame();
-            await inbox.verifyEmailButtonIsDisplayed();
-            await inbox.verifyEmail();
-            await driver.switchTo().defaultContent();
-            await login.getNewlyOpenedTab(originalWindow);
-            await login.waitPopupToBeLoaded();
-            await login.loginAfterVerifyingAccount(customerPassword);
-
-        });
-
         it('should login and verify the data is correct in my profile page',async function () {
             events = new EventsPage(driver);
             login = new LoginComponent(driver);
@@ -1060,6 +1034,61 @@
 
         });
 
+        //EMBED
+        it('should assert elements on Payment screen component in embed when user has no cards', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            summary = new SummaryComponent(driver);
+            embedLogin = new LoginPage(driver);
+            addMoney = new AddMoneyComponent(driver)
+            payment = new PaymentPage(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInput(0, 2);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await main.clickNextPageButton();
+            await addMoney.addMoneyComponentIsDisplayed();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.confirmElementsOnPayWithCardOrServiceTab();
+            await payment.clickNewCardTab();
+            await payment.isOnPayWithNewCardTab();
+            await payment.confirmElementsOnPayWithNewCardTab();
+
+        });
+
+        //EMBED
+        it('should assert elements on Order Details screen component in embed when user has no cards', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            summary = new SummaryComponent(driver);
+            embedLogin = new LoginPage(driver);
+            addMoney = new AddMoneyComponent(driver)
+            payment = new PaymentPage(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInput(0, 2);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await main.clickNextPageButton();
+            await addMoney.addMoneyComponentIsDisplayed();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await main.clickNextPageButton();
+
+        });
+
         it('should calculate subtotal and total on multiple tickets with multiple quantity on each with tax and fee', async function () {
 
             portalLogin = new PortalLoginPage(driver);
@@ -1151,7 +1180,7 @@
             await ticketsNav.createdTicketIsInTheTable(ticketFourName);
             await ticketsNav.clickActivateTicketToggle(ticketFourName);
             //await driver.sleep(2000);
-            await ticketsNav.assertTicketNamePriceAndQuantity(ticketOneName,ticketOnePrice,ticketOneQuantity);
+            await ticketsNav.assertTicketNamePriceAndQuantity(ticketOneName,ticketOnePrice,embedTicketQuantity);
             await ticketsNav.assertTicketNamePriceAndQuantity(ticketTwoName,ticketTwoPrice,ticketTwoQuantity);
             await ticketsNav.assertTicketNamePriceAndQuantity(ticketThreeName,ticketThreePrice,ticketThreeQuantity);
             await ticketsNav.assertTicketNamePriceAndQuantity(ticketFourName,ticketFourPrice,ticketFourQuantity);
@@ -1299,7 +1328,7 @@
 
 
 
-
+/*
 
 
 
@@ -1361,11 +1390,11 @@
                     await createEvent.createEventModalIsDisplayed();
                     await createEvent.fillFormWithValidDataAndSave(eventName,shortName);
 
-                    /*await dashboard.clickMyEventsTab();
+                    /!*await dashboard.clickMyEventsTab();
                     await myEvents.eventsTableIsDisplayed();
                     await myEvents.createdEventIsInTheTable(eventName);
                     await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-                    await eventOptionTabs.ticketingTabIsDisplayed();*/
+                    await eventOptionTabs.ticketingTabIsDisplayed();*!/
 
                     await eventOptionTabs.ticketingTabIsDisplayed();
                     await eventOptionTabs.clickDesignNav();
@@ -1441,7 +1470,7 @@
                     await newPromotion.createPromotionWith100discountForAllTickets(ticketOneName, promoFiveName, promoCodeFive);
                     await promotions.promotionsHeaderIsVisible();
                     await eventOptionTabs.ticketingTabIsDisplayed();
-                    /*await eventOptionTabs.clickTicketingTab();
+                    /!*await eventOptionTabs.clickTicketingTab();
                     await ticketsNav.clickAddTicketButton();
                     await createTicket.ticketNameInputIsDisplayed();
                     await createTicket.createStaffTicket(staffTicket,"3");
@@ -1449,7 +1478,7 @@
                     await ticketsNav.clickActivateTicketToggle(staffTicket);
                     await ticketsNav.activateTicketModalIsDisplayed();
                     await ticketsNav.confirmActivationButton();
-                    await eventOptionTabs.ticketingTabIsDisplayed();*/
+                    await eventOptionTabs.ticketingTabIsDisplayed();*!/
 
 
                 });
@@ -1493,9 +1522,9 @@
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.termsButtonPresent();
-            /*await ticketing.clickTermsButton();
+            /!*await ticketing.clickTermsButton();
             await terms.ticketTermsModalIsDisplayed();
-            await terms.clickCloseTermsModalButton();*/
+            await terms.clickCloseTermsModalButton();*!/
 
             await ticketing.nextButtonPresent();
             await tickets.clickFirstIncreaseButton();
@@ -1538,9 +1567,9 @@
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.termsButtonPresent();
-            /*await ticketing.clickTermsButton();
+            /!*await ticketing.clickTermsButton();
             await terms.ticketTermsModalIsDisplayed();
-            await terms.clickCloseTermsModalButton();*/
+            await terms.clickCloseTermsModalButton();*!/
 
             await ticketing.nextButtonPresent();
             await tickets.sendKeysToQtyInput(0,"3");
@@ -1583,9 +1612,9 @@
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.termsButtonPresent();
-            /*await ticketing.clickTermsButton();
+            /!*await ticketing.clickTermsButton();
             await terms.ticketTermsModalIsDisplayed();
-            await terms.clickCloseTermsModalButton();*/
+            await terms.clickCloseTermsModalButton();*!/
 
             await ticketing.nextButtonPresent();
             await tickets.clickIncreaseQtyButtonByIndex(1);
@@ -2389,7 +2418,7 @@
             await bosTickets.addNewQuantityAndSetNewPrice();
         });
 
-        /*it('Should assert proper color and values', async function () {
+        /!*it('Should assert proper color and values', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             createEvent = new CreateEventModal(driver);
@@ -2415,7 +2444,7 @@
             await bosTickets.isOnBoxOfficePage();
             //await bosTickets.isOnBoxOfficePage();
             await bosTickets.assertNewPriceAndQuantity();
-        });*/
+        });*!/
 
         it('Should make purchase with promotion in box-ofice', async function () {
             portalLogin = new PortalLoginPage(driver);
@@ -3540,6 +3569,7 @@
             await eventOrders.filterByAllStatusOptionsAndAssertValues();
 
         });
-
+*/
     });
+
 
