@@ -9,7 +9,7 @@
     const TICKETS_DESCRIPTION = { className: 'info' }; //list
     const TICKETS_HEADER = { className: 'title' }; //from list problematic
     const ALL_TICKETS_GROUP = { xpath: "//*[text()=' All ']"};
-
+    const INDIVIDUAL_TICKET_NAME_PRICE_CONTAINERS = { xpath: "//div[@class='quantity-container']" };
 
     class TicketsTab extends BasePage {
         constructor(driver) {
@@ -109,6 +109,16 @@
                 }
             }
             return subtotal;
+        }
+
+        async assertSoldOutMessageIsDisplayedInMicroByTicket(ticketOneName){
+            let tickets = await this.findAll(TICKETS_NAMES);
+            for (let i = 0; i < tickets.length ; i++){
+                await this.driver.executeScript(`document.getElementsByClassName('ticket-price')[${i}].style.visibility='hidden'`);
+            }
+            let y = await this.returnIndexWhenTextIsKnown(TICKETS_NAMES, ticketOneName);
+            let soldOutMessage = await this.getElementTextFromAnArrayByIndex(INDIVIDUAL_TICKET_NAME_PRICE_CONTAINERS, y);
+            assert.equal(soldOutMessage, "Sold out!")
         }
 
     }

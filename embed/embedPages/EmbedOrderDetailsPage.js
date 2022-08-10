@@ -1,4 +1,6 @@
     const BasePage = require('../../BasePage')
+    const assert = require('assert');
+    const PaymentPage = require('../embedPages/PaymentPage');
     const ORDER_DETAILS_HEADER = { xpath: "//div[@class='order-heading']//div"};
     const ORDER_DETAILS_SUBTITLE = { xpath: "//div[@class='ord-desc']"};
     const PAYMENT_INFO = { xpath: "//div[@class='payment-info']"};
@@ -26,6 +28,41 @@
             await this.isDisplayed(PLACE_ORDER_BUTTON,5000);
             await this.click(PLACE_ORDER_BUTTON);
         }
+        async assertElementsWhenOneTicketIsSelected(ticketOneName){
+            await this.timeout(1000);
+            let header = await this.getElementText(ORDER_DETAILS_HEADER);
+            assert.equal(header, "Order Details");
+            let subheader = await this.getElementText(ORDER_DETAILS_SUBTITLE);
+            assert.equal(subheader, "Review your information before placing your order");
+            let paymentInfo = await this.getElementText(PAYMENT_INFO);
+            assert.equal(paymentInfo, "Payment Info Edit");
+            let ticketsHeader = await this.getElementText(TICKETS_SECTION_HEADER);
+            assert.equal(ticketsHeader, "Tickets:");
+            let selectedTicket = await this.getElementText(TICKETS_NAMES_AND_EDIT_CONTAINER);
+            assert.equal(selectedTicket, ticketOneName + " Edit");
+            let selectedTicketTotal = await this.getElementText(TICKETS_PRICES);
+            assert.equal(selectedTicketTotal,  "$2.00");
+            let subtotalText = await this.getElementText(SUBTOTAL_TEXT);
+            assert.equal(subtotalText, "Subtotal:");
+            let subtotalValue = await this.getElementText(SUBTOTAL_VALUE);
+            assert.equal(subtotalValue,  "$2.00");
+        }
+
+        async clickEditPaymentLinkAndAssertItIsOnPaymentPage(){
+            await this.click(EDIT_PAYMENT_INFO_LINK);
+            let payment = new PaymentPage(this.driver);
+            await payment.isAtPaymentPage();
+        }
+
+        async clickEditLinkOnDisplayedTicketAssertIsOnTicketsPage(embedTickets){
+            await this.isOnOrderDetailsPage();
+            await this.isDisplayed(EDIT_TICKET_LINK,5000);
+            await this.timeout(500);
+            await this.click(EDIT_TICKET_LINK);
+            await embedTickets.ticketListIsDisplayed();
+            await this.timeout(1000);
+        }
+
 
     }
     module.exports = EmbedOrderDetailsPage;

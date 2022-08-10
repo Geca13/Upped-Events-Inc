@@ -101,12 +101,18 @@
     }
 
     async returnImgSrcAttribute(locator){
-          await this.timeout(5000)
+          await this.timeout(2000)
         let img = await this.find(locator);
         let src = await img.getAttribute('src');
         return src;
-
     }
+    async returnImgSrcAttributeByIndex(locator, index){
+         await this.timeout(2000);
+         let images = await this.findAll(locator);
+         let img = await images[index];
+         let src = await img.getAttribute('src');
+         return src;
+        }
 
     async numberWithCommas(locator) {
           let x = await this.getEnteredTextInTheInput(locator);

@@ -14,6 +14,7 @@
    const EVENT_INFO_BANNER = { className: 'event-info' }
    const EVENT_NAME = { className: 'event-title' }
    const NO_TICKETS_MESSAGE = { xpath: "//p[contains(@class, 'pt-5')]" }
+   const SOLD_OUT_MESSAGE = { xpath: "//div[contains(@class , 'quantity-container')]//span" }
 
 
    class EmbedMainPage extends BasePage {
@@ -47,6 +48,12 @@
          await this.isDisplayed(NO_TICKETS_MESSAGE,5000);
          let message = await this.getElementText(NO_TICKETS_MESSAGE);
          assert.equal(message, "No tickets are currently available for this event");
+      }
+
+      async assertSoldOutMessageIsDisplayed(){
+         await this.isDisplayed(SOLD_OUT_MESSAGE,5000);
+         let message = await this.getElementText(SOLD_OUT_MESSAGE);
+         assert.equal(message, "Sold out!");
       }
 
       async clickTicketTermsCheckbox(){

@@ -258,6 +258,15 @@
             assert.equal(message,"You do not currently have any ticket.");
             await this.timeout(1000);
         }
+        async assertQuantityEqualsSoldColumnByTicket(ticketName){
+            await this.isDisplayed(TICKETS_NAMES,5000);
+            let i = await this.returnIndexWhenTextIsKnown(TICKETS_NAMES, ticketName);
+            let quantity = await this.getElementTextFromAnArrayByIndex(TICKETS_QUANTITIES,i);
+            let sold = await this.getElementTextFromAnArrayByIndex(SOLD_TICKETS_NUMBER,i);
+            assert.equal(quantity, sold);
+        }
+
+
     }
     module.exports = TicketsNav;
 

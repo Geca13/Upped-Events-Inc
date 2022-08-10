@@ -39,7 +39,9 @@
         }
         async clickPayWithWalletButton(){
             await this.click(PAY_WALLET_BUTTON);
+            await this.timeout(500);
         }
+
         async clickNewCardTab(){
             await this.isAtPaymentPage();
             await this.click(NEW_CARD_TAB);
