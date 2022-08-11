@@ -3,6 +3,7 @@
     const assert = require('assert')
     const ATTENDEES_TABLE = { id: "dataTable" }
     const ATTENDEES_NAMES = { xpath: "//td[contains(@class, 'column-fullname')]//a[contains(@class, 'table-ticket-name')]//span" } //list
+    const PURCHASED_TICKETS = { xpath: "//td[@class='column-totaltickets']//span" }
     const ATTENDEES_RESPONSES_COUNT = { xpath: "//td[contains(@class, 'column-totalquests')]//a[contains(@class, 'table-ticket-name')]//span" } //list
     const MODAL_HEADER = { className: "popup-header-title" };
     const QUESTIONS_NAMES = { xpath: "//h5[contains(@class, 'mb-1')]" } ; //list
@@ -75,6 +76,15 @@
             assert.equal(secondQuestionFirstRadioAnswerInCombo, base + " Under 18")
             let secondQuestionFirstInputAnswerInCombo = await this.getElementTextFromAnArrayByIndex(INPUT_ANSWERS, 3);
             assert.equal(secondQuestionFirstInputAnswerInCombo, "15");
+        }
+
+        async getAlreadyPurchasedByCustomerFullName(customerFirstName, customerLastName){
+            let fullName = customerFirstName + " " + customerLastName;
+            let index = await this.returnIndexWhenTextIsKnown(ATTENDEES_NAMES, fullName);
+            let purchasedTickets = await this.getElementTextFromAnArrayByIndex(PURCHASED_TICKETS, index);
+            assert.notEqual(purchasedTickets, "0");
+            return purchasedTickets;
+
         }
     }
     module.exports = AttendeesTab;

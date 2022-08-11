@@ -149,7 +149,7 @@
         let addMoney;
 
 
-        let base = 765607 // Math.floor(100000 + Math.random() * 900000);
+        let base =  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -1198,6 +1198,159 @@
             await ticketing.nextButtonPresent();
             await tickets.assertSoldOutMessageIsDisplayedInMicroByTicket(ticketOneName);
 
+        });
+            //EMBED
+        it('should check that if available tickets are less then 100 the tickets dropdown in embed is the same that number', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await driver.sleep(1000);
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(5000);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
+            await createTicket.updateTicketQuantity("50");
+            await ticketsNav.addTicketButtonIsDisplayed();
+            let availableTickets = await ticketsNav.calculateAvailableTicketsByTicket(ticketOneName);
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.assertDropDownElementsEqualsAvailableTickets(availableTickets)
+
+        });
+            //EMBED
+        it('should check that if available tickets are more then 100 the tickets dropdown in embed is limited to 100', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await driver.sleep(1000);
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(5000);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
+            await createTicket.updateTicketQuantity(ticketOneQuantity);
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.assertDropDownElementsEquals("100");
+
+        });
+            //EMBED
+        it('should limit the tickets per account and check if all dropdowns are at that maximum in the embed', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            createEvent = new CreateEventModal(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            capacity = new EventCapacitySubNav(driver);
+            ticketsNav = new TicketsNav(driver);
+            eventTickets = new EventTickets(driver)
+            settingsNav = new SettingsNav(driver);
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await eventOptionTabs.clickSettingsNav();
+            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await settingsNav.clickEventCapacity();
+            await capacity.setLimitPerAccount("26");
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.assertDropDownElementsEquals("26");
+        });
+            // PORTAL -> EMBED
+        it('should get exceeding limitation message when user have already purchased tickets and asks for more then limit', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            ticketsNav = new TicketsNav(driver);
+            attendees = new AttendeesTab(driver);
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            summary = new SummaryComponent(driver);
+            embedLogin = new LoginPage(driver);
+            addMoney = new AddMoneyComponent(driver)
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickAttendeesNav();
+            await attendees.isOnAttendeesTab();
+            let purchasedTickets = await attendees.getAlreadyPurchasedByCustomerFullName(customerFirstName, customerLastName);
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInput(0, 26);
+            let accountAvailable = 26-parseInt(purchasedTickets);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await main.clickNextPageButton();
+            await main.limitInfoMessageIsDisplayed(accountAvailable);
+            await embedTickets.sentKeysToTicketInput(0, accountAvailable);
+            await main.clickNextPageButton();
+            await addMoney.addMoneyComponentIsDisplayed();
         });
 
         it('should calculate subtotal and total on multiple tickets with multiple quantity on each with tax and fee', async function () {

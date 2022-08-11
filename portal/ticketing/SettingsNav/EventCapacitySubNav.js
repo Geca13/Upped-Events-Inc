@@ -15,14 +15,14 @@
             await this.isOnEventCapacitySubNav();
             await this.sentKeys(LIMIT_MAX_TICKET_PER_USER_INPUT, keys);
             await this.click(SAVE_BUTTON);
-            await this.driver.sleep(2000);
+            await this.timeout(2000);
         }
         async removeLimit(){
             await this.isOnEventCapacitySubNav();
             await this.clickBackspaceKey(LIMIT_MAX_TICKET_PER_USER_INPUT);
             await this.clickBackspaceKey(LIMIT_MAX_TICKET_PER_USER_INPUT);
             await this.click(SAVE_BUTTON);
-            await this.driver.sleep(2000);
+            await this.timeout(2000);
         }
     }
     module.exports = EventCapacitySubNav;

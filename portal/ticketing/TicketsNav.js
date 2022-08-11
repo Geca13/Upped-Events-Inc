@@ -119,6 +119,15 @@
             await this.timeout(1000);
         }
 
+        async calculateAvailableTicketsByTicket(ticketOneName){
+            let i = await this.returnIndexWhenTextIsKnown(TICKETS_NAMES, ticketOneName);
+            let quantity = await this.getElementTextFromAnArrayByIndex(TICKETS_QUANTITIES,i);
+            let parsedQty = parseInt(quantity);
+            let sold = await this.getElementTextFromAnArrayByIndex(SOLD_TICKETS_NUMBER,i);
+            let parsedSold = parseInt(sold);
+            return parsedQty - parsedSold;
+        }
+
         async savedTicketBannerIsDisplayed(){
             let saved = new Alerts(this.driver);
             await saved.savedAlertIsDisplayed('Ticket saved successfully!');

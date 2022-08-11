@@ -255,5 +255,12 @@
             assert.equal(buyerCalculated.toFixed(2), buyerTotal )
         }
 
+        async updateTicketQuantity(quantity){
+            await this.isDisplayed(TICKET_QUANTITY_INPUT,5000);
+            await this.clearInputFieldByIndexAndSendKeys(TICKET_QUANTITY_INPUT,0, quantity);
+            await this.click(SAVE_TICKET_BUTTON);
+            await this.timeout(1000);
+        }
+
     }
     module.exports = CreateTicketModal;

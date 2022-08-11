@@ -201,6 +201,8 @@
         await element.sendKeys(keys);
     }
 
+
+
     async getRawTicketPrice(locator, index){
         let tickets = await this.findAll(locator);
         return await tickets[index].getText();
@@ -305,6 +307,12 @@
     async getElementTextFromAnArrayByIndex(locator, index){
         let elements = await this.findAll(locator);
         return await elements[index].getText();
+    }
+
+    async getElementTextFromTheLastElementFromAnArray(locator){
+         let elements = await this.findAll(locator);
+         let element = await elements[elements.length - 1]
+        return element.getText();
     }
 
     async returnArrayOfStrings(locator){
