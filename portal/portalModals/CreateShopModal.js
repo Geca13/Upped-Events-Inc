@@ -15,7 +15,7 @@
     const TAGS_INPUT = { id: 'tags'}
     const ADD_SHOP_BUTTON = { xpath: "//button//span[text()='Add Shop']"}
     const CANCEL_BUTTON = { xpath: "//button[@type='reset']"}
-    const SELECT_PARTNER_DROPDOWN = { xpath: "//select-picker[@name='PartnerOptions']" };
+    const SELECT_PARTNER_DROPDOWN = { xpath: "//select-picker[@name='partners']" };
     const PARTNER_MANAGEMENT_LIST_OPTION = { xpath: "//*[text()='Source from Partner Management list']"}
     const EVENT_MANAGE_OPTION = { xpath: "//*[text()='Event Manage Shop']"}
     const VENDOR_CHECKBOX_SPAN = { xpath: '//tbody//tr//td[2]//label//span' }

@@ -149,7 +149,7 @@
         let addMoney;
 
 
-        let base =  Math.floor(100000 + Math.random() * 900000);
+        let base = 738194 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -206,7 +206,7 @@
             await driver.quit()
         })
 
-        it('should create new account on microsites with username and password, verify and login', async function() {
+      /*  it('should create new account on microsites with username and password, verify and login', async function() {
             events = new EventsPage(driver);
             createAccount = new CreateAccountModal(driver);
             inbox = new Inbox(driver);
@@ -1199,7 +1199,8 @@
             await tickets.assertSoldOutMessageIsDisplayedInMicroByTicket(ticketOneName);
 
         });
-            //EMBED
+
+        //EMBED
         it('should check that if available tickets are less then 100 the tickets dropdown in embed is the same that number', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
@@ -1236,7 +1237,8 @@
             await embedTickets.assertDropDownElementsEqualsAvailableTickets(availableTickets)
 
         });
-            //EMBED
+
+        //EMBED
         it('should check that if available tickets are more then 100 the tickets dropdown in embed is limited to 100', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
@@ -1272,7 +1274,8 @@
             await embedTickets.assertDropDownElementsEquals("100");
 
         });
-            //EMBED
+
+        //EMBED
         it('should limit the tickets per account and check if all dropdowns are at that maximum in the embed', async function () {
 
             portalLogin = new PortalLoginPage(driver);
@@ -1310,7 +1313,8 @@
             await main.isInFrame(eventName);
             await embedTickets.assertDropDownElementsEquals("26");
         });
-            // PORTAL -> EMBED
+
+        // PORTAL -> EMBED
         it('should get exceeding limitation message when user have already purchased tickets and asks for more then limit', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
@@ -1588,11 +1592,10 @@
 
             console.log( " Completed Successfully ")
 
-        });
+        });*/
 
 
 
-/*
 
 
 
@@ -1654,11 +1657,11 @@
                     await createEvent.createEventModalIsDisplayed();
                     await createEvent.fillFormWithValidDataAndSave(eventName,shortName);
 
-                    /!*await dashboard.clickMyEventsTab();
+                    /*await dashboard.clickMyEventsTab();
                     await myEvents.eventsTableIsDisplayed();
                     await myEvents.createdEventIsInTheTable(eventName);
                     await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-                    await eventOptionTabs.ticketingTabIsDisplayed();*!/
+                    await eventOptionTabs.ticketingTabIsDisplayed();*/
 
                     await eventOptionTabs.ticketingTabIsDisplayed();
                     await eventOptionTabs.clickDesignNav();
@@ -1702,9 +1705,9 @@
                     await eventOptionTabs.clickSettingsNav();
                     await ticketTerms.termsPageIsDisplayed();
                     await ticketTerms.saveTerms();
-                    await settingsNav.taxesAndFeesSubTabIsDisplayed();
+                    /*await settingsNav.taxesAndFeesSubTabIsDisplayed();
                     await settingsNav.clickTaxesAndFeesSubNav();
-                    await taxesAndFees.createTaxesAndFeesForEventTickets();
+                    await taxesAndFees.createTaxesAndFeesForEventTickets();*/
                     await eventOptionTabs.ticketingTabIsDisplayed();
                     await eventOptionTabs.clickPromotionsTab();
                     await promotions.promotionsHeaderIsVisible();
@@ -1734,7 +1737,7 @@
                     await newPromotion.createPromotionWith100discountForAllTickets(ticketOneName, promoFiveName, promoCodeFive);
                     await promotions.promotionsHeaderIsVisible();
                     await eventOptionTabs.ticketingTabIsDisplayed();
-                    /!*await eventOptionTabs.clickTicketingTab();
+                    /*await eventOptionTabs.clickTicketingTab();
                     await ticketsNav.clickAddTicketButton();
                     await createTicket.ticketNameInputIsDisplayed();
                     await createTicket.createStaffTicket(staffTicket,"3");
@@ -1742,7 +1745,7 @@
                     await ticketsNav.clickActivateTicketToggle(staffTicket);
                     await ticketsNav.activateTicketModalIsDisplayed();
                     await ticketsNav.confirmActivationButton();
-                    await eventOptionTabs.ticketingTabIsDisplayed();*!/
+                    await eventOptionTabs.ticketingTabIsDisplayed();*/
 
 
                 });
@@ -1786,9 +1789,9 @@
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.termsButtonPresent();
-            /!*await ticketing.clickTermsButton();
+            /*await ticketing.clickTermsButton();
             await terms.ticketTermsModalIsDisplayed();
-            await terms.clickCloseTermsModalButton();*!/
+            await terms.clickCloseTermsModalButton();*/
 
             await ticketing.nextButtonPresent();
             await tickets.clickFirstIncreaseButton();
@@ -1831,9 +1834,9 @@
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.termsButtonPresent();
-            /!*await ticketing.clickTermsButton();
+            /*await ticketing.clickTermsButton();
             await terms.ticketTermsModalIsDisplayed();
-            await terms.clickCloseTermsModalButton();*!/
+            await terms.clickCloseTermsModalButton();*/
 
             await ticketing.nextButtonPresent();
             await tickets.sendKeysToQtyInput(0,"3");
@@ -1876,9 +1879,9 @@
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.termsButtonPresent();
-            /!*await ticketing.clickTermsButton();
+            /*await ticketing.clickTermsButton();
             await terms.ticketTermsModalIsDisplayed();
-            await terms.clickCloseTermsModalButton();*!/
+            await terms.clickCloseTermsModalButton();*/
 
             await ticketing.nextButtonPresent();
             await tickets.clickIncreaseQtyButtonByIndex(1);
@@ -2343,7 +2346,7 @@
              await activityTab.verifyElementsOnActivitiesTab();
          });
 
-        it('Should check for taxes and fees names and values in portal and microsites', async function (){
+        /*it('Should check for taxes and fees names and values in portal and microsites', async function (){
 
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
@@ -2400,7 +2403,7 @@
             //assert.equal(firstFeeLabel,fee1NameSubstring + ' ('+fee1value+')')  the $ value doesnt appear on hover when qty is 0
             assert.equal(secondFeeLabel,fee2NameSubstring + ' ('+fee2value+')')
 
-        });
+        });*/
 
         it('Should invite vendor ', async function () {
             portalLogin = new PortalLoginPage(driver);
@@ -2451,7 +2454,8 @@
             await myMenus.createNewSection("Meat & Snacks", 1, 2);
             await myMenus.createNewSection("Desserts", 2, 3);
             await myMenus.createBeerStoutMenuItem();
-            await myMenus.dragMenuItemToMenuSection();
+            await myMenus.createRedWineMenuItem();
+            //await myMenus.dragMenuItemToMenuSection();
             await driver.sleep(2500)
 
         });
@@ -2682,7 +2686,7 @@
             await bosTickets.addNewQuantityAndSetNewPrice();
         });
 
-        /!*it('Should assert proper color and values', async function () {
+        /*it('Should assert proper color and values', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             createEvent = new CreateEventModal(driver);
@@ -2708,7 +2712,7 @@
             await bosTickets.isOnBoxOfficePage();
             //await bosTickets.isOnBoxOfficePage();
             await bosTickets.assertNewPriceAndQuantity();
-        });*!/
+        });*/
 
         it('Should make purchase with promotion in box-ofice', async function () {
             portalLogin = new PortalLoginPage(driver);
@@ -3833,7 +3837,6 @@
             await eventOrders.filterByAllStatusOptionsAndAssertValues();
 
         });
-*/
     });
 
 

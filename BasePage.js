@@ -656,6 +656,7 @@
     }
 
     async conditionalClick(locator1, locator2, locator3){
+          await this.timeout(10000)
         let first = await this.findAll(locator1);
         console.log(first.length)
         if (first.length > 0){

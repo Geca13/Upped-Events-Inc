@@ -29,5 +29,20 @@
             await this.click(ZOOM_OUT_BUTTON);
             await this.dragAndDropElementByOffset(MOVE_BLOCK, 0,90);
         }
+        async setVranecImageToCenter(){
+            await this.click(ZOOM_OUT_BUTTON);
+            await this.click(ZOOM_OUT_BUTTON);
+            await this.click(ZOOM_OUT_BUTTON);
+            await this.click(ZOOM_OUT_BUTTON);
+            await this.click(ZOOM_OUT_BUTTON);
+            await this.click(ZOOM_OUT_BUTTON);
+            await this.click(ZOOM_OUT_BUTTON);
+            await this.click(ZOOM_OUT_BUTTON);
+            await this.dragAndDropElementByOffset(MOVE_BLOCK, 0,90);
+        }
+        async setWhiskeyImageToCenter(){
+            await this.click(ZOOM_OUT_BUTTON);
+            await this.dragAndDropElementByOffset(MOVE_BLOCK, 0,40);
+        }
     }
     module.exports = SetImageModal;
