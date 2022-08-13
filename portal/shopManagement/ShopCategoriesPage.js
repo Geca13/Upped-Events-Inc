@@ -30,7 +30,7 @@
         async move6CategoriesFromPotentialToOrdered(){
             await this.isAtShopCategoriesPage();
             await this.timeout(500);
-            //await this.dragAndDropWithElements(BEER_CATEGORY,SELECTED_CATEGORIES_BOX);
+            await this.dragAndDropWithElements(BEER_CATEGORY,SELECTED_CATEGORIES_BOX);
             await this.timeout(500);
             await this.dragAndDropWithElements(WINE_CATEGORY,SELECTED_CATEGORIES_BOX);
             await this.timeout(500);

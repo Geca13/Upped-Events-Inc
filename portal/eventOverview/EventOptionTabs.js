@@ -42,6 +42,8 @@
             await this.click(PRIMARY_CONTACT_NAV);
         }
         async clickDesignNav(){
+            await this.isDisplayed(DESIGN_NAV, 5000);
+            await this.timeout(500);
             await this.moveToElement(DESIGN_NAV)
             await this.click(DESIGN_NAV);
         }

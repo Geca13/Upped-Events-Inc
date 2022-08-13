@@ -49,9 +49,9 @@
             await this.fillUserData(base)
             await this.click(PLACE_ORDER_BUTTON);
             await this.isDisplayed(CONFIRMATION_MODAL,55000);
-            await this.driver.sleep(1000);
+            await this.timeout(1000);
             await this.confirmElementsForPayment(base);
-            await this.driver.sleep(1000);
+            await this.timeout(1000);
         }
         async confirmElementsForPayment(base){
             let header = await this.getElementText(SUCCESS_ON_CONFIRM_MODAL);

@@ -33,6 +33,7 @@
             await this.click(PAY_WITH_SERVICE_TAB);
         }
         async clickPayWithCardButton(){
+            await this.timeout(500);
             await this.click(PAY_WITH_CARD_BUTTON);
         }
         async clickPayWithWalletOption(){

@@ -50,7 +50,6 @@
     const BOAddExtras = require('../portal/ticketing/BoxOffice/BOAddExtras');
     const BOAddDetails = require('../portal/ticketing/BoxOffice/BOAddDetails');
     const BOReviewAndPay = require('../portal/ticketing/BoxOffice/BOReviewAndPay');
-    const Wordpress = require('../embed/embedPages/Wordpress')
     const EmbedMainPage = require("../embed/embedPages/EmbedMainPage");
     const TicketsComponent = require("../embed/embedComponents/TicketsComponent");
     const SummaryComponent = require("../embed/embedComponents/SummaryComponent");
@@ -71,6 +70,8 @@
     const ResetPasswordPage = require("../microsites/micrositesPages/ResetPasswordPage");
     const LoginTab = require("../microsites/micrositesComponents/LoginTab")
     const CreateAccountPage = require("../embed/embedPages/CreateAccountPage");
+    const EmbeddingPage = require("../portal/eventOverview/DesignNav/EmbeddingPage")
+    const Files = require('../dummy/Files')
 
     describe('Should do everything', function () {
         this.timeout(500000);
@@ -147,9 +148,11 @@
         let loginTab;
         let embedCreate;
         let addMoney;
+        let embedding;
+        let files;
 
 
-        let base = 738194 // Math.floor(100000 + Math.random() * 900000);
+        let base =  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -206,7 +209,7 @@
             await driver.quit()
         })
 
-      /*  it('should create new account on microsites with username and password, verify and login', async function() {
+        /*it('should create new account on microsites with username and password, verify and login', async function() {
             events = new EventsPage(driver);
             createAccount = new CreateAccountModal(driver);
             inbox = new Inbox(driver);
@@ -422,11 +425,41 @@
 
         });
 
+        it('should make embed view for event', async function () {
+            events = new EventsPage(driver);
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            embedding = new EmbeddingPage(driver);
+            files = new Files(driver);
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await driver.sleep(1000);
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventOptionTabs.clickDesignNav();
+            await embedding.isOnEmbeddingTab();
+            let text = await embedding.setEmbedViewForEvent();
+            console.log(text)
+            await files.openDummyPage();
+            await files.loginToDummy();
+            await files.clickIndexHtmlLink();
+            await files.editCode(text);
+
+
+        });
+
         //EMBED
         it('should get no tickets available message on embed when tickets are not activated ',async function () {
 
             main = new EmbedMainPage(driver);
-
             await main.openEmbedPage();
             await main.switchToIframe();
             await main.isInFrame(eventName);
@@ -1357,6 +1390,89 @@
             await addMoney.addMoneyComponentIsDisplayed();
         });
 
+        // PORTAL -> EMBED
+        it('should assert that ticket terms elements in embed are not displayed when not created in portal', async function () {
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedLogin = new LoginPage(driver);
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            ticketsNav = new TicketsNav(driver);
+            eventTickets = new EventTickets(driver);
+            ticketTerms = new TicketTermsPage(driver);
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab()
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await eventTickets.clickSettingsTab();
+            await ticketTerms.termsPageIsDisplayed();
+            await ticketTerms.assertTicketTermsIsEmpty();
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.ticketTermsCheckBoxAndLabelAreNotDisplayed();
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await main.ticketTermsCheckBoxAndLabelAreNotDisplayed()
+
+        });
+
+        // PORTAL
+        it('should set ticket terms in the portal and assert entered tags and text', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            ticketsNav = new TicketsNav(driver);
+            eventTickets = new EventTickets(driver);
+            ticketTerms = new TicketTermsPage(driver);
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab()
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await eventTickets.clickSettingsTab();
+            await ticketTerms.termsPageIsDisplayed();
+            await ticketTerms.saveTerms();
+            await ticketTerms.assertElementsInTheTermsBoxAfterSavingTerms();
+        });
+
+        // EMBED
+        it('should assert that ticket terms are displayed only when user is logged in', async function () {
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedLogin = new LoginPage(driver);
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.ticketTermsCheckBoxAndLabelAreNotDisplayed();
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await main.ticketTermsCheckBoxAndLabelAreDisplayed();
+
+        });
+
         it('should calculate subtotal and total on multiple tickets with multiple quantity on each with tax and fee', async function () {
 
             portalLogin = new PortalLoginPage(driver);
@@ -1592,10 +1708,9 @@
 
             console.log( " Completed Successfully ")
 
-        });*/
+        });
 
-
-
+*/
 
 
 
@@ -2455,6 +2570,7 @@
             await myMenus.createNewSection("Desserts", 2, 3);
             await myMenus.createBeerStoutMenuItem();
             await myMenus.createRedWineMenuItem();
+            await myMenus.createWhiskeyMenuItem();
             //await myMenus.dragMenuItemToMenuSection();
             await driver.sleep(2500)
 

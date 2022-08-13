@@ -1,4 +1,6 @@
     const BasePage = require('../../../BasePage');
+    const { By } = require("selenium-webdriver");
+    const assert = require('assert')
     const TEXT_SELECTOR_PARAGRAPH = { xpath: "//*[text()='Paragraph']"}
     const TEXT_SELECTOR_HEADING_1 = { xpath: "//*[text()='Heading 1']"}
     const TEXT_SELECTOR_HEADING_2 = { xpath: "//*[text()='Heading 2']"}
@@ -69,6 +71,37 @@
             await this.createBoldHeader1Term();
             await this.createItalicParagraph();
             await this.clickSaveTermButton();
+            await this.timeout(1000);
+        }
+
+        async assertTicketTermsIsEmpty(){
+            await this.timeout(500);
+            let emptyTextBox = await this.getElementText(TICKET_TERMS_INPUT);
+            assert.equal(emptyTextBox, "");
+        }
+
+        async assertElementsInTheTermsBoxAfterSavingTerms(){
+            let textBox = await this.find(TICKET_TERMS_INPUT);
+            let header1 = await textBox.findElement(By.css("*:first-child"));
+            let headerTag = await header1.getTagName()
+            assert.equal(headerTag, "h2");
+            let strongHeader = await header1.findElement(By.css("*:first-child"));
+            let strongTag = await strongHeader.getTagName()
+            assert.equal(strongTag, "strong");
+            let paragraph = await textBox.findElement(By.css("*:nth-child(2)"));
+            let paragraphTag = await paragraph.getTagName()
+            assert.equal(paragraphTag, "p");
+            let italic = await paragraph.findElement(By.css("*:first-child"));
+            let italicTag = await italic.getTagName();
+            assert.equal(italicTag, "i");
+            let strongItalic = await italic.findElement(By.css("*:first-child"));
+            let strongItalicTag = await strongItalic.getTagName();
+            assert.equal(strongItalicTag, "strong");
+            let strongHeaderText = await strongHeader.getText();
+            assert.equal(strongHeaderText, "Bold Heading 1");
+            let strongItalicText = await strongItalic.getText();
+            assert.equal(strongItalicText, "Italic Paragraph");
+
         }
     }
     module.exports = TicketTermsPage;

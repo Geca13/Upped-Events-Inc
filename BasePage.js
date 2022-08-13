@@ -187,6 +187,7 @@
     async clearInputField(locator){
         let element = await this.find(locator);
         await element.clear();
+        await this.timeout(500)
     }
     async clearInputFieldByIndex(locator,index){
         let elements = await this.findAll(locator);

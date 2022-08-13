@@ -54,9 +54,7 @@
             await this.isDisplayed(TICKETS_NAMES,5000);
             await this.timeout(2000);
             let names = await this.returnElementsCount(TICKETS_NAMES)
-            console.log(names)
             let i = index;
-            console.log(i)
             await this.timeout(1000);
             await this.driver.executeScript(`document.getElementsByClassName('ticket-price')[${i}].style.visibility='hidden'`);
             await this.timeout(1000);

@@ -12,10 +12,11 @@
    const CHANGE_LOGIN_MESSAGE = { className: 'change-account' }
    const CHANGE_LOGIN_LINK = { className: 'change' }
    const EVENT_INFO_BANNER = { className: 'event-info' }
+   const TERMS_LABEL = { xpath: "//label[@for='isSavedCheck']"}
    const EVENT_NAME = { className: 'event-title' }
    const NO_TICKETS_MESSAGE = { xpath: "//p[contains(@class, 'pt-5')]" }
    const SOLD_OUT_MESSAGE = { xpath: "//div[contains(@class , 'quantity-container')]//span" }
-
+   const LOWER_ELEMENT = { className: "viewer"}
 
    class EmbedMainPage extends BasePage {
       constructor(driver) {
@@ -23,13 +24,16 @@
       }
 
       async openEmbedPage(){
-         await this.visit('https://www.uppedevents.com/embed-testing-direct/');
-
+         await this.visit('https://dummy.dev.uppedevents.com/');
       }
       async switchToIframe(){
          await this.isDisplayed(IFRAME , 20000)
          await this.switchToAnIframe(IFRAME);
+
+
       }
+
+
 
       async getNewlyOpenedTab(originalWindow){
            await this.switchToNewlyOpenedWindowOrTab(originalWindow);
@@ -41,6 +45,7 @@
          await this.isDisplayed(EVENT_NAME,5000);
          let extractedEventName = await this.getElementText(EVENT_NAME);
          assert.equal(eventName,extractedEventName)
+         await this.timeout(5000)
 
       }
 
@@ -54,6 +59,21 @@
          await this.isDisplayed(SOLD_OUT_MESSAGE,5000);
          let message = await this.getElementText(SOLD_OUT_MESSAGE);
          assert.equal(message, "Sold out!");
+      }
+
+      async ticketTermsCheckBoxAndLabelAreNotDisplayed(){
+         let termsCheckbox = await this.returnElementsCount(TERMS_CHECKBOX)
+         assert.equal(termsCheckbox, 0);
+         let termsLabel = await this.returnElementsCount(TERMS_LABEL);
+         assert.equal(termsLabel, 0);
+         await this.timeout(1000);
+      }
+
+      async ticketTermsCheckBoxAndLabelAreDisplayed(){
+         let termsCheckbox = await this.returnElementsCount(TERMS_CHECKBOX)
+         assert.equal(termsCheckbox, 1);
+         let termsLabel = await this.returnElementsCount(TERMS_LABEL);
+         assert.equal(termsLabel, 1);
       }
 
       async clickTicketTermsCheckbox(){

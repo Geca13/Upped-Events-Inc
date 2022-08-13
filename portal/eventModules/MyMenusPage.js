@@ -115,6 +115,7 @@
         }
 
         async createNewSection(sectionName, sectionIndex, editIconIndex){
+            await this.timeout(1500);
             await this.click(ADD_NEW_SECTION_BUTTON);
             await this.timeout(1500);
             await this.isDisplayedFromArray(SECTION_TITLE_INPUT,sectionIndex,5000);
