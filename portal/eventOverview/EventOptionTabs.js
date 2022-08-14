@@ -49,6 +49,7 @@
         }
 
         async clickGeneralDetailsNav(){
+           await this.moveToElement(GENERAL_DETAILS_NAV)
            await this.click(GENERAL_DETAILS_NAV);
         }
         async ticketingTabIsDisplayed(){

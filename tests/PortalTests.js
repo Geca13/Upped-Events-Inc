@@ -1,4 +1,4 @@
-    const { Builder, By } = require('selenium-webdriver');
+    const { Builder, By, Key} = require('selenium-webdriver');
     const assert = require('assert')
     const Inbox = require("../Inbox/Inbox")
     const PortalLoginPage = require('../portal/portalPages/PortalLoginPage');
@@ -70,7 +70,8 @@
     const ResetPasswordPage = require("../microsites/micrositesPages/ResetPasswordPage");
     const LoginTab = require("../microsites/micrositesComponents/LoginTab")
     const CreateAccountPage = require("../embed/embedPages/CreateAccountPage");
-    const EmbeddingPage = require("../portal/eventOverview/DesignNav/EmbeddingPage")
+    const EmbeddingPage = require("../portal/eventOverview/DesignNav/EmbeddingPage");
+    const EmbedTicketTermsModal = require('../embed/embedComponents/EmbedTicketTermsModal');
     const Files = require('../dummy/Files')
 
     describe('Should do everything', function () {
@@ -150,9 +151,10 @@
         let addMoney;
         let embedding;
         let files;
+        let termsModal;
 
 
-        let base =  Math.floor(100000 + Math.random() * 900000);
+        let base = 707045 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -209,7 +211,7 @@
             await driver.quit()
         })
 
-        /*it('should create new account on microsites with username and password, verify and login', async function() {
+        it('should create new account on microsites with username and password, verify and login', async function() {
             events = new EventsPage(driver);
             createAccount = new CreateAccountModal(driver);
             inbox = new Inbox(driver);
@@ -426,7 +428,6 @@
         });
 
         it('should make embed view for event', async function () {
-            events = new EventsPage(driver);
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
@@ -434,6 +435,7 @@
             eventOptionTabs = new EventOptionTabs(driver);
             embedding = new EmbeddingPage(driver);
             files = new Files(driver);
+            main = new EmbedMainPage(driver);
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await driver.sleep(1000);
@@ -446,12 +448,18 @@
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventOptionTabs.clickDesignNav();
             await embedding.isOnEmbeddingTab();
-            let text = await embedding.setEmbedViewForEvent();
-            console.log(text)
+            await embedding.setEmbedViewForEvent();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickGeneralDetailsNav();
+            await eventDetails.unpublishButtonIsDisplayed();
+            let text = await eventDetails.getEmbedScriptVariable();
             await files.openDummyPage();
             await files.loginToDummy();
             await files.clickIndexHtmlLink();
             await files.editCode(text);
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
 
 
         });
@@ -1473,6 +1481,35 @@
 
         });
 
+        // EMBED
+        it('should assert correct ticket terms behaviour and image placeholder', async function () {
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedLogin = new LoginPage(driver);
+            termsModal = new EmbedTicketTermsModal(driver);
+            addMoney = new AddMoneyComponent(driver)
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await main.ticketTermsLabelIsDisplayedAndAssertText();
+            await main.assertLabelColorChangedToRedAfterClickNextAndNoTicketsSelected();
+            await main.clickTermsLabel();
+            await termsModal.checkFirstTicketTermsScenarioElementsAndClose();
+            await main.clickTermsCheckboxAndAssertFontColorIsBlack();
+            await main.clickTermsLabel();
+            await termsModal.termsModalIsDisplayed();
+            await main.clickTermsLabel();
+            await termsModal.termsModalIsNotDisplayed();
+            await embedTickets.sentKeysToTicketInput(0, 2);
+            await main.clickNextPageButton();
+            await addMoney.addMoneyComponentIsDisplayed();
+
+        });
+
         it('should calculate subtotal and total on multiple tickets with multiple quantity on each with tax and fee', async function () {
 
             portalLogin = new PortalLoginPage(driver);
@@ -1710,12 +1747,11 @@
 
         });
 
-*/
 
 
 
 
-
+/*
         it('should create new account on microsites with username and password, verify and login', async function() {
             events = new EventsPage(driver);
             createAccount = new CreateAccountModal(driver);
@@ -1772,11 +1808,11 @@
                     await createEvent.createEventModalIsDisplayed();
                     await createEvent.fillFormWithValidDataAndSave(eventName,shortName);
 
-                    /*await dashboard.clickMyEventsTab();
+                    /!*await dashboard.clickMyEventsTab();
                     await myEvents.eventsTableIsDisplayed();
                     await myEvents.createdEventIsInTheTable(eventName);
                     await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-                    await eventOptionTabs.ticketingTabIsDisplayed();*/
+                    await eventOptionTabs.ticketingTabIsDisplayed();*!/
 
                     await eventOptionTabs.ticketingTabIsDisplayed();
                     await eventOptionTabs.clickDesignNav();
@@ -1820,9 +1856,9 @@
                     await eventOptionTabs.clickSettingsNav();
                     await ticketTerms.termsPageIsDisplayed();
                     await ticketTerms.saveTerms();
-                    /*await settingsNav.taxesAndFeesSubTabIsDisplayed();
+                    /!*await settingsNav.taxesAndFeesSubTabIsDisplayed();
                     await settingsNav.clickTaxesAndFeesSubNav();
-                    await taxesAndFees.createTaxesAndFeesForEventTickets();*/
+                    await taxesAndFees.createTaxesAndFeesForEventTickets();*!/
                     await eventOptionTabs.ticketingTabIsDisplayed();
                     await eventOptionTabs.clickPromotionsTab();
                     await promotions.promotionsHeaderIsVisible();
@@ -1852,7 +1888,7 @@
                     await newPromotion.createPromotionWith100discountForAllTickets(ticketOneName, promoFiveName, promoCodeFive);
                     await promotions.promotionsHeaderIsVisible();
                     await eventOptionTabs.ticketingTabIsDisplayed();
-                    /*await eventOptionTabs.clickTicketingTab();
+                    /!*await eventOptionTabs.clickTicketingTab();
                     await ticketsNav.clickAddTicketButton();
                     await createTicket.ticketNameInputIsDisplayed();
                     await createTicket.createStaffTicket(staffTicket,"3");
@@ -1860,7 +1896,7 @@
                     await ticketsNav.clickActivateTicketToggle(staffTicket);
                     await ticketsNav.activateTicketModalIsDisplayed();
                     await ticketsNav.confirmActivationButton();
-                    await eventOptionTabs.ticketingTabIsDisplayed();*/
+                    await eventOptionTabs.ticketingTabIsDisplayed();*!/
 
 
                 });
@@ -1904,9 +1940,9 @@
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.termsButtonPresent();
-            /*await ticketing.clickTermsButton();
+            /!*await ticketing.clickTermsButton();
             await terms.ticketTermsModalIsDisplayed();
-            await terms.clickCloseTermsModalButton();*/
+            await terms.clickCloseTermsModalButton();*!/
 
             await ticketing.nextButtonPresent();
             await tickets.clickFirstIncreaseButton();
@@ -1949,9 +1985,9 @@
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.termsButtonPresent();
-            /*await ticketing.clickTermsButton();
+            /!*await ticketing.clickTermsButton();
             await terms.ticketTermsModalIsDisplayed();
-            await terms.clickCloseTermsModalButton();*/
+            await terms.clickCloseTermsModalButton();*!/
 
             await ticketing.nextButtonPresent();
             await tickets.sendKeysToQtyInput(0,"3");
@@ -1994,9 +2030,9 @@
             await info.buyTicketsButtonPresent();
             await info.clickBuyTicketsButton();
             await ticketing.termsButtonPresent();
-            /*await ticketing.clickTermsButton();
+            /!*await ticketing.clickTermsButton();
             await terms.ticketTermsModalIsDisplayed();
-            await terms.clickCloseTermsModalButton();*/
+            await terms.clickCloseTermsModalButton();*!/
 
             await ticketing.nextButtonPresent();
             await tickets.clickIncreaseQtyButtonByIndex(1);
@@ -2461,7 +2497,7 @@
              await activityTab.verifyElementsOnActivitiesTab();
          });
 
-        /*it('Should check for taxes and fees names and values in portal and microsites', async function (){
+        /!*it('Should check for taxes and fees names and values in portal and microsites', async function (){
 
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
@@ -2518,7 +2554,7 @@
             //assert.equal(firstFeeLabel,fee1NameSubstring + ' ('+fee1value+')')  the $ value doesnt appear on hover when qty is 0
             assert.equal(secondFeeLabel,fee2NameSubstring + ' ('+fee2value+')')
 
-        });*/
+        });*!/
 
         it('Should invite vendor ', async function () {
             portalLogin = new PortalLoginPage(driver);
@@ -2802,7 +2838,7 @@
             await bosTickets.addNewQuantityAndSetNewPrice();
         });
 
-        /*it('Should assert proper color and values', async function () {
+        /!*it('Should assert proper color and values', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             createEvent = new CreateEventModal(driver);
@@ -2828,7 +2864,7 @@
             await bosTickets.isOnBoxOfficePage();
             //await bosTickets.isOnBoxOfficePage();
             await bosTickets.assertNewPriceAndQuantity();
-        });*/
+        });*!/
 
         it('Should make purchase with promotion in box-ofice', async function () {
             portalLogin = new PortalLoginPage(driver);
@@ -3952,7 +3988,8 @@
             await eventOrders.isAtTransactionCenterPage();
             await eventOrders.filterByAllStatusOptionsAndAssertValues();
 
-        });
+        });*/
+
     });
 
 

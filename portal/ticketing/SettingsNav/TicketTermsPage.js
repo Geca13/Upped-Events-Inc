@@ -1,5 +1,5 @@
     const BasePage = require('../../../BasePage');
-    const { By } = require("selenium-webdriver");
+    const { By , Key } = require("selenium-webdriver");
     const assert = require('assert')
     const TEXT_SELECTOR_PARAGRAPH = { xpath: "//*[text()='Paragraph']"}
     const TEXT_SELECTOR_HEADING_1 = { xpath: "//*[text()='Heading 1']"}
@@ -13,6 +13,17 @@
     class TicketTermsPage extends BasePage {
         constructor(driver) {
             super(driver);
+        }
+
+        async clearTextArea(){
+            await this.clearInputField(TICKET_TERMS_INPUT);
+            await this.timeout(1500);
+        }
+
+        async completePasteAndGetText(){
+            await this.timeout(500);
+            await this.sentKeys(TICKET_TERMS_INPUT, Key.CONTROL + "v" );
+            await this.timeout(10000);
         }
 
         async termsPageIsDisplayed(){

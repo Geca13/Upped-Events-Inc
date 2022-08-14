@@ -1,6 +1,7 @@
     const BasePage = require('../../BasePage');
     const Alerts = require("../../Validations&Alerts/Alerts")
     const assert = require("assert");
+    const {Key} = require("selenium-webdriver");
     const EVENT_NAME_INPUT = { xpath: "//div[@class='col-md-12']//input[@formcontrolname='eventName']" };
     const EVENT_SHORTNAME_INPUT = { xpath: "//input[@formcontrolname='eventShortName']" };
     const OCCUR_SELECT = { xpath: "//button[@role='combobox']" };
@@ -113,6 +114,18 @@
             let state = await this.returnStateFromAbbreviation(abbreviationSeparation[0]);
             let cityState = firstSeparation[1] + ', ' + state;
             return cityState;
+        }
+
+        async getEmbedScriptVariable(){
+            await this.isDisplayed(EVENT_DESCRIPTION_INPUT, 5000);
+            await this.clearInputField(EVENT_DESCRIPTION_INPUT);
+            await this.timeout(1000);
+            await this.sentKeys(EVENT_DESCRIPTION_INPUT, Key.CONTROL + "v" );
+            await this.timeout(1000);
+            let script = await this.getEventDescription();
+            await this.timeout(1000);
+            return script;
+
         }
     }
     module.exports = GeneralDetailsTab;

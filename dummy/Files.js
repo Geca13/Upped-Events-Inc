@@ -29,27 +29,17 @@
         }
 
         async editCode(text){
-            let first = [];
-            let second = [];
             await this.isDisplayed(EDIT_LINK, 5000);
             await this.timeout(500);
             await this.click(EDIT_LINK);
             await this.isDisplayed(TEXTAREA, 5000);
             await this.clearInputField(TEXTAREA)
-            await this.timeout(2000);
+            await this.timeout(1000);
             let newCode = await this.newCode(text)
             await this.sentKeys(TEXTAREA, newCode);
-            await this.timeout(2000);
-            /*let code = await this.getElementText(TEXTAREA);
-            first = code.split("<header class=\"major\">")
-            second = first[1].split("</header>")
-            let text2 = second[0];
-            //code.replace(text2, text);
-            await this.timeout(5000);
-            let code2 = await this.getElementText(TEXTAREA);
-            //console.log(code2)*/
+            await this.timeout(1000);
             await this.clickElementReturnedFromAnArray(SAVE_BUTTON, 5);
-            await this.timeout(10000);
+            await this.timeout(1000);
 
         }
 
@@ -57,38 +47,38 @@
             return `
          <!DOCTYPE HTML>
 
-<html>
+    <html>
 
-<head>
-  <title> </title>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <meta name="description" content="" />
-  <meta name="keywords" content="" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+    <head>
+    <title> </title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
   <!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
-  <script src="js/jquery.min.js"></script>
-  <script src="js/jquery.dropotron.min.js"></script>
-  <script src="js/jquery.scrollgress.min.js"></script>
-  <script src="js/jquery.scrolly.min.js"></script>
-  <script src="js/jquery.slidertron.min.js"></script>
-  <script src="js/skel.min.js"></script>
-  <script src="js/skel-layers.min.js"></script>
-  <script src="js/init.js"></script>
-  <noscript>
-    <link rel="stylesheet" href="css/skel.css" />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/style-xlarge.css" />
-  </noscript>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.dropotron.min.js"></script>
+    <script src="js/jquery.scrollgress.min.js"></script>
+    <script src="js/jquery.scrolly.min.js"></script>
+    <script src="js/jquery.slidertron.min.js"></script>
+    <script src="js/skel.min.js"></script>
+    <script src="js/skel-layers.min.js"></script>
+    <script src="js/init.js"></script>
+    <noscript>
+     <link rel="stylesheet" href="css/skel.css" />
+     <link rel="stylesheet" href="css/style.css" />
+     <link rel="stylesheet" href="css/style-xlarge.css" />
+    </noscript>
   <!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
   <!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
-</head>
+    </head>
 
-<body class="landing">
+    <body class="landing">
 
-  <!-- Header -->
-  <header id="header" class="alt skel-layers-fixed">
-    <h1><a href="index.html">HTML5 Website <span>by Html5webtemplates.co.uk</span></a></h1>
-    <nav id="nav">
+    <!-- Header -->
+     <header id="header" class="alt skel-layers-fixed">
+      <h1><a href="index.html">HTML5 Website <span>by Html5webtemplates.co.uk</span></a></h1>
+      <nav id="nav">
       <ul>
         <li><a href="index.html">Home</a></li>
         <li>
@@ -111,7 +101,7 @@
         <li><a href="elements.html">Elements</a></li>
       </ul>
     </nav>
-  </header>
+    </header>
 
   
 

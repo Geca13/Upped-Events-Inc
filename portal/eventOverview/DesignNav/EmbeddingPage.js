@@ -1,4 +1,5 @@
     const BasePage = require('../../../BasePage');
+    const {Key} = require("selenium-webdriver");
     const COLOR_PICKER = { xpath: "//input[@type='color']" } //list
     const CARD_TYPE = { className: "rectangle-button" }; //list
     const NEXT_BUTTON = { xpath: "//a[text()='Next']"}
@@ -32,17 +33,7 @@
             await this.sentKeys(WEBSITE_INPUT,"https://dummy.dev.uppedevents.com/");
         }
 
-        async hideScriptNumbers(){
-            let numbers = await this.findAll(LINE_NUMBERS);
-            for( let i = 0; i < numbers.length ; i++) {
-                if (i > 1 || i < 20) {
-                await this.driver.executeScript(`document.getElementsByClassName('CodeMirror-linenumber')[${i}].style.visibility='hidden'`);
-                }
-            }
-        }
-
         async setEmbedViewForEvent(){
-            //let scripts = [];
             await this.isOnEmbeddingTab();
             await this.sentKeysToColorInputByIndex(0, "#ed05f5");
             await this.sentKeysToColorInputByIndex(1, "#0595f5");
@@ -52,33 +43,10 @@
             await this.originWebsite();
             await this.click(GENERATE_BUTTON);
             await this.isDisplayed(COPY_EMBED_ICON, 5000);
-            return "TESTING TEXT REPLACEMENT";
-            //await this.hideScriptNumbers();
-            //let script = await this.getElementText(SCRIPT);
-           /* let array = script.split(" ");
-            for (let i = 0; i < array.length ; i++){
-                if ( await array[i] == "1" ||
-                     await array[i] == "2" ||
-                     await array[i] == "3" ||
-                     await array[i] == "4" ||
-                     await array[i] == "5" ||
-                     await array[i] == "6" ||
-                     await array[i] == "7" ||
-                     await array[i] == "8" ||
-                     await array[i] == "9" ||
-                     await array[i] == "10" ||
-                     await array[i] == "11" ||
-                     await array[i] == "12" ||
-                     await array[i] == "13" ||
-                     await array[i] == "14" ||
-                     await array[i] == "15" ||
-                     await array[i] == "16" ||
-                     await array[i] == "17" ||
-                     await array[i] == "18" ||
-                     await array[i] == "19"
-                ) {scripts.push(array[i])}
-            }
-            console.log(scripts)*/
+            await this.click(COPY_EMBED_ICON);
+            await this.timeout(2000);
+            await this.click(CLOSE_POPUP_BUTTON);
+            await this.timeout(2000);
 
         }
 
