@@ -1,7 +1,8 @@
     const BasePage = require('../../BasePage');
-    const Alerts = require("../../Validations&Alerts/Alerts")
+    const Alerts = require("../../Validations&Alerts/Alerts");
     const assert = require("assert");
     const {Key} = require("selenium-webdriver");
+    const SetImageModal = require('../portalModals/SetImageModal');
     const EVENT_NAME_INPUT = { xpath: "//div[@class='col-md-12']//input[@formcontrolname='eventName']" };
     const EVENT_SHORTNAME_INPUT = { xpath: "//input[@formcontrolname='eventShortName']" };
     const OCCUR_SELECT = { xpath: "//button[@role='combobox']" };
@@ -16,6 +17,10 @@
     const UNPUBLISH_EVENT_BUTTON = { xpath: "//*[text()='Unpublish']"}
     const EVENT_STATUS_LABEL = { className: "estatus"};
     const EVENT_STATUS_PUBLISHED_LABEL = { className: "published"}
+    const EVENT_BANNER_INPUT = { xpath: "//input[@type='file']" }
+    const PREVIEW_IMAGE_WRAPPER = { className: 'preview-img' };
+    const PREVIEW_IMAGE = { xpath: "//div[@class='preview-img']//figure//img" };
+    const DELETE_BANNER_IMAGE_BUTTON = { className: "icon-trash" }
     const SAVE_BUTTON = { xpath: "//button[text()='Save']"};
 
 
@@ -126,6 +131,42 @@
             await this.timeout(1000);
             return script;
 
+        }
+
+        async setBannerImageInThePortalAndAssertElements(){
+
+            await this.moveToElement(EVENT_BANNER_INPUT);
+            await this.sentKeys(EVENT_BANNER_INPUT,"D:\\Upped\\static\\image.jpg");
+            let cropper = new SetImageModal(this.driver);
+            await cropper.setImageModalIsDisplayed();
+            await cropper.clickSetButton();
+            await this.isDisplayed(PREVIEW_IMAGE_WRAPPER);
+            let alerts = new Alerts(this.driver);
+            await alerts.alertInfoMessageIsDisplayed("Files uploaded: (1)");
+            await this.click(SAVE_BUTTON);
+            await alerts.successAlertIsDisplayed("Event saved successfully!")
+            await this.timeout(1000);
+        }
+
+        async removeBannerImageAndAssertPreviewAndAlertAreNotDisplayed(){
+            await this.isDisplayed(PREVIEW_IMAGE_WRAPPER, 5000);
+            await this.moveToElement(PREVIEW_IMAGE_WRAPPER);
+            await this.isDisplayed(DELETE_BANNER_IMAGE_BUTTON, 5000);
+            await this.timeout(500);
+            await this.click(DELETE_BANNER_IMAGE_BUTTON);
+            await this.timeout(500);
+            await this.acceptAlert();
+            await this.timeout(1000);
+            await this.click(SAVE_BUTTON);
+            await this.timeout(1000);
+            let preview = await this.returnElementsCount(PREVIEW_IMAGE_WRAPPER);
+            assert.equal(preview, 0);
+            let alerts = new Alerts(this.driver);
+            await alerts.assertInfoMessageIsNotDisplayed();
+        }
+        async getBannerImageSrc(){
+            let src = await this.returnImgSrcAttribute(PREVIEW_IMAGE);
+            return src;
         }
     }
     module.exports = GeneralDetailsTab;

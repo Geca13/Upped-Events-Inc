@@ -29,6 +29,7 @@
         }
         async donationsSubNavIsDisplayed(){
             await this.isDisplayed(DONATIONS_SUBNAV,5000);
+            await this.timeout(500);
         }
         async makeDonationActive(){
             let donation = new DonationPage(this.driver);

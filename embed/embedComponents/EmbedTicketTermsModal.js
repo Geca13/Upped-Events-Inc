@@ -66,6 +66,10 @@
             await this.timeout(500)
         }
 
+        async assertTicketTermsImageSrcMatchBannerImageSrc(src){
+            let termsImageSrc = await this.returnImgSrcAttribute(TERMS_IMAGE);
+            assert.equal(termsImageSrc, src);
+        }
 
     }
     module.exports = EmbedTicketTermsModal

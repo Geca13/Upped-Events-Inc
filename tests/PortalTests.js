@@ -72,6 +72,8 @@
     const CreateAccountPage = require("../embed/embedPages/CreateAccountPage");
     const EmbeddingPage = require("../portal/eventOverview/DesignNav/EmbeddingPage");
     const EmbedTicketTermsModal = require('../embed/embedComponents/EmbedTicketTermsModal');
+    const DonationPage = require('../portal/eventOverview/SettingsNav/DonationsPage');
+    const EmbedDonateComponent = require('../embed/embedComponents/EmbedDonateComponent')
     const Files = require('../dummy/Files')
 
     describe('Should do everything', function () {
@@ -152,6 +154,8 @@
         let embedding;
         let files;
         let termsModal;
+        let donation;
+        let embedDonate;
 
 
         let base = 707045 // Math.floor(100000 + Math.random() * 900000);
@@ -1509,6 +1513,174 @@
             await addMoney.addMoneyComponentIsDisplayed();
 
         });
+
+        // PORTAL
+        it('should set event banner in the portal', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventDetails.setBannerImageInThePortalAndAssertElements();
+
+        });
+
+        // PORTAL -> EMBED
+        it('should assert event banner image is present in the ticket terms modal', async function () {
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedLogin = new LoginPage(driver);
+            termsModal = new EmbedTicketTermsModal(driver);
+            addMoney = new AddMoneyComponent(driver)
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            let src = await eventDetails.getBannerImageSrc();
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await main.clickTermsLabel();
+            await termsModal.assertTicketTermsImageSrcMatchBannerImageSrc(src);
+
+        });
+
+        // PORTAL
+        it('should remove event banner in the portal', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventDetails.removeBannerImageAndAssertPreviewAndAlertAreNotDisplayed();
+
+        });
+
+        // EMBED
+        it('should assert terms image placeholder is returned after banner is removed in the portal', async function () {
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            termsModal = new EmbedTicketTermsModal(driver);
+            embedTickets = new TicketsComponent(driver);
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await main.ticketTermsLabelIsDisplayedAndAssertText();
+            await main.assertLabelColorChangedToRedAfterClickNextAndNoTicketsSelected();
+            await main.clickTermsLabel();
+            await termsModal.assertImagePlaceholderIsDisplayedInTheModal("https://events.dev.uppedevents.com/assets/images/placeholder2.png");
+
+        });
+
+        //PORTAL
+        it('should assert elements on donation page in portal and enable donations',async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventSettingsNav = new EventSettingsNav(driver);
+            donation = new DonationPage(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickSettingsNav();
+            await eventSettingsNav.donationsSubNavIsDisplayed();
+            await donation.assertElementsOnDonationPageOnStart();
+            await donation.clickCheckboxAndAssertNewElements();
+            await donation.enterDonationMessageAndSaveDonation();
+
+        });
+
+        //PORTAL - > EMBED
+        it('should assert elements on donation page in the embed',async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventSettingsNav = new EventSettingsNav(driver);
+            donation = new DonationPage(driver);
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedDonate = new EmbedDonateComponent(driver)
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickSettingsNav();
+            await eventSettingsNav.donationsSubNavIsDisplayed();
+            let donationMessage = await donation.getDonationMessage();
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInput(0, 2);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedDonate.assertElementsOnDonateTab(eventName, donationMessage);
+        });
+
 
         it('should calculate subtotal and total on multiple tickets with multiple quantity on each with tax and fee', async function () {
 

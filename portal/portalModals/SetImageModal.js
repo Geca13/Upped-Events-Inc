@@ -21,9 +21,11 @@
 
         async setImageModalIsDisplayed(){
             await this.isDisplayed(SET_IMAGE_BUTTON);
+            await this.timeout(500);
         }
         async clickSetButton(){
             await this.click(SET_IMAGE_BUTTON);
+            await this.timeout(500);
         }
         async setHeinekenImageToCenter(){
             await this.click(ZOOM_OUT_BUTTON);

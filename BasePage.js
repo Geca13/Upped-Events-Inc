@@ -556,7 +556,7 @@
          await this.driver.wait(until.alertIsPresent());
          let alert = await this.driver.switchTo().alert();
          await alert.accept();
-         await this.driver.sleep(500);
+         await this.timeout(500);
     }
 
     async getOriginalWindowOrTab(){
