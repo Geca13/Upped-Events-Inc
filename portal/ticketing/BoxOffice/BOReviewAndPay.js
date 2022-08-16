@@ -46,7 +46,7 @@
             await this.sentKeys(EXPIRATION,"August" + Key.TAB + "2025");
             await this.sentKeys(ADDRESS,"Main Street " + base);
             await this.sentKeys(ZIP,"90009");
-            await this.fillUserData(base)
+            await this.fillUserData(base);
             await this.click(PLACE_ORDER_BUTTON);
             await this.isDisplayed(CONFIRMATION_MODAL,55000);
             await this.timeout(1000);
@@ -76,9 +76,9 @@
             await this.fillUserData(base);
             await this.click(PLACE_ORDER_BUTTON);
             await this.isDisplayed(CONFIRMATION_MODAL,55000);
-            await this.driver.sleep(1000);
+            await this.timeout(1000);
             await this.confirmElementsForPayment(base);
-            await this.driver.sleep(1000);
+            await this.timeout(1000);
         }
 
         async fillUserData(base) {
@@ -86,11 +86,12 @@
             await this.sentKeys(LAST_NAME,base);
             await this.sentKeys(BIRTH_DATE,"01012000");
             await this.sentKeys(EMAIL,base+'@'+base+".mk");
-            await this.clickElementReturnedFromAnArray(CHECKBOX,3);
+            await this.clickElementReturnedFromAnArray(CHECKBOX,4);
             await this.sentKeys(ADDITIONAL_EMAIL,base+'ad@ad'+base+".mk");
             await this.click(ADD_BUTTON);
+            await this.timeout(1000);
             await this.isDisplayed(ADDITIONAL_EMAIL_BADGE,5000);
-            await this.driver.sleep(1000);
+            await this.timeout(10000);
 
         }
     }

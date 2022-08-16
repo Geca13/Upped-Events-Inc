@@ -36,6 +36,7 @@
             await this.elementFromArrayOfElementsIsDisplayed(INCREASE_QTY_BUTTONS,0)
             await this.timeout(500)
             await this.click(INCREASE_QTY_BUTTONS);
+            await this.timeout(1000)
         }
 
         async sendKeysToQtyInput(index,qty){

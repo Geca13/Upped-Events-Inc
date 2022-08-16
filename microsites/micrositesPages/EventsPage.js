@@ -109,6 +109,7 @@
     }
     async clickNewEvent(eventName){
         await this.isDisplayed(SHORTNAME,20000);
+        await this.timeout(1000)
         await this.locateElementByTextAndClick(eventName);
     }
     async assertEventIsNotVisible(eventName){

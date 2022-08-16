@@ -124,7 +124,7 @@
 
         async assertMadeChangesAreSavedCorrectly(base){
             await this.isDisplayed(GENDER_SELECT,5000);
-            await this.timeout(500);
+            await this.timeout(1500);
             let genderInput = await this.getEnteredTextInTheInput(GENDER_SELECT);
             let phoneInput = await this.getEnteredTextInTheInput(PHONE_INPUT);
             let addressInput = await this.getEnteredTextInTheInput(ADDRESS_INPUT);

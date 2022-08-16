@@ -11,6 +11,7 @@
     const COPY_EMBED_ICON = { className: "icon-copy" };
     const SCRIPT = { xpath: "//div[@class='CodeMirror-lines']//div[@role='presentation']" }
     const LINE_NUMBERS = { xpath: "//div[contains(@class, 'CodeMirror-linenumber')]"}
+    const TICKETING_ONLY_BUTTON = { xpath: "//*[text()=' Ticketing Only ']"}
 
 
 
@@ -36,8 +37,15 @@
         async setEmbedViewForEvent(){
             await this.isOnEmbeddingTab();
             await this.sentKeysToColorInputByIndex(0, "#ed05f5");
+            await this.timeout(500);
+            await this.click(TICKETING_ONLY_BUTTON);
+            await this.timeout(2000);
             await this.sentKeysToColorInputByIndex(1, "#0595f5");
-            //await this.click(NEXT_BUTTON);
+            await this.timeout(500);
+            await this.click(TICKETING_ONLY_BUTTON);
+            await this.timeout(2000);
+            await this.click(NEXT_BUTTON);
+            await this.timeout(1000);
             await this.isDisplayed(WEBSITE_INPUT);
             await this.moveToElement(WEBSITE_INPUT);
             await this.originWebsite();

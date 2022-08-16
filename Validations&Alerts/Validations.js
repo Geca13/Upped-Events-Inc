@@ -96,6 +96,7 @@
         }
 
         async allValidationsAreDisplayed(){
+            await this.timeout(500);
             await this.firstNameInputValidationIsDisplayed();
             await this.lastNameInputValidationIsDisplayed();
             await this.emailInputValidationIsDisplayed();

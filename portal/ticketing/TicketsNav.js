@@ -96,7 +96,6 @@
             await this.timeout(500)
             let i = await this.returnIndexWhenTextIsKnown(TICKETS_NAMES, name);
             await this.timeout(2000)
-            console.log(i + " i")
             let savedName = await this.getElementTextFromAnArrayByIndex(TICKETS_NAMES, i);
             let savedPrice = await this.getElementTextFromAnArrayByIndex(TICKETS_PRICES, i);
             let savedQuantity = await this.getElementTextFromAnArrayByIndex(TICKETS_QUANTITIES, i);

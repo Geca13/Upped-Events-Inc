@@ -26,13 +26,9 @@
            await this.isDisplayed(WALLET_BALANCE);
            await this.timeout(2000);
            let rawBalance = await this.getElementText(WALLET_BALANCE);
-           console.log(rawBalance + " raw")
            let stringBalance = rawBalance.substring(1);
-           console.log(stringBalance + " str")
            let balance = parseFloat(stringBalance);
-           console.log(balance + " bal")
            let fixed = balance.toFixed(2);
-           console.log(fixed + " fix")
            return fixed;
         }
         async assertUserBalance(amount){

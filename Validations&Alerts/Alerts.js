@@ -33,6 +33,7 @@
         }
     async errorAlertIsDisplayed(text){
         await this.isDisplayed(TOAST_BANNER,15000);
+        await this.timeout(1000)
         let alertTitle = await this.getElementText(TOAST_TITLE);
         assert.equal(alertTitle,'Error');
         let alertMessage = await this.getElementText(TOAST_MESSAGE);

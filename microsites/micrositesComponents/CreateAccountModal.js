@@ -44,12 +44,12 @@
         }
         async secondCreateAccountModalIsDisplayed(){
             await this.isDisplayed(FIRST_NAME_INPUT,5000);
-
-
-
+            await this.timeout(500);
         }
+
         async clickSignUpWithEmailButton(){
-            await this.click(SIGN_UP_WITH_EMAIL_BUTTON)
+            await this.click(SIGN_UP_WITH_EMAIL_BUTTON);
+            await this.timeout(500);
         }
         async createSixNumbersString(){
            return Math.floor(100000 + Math.random() * 900000);
