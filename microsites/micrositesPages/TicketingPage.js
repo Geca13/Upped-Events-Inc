@@ -119,7 +119,7 @@
             await this.nextButtonPresent();
             let rawSubtotal = await this.getElementText(SUBTOTAL_TOTAL_VALUE);
             let subtotal = rawSubtotal.substring(1);
-            let feeSubstring = saved$FeeValue.substring(1);
+            let feeSubstring = saved$FeeValue.substring(2);
             let feeParsed = parseFloat(feeSubstring);
             let totalFees = 3 * feeParsed ;
             let subtotalPlusTaxes = (parseFloat(subtotal) + parseFloat(subtotal) / 100 * savedTaxValue);
@@ -127,7 +127,7 @@
             let total = await this.getElementText(GRAND_TOTAL_VALUE);
             let substringTotal = total.substring(1);
             let floatedTotal = parseFloat(substringTotal);
-            assert.equal(calculatedGrandTotal ,floatedTotal);
+            assert.equal(calculatedGrandTotal.toFixed(2) ,floatedTotal);
         }
 
         async assertTicketsSubtotalMultipliedByTaxesAndFeesForEachTicketEqualsGrandTotalForMultipleTicketsAndQty( savedTaxValue, saved$FeeValue){

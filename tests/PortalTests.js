@@ -158,7 +158,7 @@
         let embedDonate;
 
 
-        let base =  Math.floor(100000 + Math.random() * 900000);
+        let base = 715015 //Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -972,6 +972,8 @@
 
         });
 
+
+
         it('should calculate subtotal and total on one ticket quantity 3 with tax and fee', async function () {
 
             portalLogin = new PortalLoginPage(driver);
@@ -1051,6 +1053,7 @@
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedLogin.clickAgreeButton();
             await embedTickets.ticketListIsDisplayed();
             await summary.assertSummaryEqualsBeforeSignIn( ticketsTotal, ticketsSubtotal, taxes, fees, total);
 
@@ -1679,6 +1682,125 @@
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedDonate.assertElementsOnDonateTab(eventName, donationMessage);
+
+        });
+
+        //EMBED
+        it('should assert when donation button is clicked the amount is visible in donation input in the embed',async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedDonate = new EmbedDonateComponent(driver)
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInput(0, 2);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedDonate.assertCorrectValuesInInputAfterDonationButtonIsClicked(0);
+            await embedDonate.assertCorrectValuesInInputAfterDonationButtonIsClicked(1);
+            await embedDonate.assertCorrectValuesInInputAfterDonationButtonIsClicked(2);
+            await embedDonate.assertCorrectValuesInInputAfterDonationButtonIsClicked(3);
+
+        });
+
+        it('should assert when donation is added to order the amount is visible in Order Total in the embed',async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedDonate = new EmbedDonateComponent(driver)
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInput(0, 2);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedDonate.addDonationToOrderAndAssertDataInOrderTotal(0);
+            await embedDonate.clickResetDonationButtonAndAssertInputIsReset();
+            await embedDonate.addDonationToOrderAndAssertDataInOrderTotal(1);
+            await embedDonate.clickResetDonationButtonAndAssertInputIsReset();
+            await embedDonate.addDonationToOrderAndAssertDataInOrderTotal(2);
+            await embedDonate.clickResetDonationButtonAndAssertInputIsReset();
+            await embedDonate.addDonationToOrderAndAssertDataInOrderTotal(3);
+            await embedDonate.clickResetDonationButtonAndAssertInputIsReset();
+
+        });
+
+        it('should assert when custom donation is added to order the amount is visible in Order Total in the embed',async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedDonate = new EmbedDonateComponent(driver)
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInput(0, 2);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedDonate.addCustomDonationAndAssertIsAddedInOrderTotal();
+
+        });
+
+        it('should assert when  donation is added to order calculates corectly in Order Total in the embed',async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedDonate = new EmbedDonateComponent(driver)
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInput(0, 2);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedDonate.calculateTheOrderTotalAfterDonationIsAdded();
+
+        });
+
+        it('should assert add / reset buttons disabled scenarios',async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedDonate = new EmbedDonateComponent(driver)
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInput(0, 2);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedDonate.checkWhenInputValue0AddDonationButtonIsDisabledAndResetEnabled();
+            await embedDonate.clickOneDonationValueButton(2)
+            await embedDonate.checkWhenInputValueNot0AddDonationButtonIsEnabledAndResetDisabled();
+
         });
 
 

@@ -542,6 +542,29 @@
          await actions.move({duration:2500,origin:element,x:horizontal,y:vertical}).perform();
     }
 
+    async scrollUpOrDown(vertical){
+        await this.driver.executeScript(`window.scrollBy(0,${vertical}), ""`);
+    }
+
+    async scrollToTheBottom(){
+        await this.driver.executeScript("window.scrollBy(0,document.body.scrollHeight)");
+    }
+
+    async scrollToTheTop(){
+        await this.driver.executeScript("window.scrollBy(0,0)");
+    }
+
+    async scrollToView(locator){
+        let element = await this.find(locator)
+        await this.driver.executeScript("arguments[0].scrollIntoView();", element);
+    }
+
+    async scrollToViewByIndex(locator,index){
+        let elements = await this.findAll(locator)
+        let element = await elements[index]
+        await this.driver.executeScript("arguments[0].scrollIntoView();", element);
+    }
+
     async moveToElementWithElement(element) {
          const actions = this.driver.actions({bridge: true});
          await actions.move({duration:2000,origin:element,x:0,y:0}).perform();

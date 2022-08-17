@@ -88,6 +88,7 @@
 
       }
       async clickNextPageButton(){
+         await this.moveToElement(NEXT_BUTTON);
         await this.click(NEXT_BUTTON)
          await this.timeout(500);
       }

@@ -26,6 +26,7 @@
     async successAlertIsDisplayed(text){
         await this.isDisplayed(TOAST_BANNER,5000);
         let alertTitle = await this.getElementText(TOAST_TITLE);
+        await this.timeout(1000);
         assert.equal(alertTitle,'Success');
         let alertMessage = await this.getElementText(TOAST_MESSAGE);
         assert.equal(text,alertMessage);
