@@ -158,7 +158,7 @@
         let embedDonate;
 
 
-        let base = 715015 //Math.floor(100000 + Math.random() * 900000);
+        let base = 715015 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -801,7 +801,7 @@
             let ticketPrice = await tickets.getFirstTicketStringWith$Price();
             await tickets.clickFirstIncreaseButton();
             await ticketing.assertWhenTicketIsSelectedButNoTaxesAndFeesSubtotalAndTotalEqualTicketPrice(ticketPrice);
-            
+
         });
 
         it('should add excluded tax and check if bayer total is updated in ticket update modal', async function () {
@@ -971,7 +971,6 @@
             await createTicket.assertBuyerTotalEqualsTicketPriceMultipliedByTaxPercentageAndAdded$Fee(savedTaxValue, saved$FeeValue);
 
         });
-
 
 
         it('should calculate subtotal and total on one ticket quantity 3 with tax and fee', async function () {
@@ -1710,6 +1709,7 @@
 
         });
 
+        //EMBED
         it('should assert when donation is added to order the amount is visible in Order Total in the embed',async function () {
 
             main = new EmbedMainPage(driver);
@@ -1738,6 +1738,7 @@
 
         });
 
+        //EMBED
         it('should assert when custom donation is added to order the amount is visible in Order Total in the embed',async function () {
 
             main = new EmbedMainPage(driver);
@@ -1759,7 +1760,8 @@
 
         });
 
-        it('should assert when  donation is added to order calculates corectly in Order Total in the embed',async function () {
+        //EMBED
+        it('should assert when donation is added to order calculates corectly in Order Total in the embed',async function () {
 
             main = new EmbedMainPage(driver);
             embedLogin = new LoginPage(driver);
@@ -1780,6 +1782,7 @@
 
         });
 
+        //EMBED
         it('should assert add / reset buttons disabled scenarios',async function () {
 
             main = new EmbedMainPage(driver);
@@ -1803,22 +1806,15 @@
 
         });
 
-
-        it('should calculate subtotal and total on multiple tickets with multiple quantity on each with tax and fee', async function () {
-
+        //PORTAL
+        it('should table headers on promotions page and elements on add new promotion modal ',async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
             eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            settingsNav = new SettingsNav(driver);
-            taxesAndFees = new TaxesAndFeesPage(driver);
-            eventTickets = new EventTickets(driver)
-            events = new EventsPage(driver);
-            info = new EventInfo(driver);
-            tickets = new TicketsTab(driver);
-            ticketing = new TicketingPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            promotions = new PromotionsPage(driver);
+            newPromotion = new AddNewPromotionModal(driver);
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
@@ -1830,25 +1826,11 @@
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
             await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await eventTickets.clickSettingsTab();
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickTaxesAndFeesSubNav();
-            await taxesAndFees.includeExcludeIsVisible();
-            let savedTaxValue = await taxesAndFees.getFloatNumberForTaxOrFee(1,1);
-            let saved$FeeValue = await taxesAndFees.get$FeeFromInputByIndex(2);
-            await events.load();
-            await events.eventCardIsAvailableToClick();
-            await events.clickNewEvent(shortName);
-            await info.wishListButtonIsDisplayed();
-            await info.clickBuyTicketsButton();
-            await tickets.sendKeysToQtyInput(0,4);
-            await tickets.sendKeysToQtyInput(1,3);
-            await tickets.sendKeysToQtyInput(2,2);
-            await tickets.sendKeysToQtyInput(3,1);
-            await ticketing.assertTicketsSubtotalMultipliedByTaxesAndFeesForEachTicketEqualsGrandTotalForMultipleTicketsAndQty( savedTaxValue, saved$FeeValue);
-
+            await eventOptionTabs.clickPromotionsTab();
+            await promotions.addPromotionButtonIsVisible();
+            await promotions.assertElementsOnPromotionsPageWhenNoPromotions();
+            await promotions.assertElementsOnCreateNewPromotionModal(ticketOneName);
+            await promotions.createNew$ValuePromotionAndAssertData();
 
         });
 
@@ -1899,6 +1881,53 @@
             await ticketsNav.assertTicketNamePriceAndQuantity(ticketTwoName,ticketTwoPrice,ticketTwoQuantity);
             await ticketsNav.assertTicketNamePriceAndQuantity(ticketThreeName,ticketThreePrice,ticketThreeQuantity);
             await ticketsNav.assertTicketNamePriceAndQuantity(ticketFourName,ticketFourPrice,ticketFourQuantity);
+
+        });
+
+        it('should calculate subtotal and total on multiple tickets with multiple quantity on each with tax and fee', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            settingsNav = new SettingsNav(driver);
+            taxesAndFees = new TaxesAndFeesPage(driver);
+            eventTickets = new EventTickets(driver)
+            events = new EventsPage(driver);
+            info = new EventInfo(driver);
+            tickets = new TicketsTab(driver);
+            ticketing = new TicketingPage(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await eventTickets.clickSettingsTab();
+            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await settingsNav.clickTaxesAndFeesSubNav();
+            await taxesAndFees.includeExcludeIsVisible();
+            let savedTaxValue = await taxesAndFees.getFloatNumberForTaxOrFee(1,1);
+            let saved$FeeValue = await taxesAndFees.get$FeeFromInputByIndex(2);
+            await events.load();
+            await events.eventCardIsAvailableToClick();
+            await events.clickNewEvent(shortName);
+            await info.wishListButtonIsDisplayed();
+            await info.clickBuyTicketsButton();
+            await tickets.sendKeysToQtyInput(0,4);
+            await tickets.sendKeysToQtyInput(1,3);
+            await tickets.sendKeysToQtyInput(2,2);
+            await tickets.sendKeysToQtyInput(3,1);
+            await ticketing.assertTicketsSubtotalMultipliedByTaxesAndFeesForEachTicketEqualsGrandTotalForMultipleTicketsAndQty( savedTaxValue, saved$FeeValue);
 
         });
 
@@ -2044,8 +2073,8 @@
 
 
 
-
-      /*  it('should create new account on microsites with username and password, verify and login', async function() {
+/*
+        it('should create new account on microsites with username and password, verify and login', async function() {
             events = new EventsPage(driver);
             createAccount = new CreateAccountModal(driver);
             inbox = new Inbox(driver);
@@ -4315,8 +4344,8 @@
             await eventOrders.isAtTransactionCenterPage();
             await eventOrders.filterByAllStatusOptionsAndAssertValues();
 
-        });
-*/
+        });*/
+
     });
 
 

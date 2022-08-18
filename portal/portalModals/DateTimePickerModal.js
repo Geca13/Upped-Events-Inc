@@ -61,6 +61,7 @@
                 return hour.toString();
             }
         }
+
         async enterTimeNow(){
            let hours = await this.getElementFromAnArrayByIndex(HOUR_MINUTES_INPUTS,0);
            hours.clear();
