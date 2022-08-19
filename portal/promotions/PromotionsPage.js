@@ -30,7 +30,7 @@
             await this.isDisplayed(PROMOTIONS_HEADER,5000)
         }
         async clickAddPromotionButton(){
-            await this.timeout(500);
+            await this.timeout(1500);
             await this.click(ADD_PROMOTION_BUTTON)
         }
         async addPromotionButtonIsVisible(){

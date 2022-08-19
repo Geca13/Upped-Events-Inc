@@ -1,5 +1,5 @@
     const BasePage = require('../../BasePage');
-    const SET_IMAGE_BUTTON = { xpath: "//*[text()=' Set ']"}
+    const SET_IMAGE_BUTTON = { xpath: "//button[text()[normalize-space() = 'Set']]"}
     const CLOSE_MODAL_BUTTON = { xpath: "//*[text()='Cancel']"}
     const ZOOM_IN_BUTTON = { xpath: "//*[text()=' Zoom In ']"}
     const ZOOM_OUT_BUTTON = { xpath: "//*[text()=' Zoom Out ']"}
@@ -21,11 +21,16 @@
 
         async setImageModalIsDisplayed(){
             await this.isDisplayed(SET_IMAGE_BUTTON);
-            await this.timeout(500);
+            await this.timeout(750);
         }
         async clickSetButton(){
             await this.click(SET_IMAGE_BUTTON);
             await this.timeout(500);
+            let set = await this.findAll(SET_IMAGE_BUTTON);
+            if(set.length > 0){
+                await this.click(SET_IMAGE_BUTTON);
+                await this.timeout(1000);
+            }
         }
         async setHeinekenImageToCenter(){
             await this.click(ZOOM_OUT_BUTTON);

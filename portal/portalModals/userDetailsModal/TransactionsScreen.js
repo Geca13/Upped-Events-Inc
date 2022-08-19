@@ -57,7 +57,7 @@
             let cardTotal = await this.getElementTextFromAnArrayByIndex(TOP_CARDS_DATA,0);
             let cardTotalSubstring = cardTotal.substring(1);
             let convertedCardTotal = parseFloat(cardTotalSubstring);
-            let fixedTotal = total.toFixed(2);
+            let fixedTotal = parseFloat(total.toFixed(2));
             assert.equal(fixedTotal ,convertedCardTotal);
         }
 

@@ -1,7 +1,6 @@
 const { Builder, By, Key} = require('selenium-webdriver');
-require("dotenv").config();
 const assert = require('assert')
-const Aol = require("../Inbox/Aol")
+const Inbox = require("../Inbox/Inbox")
 const PortalLoginPage = require('../portal/portalPages/PortalLoginPage');
 const DashboardPage = require('../portal/dashboard/Dashboard');
 const AttendeesTab = require('../portal/eventOverview/AttendeesTab')
@@ -159,25 +158,25 @@ describe('Should do everything', function () {
     let embedDonate;
 
 
-    let base = 673158 // Math.floor(100000 + Math.random() * 900000);
-    let eventName =  base.toString() + " StageEventName";
+    let base =  Math.floor(100000 + Math.random() * 900000);
+    let eventName =  base.toString() + " FullEventName";
     let shortName = base.toString();
     let ticketOneName = base.toString() +"T1";
     let embedTicketQuantity = 2;
     let ticketOneQuantity = 999;
-    let ticketOnePrice = "0.11";
+    let ticketOnePrice = "1";
     let ticketTwoName = base.toString() +"T2";
     let ticketTwoQuantity = 888;
-    let ticketTwoPrice = "0.12";
+    let ticketTwoPrice = "1.2";
     let ticketThreeName = base.toString() +"T3";
     let ticketThreeQuantity = 777;
-    let ticketThreePrice = "0.13";
+    let ticketThreePrice = "0.75";
     let ticketFourName = base.toString() +"T4";
     let ticketFourQuantity = 666;
-    let ticketFourPrice = "0.14";
+    let ticketFourPrice = "0.5";
     let staffTicket = base.toString() +"staff";
-    let ticketStaffQuantity = 15;
-    let ticketStaffPrice = "0.15";
+    let ticketStaffQuantity = 5;
+    let ticketStaffPrice = "0.25";
     let promoOneName = base.toString() +"PN1";
     let promoTwoName = base.toString() +"PN2";
     let promoThreeName = base.toString() +"PN3";
@@ -192,13 +191,13 @@ describe('Should do everything', function () {
     let ticketGroupTwo = base.toString() +"TG2";
     let ticketGroupThree = base.toString() +"TG3";
     let ticketGroupFour = base.toString() +"TG4";
-    let vendorFirstName = "Geca";
-    let vendorLastName = "Upped";
-    let vendorEmail = process.env.AOL_VENDOR_EMAIL
-    let customerFirstName = "Marjan";
-    let customerLastName = "Geca";
-    let customerEmail = process.env.AOL_CUSTOMER_EMAIL
-    let customerPassword = process.env.AOL_PASS;
+    let vendorFirstName = 'vfn'+base.toString();
+    let vendorLastName = 'vln'+base.toString();
+    let vendorEmail = vendorFirstName + '@' + vendorLastName+'.com';
+    let customerFirstName = 'cfn'+base.toString();
+    let customerLastName = 'cln'+base.toString();
+    let customerEmail = customerFirstName + '@' + customerLastName+'.com';
+    let customerPassword = base.toString() + 'Password';
     let userBalance = 0.00;
     let userWalletPurchasesTotal = 0.00;
     let userTotalPurchases = 0.00;
@@ -216,34 +215,33 @@ describe('Should do everything', function () {
         await driver.quit()
     })
 
-
-
-/*
     it('should create new account on microsites with username and password, verify and login', async function() {
         events = new EventsPage(driver);
         createAccount = new CreateAccountModal(driver);
-        inbox = new Aol(driver);
+        inbox = new Inbox(driver);
         login = new LoginComponent(driver);
         originalWindow = inbox.getOriginalWindow();
 
-        await events.loadStaging();
+        await events.load();
         await events.clickSignUpButton();
         await createAccount.firstCreateAccountModalIsDisplayed();
         await createAccount.clickSignUpWithEmailButton();
         await createAccount.secondCreateAccountModalIsDisplayed();
         await createAccount.fillRandomButValidDataAndCreateAccount(customerFirstName,customerLastName,customerEmail,customerPassword);
         await inbox.loadInbox();
-        await inbox.loginToAol();
-        await inbox.clickOnInboxAndOpenEmail(originalWindow);
+        await inbox.elementIsDisplayedInInbox('<'+customerEmail+'>');
+        await inbox.findAndClickTheEmailForNewAccount('<'+customerEmail+'>');
+        await inbox.switchToInboxIFrame();
+        await inbox.verifyEmailButtonIsDisplayed();
         await inbox.verifyEmail();
+        await driver.switchTo().defaultContent();
         await login.getNewlyOpenedTab(originalWindow);
         await login.waitPopupToBeLoaded();
         await login.loginAfterVerifyingAccount(customerPassword);
 
     });
-*/
 
-   /* it('Should create new event,tickets,promotions and make purchases', async function () {
+    it('Should create new event,tickets,promotions and make purchases', async function () {
         portalLogin = new PortalLoginPage(driver);
         dashboard = new DashboardPage(driver);
         createEvent = new CreateEventModal(driver);
@@ -262,20 +260,22 @@ describe('Should do everything', function () {
         eventDesignNavs = new DesignNavs(driver);
 
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await driver.sleep(1000);
-        await portalLogin.enterValidCredentialsForStageAndLogin();
+        await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
+
+
         await dashboard.clickCreateEventButton();
         await createEvent.createEventModalIsDisplayed();
         await createEvent.fillFormWithValidDataAndSave(eventName,shortName);
 
-        /!*await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventOptionTabs.ticketingTabIsDisplayed();*!/
+        /*await dashboard.clickMyEventsTab();
+        await myEvents.eventsTableIsDisplayed();
+        await myEvents.createdEventIsInTheTable(eventName);
+        await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+        await eventOptionTabs.ticketingTabIsDisplayed();*/
 
         await eventOptionTabs.ticketingTabIsDisplayed();
         await eventOptionTabs.clickDesignNav();
@@ -290,28 +290,29 @@ describe('Should do everything', function () {
         await eventOptionTabs.clickTicketingTab();
         await ticketsNav.clickAddTicketButton();
         await createTicket.ticketNameInputIsDisplayed();
-        await createTicket.createNewTicket(ticketOneName,ticketOnePrice,ticketOneQuantity);
+        //await createTicket.createNewTicket(ticketOneName,"5");
+        await createTicket.createNewTicket(ticketOneName,"1.0",ticketOneQuantity);
         await ticketsNav.addTicketButtonIsDisplayed();
         await ticketsNav.createdTicketIsInTheTable(ticketOneName);
         await ticketsNav.clickActivateTicketToggle(ticketOneName);
         await ticketsNav.addTicketButtonIsDisplayed();
         await ticketsNav.clickAddTicketButton();
         await createTicket.ticketNameInputIsDisplayed();
-        await createTicket.createNewTicket(ticketTwoName,ticketTwoPrice,ticketOneQuantity);
+        await createTicket.createNewTicket(ticketTwoName,"1.2",ticketOneQuantity);
         await ticketsNav.addTicketButtonIsDisplayed();
         await ticketsNav.createdTicketIsInTheTable(ticketTwoName);
         await ticketsNav.clickActivateTicketToggle(ticketTwoName);
         await ticketsNav.addTicketButtonIsDisplayed();
         await ticketsNav.clickAddTicketButton();
         await createTicket.ticketNameInputIsDisplayed();
-        await createTicket.createNewTicket(ticketThreeName,ticketThreePrice,ticketOneQuantity);
+        await createTicket.createNewTicket(ticketThreeName,"0.75",ticketOneQuantity);
         await ticketsNav.addTicketButtonIsDisplayed();
         await ticketsNav.createdTicketIsInTheTable(ticketThreeName);
         await ticketsNav.clickActivateTicketToggle(ticketThreeName);
         await ticketsNav.addTicketButtonIsDisplayed();
         await ticketsNav.clickAddTicketButton();
         await createTicket.ticketNameInputIsDisplayed();
-        await createTicket.createNewTicket(ticketFourName,ticketFourPrice,ticketOneQuantity);
+        await createTicket.createNewTicket(ticketFourName,"0.25",ticketOneQuantity);
         await ticketsNav.addTicketButtonIsDisplayed();
         await ticketsNav.createdTicketIsInTheTable(ticketFourName);
         await ticketsNav.clickActivateTicketToggle(ticketFourName);
@@ -320,7 +321,7 @@ describe('Should do everything', function () {
         await ticketTerms.saveTerms();
         await settingsNav.taxesAndFeesSubTabIsDisplayed();
         await settingsNav.clickTaxesAndFeesSubNav();
-        await taxesAndFees.createTaxesAndFeesForStagingEventTickets();
+        await taxesAndFees.createTaxesAndFeesForEventTickets();
         await eventOptionTabs.ticketingTabIsDisplayed();
         await eventOptionTabs.clickPromotionsTab();
         await promotions.promotionsHeaderIsVisible();
@@ -350,24 +351,61 @@ describe('Should do everything', function () {
         await newPromotion.createPromotionWith100discountForAllTickets(ticketOneName, promoFiveName, promoCodeFive);
         await promotions.promotionsHeaderIsVisible();
         await eventOptionTabs.ticketingTabIsDisplayed();
-        /!*await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createStaffTicket(staffTicket,"3");
-            await ticketsNav.createdTicketIsInTheTable(staffTicket);
-            await ticketsNav.clickActivateTicketToggle(staffTicket);
-            await ticketsNav.activateTicketModalIsDisplayed();
-            await ticketsNav.confirmActivationButton();
-            await eventOptionTabs.ticketingTabIsDisplayed();*!/
+        /*await eventOptionTabs.clickTicketingTab();
+        await ticketsNav.clickAddTicketButton();
+        await createTicket.ticketNameInputIsDisplayed();
+        await createTicket.createStaffTicket(staffTicket,"3");
+        await ticketsNav.createdTicketIsInTheTable(staffTicket);
+        await ticketsNav.clickActivateTicketToggle(staffTicket);
+        await ticketsNav.activateTicketModalIsDisplayed();
+        await ticketsNav.confirmActivationButton();
+        await eventOptionTabs.ticketingTabIsDisplayed();*/
 
-    });*/
+    });
+
+    it('should make embed view for event', async function () {
+
+        portalLogin = new PortalLoginPage(driver);
+        dashboard = new DashboardPage(driver);
+        myEvents = new MyEventsPage(driver);
+        eventDetails = new GeneralDetailsTab(driver);
+        eventOptionTabs = new EventOptionTabs(driver);
+        embedding = new EmbeddingPage(driver);
+        files = new Files(driver);
+        main = new EmbedMainPage(driver);
+        await portalLogin.loadPortalUrl();
+        await portalLogin.isAtPortalLoginPage();
+        await driver.sleep(1000);
+        await portalLogin.enterValidCredentialsAndLogin();
+        await dashboard.isAtDashboardPage();
+        await dashboard.clickMyEventsTab();
+        await myEvents.eventsTableIsDisplayed();
+        await driver.sleep(1000);
+        await myEvents.createdEventIsInTheTable(eventName);
+        await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+        await eventOptionTabs.clickDesignNav();
+        await embedding.isOnEmbeddingTab();
+        await embedding.setEmbedViewForEvent();
+        await eventOptionTabs.ticketingTabIsDisplayed();
+        await eventOptionTabs.clickGeneralDetailsNav();
+        await eventDetails.unpublishButtonIsDisplayed();
+        let text = await eventDetails.getEmbedScriptVariable();
+        await files.openDummyPage();
+        await files.loginToDummy();
+        await files.clickIndexHtmlLink();
+        await files.editCode(text);
+        await main.openEmbedPage();
+        await main.switchToIframe();
+        await main.isInFrame(eventName);
+
+    });
 
     it('Should set payment card in customer profile',async function () {
         events = new EventsPage(driver);
         login = new LoginComponent(driver);
         myWallet = new MyWalletTab(driver);
 
-        await events.loadStaging();
+        await events.load();
         await events.clickSignInButton();
         await login.waitPopupToBeLoaded();
         await login.authenticate(customerEmail, customerPassword);
@@ -375,10 +413,10 @@ describe('Should do everything', function () {
         await myWallet.myWalletScreenIsDisplayed();
         userBalance = userBalance + await myWallet.returnBalanceState();
         await myWallet.assertUserBalance('200.00');
-        await myWallet.setNewCardForProfileInStaging(customerFirstName, customerLastName);
+        await myWallet.setNewCardInProfile(customerFirstName, customerLastName);
         await myWallet.checkCardHolderName(customerFirstName, customerLastName);
-        //await myWallet.checkCardBrand("Visa");
-        await myWallet.checkDisplayedCardNumber("8054");
+        await myWallet.checkCardBrand("Visa");
+        await myWallet.checkDisplayedCardNumber("1111");
     });
 
     it('should make purchase with promotion for one ticket',async function () {
@@ -392,7 +430,7 @@ describe('Should do everything', function () {
         confirm = new ConfirmTab(driver);
         newCardComponent = new NewCardComponent(driver);
         terms = new TicketTermsModal(driver);
-        await events.loadStaging();
+        await events.load();
         await events.clickSignInButton();
         await login.waitPopupToBeLoaded();
         await login.authenticate(customerEmail, customerPassword);
@@ -402,8 +440,8 @@ describe('Should do everything', function () {
         await info.clickBuyTicketsButton();
         await ticketing.termsButtonPresent();
         /*await ticketing.clickTermsButton();
-            await terms.ticketTermsModalIsDisplayed();
-            await terms.clickCloseTermsModalButton();*/
+        await terms.ticketTermsModalIsDisplayed();
+        await terms.clickCloseTermsModalButton();*/
 
         await ticketing.nextButtonPresent();
         await tickets.clickFirstIncreaseButton();
@@ -436,7 +474,7 @@ describe('Should do everything', function () {
         confirm = new ConfirmTab(driver);
         newCardComponent = new NewCardComponent(driver);
         terms = new TicketTermsModal(driver);
-        await events.loadStaging();
+        await events.load();
         await events.clickSignInButton();
         await login.waitPopupToBeLoaded();
         await login.authenticate(customerEmail, customerPassword);
@@ -447,8 +485,8 @@ describe('Should do everything', function () {
         await info.clickBuyTicketsButton();
         await ticketing.termsButtonPresent();
         /*await ticketing.clickTermsButton();
-         await terms.ticketTermsModalIsDisplayed();
-         await terms.clickCloseTermsModalButton();*/
+        await terms.ticketTermsModalIsDisplayed();
+        await terms.clickCloseTermsModalButton();*/
 
         await ticketing.nextButtonPresent();
         await tickets.sendKeysToQtyInput(0,"3");
@@ -482,7 +520,7 @@ describe('Should do everything', function () {
         confirm = new ConfirmTab(driver);
         newCardComponent = new NewCardComponent(driver);
         terms = new TicketTermsModal(driver);
-        await events.loadStaging();
+        await events.load();
         await events.clickSignInButton();
         await login.waitPopupToBeLoaded();
         await login.authenticate(customerEmail, customerPassword);
@@ -492,8 +530,8 @@ describe('Should do everything', function () {
         await info.clickBuyTicketsButton();
         await ticketing.termsButtonPresent();
         /*await ticketing.clickTermsButton();
-            await terms.ticketTermsModalIsDisplayed();
-            await terms.clickCloseTermsModalButton();*/
+        await terms.ticketTermsModalIsDisplayed();
+        await terms.clickCloseTermsModalButton();*/
 
         await ticketing.nextButtonPresent();
         await tickets.clickIncreaseQtyButtonByIndex(1);
@@ -522,7 +560,7 @@ describe('Should do everything', function () {
         confirm = new ConfirmTab(driver);
         newCardComponent = new NewCardComponent(driver);
         terms = new TicketTermsModal(driver);
-        await events.loadStaging();
+        await events.load();
         await events.clickSignInButton();
         await login.waitPopupToBeLoaded();
         await login.authenticate(customerEmail, customerPassword);
@@ -539,7 +577,7 @@ describe('Should do everything', function () {
         await pay.savedCardsHeaderIsPresent();
         await pay.clickPayWithNewCardTab();
         await newCardComponent.isAtNewCardTab();
-        await newCardComponent.fillNewCardInStaging(customerFirstName, customerLastName);
+        await newCardComponent.fillNewCardWithValidData();
         await newCardComponent.clickSaveCardCheckbox();
         await pay.payWithCardButtonIsDisplayed();
         await pay.clickPayWithCardButton();
@@ -559,7 +597,7 @@ describe('Should do everything', function () {
         confirm = new ConfirmTab(driver);
         newCardComponent = new NewCardComponent(driver);
         terms = new TicketTermsModal(driver);
-        await events.loadStaging();
+        await events.load();
         await events.clickSignInButton();
         await login.waitPopupToBeLoaded();
         await login.authenticate(customerEmail, customerPassword);
@@ -585,7 +623,7 @@ describe('Should do everything', function () {
         events = new EventsPage(driver);
         login = new LoginComponent(driver);
         myWallet = new MyWalletTab(driver);
-        await events.loadStaging();
+        await events.load();
         await events.clickSignInButton();
         await login.waitPopupToBeLoaded();
         await login.authenticate(customerEmail, customerPassword);
@@ -605,7 +643,7 @@ describe('Should do everything', function () {
         eventDetails = new GeneralDetailsTab(driver);
         ticketsNav = new TicketsNav(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -631,7 +669,7 @@ describe('Should do everything', function () {
         eventDetails = new GeneralDetailsTab(driver);
         ticketsNav = new TicketsNav(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -666,7 +704,7 @@ describe('Should do everything', function () {
         pay = new PayTab(driver);
         confirm = new ConfirmTab(driver);
         myWallet = new MyWalletTab(driver);
-        await events.loadStaging();
+        await events.load();
         await events.clickSignInButton();
         await login.waitPopupToBeLoaded();
         await login.authenticate(customerEmail, customerPassword)
@@ -687,7 +725,7 @@ describe('Should do everything', function () {
         await confirm.isOnConfirmTab();
         userBalance = userBalance - await confirm.getPurchaseTotalAmount();
         userTotalPurchases = userTotalPurchases + await confirm.getPurchaseTotalAmount();
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await driver.sleep(1000);
@@ -702,7 +740,7 @@ describe('Should do everything', function () {
         let refundedAmount = await eventOrders.makeFullRefundWithReinstateTicket();
         userBalance = userBalance + parseFloat(refundedAmount);
         userTotalPurchases = userTotalPurchases - parseFloat(refundedAmount);
-        await events.loadStaging();
+        await events.load();
         await driver.sleep(5000);
         await events.goToWalletPage();
         await myWallet.myWalletScreenIsDisplayed();
@@ -720,7 +758,7 @@ describe('Should do everything', function () {
         attendees = new AttendeesTab(driver);
         userDetails = new UserDetailsModal(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -754,7 +792,7 @@ describe('Should do everything', function () {
         info = new EventInfo(driver);
         ticketing = new TicketingPage(driver);
         tickets = new TicketsTab(driver);
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -811,7 +849,7 @@ describe('Should do everything', function () {
         //await ticketsNav.activateTicketModalIsDisplayed();
         // await ticketsNav.confirmActivationButton();
         await ticketsNav.addTicketButtonIsDisplayed();
-        await events.loadStaging();
+        await events.load();
         await events.clickSignInButton();
         await login.waitPopupToBeLoaded();
         await login.authenticate("parma55555@parma.it", "Pero1234")
@@ -857,7 +895,7 @@ describe('Should do everything', function () {
         eventOptionTabs = new EventOptionTabs(driver);
         shopsNavs = new ShopsNavs(driver);
         shopsCat = new ShopCategoriesPage(driver);
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -886,7 +924,7 @@ describe('Should do everything', function () {
         shopsNavs = new ShopsNavs(driver);
         shopsPage = new ShopsPage(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -923,7 +961,7 @@ describe('Should do everything', function () {
         activity = new ActivitiesPage(driver);
         activityTab = new ActivityTab(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -947,7 +985,7 @@ describe('Should do everything', function () {
         await agendaNavs.clickActivitiesNav();
         await activity.isOnActivitiesPage();
         await activity.createFootballActivity();
-        await events.loadStaging();
+        await events.load();
         await events.eventCardIsAvailableToClick();
         await events.clickNewEvent(shortName);
         await info.lineupTabIsDisplayed();
@@ -971,7 +1009,7 @@ describe('Should do everything', function () {
         info = new EventInfo(driver);
         ticketing = new TicketingPage(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -998,7 +1036,7 @@ describe('Should do everything', function () {
         let fee2value = await taxesAndFees.getTaxOrFeeValueByIndex(6,1);
         let fee1NameSubstring = fee1.substring(0,5)
         let fee2NameSubstring = fee2.substring(0,5)
-        await events.loadStaging();
+        await events.load();
         await events.eventCardIsAvailableToClick();
         await events.clickNewEvent(shortName);
         await info.buyTicketsButtonPresent();
@@ -1025,10 +1063,10 @@ describe('Should do everything', function () {
         eventDetails = new GeneralDetailsTab(driver);
         partnersPage = new PartnersPage(driver);
         newVendor = new SetupNewVendorPage(driver);
-        inbox = new Aol(driver);
+        inbox = new Inbox(driver);
         originalWindow = inbox.getOriginalWindow();
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -1055,7 +1093,7 @@ describe('Should do everything', function () {
         dashboard = new DashboardPage(driver);
         eventOptionTabs = new EventOptionTabs(driver);
         myMenus = new MyMenusPage(driver);
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.vendorLoginWithEmailAndPassword(vendorEmail,base);
         await dashboard.isAtDashboardPage();
@@ -1085,7 +1123,7 @@ describe('Should do everything', function () {
         shopsNavs = new ShopsNavs(driver);
         shopsPage = new ShopsPage(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -1122,7 +1160,7 @@ describe('Should do everything', function () {
         eventDetails = new GeneralDetailsTab(driver);
         eventSettingsNav = new EventSettingsNav(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -1137,16 +1175,16 @@ describe('Should do everything', function () {
         await eventOptionTabs.clickSettingsNav();
         await eventSettingsNav.donationsSubNavIsDisplayed();
         await eventSettingsNav.makeDonationActive();
-        await events.loadStaging();
+        await events.load();
         await events.clickSignInButton();
         await login.waitPopupToBeLoaded();
-        await login.authenticate(customerEmail, customerPassword)
+        await login.authenticate("parma55555@parma.it", "Pero1234")
         await events.eventCardIsAvailableToClick();
         await events.clickNewEvent(shortName);
         await info.buyTicketsButtonPresent();
         await info.clickBuyTicketsButton();
         await ticketing.nextButtonPresent();
-        await tickets.sendKeysToQtyInput(0,1);
+        await tickets.sendKeysToQtyInput(0,5);
         await driver.sleep(2000)
         await ticketing.clickNextButton();
         await extras.addMoneyTabIsDisplayed();
@@ -1155,8 +1193,8 @@ describe('Should do everything', function () {
         await extras.make$20Donation();
         await ticketing.clickNextButton();
         await pay.savedCardsHeaderIsPresent();
-        await pay.clickPayWithWalletOption()
-        await pay.clickPayWithWalletButton()
+        await pay.clickFirstCard();
+        await pay.clickPayWithCardButton();
         await confirm.isOnConfirmTab();
         // assertForTotal
         await ticketing.clickBackToEventInfoButton();
@@ -1172,8 +1210,8 @@ describe('Should do everything', function () {
         await extras.make$35Donation();
         await ticketing.clickNextButton();
         await pay.savedCardsHeaderIsPresent();
-        await pay.clickPayWithWalletOption()
-        await pay.clickPayWithWalletButton()
+        await pay.clickFirstCard();
+        await pay.clickPayWithCardButton();
         await confirm.isOnConfirmTab();
         // assertForTotal
         await ticketing.clickBackToEventInfoButton();
@@ -1188,26 +1226,26 @@ describe('Should do everything', function () {
         await extras.donateTabIsDisplayed();
         await extras.make$50Donation();
         await ticketing.clickNextButton();
-        /*await pay.savedCardsHeaderIsPresent();
-        await pay.clickPayWithWalletOption()
-        await pay.clickPayWithWalletButton()
+        await pay.savedCardsHeaderIsPresent();
+        await pay.clickFirstCard();
+        await pay.clickPayWithCardButton();
         await confirm.isOnConfirmTab();
         // assertForTotal
         await ticketing.clickBackToEventInfoButton();
         await info.buyTicketsButtonPresent();
         await info.clickBuyTicketsButton();
         await ticketing.nextButtonPresent();
-        await tickets.sendKeysToQtyInput(1,2);
+        await tickets.sendKeysToQtyInput(1,4);
         await driver.sleep(2000)
         await ticketing.clickNextButton();
         await extras.addMoneyTabIsDisplayed();
         await extras.clickDonateTab();
         await extras.donateTabIsDisplayed();
-        await extras.make$100Donation();*/
-        //await ticketing.clickNextButton();
+        await extras.make$100Donation();
+        await ticketing.clickNextButton();
         await pay.savedCardsHeaderIsPresent();
-        await pay.clickPayWithWalletOption()
-        await pay.clickPayWithWalletButton()
+        await pay.clickFirstCard();
+        await pay.clickPayWithCardButton();
         await confirm.isOnConfirmTab();
         // assertForTotal
         await ticketing.clickBackToEventInfoButton();
@@ -1223,8 +1261,8 @@ describe('Should do everything', function () {
         await extras.makeCustomDonation();
         await ticketing.clickNextButton();
         await pay.savedCardsHeaderIsPresent();
-        await pay.clickPayWithWalletOption()
-        await pay.clickPayWithWalletButton()
+        await pay.clickFirstCard();
+        await pay.clickPayWithCardButton();
         await confirm.isOnConfirmTab();
 
     });
@@ -1242,7 +1280,7 @@ describe('Should do everything', function () {
         bosExtras = new BOAddExtras(driver);
         bosDetails = new BOAddDetails(driver);
         bosReview = new BOReviewAndPay(driver);
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -1258,15 +1296,14 @@ describe('Should do everything', function () {
         await eventTickets.clickBoxOfficeNav();
         await bosTickets.isOnBoxOfficePage();
         await bosTickets.selectTwoTickets();
-        await bosExtras.isOnExtrasScreen();
-        await bosExtras.clickNextButton();
+        await bosExtras.add20$ToOrderOnExtrasPage();
         await bosDetails.continueToPayment();
-        await bosReview.makePaymentOnStaging(base);
+        await bosReview.makePayment(base);
 
     });
 
     it('Should check for box office purchases in inbox', async function () {
-        inbox = new Aol(driver);
+        inbox = new Inbox(driver);
         await inbox.loadInbox();
         await inbox.inboxIsOpened();
         await inbox.checkAccountEmailIsSend(base);
@@ -1282,7 +1319,7 @@ describe('Should do everything', function () {
         ticketsNav = new TicketsNav(driver);
         eventTickets = new EventTickets(driver)
         bosTickets = new BOSelectTickets(driver);
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -1301,34 +1338,34 @@ describe('Should do everything', function () {
     });
 
     /*it('Should assert proper color and values', async function () {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            createEvent = new CreateEventModal(driver);
-            myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            eventTickets = new EventTickets(driver)
-            bosTickets = new BOSelectTickets(driver);
-            await portalLogin.loadStagePortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await driver.sleep(1000);
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await driver.sleep(2000);
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await eventTickets.clickBoxOfficeNav();
-            await bosTickets.isOnBoxOfficePage();
-            //await bosTickets.isOnBoxOfficePage();
-            await bosTickets.assertNewPriceAndQuantity();
-        });*/
+        portalLogin = new PortalLoginPage(driver);
+        dashboard = new DashboardPage(driver);
+        createEvent = new CreateEventModal(driver);
+        myEvents = new MyEventsPage(driver);
+        eventOptionTabs = new EventOptionTabs(driver);
+        ticketsNav = new TicketsNav(driver);
+        eventTickets = new EventTickets(driver)
+        bosTickets = new BOSelectTickets(driver);
+        await portalLogin.loadPortalUrl();
+        await portalLogin.isAtPortalLoginPage();
+        await portalLogin.enterValidCredentialsAndLogin();
+        await dashboard.isAtDashboardPage();
+        await dashboard.clickMyEventsTab();
+        await myEvents.eventsTableIsDisplayed();
+        await driver.sleep(1000);
+        await myEvents.createdEventIsInTheTable(eventName);
+        await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+        await driver.sleep(2000);
+        await eventOptionTabs.ticketingTabIsDisplayed();
+        await eventOptionTabs.clickTicketingTab();
+        await ticketsNav.addTicketButtonIsDisplayed();
+        await eventTickets.clickBoxOfficeNav();
+        await bosTickets.isOnBoxOfficePage();
+        //await bosTickets.isOnBoxOfficePage();
+        await bosTickets.assertNewPriceAndQuantity();
+    });*/
 
-    it('Should make purchase with promotion in box-office', async function () {
+    it('Should make purchase with promotion in box-ofice', async function () {
         portalLogin = new PortalLoginPage(driver);
         dashboard = new DashboardPage(driver);
         createEvent = new CreateEventModal(driver);
@@ -1341,7 +1378,7 @@ describe('Should do everything', function () {
         bosExtras = new BOAddExtras(driver);
         bosDetails = new BOAddDetails(driver);
         bosReview = new BOReviewAndPay(driver);
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -1357,11 +1394,10 @@ describe('Should do everything', function () {
         await eventTickets.clickBoxOfficeNav();
         await bosTickets.isOnBoxOfficePage();
         await bosTickets.select18Tickets();
-        await bosExtras.isOnExtrasScreen();
-        await bosExtras.clickNextButton();
+        await bosExtras.add50$ToOrderOnExtrasPage();
         await bosDetails.addPromotionToTickets(promoCodeFour);
         await bosDetails.continueToPayment();
-        await bosReview.makePaymentOnStaging(base);
+        await bosReview.makePayment(base);
 
     });
 
@@ -1378,7 +1414,7 @@ describe('Should do everything', function () {
         bosExtras = new BOAddExtras(driver);
         bosDetails = new BOAddDetails(driver);
         bosReview = new BOReviewAndPay(driver);
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -1415,7 +1451,7 @@ describe('Should do everything', function () {
         bosExtras = new BOAddExtras(driver);
         bosDetails = new BOAddDetails(driver);
         bosReview = new BOReviewAndPay(driver);
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -1430,12 +1466,12 @@ describe('Should do everything', function () {
         await ticketsNav.addTicketButtonIsDisplayed();
         await eventTickets.clickBoxOfficeNav();
         await bosTickets.isOnBoxOfficePage();
-        await bosTickets.selectTwoTickets();
+        await bosTickets.select3Tickets();
         await bosExtras.addCustom$ToOrderOnExtrasPage();
         await bosDetails.addWrongPromoCode();
         await bosDetails.addPromotionToTickets(promoFourName);
         await bosDetails.continueToPayment()
-        await bosReview.makePaymentOnStaging(base);
+        await bosReview.makePayment(base);
     });
 
     it('Should check calculation on subtotal and total and check if tickets are displayed', async function () {
@@ -1451,7 +1487,7 @@ describe('Should do everything', function () {
         bosExtras = new BOAddExtras(driver);
         bosDetails = new BOAddDetails(driver);
         bosReview = new BOReviewAndPay(driver);
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -1494,9 +1530,9 @@ describe('Should do everything', function () {
         questionsModal = new TicketQuestionsModal(driver);
         tickets = new TicketsTab(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsForStageAndLogin();
+        await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -1509,10 +1545,10 @@ describe('Should do everything', function () {
         await settingsNav.taxesAndFeesSubTabIsDisplayed();
         await settingsNav.clickTicketQuestions();
         await questions.createSimpleYesNoQuestion(base);
-        await events.loadStaging();
+        await events.load();
         await events.clickSignInButton();
         await login.waitPopupToBeLoaded();
-        await login.authenticate(customerEmail, customerEmail);
+        await login.authenticate("parma55555@parma.it", "Pero1234");
         await events.eventCardIsAvailableToClick();
         await events.clickNewEvent(shortName);
         await info.buyTicketsButtonPresent();
@@ -1525,8 +1561,8 @@ describe('Should do everything', function () {
         await extras.donateTabIsDisplayed();
         await extras.make$20Donation();
         await ticketing.clickNextButton();
-        await pay.clickPayWithWalletOption();
-        await pay.clickPayWithWalletButton();
+        await pay.savedCardsHeaderIsPresent();
+        await pay.clickFirstCard();
         await pay.clickPayWithCardButton();
         await questionsModal.answerSimpleYesNo(base,ticketOneName);
         await confirm.isOnConfirmTab();
@@ -1550,7 +1586,7 @@ describe('Should do everything', function () {
         questions = new TicketQuestionsPage(driver);
         questionsModal = new TicketQuestionsModal(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -1567,10 +1603,10 @@ describe('Should do everything', function () {
         await settingsNav.taxesAndFeesSubTabIsDisplayed();
         await settingsNav.clickTicketQuestions();
         await questions.createQuestionWithInput(base);
-        await events.loadStaging();
+        await events.load();
         await events.clickSignInButton();
         await login.waitPopupToBeLoaded();
-        await login.authenticate(customerEmail, customerPassword);
+        await login.authenticate("parma55555@parma.it", "Pero1234");
         await events.eventCardIsAvailableToClick();
         await events.clickNewEvent(shortName);
         await info.buyTicketsButtonPresent();
@@ -1581,10 +1617,11 @@ describe('Should do everything', function () {
         await extras.addMoneyTabIsDisplayed();
         await extras.clickDonateTab();
         await extras.donateTabIsDisplayed();
+        await extras.make$20Donation();
         await ticketing.clickNextButton();
         await pay.savedCardsHeaderIsPresent();
-        await pay.clickPayWithWalletOption()
-        await pay.clickPayWithWalletButton()
+        await pay.clickFirstCard();
+        await pay.clickPayWithCardButton();
         // here goes checking the ticket questions
         await questionsModal.answerTicketQuestionWithTextInput(base,ticketOneName);
         await confirm.isOnConfirmTab();
@@ -1606,7 +1643,7 @@ describe('Should do everything', function () {
         bosDetails = new BOAddDetails(driver);
         bosReview = new BOReviewAndPay(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -1628,8 +1665,7 @@ describe('Should do everything', function () {
         await eventTickets.clickBoxOfficeNav();
         await bosTickets.isOnBoxOfficePage();
         await bosTickets.selectTicketByIndexAndSendQuantity(0, "1");
-        await bosExtras.isOnExtrasScreen();
-        await bosExtras.clickNextButton();
+        await bosExtras.add20$ToOrderOnExtrasPage();
         await bosDetails.checkQuestionForm(4, 2, 2, 2, 4);
         await bosDetails.checkForTitleNameByIndex(0, base + " Yes & No question");
         await bosDetails.checkForTitleNameByIndex(1, base + " Attendee Age");
@@ -1641,7 +1677,7 @@ describe('Should do everything', function () {
         await bosDetails.checkForOptionsLabelByIndex(3, base + " 18 and Over");
         await bosDetails.answerFirstScenario();
         await bosDetails.continueToPayment();
-        await bosReview.makePaymentOnStaging(base);
+        await bosReview.makePayment(base);
 
     });
 
@@ -1655,7 +1691,7 @@ describe('Should do everything', function () {
         ticketsNav = new TicketsNav(driver);
         attendees = new AttendeesTab(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -1689,7 +1725,7 @@ describe('Should do everything', function () {
         questions = new TicketQuestionsPage(driver);
         questionsModal = new TicketQuestionsModal(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -1705,10 +1741,10 @@ describe('Should do everything', function () {
         await settingsNav.taxesAndFeesSubTabIsDisplayed();
         await settingsNav.clickTicketQuestions();
         await questions.updateFirstQuestionToIncludeInputAndForEachTicket(base);
-        await events.loadStaging();
+        await events.load();
         await events.clickSignInButton();
         await login.waitPopupToBeLoaded();
-        await login.authenticate(customerEmail, customerPassword);
+        await login.authenticate("parma15@parma.it", "Pero1234");
         await events.eventCardIsAvailableToClick();
         await events.clickNewEvent(shortName);
         await info.buyTicketsButtonPresent();
@@ -1731,7 +1767,7 @@ describe('Should do everything', function () {
         await confirm.isOnConfirmTab();
     });
 
-    it('Should check for the update ticket questions responses', async function () {
+    it('Should check for the update ticket questions responces', async function () {
 
         portalLogin = new PortalLoginPage(driver);
         dashboard = new DashboardPage(driver);
@@ -1741,7 +1777,7 @@ describe('Should do everything', function () {
         ticketsNav = new TicketsNav(driver);
         attendees = new AttendeesTab(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -1809,7 +1845,7 @@ describe('Should do everything', function () {
         await questionsModal.assertFormAndInputAndOption(base,ticketOneName, ticketThreeName)
         await questionsModal.answerTicketQuestionWithPerTicketQuestions();
         await embedConfirm.isAtConfirmPage();
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -1850,7 +1886,7 @@ describe('Should do everything', function () {
         donate = new DonationComponent(driver);
         embedConfirm = new ConfirmPage(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -1894,7 +1930,7 @@ describe('Should do everything', function () {
         await orderDetails.isOnOrderDetailsPage();
         await orderDetails.clickPlaceOrderButton();
         await embedConfirm.isAtConfirmPage();
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -1908,6 +1944,47 @@ describe('Should do everything', function () {
         assert.equal(transactions + 1, afterTransactions)
     });
 
+    it('should set limitation on tickets per account and pass payment in box office',async function () {
+        portalLogin = new PortalLoginPage(driver);
+        dashboard = new DashboardPage(driver);
+        createEvent = new CreateEventModal(driver);
+        myEvents = new MyEventsPage(driver);
+        eventDetails = new GeneralDetailsTab(driver);
+        eventOptionTabs = new EventOptionTabs(driver);
+        capacity = new EventCapacitySubNav(driver);
+        ticketsNav = new TicketsNav(driver);
+        eventTickets = new EventTickets(driver)
+        settingsNav = new SettingsNav(driver);
+        bosTickets = new BOSelectTickets(driver);
+        bosExtras = new BOAddExtras(driver);
+        bosDetails = new BOAddDetails(driver);
+        bosReview = new BOReviewAndPay(driver);
+
+        await portalLogin.loadPortalUrl();
+        await portalLogin.isAtPortalLoginPage();
+        await portalLogin.enterValidCredentialsAndLogin();
+        await dashboard.isAtDashboardPage();
+        await dashboard.clickMyEventsTab();
+        await myEvents.eventsTableIsDisplayed();
+        await driver.sleep(1000);
+        await myEvents.createdEventIsInTheTable(eventName);
+        await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+        await driver.sleep(2000);
+        await eventDetails.unpublishButtonIsDisplayed();
+        await eventOptionTabs.ticketingTabIsDisplayed();
+        await eventOptionTabs.clickTicketingTab();
+        await ticketsNav.addTicketButtonIsDisplayed();
+        await eventOptionTabs.clickSettingsNav();
+        await settingsNav.taxesAndFeesSubTabIsDisplayed();
+        await settingsNav.clickEventCapacity();
+        await capacity.setLimitPerAccount("26");
+        await eventTickets.clickBoxOfficeNav();
+        await bosTickets.isOnBoxOfficePage();
+        await bosTickets.selectTicketByIndexAndSendQuantity(0, "5");
+        await bosExtras.add20$ToOrderOnExtrasPage();
+        await bosDetails.continueToPayment();
+        await bosReview.makePayment(base);
+    });
 
     it('should check ticket limitations exist in embed and microsites', async function () {
         main = new EmbedMainPage(driver);
@@ -1929,7 +2006,7 @@ describe('Should do everything', function () {
         await main.clickNextPageButton();
         await embedLogin.isAtLoginPage();
         await driver.sleep(1000);
-        await embedLogin.loginWithEmailAndPassword(customerEmail, customerPassword);
+        await embedLogin.loginWithEmailAndPassword("parma15@parma.it", "Pero1234");
         await main.nextButtonIsVisible();
         await main.clickTicketTermsCheckbox();
         await main.clickNextPageButton();
@@ -1979,7 +2056,7 @@ describe('Should do everything', function () {
         confirm = new ConfirmTab(driver);
         myWallet = new MyWalletTab(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await dashboard.isAtDashboardPage();
@@ -2009,21 +2086,21 @@ describe('Should do everything', function () {
         await main.clickNextPageButton();
         await embedLogin.isAtLoginPage();
         await driver.sleep(1000);
-        await embedLogin.loginWithEmailAndPassword(customerEmail, customerPassword);
+        await embedLogin.loginWithEmailAndPassword("parma15@parma.it", "Pero1234");
         await main.nextButtonIsVisible();
         await main.clickTicketTermsCheckbox();
         await main.clickNextPageButton();
         await embedExtras.isAtExtrasPage();
         await main.clickNextPageButton();
         await payment.isAtPaymentPage();
-        await payment.clickPayWithWalletButton();
+        await payment.clickSavedCardByIndex(0);
         //await payment.clickConfirmPaymentButton(); remove the two lines bellow after fix
         await main.nextButtonIsVisible();
         await main.clickNextPageButton();
         await orderDetails.isOnOrderDetailsPage();
         await orderDetails.clickPlaceOrderButton();
         await embedConfirm.isAtConfirmPage();
-        await events.loadStaging();
+        await events.load();
         await events.eventCardIsAvailableToClick();
         await events.clickNewEvent(shortName);
         await info.buyTicketsButtonPresent();
@@ -2054,7 +2131,7 @@ describe('Should do everything', function () {
         createTicket = new CreateTicketModal(driver);
         eventOrders = new EventOrders(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await driver.sleep(1000);
@@ -2081,7 +2158,7 @@ describe('Should do everything', function () {
         createTicket = new CreateTicketModal(driver);
         eventOrders = new EventOrders(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await driver.sleep(1000);
@@ -2108,7 +2185,7 @@ describe('Should do everything', function () {
         createTicket = new CreateTicketModal(driver);
         eventOrders = new EventOrders(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await driver.sleep(1000);
@@ -2135,7 +2212,7 @@ describe('Should do everything', function () {
         createTicket = new CreateTicketModal(driver);
         eventOrders = new EventOrders(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await driver.sleep(1000);
@@ -2161,7 +2238,7 @@ describe('Should do everything', function () {
         createTicket = new CreateTicketModal(driver);
         eventOrders = new EventOrders(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await driver.sleep(1000);
@@ -2187,7 +2264,7 @@ describe('Should do everything', function () {
         createTicket = new CreateTicketModal(driver);
         eventOrders = new EventOrders(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await driver.sleep(1000);
@@ -2213,7 +2290,7 @@ describe('Should do everything', function () {
         createTicket = new CreateTicketModal(driver);
         eventOrders = new EventOrders(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await driver.sleep(1000);
@@ -2239,7 +2316,7 @@ describe('Should do everything', function () {
         createTicket = new CreateTicketModal(driver);
         eventOrders = new EventOrders(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await driver.sleep(1000);
@@ -2265,7 +2342,7 @@ describe('Should do everything', function () {
         createTicket = new CreateTicketModal(driver);
         eventOrders = new EventOrders(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await driver.sleep(1000);
@@ -2291,7 +2368,7 @@ describe('Should do everything', function () {
         createTicket = new CreateTicketModal(driver);
         eventOrders = new EventOrders(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await driver.sleep(1000);
@@ -2317,7 +2394,7 @@ describe('Should do everything', function () {
         createTicket = new CreateTicketModal(driver);
         eventOrders = new EventOrders(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await driver.sleep(1000);
@@ -2343,7 +2420,7 @@ describe('Should do everything', function () {
         createTicket = new CreateTicketModal(driver);
         eventOrders = new EventOrders(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await driver.sleep(1000);
@@ -2369,7 +2446,7 @@ describe('Should do everything', function () {
         createTicket = new CreateTicketModal(driver);
         eventOrders = new EventOrders(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await driver.sleep(1000);
@@ -2395,7 +2472,7 @@ describe('Should do everything', function () {
         createTicket = new CreateTicketModal(driver);
         eventOrders = new EventOrders(driver);
 
-        await portalLogin.loadStagePortalUrl();
+        await portalLogin.loadPortalUrl();
         await portalLogin.isAtPortalLoginPage();
         await portalLogin.enterValidCredentialsAndLogin();
         await driver.sleep(1000);

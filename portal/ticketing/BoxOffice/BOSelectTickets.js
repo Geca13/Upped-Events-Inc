@@ -28,14 +28,14 @@
 
         async selectTicketByIndexAndSendQuantity(index, quantity){
             await this.isOnBoxOfficePage();
-            await this.driver.sleep(1000);
+            await this.timeout(1000);
             await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,index,quantity);
             await this.click(SAVE_BUTTON);
         }
 
         async selectTwoTickets(){
             await this.isOnBoxOfficePage();
-            await this.driver.sleep(1000);
+            await this.timeout(1000);
             await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,3,"2");
             await this.click(SAVE_BUTTON);
         }
@@ -61,11 +61,11 @@
             await override.loginToTheOverrideModal();
             //await override.overrideTicketQuantity("1");
             await this.timeout(500);
-            await override.setNewPrice('.5');
+            await override.setNewPrice('5');
             await override.clickSaveChangesButton();
             await this.timeout(1500);
             let newPrice = await this.getElementText(OVERRIDEN_TICKET_PRICE);
-            assert.equal(newPrice,'$1.5');
+            assert.equal(newPrice,'$15');
             let fontColor = await this.getFontColorFromAnArray(OVERRIDEN_TICKET_PRICE,0);
             assert.equal(fontColor,'rgba(255, 0, 0, 1)');
         }

@@ -26,6 +26,11 @@
         await this.timeout(10000);
     }
 
+    async loadStaging() {
+        await this.visit('https://events.stage.uppedevents.com/events')
+        await this.timeout(10000);
+    }
+
     async clickSignInButton(){
         await this.click(SIGN_IN_BUTTON);
     }

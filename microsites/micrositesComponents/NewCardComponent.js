@@ -1,5 +1,6 @@
     const BasePage = require("../../BasePage");
     const assert = require('assert');
+    require("dotenv").config();
     const CARDHOLDER_NAME_INPUT = { css: "input[formControlName=name_on_card]"  };
     const CARD_NUMBER_INPUT = { xpath: "//input[@type='tel']" };
     const SAVE_CARD_CHECKBOX = { xpath: "//input[@type='checkbox']" };
@@ -47,6 +48,18 @@
             await this.sentKeys(YEAR_SELECT,"2024");
             await this.sentKeys(STATE_SELECT, "Minnesota");
             await this.sentKeys(ZIP_CODE_INPUT,"14400");
+        }
+
+        async fillNewCardInStaging(firstName, lastName){
+            await this.isDisplayed(CARDHOLDER_NAME_INPUT,5000);
+            await this.sentKeys(CARDHOLDER_NAME_INPUT,firstName + ' ' + lastName);
+            await this.sentKeys(CARD_NUMBER_INPUT,process.env.CARD_NUMBER);
+            await this.sentKeys(CVV_INPUT,process.env.CVC);
+            await this.sentKeys(STREET_ADDRESS_INPUT,process.env.ADDRESS);
+            await this.sentKeys(MONTH_SELECT,"3");
+            await this.sentKeys(YEAR_SELECT,"2025");
+            await this.sentKeys(STATE_SELECT, "Pennsylvania");
+            await this.sentKeys(ZIP_CODE_INPUT,"18940");
         }
 
         async clickSaveCardCheckbox(){

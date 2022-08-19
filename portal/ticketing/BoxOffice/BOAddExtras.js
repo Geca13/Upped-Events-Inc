@@ -53,7 +53,7 @@
             await this.clickElementReturnedFromAnArray(EXTRAS_OPTIONS,1);
             let donation = new DonationComponent(this.driver);
             await donation.isOnDonationScreen();
-            await donation.enterCustomAmountInInput("65");
+            await donation.enterCustomAmountInInput("1");
             await this.driver.sleep(500);
             await donation.clickAddDonationToOrderButton();
             await this.clickNextButton();

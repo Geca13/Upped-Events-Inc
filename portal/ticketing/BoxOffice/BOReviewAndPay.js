@@ -1,5 +1,6 @@
     const BasePage = require('../../../BasePage');
     const assert = require('assert');
+    require("dotenv").config();
     const { expect } = require('chai');
     const { Key, Keys} = require("selenium-webdriver");
     const CARDHOLDER_NAME = { xpath: "//input[@formcontrolname='name_on_card']" };
@@ -53,6 +54,8 @@
             await this.confirmElementsForPayment(base);
             await this.timeout(1000);
         }
+
+
         async confirmElementsForPayment(base){
             let header = await this.getElementText(SUCCESS_ON_CONFIRM_MODAL);
             assert.equal("Sent!", header);
@@ -75,7 +78,7 @@
             expect(await this.elementIsEnabled(STATE)).to.be.false;
             await this.fillUserData(base);
             await this.click(PLACE_ORDER_BUTTON);
-            await this.isDisplayed(CONFIRMATION_MODAL,55000);
+            await this.isDisplayed(CONFIRMATION_MODAL,60000);
             await this.timeout(1000);
             await this.confirmElementsForPayment(base);
             await this.timeout(1000);
@@ -91,8 +94,48 @@
             await this.click(ADD_BUTTON);
             await this.timeout(1000);
             await this.isDisplayed(ADDITIONAL_EMAIL_BADGE,5000);
+            await this.timeout(1000);
+
+        }
+
+        async makePaymentOnStaging(base){
+            await this.isOnReviewPage();
+            await this.sentKeys(CARDHOLDER_NAME,process.env.CARD_NAME);
+            await this.sentKeys(CARD_NUMBER,process.env.CARD_NUMBER);
+            await this.sentKeys(CVC,process.env.CVC);
+            await this.sentKeys(EXPIRATION,"March" + Key.TAB + "2025");
+            await this.sentKeys(ADDRESS,process.env.ADDRESS);
+            await this.sentKeys(ZIP,"18940");
+            await this.fillUserDataOnStaging(base);
+            await this.click(PLACE_ORDER_BUTTON);
+            await this.isDisplayed(CONFIRMATION_MODAL,55000);
+            await this.timeout(1000);
+            await this.confirmElementsForPaymentOnStaging();
+            await this.timeout(1000);
+        }
+
+        async fillUserDataOnStaging(base) {
+            await this.sentKeys(FIRST_NAME,base);
+            await this.sentKeys(LAST_NAME,base);
+            await this.sentKeys(BIRTH_DATE,"01012000");
+            await this.sentKeys(EMAIL,process.env.AOL_CUSTOMER_EMAIL);
+            await this.clickElementReturnedFromAnArray(CHECKBOX,4);
+            await this.sentKeys(ADDITIONAL_EMAIL,process.env.AOL_VENDOR_EMAIL);
+            await this.click(ADD_BUTTON);
+            await this.timeout(1000);
+            await this.isDisplayed(ADDITIONAL_EMAIL_BADGE,5000);
             await this.timeout(10000);
 
+        }
+        async confirmElementsForPaymentOnStaging(){
+            let header = await this.getElementText(SUCCESS_ON_CONFIRM_MODAL);
+            assert.equal("Sent!", header);
+            let message = await this.getElementText(MESSAGE_ON_CONFIRM_MODAL);
+            assert.equal("A copy of the receipt and tickets have been sent to:", message);
+            let customerEmail = await this.getElementTextFromAnArrayByIndex(EMAILS_ON_CONFIRM_MODAL,0);
+            let additionalEmail = await this.getElementTextFromAnArrayByIndex(EMAILS_ON_CONFIRM_MODAL,1);
+            assert.equal(customerEmail, process.env.AOL_CUSTOMER_EMAIL);
+            assert.equal(additionalEmail, process.env.AOL_VENDOR_EMAIL);
         }
     }
     module.exports = BOReviewAndPay;

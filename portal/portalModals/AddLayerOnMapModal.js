@@ -1,4 +1,5 @@
     const BasePage = require('../../BasePage');
+    const SetImageModal = require('../portalModals/SetImageModal')
     const ADD_LAYER_MODAL = { className: 'popup-header-title' }
     const SAVE_LAYER_BUTTON = { xpath: "//*[text()='Save']"}
     const CLOSE_LAYER_BUTTON = { xpath: "//*[text()='Close']"}
@@ -40,9 +41,9 @@
             await this.sentKeys(DESCRIPTION_TEXTAREA,"Best Beer, Wine and Snacks, come get some")
             await this.driver.executeScript("document.getElementsByClassName('file-upload-input')[0].style.visibility='visible'");
             await this.sentKeys(UPLOAD_PHOTO_INPUT,"D:\\Upped-Events-Inc\\static\\bar.jpg");
-            await this.isDisplayed(SET_IMAGE_BUTTON,15000);
-            await this.timeout(1000)
-            await this.click(SET_IMAGE_BUTTON);
+            let image = new SetImageModal(this.driver);
+            await image.setImageModalIsDisplayed();
+            await image.clickSetButton();
             await this.saveLayerButtonIsDisplayed();
             await this.timeout(1500)
             await this.click(SAVE_LAYER_BUTTON);
@@ -59,10 +60,9 @@
             await this.sentKeys(DESCRIPTION_TEXTAREA,"Tickets Here for Cash");
             await this.driver.executeScript("document.getElementsByClassName('file-upload-input')[0].style.visibility='visible'");
             await this.sentKeys(UPLOAD_PHOTO_INPUT,"D:\\Upped-Events-Inc\\static\\tickets.jpg");
-            await this.isDisplayed(SET_IMAGE_BUTTON,5000);
-            await this.timeout(1500)
-            await this.click(SET_IMAGE_BUTTON);
-            await this.timeout(1500)
+            let image = new SetImageModal(this.driver);
+            await image.setImageModalIsDisplayed();
+            await image.clickSetButton();
             await this.saveLayerButtonIsDisplayed();
             await this.timeout(2500)
             await this.driver.executeScript("document.getElementsByClassName('primary-btn')[2].click()");
@@ -82,12 +82,11 @@
             await this.sentKeys(DESCRIPTION_TEXTAREA,"Best Concert Here")
             await this.driver.executeScript("document.getElementsByClassName('file-upload-input')[0].style.visibility='visible'");
             await this.sentKeys(UPLOAD_PHOTO_INPUT,"D:\\Upped\\static\\stage.jpg");
-            await this.isDisplayed(SET_IMAGE_BUTTON,5000);
-            await this.timeout(1000)
-            await this.click(SET_IMAGE_BUTTON);
+            let image = new SetImageModal(this.driver);
+            await image.setImageModalIsDisplayed();
+            await image.clickSetButton();
             await this.saveLayerButtonIsDisplayed();
             await this.timeout(1000)
-            await this.takeScreenshot("performance")
             await this.click(SAVE_LAYER_BUTTON);
             await this.timeout(1000)
         }
@@ -115,11 +114,11 @@
             await this.timeout(500)
             await this.click(ZOOM_OUT_BUTTON);
             await this.timeout(500)
-            await this.click(SET_IMAGE_BUTTON);
-            await this.timeout(500)
-            //await this.click(SET_IMAGE_BUTTON);
+            let image = new SetImageModal(this.driver);
+            await image.setImageModalIsDisplayed();
+            await image.clickSetButton();
             await this.saveLayerButtonIsDisplayed();
-            await this.timeout(2500)
+            await this.timeout(1500)
             await this.click(SAVE_LAYER_BUTTON);
             await this.timeout(1000);
         }

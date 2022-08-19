@@ -22,7 +22,7 @@
 
     async switchToFacebookWindow(locator){
         const originalWindow = await this.driver.getWindowHandle();
-        await this.driver.sleep(2000)
+        await this.timeout(2000)
         await this.click(locator);
         await this.driver.wait(
             async () => (await this.driver.getAllWindowHandles()).length === 2,

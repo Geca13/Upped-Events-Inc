@@ -87,6 +87,17 @@
             await this.clickSaveTaxesAndFeesButton();
         }
 
+        async createTaxesAndFeesForStagingEventTickets(){
+            await this.includeExcludeIsVisible();
+            await this.setFirstTaxForTickets("Tax One", "1.71");
+            await this.taxNameInputIsVisible();
+            await this.setSecondTaxForTickets("Tax Two", "2.18");
+            /*await this.set$FeeForTickets("Fee $", "0.02");
+            await this.feeNameInputIsVisible();
+            await this.setPercentFeeForTickets("Fee %", "2.66");*/
+            await this.clickSaveTaxesAndFeesButton();
+        }
+
         async getTaxOrFeeNameByIndex(index){
             return await this.getElementTextFromAnArrayByIndex(TAXES_AND_FEES_NAMES, index);
         }

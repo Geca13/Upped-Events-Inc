@@ -20,15 +20,14 @@
         async addPerformanceLocationOnMap(){
             let modal = new AddLayerOnMap(this.driver)
             await this.eventMapIsDisplayed();
-            await this.driver.sleep(2000);
+            await this.timeout(2000);
             let pin = await this.getElementFromAnArrayByIndex(MAP_BUTTONS,0);
             pin.click();
-            await this.driver.sleep(2000);
+            await this.timeout(2000);
             await this.moveAwayFromElement(MAP_BUTTONS, 150,0);
             await modal.modalIsLoaded();
             await modal.addStageLocationOnMap();
-
-            await this.driver.sleep(5000);
+            await this.timeout(5000);
 
         }
 

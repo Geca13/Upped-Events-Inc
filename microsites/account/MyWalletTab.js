@@ -54,6 +54,14 @@
             await newCardComponent.fillNewCardWithVisaData(firstName, lastName);
             await this.click(ADD_NEW_CARD_BUTTON);
         }
+
+        async setNewCardForProfileInStaging(firstName, lastName){
+            await this.moveToElement(FOOTER_FACEBOOK_ICON);
+            let newCardComponent = new NewCardComponent(this.driver);
+            await newCardComponent.fillNewCardInStaging(firstName, lastName);
+            await this.click(ADD_NEW_CARD_BUTTON);
+        }
+
         async calculateBalanceAfterPurchases(userBalance){
             let currentBalance = await this.returnBalanceState();
             assert.equal(currentBalance, userBalance);

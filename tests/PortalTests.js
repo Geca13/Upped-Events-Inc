@@ -158,7 +158,7 @@
         let embedDonate;
 
 
-        let base = 715015 // Math.floor(100000 + Math.random() * 900000);
+        let base = Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -1807,7 +1807,7 @@
         });
 
         //PORTAL
-        it('should table headers on promotions page and elements on add new promotion modal ',async function () {
+        it('should assert table headers on promotions page and elements on add new promotion modal ',async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
@@ -1882,6 +1882,31 @@
             await ticketsNav.assertTicketNamePriceAndQuantity(ticketThreeName,ticketThreePrice,ticketThreeQuantity);
             await ticketsNav.assertTicketNamePriceAndQuantity(ticketFourName,ticketFourPrice,ticketFourQuantity);
 
+        });
+
+        it('should check that all created tickets are listed in ticket type dropdown', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            let tickets = await ticketsNav.getAllTicketsNames();
         });
 
         it('should calculate subtotal and total on multiple tickets with multiple quantity on each with tax and fee', async function () {
@@ -2072,9 +2097,7 @@
 
 
 
-
-/*
-        it('should create new account on microsites with username and password, verify and login', async function() {
+        /*it('should create new account on microsites with username and password, verify and login', async function() {
             events = new EventsPage(driver);
             createAccount = new CreateAccountModal(driver);
             inbox = new Inbox(driver);
@@ -3389,9 +3412,9 @@
             questionsModal = new TicketQuestionsModal(driver);
             tickets = new TicketsTab(driver);
 
-            await portalLogin.loadPortalUrl();
+            await portalLogin.loadStagePortalUrl();
             await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
+            await portalLogin.enterValidCredentialsForStageAndLogin();
             await dashboard.isAtDashboardPage();
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();

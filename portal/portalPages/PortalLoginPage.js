@@ -7,9 +7,18 @@
         constructor(driver){
             super(driver);
         }
+        async loadStagePortalUrl(){
+            await this.visit('https://stage.portal.uppedevents.com/')
+        }
+
+        async enterValidCredentialsForStageAndLogin(){
+            await this.sentKeys(EMAIL_INPUT,"louis@uppedevents.com");
+            await this.sentKeys(PASSWORD_INPUT,"Test@123");
+            await this.click(SIGN_IN_BUTTON)
+        }
+
         async loadPortalUrl(){
            await this.visit('https://dev.portal.uppedevents.com/')
-           //await this.visit('https://stage.portal.uppedevents.com/')
         }
         async isAtPortalLoginPage(){
             await this.isDisplayed(SIGN_IN_BUTTON, 30000)

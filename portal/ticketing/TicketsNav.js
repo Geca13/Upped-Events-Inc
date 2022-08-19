@@ -254,8 +254,8 @@
             assert.equal(seventh,'Active/Inactive');
             let headers2 = await this.returnElementsCount(TABLE_HEADERS);
             assert.equal(headers2,7);
-            await this.click(ADD_TABLE_COLUMN_BUTTON);
-            await options.changeColumnOrdersByColumnIndex();
+            //await this.click(ADD_TABLE_COLUMN_BUTTON);
+            //await options.changeColumnOrdersByColumnIndex();
 
         }
 
@@ -274,7 +274,15 @@
             assert.equal(quantity, sold);
         }
 
-
+        async getAllTicketsNames(){
+            let ticketsNames = []
+            let tickets = await this.findAll(TICKETS_NAMES);
+            for(let i = 0; i < tickets.length; i++){
+                let ticketName = await this.getElementTextFromAnArrayByIndex(TICKETS_NAMES, i);
+                ticketsNames.push(ticketName)
+            }
+            return ticketsNames;
+        }
     }
     module.exports = TicketsNav;
 
