@@ -53,6 +53,7 @@
             return await this.isDisplayed(INVALID_PROMO_CODE_TRIANGLE,5000);
         }
         async clickApplyDiscountButton(){
+            await this.timeout(500);
             await this.click(APPLY_DISCOUNT_BUTTON);
         }
         async clearDiscountField(DISCOUNT_CODE_INPUT){
@@ -60,6 +61,7 @@
         }
         async enterPromotionCode(promoCode){
             await this.sentKeys(DISCOUNT_CODE_INPUT,promoCode);
+            await this.timeout(500);
         }
 
         async promotionForStaffErrorMessageIsDisplayed(){

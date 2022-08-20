@@ -6,6 +6,7 @@
     const PROMOTION_TITLE_INPUT = { xpath: "//div[@class='fields']/input[@name='name']" };
     const PROMOTION_DESCRIPTION_INPUT = { name: "description" };
     const SELECT_TICKET_DROPDOWN = { id: "tickets" };
+    const TICKET_DROPDOWN_OPTIONS = { xpath: "//label[@class='pl-4']" }
     const PROMOTION_STATUS_DROPDOWN = { name: "status" };
     const PROMOTION_DISTRIBUTION_DROPDOWN = { name: "codeDistributionType" };
     const PROMOTION_DISTRIBUTION_DROPDOWN_OPTIONS = { xpath: "//select-picker[@name='codeDistributionType']//a[@role='option']//span" };
@@ -44,11 +45,10 @@
     const DISTRIBUTION_TYPE_LABEL = { xpath: "//select-picker[@name='codeDistributionType']/following-sibling::label"}
     const START_DATE_LABEL = { xpath: "//input[@name='startDate']/following-sibling::label"}
     const END_DATE_LABEL = { xpath: "//input[@name='endDate']/following-sibling::label"}
-
-
-
-
-
+    const CURRENT_PRICE = { tagName: "del"}
+    const DISCOUNTED_PRICE = { xpath: "//del/..//following-sibling::div"}
+    const MAX_QTY_INFO_ICON = { xpath: "//div[contains(@class, 'inline-price-checkbox')]//i"}
+    const TOOLTIP_INFO = { xpath: "//ngb-tooltip-window//ul//li" }
 
 
     class AddNewPromotionModal extends BasePage {
@@ -274,6 +274,115 @@
             await this.timeout(1000)
             await this.click(SAVE_PROMOTION_BUTTON);
             await this.timeout(1500)
+        }
+
+        async assertAllTicketsAreListedInTicketTypeDropdown(tickets){
+            await this.click(SELECT_TICKET_DROPDOWN);
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
+            await this.timeout(500);
+            let dropdownOptionsText = [];
+            let dropdownOptions = await this.findAll(TICKET_DROPDOWN_OPTIONS);
+            for(let i = 0; i < dropdownOptions.length; i++){
+                let ticketName = await this.getElementTextFromAnArrayByIndex(TICKET_DROPDOWN_OPTIONS, i);
+                if(ticketName !== 'ALL'){
+                    dropdownOptionsText.push(ticketName)
+                }
+            }
+            for(let i = 0; i < dropdownOptionsText.length; i++){
+                assert.equal(dropdownOptionsText[i], tickets[i].toUpperCase())
+            }
+            await this.timeout(500)
+        }
+
+        async assertCorrectPriceIsDisplayedWhenTickedIsSelectedInDropdown(ticketOnePrice){
+            await this.click(SELECT_TICKET_DROPDOWN);
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
+            await this.timeout(500);
+            await this.clickElementReturnedFromAnArray(TICKET_DROPDOWN_OPTIONS,1);
+            await this.click(SELECT_TICKET_DROPDOWN);
+            let ticketOne = parseFloat(ticketOnePrice);
+            let ticketOneParsed = ticketOne.toFixed(2);
+            let originalPrice = await this.getElementText(CURRENT_PRICE);
+            let discountedPrice = await this.getElementText(DISCOUNTED_PRICE);
+            originalPrice = originalPrice.substring(1);
+            discountedPrice = discountedPrice.substring(1);
+            assert.equal(ticketOneParsed, parseFloat(originalPrice));
+            assert.equal(ticketOneParsed, parseFloat(discountedPrice));
+
+        };
+
+        async assert$ValuePromotionCanNotAcceptLargerValueThenTicketPrice(ticketOnePrice){
+            await this.click(SELECT_TICKET_DROPDOWN);
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
+            await this.timeout(500);
+            await this.clickElementReturnedFromAnArray(TICKET_DROPDOWN_OPTIONS,1);
+            await this.click(SELECT_TICKET_DROPDOWN);
+            await this.sentKeys(PROMO_$_VALUE_INPUT, "2");
+            await this.timeout(500);
+            let inputValue = await this.getEnteredTextInTheInput(PROMO_$_VALUE_INPUT);
+            assert.notEqual(inputValue, "2")
+            assert.equal(inputValue, ticketOnePrice);
+        }
+
+        async assertWhen$ValuePromotionIsEnteredIsDisplayedNextToOriginalPrice(ticketOnePrice, newPrice){
+            await this.click(SELECT_TICKET_DROPDOWN);
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
+            await this.timeout(500);
+            await this.clickElementReturnedFromAnArray(TICKET_DROPDOWN_OPTIONS,1);
+            await this.click(SELECT_TICKET_DROPDOWN);
+            await this.sentKeys(PROMO_$_VALUE_INPUT, newPrice);
+            await this.timeout(500);
+            let ticketOne = parseFloat(ticketOnePrice);
+            let ticketOneParsed = ticketOne.toFixed(2);
+            let originalPrice = await this.getElementText(CURRENT_PRICE);
+            assert.equal( parseFloat(originalPrice.substring(1)),ticketOneParsed);
+            let discountedPrice = await this.getElementText(DISCOUNTED_PRICE);
+            assert.equal(discountedPrice, "$"+newPrice )
+        }
+
+        async assertTooltipDisplaysCorrectAvailableTicketsAndEnteringLargerWillSetMaximumNumber(ticketOneName, ticketOneQuantity){
+            await this.click(SELECT_TICKET_DROPDOWN);
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
+            await this.timeout(500);
+            await this.clickElementReturnedFromAnArray(TICKET_DROPDOWN_OPTIONS,1);
+            await this.click(SELECT_TICKET_DROPDOWN);
+            await this.moveToElement(MAX_QTY_INFO_ICON);
+            let tooltipMessage = await this.getElementText(TOOLTIP_INFO);
+            assert.equal(tooltipMessage, ticketOneName + ' - ' + ticketOneQuantity);
+            await this.sentKeys(PROMO_LIMIT_QUANTITY_INPUT, "1001")
+            await this.timeout(500);
+            let limitInputValue = await this.getEnteredTextInTheInput(PROMO_LIMIT_QUANTITY_INPUT);
+            assert.notEqual(limitInputValue, "1001");
+            assert.equal(limitInputValue, ticketOneQuantity);
+        }
+
+        async assertTooltipDisplaysCorrectAvailableMultipleTicketsAndEnteringLargerWillSetMaximumNumber(ticketOneName, ticketOneAvailableQty, ticketTwoName, ticketTwoAvailableQty, ticketThreeName, ticketThreeAvailableQty){
+            await this.click(SELECT_TICKET_DROPDOWN);
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
+            await this.timeout(500);
+            await this.clickElementReturnedFromAnArray(TICKET_DROPDOWN_OPTIONS,1);
+            await this.clickElementReturnedFromAnArray(TICKET_DROPDOWN_OPTIONS,2);
+            await this.clickElementReturnedFromAnArray(TICKET_DROPDOWN_OPTIONS,3);
+            await this.click(SELECT_TICKET_DROPDOWN);
+            await this.moveToElement(MAX_QTY_INFO_ICON);
+            await this.timeout(500);
+            let array = [];
+            let ticketOne = await this.getElementTextFromAnArrayByIndex(TOOLTIP_INFO, 0);
+            assert.equal(ticketOne, ticketOneName + ' - ' + ticketOneAvailableQty);
+            let ticketTwo = await this.getElementTextFromAnArrayByIndex(TOOLTIP_INFO, 1);
+            assert.equal(ticketTwo, ticketTwoName + ' - ' + ticketTwoAvailableQty);
+            let ticketThree = await this.getElementTextFromAnArrayByIndex(TOOLTIP_INFO, 2);
+            assert.equal(ticketThree, ticketThreeName + ' - ' + ticketThreeAvailableQty);
+            array.push(ticketOne.substring(ticketOne.length-3))
+            array.push(ticketOne.substring(ticketTwo.length-3))
+            array.push(ticketOne.substring(ticketThree.length-3))
+
+            let totalAvailable = await this.convertAndCalculateStringArrayToNumberWithArray(array);
+            await this.sentKeys(PROMO_LIMIT_QUANTITY_INPUT, (totalAvailable+100).toString());
+            await this.timeout(500);
+            let numberInInput = await this.getEnteredTextInTheInput(PROMO_LIMIT_QUANTITY_INPUT);
+            assert.notEqual(numberInInput, (totalAvailable+100).toString());
+            assert.equal(numberInInput, totalAvailable.toString());
         }
 
 

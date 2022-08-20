@@ -32,15 +32,21 @@
             await this.click(NEXT_BUTTON);
         }
         async addPromotionToTickets(promoCode){
+            await this.timeout(500);
             await this.sentKeys(PROMO_INPUT,promoCode);
+            await this.timeout(500);
             await this.click(APPLY_BUTTON);
+            await this.timeout(500);
             await this.isDisplayed(APPLIED_PROMOTION_DIV,5000);
         }
         async addWrongPromoCode(){
             await this.sentKeys(PROMO_INPUT,"FgRgR1");
             await this.click(APPLY_BUTTON);
             await this.isDisplayed(INVALID_DISCOUNT_CODE_ICON,5000);
+            await this.timeout(500)
             await this.clearInputField(PROMO_INPUT);
+            await this.timeout(500)
+
         }
         async checkTicketsNamesInOrderDetails(ticketOneName,ticketTwoName,ticketThreeName,ticketFourName){
             let rawTicketOne = await this.getChildByIndex(TICKETS_NAME_PARENT,0,0);
@@ -123,6 +129,7 @@
             assert.notEqual(0.00, beforeFees);
             assert.equal(0.00,beforeDonation);
             await this.addPromotionToTickets(promoCode);
+            await this.timeout(1000);
             let afterRawSubTotal = await this.getElementText(SUBTOTAL);
             let afterRawSubTotalSubString = afterRawSubTotal.substring(2);
             let afterSubtotal = parseFloat(afterRawSubTotalSubString);

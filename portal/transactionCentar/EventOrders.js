@@ -177,7 +177,7 @@
             await filter.filterByMinimumPriceInTransactionCenter();
             let filteredOrderIds = await this.returnElementsCount(ORDERS_IDS);
             assert.notEqual(filteredOrderIds, orderIds);
-            let amounts = await this.convertStringArrayToNumber(ORDERS_AMOUNTS);
+            let amounts = await this.convertStringArrayToNumberWithLocator(ORDERS_AMOUNTS);
             for (let i = 0; i < amounts.length ; i++){
                 expect(amounts[i]).to.be.greaterThan(29.99)
             }
@@ -193,7 +193,7 @@
             await filter.filterByMaximumPriceInTransactionCenter();
             let filteredOrderIds = await this.returnElementsCount(ORDERS_IDS);
             assert.notEqual(filteredOrderIds, orderIds);
-            let amounts = await this.convertStringArrayToNumber(ORDERS_AMOUNTS);
+            let amounts = await this.convertStringArrayToNumberWithLocator(ORDERS_AMOUNTS);
             for (let i = 0; i < amounts.length ; i++){
                 expect(amounts[i]).to.be.lessThan(25.01)
             }
@@ -209,7 +209,7 @@
             await filter.filterByPriceRangeInTransactionCenter();
             let filteredOrderIds = await this.returnElementsCount(ORDERS_IDS);
             assert.notEqual(filteredOrderIds, orderIds);
-            let amounts = await this.convertStringArrayToNumber(ORDERS_AMOUNTS);
+            let amounts = await this.convertStringArrayToNumberWithLocator(ORDERS_AMOUNTS);
             for (let i = 0; i < amounts.length ; i++){
                 expect(amounts[i]).to.be.within(19.99, 25.01)
             }
@@ -225,7 +225,7 @@
             await filter.filterByMinimumItemsInTransactionCenter();
             let filteredOrderIds = await this.returnElementsCount(ORDERS_IDS);
             assert.notEqual(filteredOrderIds, orderIds);
-            let amounts = await this.convertStringArrayToNumber(ORDERS_ITEMS);
+            let amounts = await this.convertStringArrayToNumberWithLocator(ORDERS_ITEMS);
             for (let i = 0; i < amounts.length ; i++){
                 expect(amounts[i]).to.be.greaterThan(1.99)
             }
@@ -241,7 +241,7 @@
             await filter.filterByMaximumItemsInTransactionCenter();
             let filteredOrderIds = await this.returnElementsCount(ORDERS_IDS);
             assert.notEqual(filteredOrderIds, orderIds);
-            let amounts = await this.convertStringArrayToNumber(ORDERS_ITEMS);
+            let amounts = await this.convertStringArrayToNumberWithLocator(ORDERS_ITEMS);
             for (let i = 0; i < amounts.length ; i++){
                 expect(amounts[i]).to.be.lessThan(2.01)
             }
@@ -257,7 +257,7 @@
             await filter.filterByItemsRangeInTransactionCenter();
             let filteredOrderIds = await this.returnElementsCount(ORDERS_IDS);
             assert.notEqual(filteredOrderIds, orderIds);
-            let amounts = await this.convertStringArrayToNumber(ORDERS_ITEMS);
+            let amounts = await this.convertStringArrayToNumberWithLocator(ORDERS_ITEMS);
             for (let i = 0; i < amounts.length ; i++){
                 expect(amounts[i]).to.be.within(2.99, 5.01)
             }
@@ -306,7 +306,7 @@
             let filteredOrderIds = await this.returnElementsCount(ORDERS_IDS);
             assert.notEqual(filteredOrderIds, orderIds);
             let users = await this.returnArrayOfStrings(USERS);
-            let amounts = await this.convertStringArrayToNumber(ORDERS_AMOUNTS);
+            let amounts = await this.convertStringArrayToNumberWithLocator(ORDERS_AMOUNTS);
             for (let i = 0; i < users.length ; i++){
                 assert.equal(users[i], base + ' ' + base);
                 expect(amounts[i]).to.be.within(19.99, 25.01)

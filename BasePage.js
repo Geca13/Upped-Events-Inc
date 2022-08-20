@@ -334,7 +334,6 @@
                   unique.push(string)
               }
           }
-          console.log(unique.length)
           return unique;
     }
 
@@ -364,7 +363,7 @@
          return fixed;
     }
     async assertNumberedArrayIsSortedAscending(locator){
-          let array = await this.convertStringArrayToNumber(locator);
+          let array = await this.convertStringArrayToNumberWithLocator(locator);
             if(array.length === 1){
                 return true;
               }
@@ -378,7 +377,7 @@
     }
 
     async assertNumberedArrayIsSortedDescending(locator){
-          let array = await this.convertStringArrayToNumber(locator);
+          let array = await this.convertStringArrayToNumberWithLocator(locator);
             if(array.length === 1){
                 return true;
               }
@@ -391,7 +390,7 @@
           }
     }
 
-    async convertStringArrayToNumber(locator){
+    async convertStringArrayToNumberWithLocator(locator){
           let converted = [];
           let original = await this.findAll(locator);
           for (let i = 0; i < original.length ; i++){
@@ -402,9 +401,17 @@
               let elementNumber = await parseFloat(elementText);
               converted.push(elementNumber);
           }
-          console.log(converted)
        return converted;
+    }
 
+    async convertAndCalculateStringArrayToNumberWithArray(array){
+        let total = 0;
+
+        for (let i = 0; i < array.length ; i++){
+            let stringNumber = parseInt(array[i]);
+            total = total + stringNumber;
+        }
+        return total;
     }
 
     async getSubstringOfInboxEmailString(text){

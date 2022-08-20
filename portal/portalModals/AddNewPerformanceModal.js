@@ -1,4 +1,5 @@
     const BasePage = require('../../BasePage');
+    const SetImageModal = require('../portalModals/SetImageModal')
     const PERFORMANCE_NAME_INPUT = { xpath: "//input[@formcontrolname='name']" };
     const TYPE_AND_LOCATION_SELECTS = { xpath: "//button[@role='combobox']" };
     const TYPE_AND_LOCATION_OPTIONS = { xpath: "//a[@role='option']" }; //list
@@ -69,13 +70,18 @@
             //await this.click(MAKE_FEATURED_CHECKBOX);
             await this.driver.executeScript("document.getElementsByClassName('file-upload-input')[0].style.visibility='visible'");
             await this.sentKeys(UPLOAD_PHOTO_INPUT,"D:\\Upped\\static\\chuck.jpg");
-            await this.isDisplayed(SET_IMAGE_BUTTON,5000);
+            let image = new SetImageModal(this.driver)
+            await image.setImageModalIsDisplayed();
+            await image.clickSetButton();
+            /*await this.isDisplayed(SET_IMAGE_BUTTON,5000);
             await this.click(SET_IMAGE_BUTTON);
             await this.timeout(500)
-            //await this.click(SET_IMAGE_BUTTON);
+            //await this.click(SET_IMAGE_BUTTON);*/
             await this.isAtCreatePerformanceModal();
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='hidden'");
+            await this.timeout(500)
             await this.moveToElement(ADD_REMINDER_LINK);
+            await this.timeout(500)
             await this.click(ADD_REMINDER_LINK);
             await this.moveToElement(ADD_REMINDER_LINK);
             await this.sentKeys(PERFORMANCE_REMINDERS_MESSAGE_TEXTAREA,'Sarah Walker');

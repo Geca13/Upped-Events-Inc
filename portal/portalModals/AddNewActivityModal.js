@@ -1,4 +1,5 @@
     const BasePage = require('../../BasePage');
+    const SetImageModal = require("./SetImageModal");
     const ACTIVITY_NAME_INPUT = { xpath: "//input[@formcontrolname='name']" };
     const TYPE_AND_LOCATION_SELECTS = { xpath: "//button[@role='combobox']" };
     const TYPE_AND_LOCATION_OPTIONS = { xpath: "//a[@role='option']" }; //list
@@ -74,11 +75,9 @@
             await this.driver.executeScript("document.querySelector(\"input[formControlName='featured']\").click()");
             await this.driver.executeScript("document.getElementsByClassName('file-upload-input')[0].style.visibility='visible'");
             await this.sentKeys(UPLOAD_PHOTO_INPUT, "D:\\Upped\\static\\eaglesvikings.jpg");
-            await this.isDisplayed(SET_IMAGE_BUTTON, 5000);
-            await this.timeout(1500);
-            await this.click(SET_IMAGE_BUTTON);
-            await this.timeout(500);
-            //await this.click(SET_IMAGE_BUTTON);
+            let image = new SetImageModal(this.driver)
+            await image.setImageModalIsDisplayed();
+            await image.clickSetButton();
             await this.isAtCreateActivityModal();
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='hidden'");
             await this.moveToElement(ADD_REMINDER_LINK);
