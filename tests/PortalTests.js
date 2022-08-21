@@ -158,7 +158,7 @@
         let embedDonate;
 
 
-        let base = 520661 // Math.floor(100000 + Math.random() * 900000);
+        let base = 487386 //  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -1012,7 +1012,7 @@
             await events.clickNewEvent(shortName);
             await info.wishListButtonIsDisplayed();
             await info.clickBuyTicketsButton();
-            await tickets.sendKeysToQtyInput(0,3);
+            await tickets.sendKeysToQtyInput(0,2);
             await ticketing.assertTicketsSubtotalMultipliedByTaxesAndFeesForEachTicketEqualsGrandTotal( savedTaxValue, saved$FeeValue);
 
 
@@ -2012,6 +2012,37 @@
         });
 
         //PORTAL
+        it('should assert that the new ticket discounted price is displayed when promotion is percentage value', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+            promotions = new PromotionsPage(driver);
+            newPromotion = new AddNewPromotionModal(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickPromotionsTab();
+            await promotions.addPromotionButtonIsVisible();
+            await promotions.clickAddPromotionButton();
+            await newPromotion.addPromotionModalIsDisplayed();
+            await newPromotion.assertWhenPercentageValuePromotionIsEnteredIsDisplayedNextToOriginalPrice(ticketOnePrice, 70);
+
+        });
+
+        //PORTAL
         it('should check the available ticket quantity is displayed in tooltip and is max allowed portal', async function () {
 
             portalLogin = new PortalLoginPage(driver);
@@ -2077,6 +2108,36 @@
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.assertTooltipDisplaysCorrectAvailableMultipleTicketsAndEnteringLargerWillSetMaximumNumber(ticketOneName, ticketOneAvailableQty, ticketTwoName, ticketTwoAvailableQty, ticketThreeName, ticketThreeAvailableQty);
+        });
+
+        //PORTAL
+        it('should assert lower case letters are transfered to uppercase and symbols are allowed in promocode input field', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+            promotions = new PromotionsPage(driver);
+            newPromotion = new AddNewPromotionModal(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickPromotionsTab();
+            await promotions.addPromotionButtonIsVisible();
+            await promotions.clickAddPromotionButton();
+            await newPromotion.addPromotionModalIsDisplayed();
+            await newPromotion.assertAllowedCharactersInPromoCodeInputAndMaximumLength();
         });
 
         it('should calculate subtotal and total on multiple tickets with multiple quantity on each with tax and fee', async function () {

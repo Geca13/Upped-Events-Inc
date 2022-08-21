@@ -121,7 +121,7 @@
             let subtotal = rawSubtotal.substring(1);
             let feeSubstring = saved$FeeValue.substring(2);
             let feeParsed = parseFloat(feeSubstring);
-            let totalFees = 3 * feeParsed ;
+            let totalFees = 2 * feeParsed ;
             let subtotalPlusTaxes = (parseFloat(subtotal) + parseFloat(subtotal) / 100 * savedTaxValue);
             let calculatedGrandTotal = parseFloat(subtotalPlusTaxes.toFixed(2)) + parseFloat(totalFees.toFixed(2));
             let total = await this.getElementText(GRAND_TOTAL_VALUE);
