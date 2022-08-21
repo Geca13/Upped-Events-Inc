@@ -1,6 +1,7 @@
     const BasePage = require('../../BasePage');
     const {By} = require("selenium-webdriver");
     const assert = require('assert');
+    const { expect } = require('chai');
     const DateTimePickerModal = require("./DateTimePickerModal");
     const ADD_NEW_PROMOTION_HEADER = { xpath: "//*[text()='Add New Promotion']"}
     const PROMOTION_TITLE_INPUT = { xpath: "//div[@class='fields']/input[@name='name']" };
@@ -340,6 +341,24 @@
             assert.equal(discountedPrice, "$"+newPrice )
         }
 
+        async assertWhenPercentageValuePromotionIsEnteredIsDisplayedNextToOriginalPrice(ticketOnePrice, discount){
+            await this.click(SELECT_TICKET_DROPDOWN);
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
+            await this.timeout(500);
+            await this.clickElementReturnedFromAnArray(TICKET_DROPDOWN_OPTIONS,1);
+            await this.click(SELECT_TICKET_DROPDOWN);
+            await this.sentKeys(PROMO_PERCENT_VALUE_INPUT, discount.toString());
+            await this.timeout(500);
+            let ticketOne = parseFloat(ticketOnePrice);
+            let ticketOneParsed = ticketOne.toFixed(2);
+            let originalPrice = await this.getElementText(CURRENT_PRICE);
+            assert.equal( parseFloat(originalPrice.substring(1)),ticketOneParsed);
+            let discountedPrice = await this.getElementText(DISCOUNTED_PRICE);
+            let calculatedDiscount = ticketOneParsed - (ticketOneParsed * (discount / 100))
+            let calculatedToFixed = calculatedDiscount.toFixed(2)
+            assert.equal(discountedPrice, "$"+calculatedToFixed.toString() )
+    }
+
         async assertTooltipDisplaysCorrectAvailableTicketsAndEnteringLargerWillSetMaximumNumber(ticketOneName, ticketOneQuantity){
             await this.click(SELECT_TICKET_DROPDOWN);
             await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
@@ -374,8 +393,8 @@
             let ticketThree = await this.getElementTextFromAnArrayByIndex(TOOLTIP_INFO, 2);
             assert.equal(ticketThree, ticketThreeName + ' - ' + ticketThreeAvailableQty);
             array.push(ticketOne.substring(ticketOne.length-3))
-            array.push(ticketOne.substring(ticketTwo.length-3))
-            array.push(ticketOne.substring(ticketThree.length-3))
+            array.push(ticketTwo.substring(ticketTwo.length-3))
+            array.push(ticketThree.substring(ticketThree.length-3))
 
             let totalAvailable = await this.convertAndCalculateStringArrayToNumberWithArray(array);
             await this.sentKeys(PROMO_LIMIT_QUANTITY_INPUT, (totalAvailable+100).toString());
@@ -383,6 +402,22 @@
             let numberInInput = await this.getEnteredTextInTheInput(PROMO_LIMIT_QUANTITY_INPUT);
             assert.notEqual(numberInInput, (totalAvailable+100).toString());
             assert.equal(numberInInput, totalAvailable.toString());
+        }
+
+        async assertAllowedCharactersInPromoCodeInputAndMaximumLength(){
+            await this.click(SELECT_TICKET_DROPDOWN);
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
+            await this.timeout(500);
+            await this.clickElementReturnedFromAnArray(TICKET_DROPDOWN_OPTIONS,1);
+            let testString = '1234567890!@#$%^&*(){}[]?/abcdefghijklmnopqrstuvwxyz';
+            await this.sentKeys(PROMO_CODE_NAME_INPUT,testString);
+            await this.timeout(500);
+            let enteredPromotionCode = await this.getEnteredTextInTheInput(PROMO_CODE_NAME_INPUT);
+            assert.notEqual(enteredPromotionCode.length, testString.length);
+            expect(testString.length).to.be.greaterThan(enteredPromotionCode.length);
+            assert.equal(enteredPromotionCode.length, 45);
+            assert.notEqual(enteredPromotionCode, testString.substring(0,44));
+            assert.equal(enteredPromotionCode, "1234567890!@#$%^&*(){}[]?/ABCDEFGHIJKLMNOPQRS")
         }
 
 
