@@ -47,13 +47,11 @@
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.select13Day();
             await startDatePicker.clickSetButton();
-            await startDatePicker.clickSetButton();
             await this.timeout(1000);
             await this.clickElementReturnedFromAnArray(CALENDAR_ICON, 4);
             let endDatePicker = new DateTimePickerModal(this.driver);
             await endDatePicker.datePickerIsVisible();
             await endDatePicker.select13Day();
-            await endDatePicker.clickSetButton();
             await endDatePicker.clickSetButton();
             await this.timeout(1000);
             await this.clickElementReturnedFromAnArray(SELECTS, 1);
@@ -98,13 +96,11 @@
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.select13Day();
             await startDatePicker.clickSetButton();
-            await startDatePicker.clickSetButton();
             await this.timeout(1000);
             await this.clickElementReturnedFromAnArray(CALENDAR_ICON, 4);
             let endDatePicker = new DateTimePickerModal(this.driver);
             await endDatePicker.datePickerIsVisible();
             await endDatePicker.select13Day();
-            await endDatePicker.clickSetButton();
             await endDatePicker.clickSetButton();
             await this.timeout(1000);
             await this.clickElementReturnedFromAnArray(SELECTS, 1);

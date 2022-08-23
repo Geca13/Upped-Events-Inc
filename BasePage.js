@@ -625,6 +625,7 @@
               await this.driver.wait(until.elementLocated(locator), timeout)
               await this.driver.wait(until.elementIsVisible(this.find(locator)), timeout)
               await this.driver.wait(until.elementIsEnabled(this.find(locator)), timeout)
+              await this.timeout(500);
               return true
           } else{
              try {

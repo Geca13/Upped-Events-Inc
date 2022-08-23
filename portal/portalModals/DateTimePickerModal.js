@@ -41,6 +41,11 @@
         async clickSetButton(){
             await this.click(SET_DATE_TIME_BUTTON);
             await this.timeout(1500)
+            let set = await this.findAll(SET_DATE_TIME_BUTTON);
+            if(set.length > 0){
+                await this.click(SET_DATE_TIME_BUTTON);
+                await this.timeout(1000);
+            }
         }
         async clickCancelButton(){
             await this.click(CANCEL_DATE_TIME_BUTTON);

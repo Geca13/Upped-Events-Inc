@@ -1,5 +1,5 @@
     const BasePage = require('../../BasePage');
-    const SET_IMAGE_BUTTON = { xpath: "//button[text()[normalize-space() = 'Set']]"}
+    const SET_IMAGE_BUTTON = { xpath: "//div[contains(@class, 'modal-footer')]//button[@class='primary-btn']"}
     const CLOSE_MODAL_BUTTON = { xpath: "//*[text()='Cancel']"}
     const ZOOM_IN_BUTTON = { xpath: "//*[text()=' Zoom In ']"}
     const ZOOM_OUT_BUTTON = { xpath: "//*[text()=' Zoom Out ']"}

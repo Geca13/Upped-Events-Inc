@@ -2,16 +2,19 @@
     const {By} = require("selenium-webdriver");
     const assert = require('assert');
     const { expect } = require('chai');
+    const PromotionsPage = require('../promotions/PromotionsPage');
     const DateTimePickerModal = require("./DateTimePickerModal");
     const ADD_NEW_PROMOTION_HEADER = { xpath: "//*[text()='Add New Promotion']"}
-    const PROMOTION_TITLE_INPUT = { xpath: "//div[@class='fields']/input[@name='name']" };
+    const PROMOTION_TITLE_INPUT = { name: "name" };
     const PROMOTION_DESCRIPTION_INPUT = { name: "description" };
     const SELECT_TICKET_DROPDOWN = { id: "tickets" };
+    const SELECTED_TICKETS = { xpath: "//multi-dropdown[@id='tickets']//button//span"}
     const TICKET_DROPDOWN_OPTIONS = { xpath: "//label[@class='pl-4']" }
     const PROMOTION_STATUS_DROPDOWN = { name: "status" };
     const PROMOTION_DISTRIBUTION_DROPDOWN = { name: "codeDistributionType" };
     const PROMOTION_DISTRIBUTION_DROPDOWN_OPTIONS = { xpath: "//select-picker[@name='codeDistributionType']//a[@role='option']//span" };
     const PROMOTION_STATUS_AND_DISTRIBUTION_SELECTS = { xpath: "//button[@aria-haspopup='listbox']" }; //LIST
+    const SELECTED_STATUS = { xpath: "//select-picker[@name='status']//button//div[@class='filter-option-inner-inner']"}
     const ENABLED_STATUS_OPTION = { xpath: "//*[text()='Enabled']"}
     const DISABLED_STATUS_OPTION = { xpath: "//*[text()='Disabled']"}
     const MEMBERS_ONLY_LIMIT_CHECKBOX = { css: "input[name='membersLimit'" };
@@ -28,8 +31,8 @@
     const CODE_USE_LIMIT_INPUT = { name: "useLimit" };
     const SAVE_PROMOTION_BUTTON = { xpath: "//*[text()=' Save ']"};
     const CANCEL_PROMOTION_BUTTON = { xpath: "//*[text()='Cancel']"};
-    const TICKET_START_DATE_INPUT = { name: "startDate" };
-    const TICKET_END_DATE_INPUT = { name: "endDate" };
+    const PROMOTION_START_DATE_INPUT = { name: "startDate" };
+    const PROMOTION_END_DATE_INPUT = { name: "endDate" };
     const SIBLING_OF_LIMIT_CHECKBOX = { xpath: "//*[text()='Limit offer to members only']"}
     const MODAL_TITLE = { xpath: "//div[@class='column_title']//h4"}
     const TITLE_INPUT_LABEL = { xpath: "//input[@name='name']/following-sibling::label"}
@@ -61,7 +64,7 @@
         }
 
         async startDateInputIsDisplayed(){
-            await this.isDisplayed(TICKET_START_DATE_INPUT,10000)
+            await this.isDisplayed(PROMOTION_START_DATE_INPUT,10000)
         }
         async ticketsAreDisplayedInTheList(ticketName){
             await this.isDisplayed(By.xpath("//*[text()='"+ticketName+"']"),5000);
@@ -152,9 +155,9 @@
             await this.sentKeys(PROMO_CODE_NAME_INPUT,promoCode);
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='hidden'");
             //await this.driver.executeScript("document.body.style.zoom = '80%'")
-            await this.startDateInputIsDisplayed(PROMO_PER_ACCOUNT_LIMIT_INPUT, 5000);
+            await this.startDateInputIsDisplayed(PROMOTION_START_DATE_INPUT, 5000);
             await this.timeout(1500)
-            await this.click(TICKET_START_DATE_INPUT)
+            await this.click(PROMOTION_START_DATE_INPUT)
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.enterTimeNow();
@@ -165,8 +168,81 @@
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='visible'");
             await this.isDisplayed(SAVE_PROMOTION_BUTTON)
             await this.timeout(500)
+            let promotion = [];
+            let name = await this.getEnteredTextInTheInput(PROMOTION_TITLE_INPUT)
+            let description = await this.getEnteredTextInTheInput(PROMOTION_DESCRIPTION_INPUT);
+            let ticket = await this.getElementText(SELECTED_TICKETS);
+            let status = await this.getElementText(SELECTED_STATUS);
+            let origStart = await this.getEnteredTextInTheInput(PROMOTION_START_DATE_INPUT)
+            let origEnd = await this.getEnteredTextInTheInput(PROMOTION_END_DATE_INPUT);
+            let quantity = await this.getEnteredTextInTheInput(PROMO_LIMIT_QUANTITY_INPUT);
+            let origPrice = await this.getElementText(CURRENT_PRICE);
+            let price = await this.returnNumberWith$Sign(PROMO_$_VALUE_INPUT);
+            let start = await this.getOnlyFullDateFromDateTimeInput(PROMOTION_START_DATE_INPUT);
+            let end =await this.getOnlyFullDateFromDateTimeInput(PROMOTION_END_DATE_INPUT);
+            promotion.push(name);
+            promotion.push(description);
+            promotion.push(ticket);
+            promotion.push(quantity);
+            promotion.push(origPrice);
+            promotion.push(price);
+            promotion.push(start);
+            promotion.push(end);
+            promotion.push(origStart);
+            promotion.push(origEnd);
+            promotion.push(status);
             await this.click(SAVE_PROMOTION_BUTTON);
-            await this.timeout(1500)
+            await this.timeout(1500);
+            return promotion;
+           /* let promotions = new PromotionsPage(this.driver);
+            await promotions.assertThePromotionIsSavedCorrectOnPromotionsPage(name,description,ticket,quantity,origPrice,price,start,end,status);
+            await promotions.findPromotionByNameAndClickUpdateButton(name);
+            await this.isDisplayed(PROMOTION_TITLE_INPUT, 5000);
+            let updateName = await this.getEnteredTextInTheInput(PROMOTION_TITLE_INPUT)
+            let updateDescription = await this.getEnteredTextInTheInput(PROMOTION_DESCRIPTION_INPUT);
+            let updateTicket = await this.getElementText(SELECTED_TICKETS);
+            let updateStatus = await this.getElementText(SELECTED_STATUS);
+            let updateOrigStart = await this.getEnteredTextInTheInput(PROMOTION_START_DATE_INPUT)
+            let updateOrigEnd = await this.getEnteredTextInTheInput(PROMOTION_END_DATE_INPUT);
+            let updateQuantity = await this.getEnteredTextInTheInput(PROMO_LIMIT_QUANTITY_INPUT);
+            let updateOrigPrice = await this.getElementText(CURRENT_PRICE);
+            let updatePrice = await this.returnNumberWith$Sign(PROMO_$_VALUE_INPUT);
+            assert.equal(updateName, name);
+            assert.equal(updateDescription, description);
+            assert.equal(updateTicket, ticket);
+            assert.equal(updateStatus, status);
+            assert.equal(updateOrigStart, origStart);
+            assert.equal(updateOrigEnd, origEnd);
+            assert.equal(updateQuantity, quantity);
+            assert.equal(updateOrigPrice, origPrice);
+            assert.equal(updatePrice, price);
+            await this.click(CANCEL_PROMOTION_BUTTON);
+            await this.timeout(1000);*/
+
+        }
+
+        async assertDataFromCreateEqualsUpdateData(promotion){
+            await this.isDisplayed(PROMOTION_TITLE_INPUT, 5000);
+            let updateName = await this.getEnteredTextInTheInput(PROMOTION_TITLE_INPUT)
+            let updateDescription = await this.getEnteredTextInTheInput(PROMOTION_DESCRIPTION_INPUT);
+            let updateTicket = await this.getElementText(SELECTED_TICKETS);
+            let updateStatus = await this.getElementText(SELECTED_STATUS);
+            let updateOrigStart = await this.getEnteredTextInTheInput(PROMOTION_START_DATE_INPUT)
+            let updateOrigEnd = await this.getEnteredTextInTheInput(PROMOTION_END_DATE_INPUT);
+            let updateQuantity = await this.getEnteredTextInTheInput(PROMO_LIMIT_QUANTITY_INPUT);
+            let updateOrigPrice = await this.getElementText(CURRENT_PRICE);
+            let updatePrice = await this.returnNumberWith$Sign(PROMO_$_VALUE_INPUT);
+            assert.equal(updateName, promotion[0]);
+            assert.equal(updateDescription, promotion[1]);
+            assert.equal(updateTicket, promotion[2]);
+            assert.equal(updateStatus, promotion[10]);
+            assert.equal(updateOrigStart, promotion[8]);
+            assert.equal(updateOrigEnd, promotion[9]);
+            assert.equal(updateQuantity, promotion[3]);
+            assert.equal(updateOrigPrice, promotion[4]);
+            assert.equal(updatePrice, promotion[5]);
+            await this.click(CANCEL_PROMOTION_BUTTON);
+            await this.timeout(1000);
         }
 
         async createPromotionForMembersWithPercentValue(ticketName, promoName, promoCode){
@@ -187,7 +263,7 @@
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='hidden'");
             await this.startDateInputIsDisplayed();
             await this.timeout(1000)
-            await this.click(TICKET_START_DATE_INPUT)
+            await this.click(PROMOTION_START_DATE_INPUT)
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.enterTimeNow();
@@ -216,7 +292,7 @@
             await this.sentKeys(PROMO_PERCENT_VALUE_INPUT,"70");
             await this.sentKeys(PROMO_CODE_NAME_INPUT,promoCode);
             await this.driver.executeScript("document.getElementsByName('accountLimit')[0].click()");
-            await this.moveToElement(TICKET_START_DATE_INPUT);
+            await this.moveToElement(PROMOTION_START_DATE_INPUT);
             await this.isDisplayed(PROMO_PER_ACCOUNT_LIMIT_INPUT,1000);
             await this.sentKeys(PROMO_PER_ACCOUNT_LIMIT_INPUT, "10")
             await this.click(SELECT_LIMIT_TICKETS_DROPDOWN);
@@ -229,7 +305,7 @@
             //await this.driver.executeScript("document.body.style.zoom = '80%'")
             await this.startDateInputIsDisplayed();
             await this.timeout(1000)
-            await this.click(TICKET_START_DATE_INPUT)
+            await this.click(PROMOTION_START_DATE_INPUT)
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.enterTimeNow();
@@ -257,12 +333,12 @@
             await this.sentKeys(PROMO_LIMIT_QUANTITY_INPUT,"50");
             await this.sentKeys(PROMO_PERCENT_VALUE_INPUT,"100");
             await this.sentKeys(PROMO_CODE_NAME_INPUT,promoCode);
-            await this.moveToElement(TICKET_START_DATE_INPUT);
+            await this.moveToElement(PROMOTION_START_DATE_INPUT);
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='hidden'");
             //await this.driver.executeScript("document.body.style.zoom = '80%'")
             await this.startDateInputIsDisplayed();
             await this.timeout(1000)
-            await this.click(TICKET_START_DATE_INPUT)
+            await this.click(PROMOTION_START_DATE_INPUT)
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.enterTimeNow();

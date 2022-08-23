@@ -17,6 +17,7 @@
     const PROMOTION_NEW_PRICE = { xpath: "//td[contains(@class, 'column-discountedprice')]//span" };
     const PROMOTION_START_DATE = { xpath: "//td[contains(@class, 'column-startdate')]" };
     const PROMOTION_END_DATE = { xpath: "//td[contains(@class, 'column-enddate')]" };
+    const EDIT_PROMO_BUTTON = { xpath: "//a[@class='text-second']//span[@class='icon-edit']"}
     const EDIT_AND_EXPORT_TICKETS_BUTTONS = { className: 'text-second'} //list
     const NO_RECORDS = { xpath: "//div[contains(@class, 'data-empty')]//h5" };
 
@@ -62,6 +63,33 @@
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.assertElementsOnNewPromotionsScreen(ticketOneName)
 
+        }
+
+        async assertThePromotionIsSavedCorrectOnPromotionsPage(promotion){
+            await this.isDisplayed(PROMOTION_NAME,5000);
+            let i = await this.returnIndexWhenTextIsKnown(PROMOTION_NAME,promotion[0]);
+            await this.timeout(500);
+            let namePromo = await this.getElementTextFromAnArrayByIndex(PROMOTION_NAME,i);
+            let extDescription = await this.getElementTextFromAnArrayByIndex(PROMOTION_DESCRIPTION,i);
+            let nameTicket = await this.getElementTextFromAnArrayByIndex(PROMOTION_TICKET, i);
+            let promoQty = await this.getElementTextFromAnArrayByIndex(PROMOTION_QUANTITY, i);
+            let orPrice = await this.getElementTextFromAnArrayByIndex(PROMOTION_ORIGINAL_PRICE, i);
+            let priceNew = await this.getElementTextFromAnArrayByIndex(PROMOTION_NEW_PRICE, i);
+            let start = await this.getElementTextFromAnArrayByIndex(PROMOTION_START_DATE, i);
+            let end = await this.getElementTextFromAnArrayByIndex(PROMOTION_END_DATE, i);
+            assert.equal(namePromo, promotion[0]);
+            assert.equal(extDescription, "Single general promo code");
+            assert.equal(nameTicket, promotion[2]);
+            assert.equal(promoQty, promotion[3]);
+            //assert.equal(orPrice, promotion[4]);
+            //assert.equal(priceNew, promotion[5]);
+            assert.equal(start, promotion[6]);
+            assert.equal(end, promotion[7]);
+        }
+
+        async findPromotionByNameAndClickUpdateButton(promoName){
+            let i = await this.returnIndexWhenTextIsKnown(PROMOTION_NAME,promoName);
+            await this.clickElementReturnedFromAnArray(EDIT_PROMO_BUTTON, i);
         }
 
         async createNew$ValuePromotionAndAssertData(){
