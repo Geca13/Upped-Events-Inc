@@ -654,31 +654,6 @@
         }
     }
 
-    async isNotDisplayed(locator,timeout) {
-        if (timeout){
-            await this.driver.wait(until.elementIsNotVisible(this.find(locator)), timeout)
-                return true
-        } else{
-            try {
-                return await this.find(locator).isDisplayed()
-            } catch (error) {
-                 return false
-                }
-            }
-        }
-
-    async elementIsNotDisplayed(locator, timeout){
-        await this.driver.wait(until.elementIsNotVisible(this.find(locator)), timeout)
-    }
-
-    async elementNotInTheDom(locator){
-
-       let elements = await this.findAll(locator);
-        if(await elements[0].getText() !== ''){
-         return await this.elementNotInTheDom(locator);
-       }
-    }
-
     async takeScreenshot(location){
         this.driver.takeScreenshot().then(
              function(image) {

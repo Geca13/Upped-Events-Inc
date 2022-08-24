@@ -14,7 +14,7 @@
         }
 
     async savedAlertIsDisplayed(message){
-        await this.isDisplayed(TOAST_BANNER,5000);
+        await this.isDisplayed(TOAST_TITLE,5000);
         let alertTitle = await this.getElementText(TOAST_TITLE);
         assert.equal(alertTitle,'Saved!');
         let alertMessage = await this.getElementText(TOAST_MESSAGE);
@@ -24,7 +24,7 @@
     }
 
     async successAlertIsDisplayed(text){
-        await this.isDisplayed(TOAST_BANNER,5000);
+        await this.isDisplayed(TOAST_TITLE,5000);
         let alertTitle = await this.getElementText(TOAST_TITLE);
         await this.timeout(1000);
         assert.equal(alertTitle,'Success');
@@ -33,7 +33,7 @@
         await this.timeout(5000);
         }
     async errorAlertIsDisplayed(text){
-        await this.isDisplayed(TOAST_BANNER,15000);
+        await this.isDisplayed(TOAST_TITLE,15000);
         await this.timeout(1000)
         let alertTitle = await this.getElementText(TOAST_TITLE);
         assert.equal(alertTitle,'Error');
@@ -70,6 +70,16 @@
     async assertInfoMessageIsNotDisplayed(){
         let alert = await this.returnElementsCount(ALERT_INFO);
         assert.equal(alert, 0);
+    }
+
+    async updatedSuccessMessageIsShown(text){
+        await this.isDisplayed(TOAST_TITLE,15000);
+        await this.timeout(1000)
+        let alertTitle = await this.getElementText(TOAST_TITLE);
+        assert.equal(alertTitle,'Updated');
+        let alertMessage = await this.getElementText(TOAST_MESSAGE);
+        assert.equal(text,alertMessage);
+        await this.timeout(1000);
     }
 
 

@@ -1,5 +1,6 @@
     const BasePage = require('../../BasePage');
     const assert = require('assert');
+    const Alerts = require('../../Validations&Alerts/Alerts')
     const TableComponent = require('../portalComponents/TableComponent');
     const DateTimePickerModal = require('../portalModals/DateTimePickerModal');
     const AddNewPromotionModal = require('../portalModals/AddNewPromotionModal')
@@ -92,8 +93,20 @@
             await this.clickElementReturnedFromAnArray(EDIT_PROMO_BUTTON, i);
         }
 
-        async createNew$ValuePromotionAndAssertData(){
+        async disablePromotionByPromoName(promoName){
+            let i = await this.returnIndexWhenTextIsKnown(PROMOTION_NAME,promoName);
+            await this.clickElementReturnedFromAnArray(ACTIVATED_PROMOTION_TOGGLE, i);
+            let alert = new Alerts(this.driver);
+            await alert.updatedSuccessMessageIsShown("Promotion updated successfully!");
+            await this.timeout(500);
+        }
 
+        async enablePromotionByPromoName(promoName){
+            let i = await this.returnIndexWhenTextIsKnown(PROMOTION_NAME,promoName);
+            await this.clickElementReturnedFromAnArray(DEACTIVATED_PROMOTION_TOGGLE, i);
+            let alert = new Alerts(this.driver);
+            await alert.updatedSuccessMessageIsShown("Promotion updated successfully!");
+            await this.timeout(500);
         }
 
     }

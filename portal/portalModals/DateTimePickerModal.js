@@ -50,9 +50,6 @@
         async clickCancelButton(){
             await this.click(CANCEL_DATE_TIME_BUTTON);
         }
-        async datePickerIsNotVisible(){
-            await this.isNotDisplayed(SET_DATE_TIME_BUTTON,30000)
-        }
         async clickPMButton(){
             await this.click(PM_BUTTON)
         }
