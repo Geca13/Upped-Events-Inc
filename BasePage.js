@@ -2,6 +2,7 @@
     const until = require('selenium-webdriver').until;
     const WebElement = require('selenium-webdriver').WebElement
     const fsp = require('fs').promises
+    const moment = require('moment');
 
 
     class BasePage {
@@ -264,6 +265,11 @@
         return elements[index].getCssValue('color')
     }
 
+    async getFontTextDecorationFromAnArray(locator, index){
+        let elements = await this.findAll(locator)
+        return elements[index].getCssValue('text-decoration')
+    }
+
     async getBackgroundColorFromAnArray(locator, index){
         let elements = await this.findAll(locator)
         return elements[index].getCssValue('background-color')
@@ -297,7 +303,6 @@
           let array = await this.findAll(locator)
             for(let i = 0; i < array.length; i++){
                 if(await array[i].getText() == text){
-
                     return i;
                 }
             }
@@ -337,10 +342,17 @@
           return unique;
     }
 
-    async getSubstringOfPriceString(locator,parentIndex, childIndex){
+    async getSubstringOfPriceStringByParent(locator,parentIndex, childIndex){
         let result = await this.getChildByIndex(locator,parentIndex, childIndex);
         return result.substring(1);
     }
+
+    async getSubstringOfPriceString(locator){
+        let result = await this.getElementText(locator);
+        return result.substring(1);
+    }
+
+
 
     async getSubstringOfPriceStringWithStartAndEndIndex(locator,parentIndex, childIndex,startIndex, endIndex){
         let result = await this.getChildByIndex(locator,parentIndex, childIndex);
@@ -690,6 +702,20 @@
           const days = [' ','1st','2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th', '21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th', '29th', '30th', '31st'];
           let day = days[index];
           return day;
+    }
+
+    async getCurrentDateAndTime(){
+        let dateAndTime = new Date();
+        let month = dateAndTime.getMonth();
+        let day = dateAndTime.getDate();
+        let hours = dateAndTime.getHours();
+        if(hours > 12 ){
+            hours = hours - 12
+        }
+        let minutes = dateAndTime.getMinutes();
+        let converted = moment.months()[month] + ' ' + day.toString() + ' ' + hours + ' ' + minutes;
+        console.log(converted);
+        return converted;
     }
 
     async returnStateFromAbbreviation(abreviation){

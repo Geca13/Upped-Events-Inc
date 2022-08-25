@@ -75,7 +75,7 @@
         }
 
         async getSummaryPriceText(){
-            return await this.getSubstringOfPriceString(SUMMARY_ELEMENTS,0, 1)
+            return await this.getSubstringOfPriceStringByParent(SUMMARY_ELEMENTS,0, 1)
         }
         async removeDiscountIconIsDisplayed(){
             await this.isDisplayed(DISCOUNT_TRASH_ICON,5000);

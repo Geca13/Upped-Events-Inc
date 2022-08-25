@@ -61,7 +61,7 @@
         }
         async clickApplyDiscountButton(){
             await this.click(APPLY_DISCOUNT_BUTTON);
-            await this.timeout(500);
+            await this.timeout(1000);
         }
 
         async applyPromotion(promoCode){

@@ -5,7 +5,7 @@
    const IFRAME = { id: "uwWidget"}
    const TERMS_CHECKBOX = { xpath: "//input[@type='checkbox']"}
    const NEXT_BUTTON = { xpath: "//*[text()='Next']"}
-   const PREVIOUS_BUTTON = { xpath: "//*[text()=' Previous']"}
+   const PREVIOUS_PAGE_BUTTON = { xpath: "//button[contains(@class, 'embed-previous-btn')]"}
    const TICKETS_TERMS_BUTTON = { className: "terms-btn"}
    const LOGIN_INFO_MESSAGE = { className: 'message-text' }
    const LOGIN_LINK = { className: 'login-link' }
@@ -33,6 +33,10 @@
 
       }
 
+      async clickPreviousPageButton(){
+         await this.click(PREVIOUS_PAGE_BUTTON);
+         await this.timeout(1000);
+      }
 
 
       async getNewlyOpenedTab(originalWindow){
@@ -45,7 +49,7 @@
          await this.isDisplayed(EVENT_NAME,5000);
          let extractedEventName = await this.getElementText(EVENT_NAME);
          assert.equal(eventName,extractedEventName)
-         await this.timeout(5000)
+         await this.timeout(1000)
 
       }
 

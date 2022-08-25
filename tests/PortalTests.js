@@ -73,7 +73,8 @@
     const EmbeddingPage = require("../portal/eventOverview/DesignNav/EmbeddingPage");
     const EmbedTicketTermsModal = require('../embed/embedComponents/EmbedTicketTermsModal');
     const DonationPage = require('../portal/eventOverview/SettingsNav/DonationsPage');
-    const EmbedDonateComponent = require('../embed/embedComponents/EmbedDonateComponent')
+    const EmbedDonateComponent = require('../embed/embedComponents/EmbedDonateComponent');
+    const ReceiptPopup = require('../microsites/micrositesComponents/ReceiptPopup')
     const Files = require('../dummy/Files')
 
     describe('Should do everything', function () {
@@ -156,9 +157,9 @@
         let termsModal;
         let donation;
         let embedDonate;
+        let receipt;
 
-
-        let base = 743442 //  Math.floor(100000 + Math.random() * 900000);
+        let base = 391840 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -2269,7 +2270,7 @@
         });
 
         //EMBED
-        it('should add promo code and check data on summary', async function () {
+        it('should add promo code and assert donation value + new price equals original ticket price in summary', async function () {
 
             main = new EmbedMainPage(driver);
             embedLogin = new LoginPage(driver);
@@ -2292,6 +2293,120 @@
             await payment.isAtPaymentPage();
             await payment.applyPromotionAndCheckTicketPriceEqualsNewPricePlusDiscount(promoCodeOne,ticketOnePrice);
 
+        });
+
+        //EMBED
+        it('should add promo code and assert new price and original price are displayed on tickets page next to ticket name', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInput(0, 1);
+            let originalPrice = await embedTickets.getTicketPriceByTicketName(ticketOneName);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.applyPromotion(promoCodeOne);
+            let discountedPrice = await summary.getTicketsTotal();
+            await main.clickPreviousPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickPreviousPageButton();
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.assertTheNewTicketPriceEqualsDiscountedPrice(ticketOneName, discountedPrice);
+            await embedTickets.assertNewTicketNamePricesLayout(ticketOneName, originalPrice, discountedPrice);
+            await embedTickets.assertFontColorAndStrikeOnOriginalPrice(ticketOneName);
+
+        });
+        it('should make purchase for two tickets of same type with donation and promotion and assert data on the receipt', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            embedDonate = new EmbedDonateComponent(driver)
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            embedConfirm = new ConfirmPage(driver);
+            receipt = new ReceiptPopup(driver)
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInput(0, 2);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await embedDonate.clickOneDonationValueButton(2);
+            await embedDonate.clickAddDonationButton();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.applyPromotion(promoCodeOne);
+            await summary.discountIsDisplayed();
+            await payment.clickSavedCardByIndex(0);
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            let tickets = await summary.getTicketsTotal();
+            let donations = await summary.getDonationValue();
+            let subtotal = await summary.getSubtotalValue();
+            let taxes = await summary.getTaxesValue();
+            let fees = await summary.getFeesValue();
+            let discount = await summary.getDiscountValue();
+            let total = await summary.getTotalValue();
+            await orderDetails.clickPlaceOrderButton();
+            await embedConfirm.isAtConfirmPage();
+            await embedConfirm.clickViewReceiptButton();
+            await receipt.receiptPopupIsVisible();
+            await receipt.assertDataFromSummaryEqualReceiptValues(tickets,donations,subtotal,taxes,fees,discount,total)
+
+        });
+
+        //EMBED
+        it('should assert that percentage taxes are recalculated and dollar value fees are same when promotion is applied', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+            embedConfirm = new ConfirmPage(driver);
+            receipt = new ReceiptPopup(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInput(0, 1);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            let fees = await summary.getFeesValue();
+            let taxes = await summary.getTaxesValue();
+            await payment.applyPromotion(promoCodeOne);
+            await summary.assertTaxesAndFeesAreRefactoredToMatchNewPrice(fees,taxes);
 
         });
 

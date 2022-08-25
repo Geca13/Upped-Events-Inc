@@ -1,8 +1,20 @@
     const BasePage = require("../../BasePage");
     const assert = require('assert')
+    const { expect } = require('chai');
     const DonationComponent = require('../../microsites/micrositesComponents/DonationComponent');
     const ORDER_TOTAL_HEADER = { className: "total-heading"}
-    const PROMO_CODE_MESSAGE = { className: "promo"}
+    const TICKETS_COUNT = { id: "ticketCount" }
+    const TICKETS_TOTAL = { id: "ticketCountTotal" }
+    const DONATIONS_TITLE = { id: "donations" }
+    const DONATIONS_TOTAL = { id: "donationsTotal" }
+    const SUBTOTAL_TITLE = { id: "subtotal" }
+    const SUBTOTAL_TOTAL = { id: "subtotalAmt" }
+    const TAXES_TITLE = { id: "taxes" }
+    const TAXES_TOTAL = { id: "taxesAmt" }
+    const FEES_TITLE = { id: "fees" }
+    const FEES_TOTAL = { id: "feesAmt" }
+    const TOTAL_TITLE = { id: "totalDues" }
+    const TOTAL_TOTAL = { id: "totalDuesAmt" }
     const TICKET_COUNT_AND_TICKET_TOTAL_PARENT = { className: "ticket-count"} //child index 0 text index 1 value
     const SUBTOTAL_PARENT = { className: "sub-total"} // //child index 0 text index 1 value
     const DONATIONS_PARENT = { className: "donations"} // //child index 0 text index 1 value
@@ -33,7 +45,7 @@
         async calculateSubtotalAndTotalAfterDonationIsAdded(){
             let ticketsTotal = await this.getTicketsTotal();
             let donation = await this.getDonationValue();
-            let calculatedDonation =parseFloat(ticketsTotal) + parseFloat(donation);
+            let calculatedDonation = ticketsTotal + parseFloat(donation);
             let subTotal = await this.getSubtotalValue();
             assert.equal(calculatedDonation.toFixed(2),subTotal);
             let taxes = await this.getTaxesValue();
@@ -45,51 +57,51 @@
         }
 
         async donationIsDisplayed(){
-            await this.isDisplayed(DONATIONS_PARENT,5000);
+            await this.isDisplayed(DONATIONS_TOTAL,5000);
+        }
+
+        async discountIsDisplayed(){
+            await this.isDisplayed(DISCOUNT_VALUE, 5000);
         }
         async getTicketsTotal(){
-            let rawTickets =  await this.getSubstringOfPriceString(TICKET_COUNT_AND_TICKET_TOTAL_PARENT, 0, 1);
+            let rawTickets =  await this.getSubstringOfPriceString(TICKETS_TOTAL);
             let tickets = parseFloat(rawTickets);
-            let ticketsToFixed = tickets.toFixed(2);
-            return parseFloat(ticketsToFixed);
+            return tickets.toFixed(2);
+
         }
 
         async getDiscountValue(){
-            let rawDiscount = await this.getElementText(DISCOUNT_VALUE);
-            let cleaned = rawDiscount.substring(1);
-            let parsed = parseFloat(cleaned);
-            return parsed;
+            let rawDiscount = await this.getSubstringOfPriceString(DISCOUNT_VALUE);
+            let discount = parseFloat(rawDiscount);
+            return discount.toFixed(2);
         }
         async getDonationValue(){
             await this.timeout(1000)
-            let rawDonation = await this.getSubstringOfPriceString(DONATIONS_PARENT, 0, 1)
+            let rawDonation = await this.getSubstringOfPriceString(DONATIONS_TOTAL)
             let donation = parseFloat(rawDonation);
-            let donationToFixed = donation.toFixed(2);
-            return donationToFixed ;
+            return  donation.toFixed(2);
+            //return donationToFixed ;
         }
         async getSubtotalValue(){
-            let rawSubtotal =  await this.getSubstringOfPriceString(SUBTOTAL_PARENT, 0, 1)
-            let subtotal = parseFloat( rawSubtotal );
-            let subtotalToFixed = subtotal.toFixed(2);
-            return subtotalToFixed ;
+            let rawSubtotal =  await this.getSubstringOfPriceString(SUBTOTAL_TOTAL)
+            let subtotal = parseFloat(rawSubtotal);
+            return subtotal.toFixed(2);
+            //return subtotalToFixed ;
         }
         async getTaxesValue(){
-            let rawTaxes =  await this.getSubstringOfPriceString(TAXES_PARENT, 0, 1);
+            let rawTaxes =  await this.getSubstringOfPriceString(TAXES_TOTAL);
             let taxes = parseFloat(rawTaxes);
-            let taxesToFixed = taxes.toFixed(2);
-            return taxesToFixed ;
+            return taxes.toFixed(2);
         }
         async getFeesValue(){
-            let rawFees =  await this.getSubstringOfPriceString(FEES_PARENT, 0, 1);
+            let rawFees =  await this.getSubstringOfPriceString(FEES_TOTAL);
             let fees = parseFloat(rawFees);
-            let feesToFixed = fees.toFixed(2);
-            return feesToFixed ;
+            return  fees.toFixed(2);
         }
         async getTotalValue(){
-            let rawTotal =  await this.getSubstringOfPriceString(TOTAL_PARENT, 0, 1);
+            let rawTotal =  await this.getSubstringOfPriceString(TOTAL_TOTAL);
             let total = parseFloat(rawTotal);
-            let totalToFixed = total.toFixed(2);
-            return totalToFixed ;
+            return total.toFixed(2);
         }
 
         async assertSummaryEqualsBeforeSignIn( ticketsTotal, ticketsSubtotal, taxes, fees, total){
@@ -132,6 +144,13 @@
             let total = (ticket + discount);
             let ticketParsed = parseFloat(ticketOnePrice);
             assert.equal(total.toFixed(2),ticketParsed.toFixed(2) )
+        }
+
+        async assertTaxesAndFeesAreRefactoredToMatchNewPrice(fees,taxes){
+            let afterPromoTaxes = await this.getTaxesValue();
+            let afterPromoFees = await this.getFeesValue();
+            expect(parseFloat(fees)).to.equal(parseFloat(afterPromoFees));
+            expect(parseFloat(taxes)).to.be.greaterThan(parseFloat(afterPromoTaxes));
         }
     }
     module.exports = SummaryComponent;
