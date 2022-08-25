@@ -23,6 +23,7 @@
         }
         async isOnOrderDetailsPage(){
             await this.isDisplayed(ORDER_DETAILS_HEADER,5000);
+            await this.timeout(500)
         }
         async clickPlaceOrderButton(){
             await this.isDisplayed(PLACE_ORDER_BUTTON,5000);
