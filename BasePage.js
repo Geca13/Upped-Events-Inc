@@ -779,6 +779,13 @@
           }
     }
 
+    async dateTimeNow(){
+        let timeOffset = new Date().getTimezoneOffset();
+        let gmt = "GMT-" + (timeOffset/60).toString();
+        let dateTime = moment().format('MMMM DD, h:mm A');
+        return dateTime + " " + gmt;
+    }
+
 
     }
 

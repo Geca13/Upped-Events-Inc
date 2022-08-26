@@ -159,7 +159,7 @@
         let embedDonate;
         let receipt;
 
-        let base = 391840 // Math.floor(100000 + Math.random() * 900000);
+        let base = 310053 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -2330,6 +2330,86 @@
             await embedTickets.assertFontColorAndStrikeOnOriginalPrice(ticketOneName);
 
         });
+
+        //EMBED
+        it('should make regular purchase with three different tickets and quantities and assert tickets on receipt', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            embedConfirm = new ConfirmPage(driver);
+            receipt = new ReceiptPopup(driver)
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 1);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, 3);
+            let ticketOneP = await embedTickets.getTicketPriceByTicketName(ticketOneName);
+            let ticketTwoP = await embedTickets.getTicketPriceByTicketName(ticketTwoName);
+            let ticketThreeP = await embedTickets.getTicketPriceByTicketName(ticketThreeName);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickSavedCardByIndex(0);
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.clickPlaceOrderButton();
+            await embedConfirm.isAtConfirmPage();
+            await embedConfirm.clickViewReceiptButton();
+            await receipt.receiptPopupIsVisible();
+            await receipt.assertTicketsOnReceipt(ticketOneName,ticketTwoName,ticketThreeName);
+
+        });
+
+        it('should make regular purchase and check event name and date of purchase', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            embedConfirm = new ConfirmPage(driver);
+            receipt = new ReceiptPopup(driver)
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickSavedCardByIndex(0);
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.clickPlaceOrderButton();
+            await embedConfirm.isAtConfirmPage();
+            let timeDate = await embedConfirm.getTransactionTimeDate();
+            await embedConfirm.clickViewReceiptButton();
+            await receipt.receiptPopupIsVisible();
+            await receipt.timeDateAndEventName(timeDate, eventName);
+
+        });
+
         it('should make purchase for two tickets of same type with donation and promotion and assert data on the receipt', async function () {
 
             main = new EmbedMainPage(driver);

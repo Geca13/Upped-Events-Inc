@@ -58,6 +58,7 @@
 
         }
         async createMenuFromShopsManagementPageForTickets(eventName,base,sectionName, sectionIndex, editIconIndex){
+            await this.isDisplayed(SHOP_MENU_ICON,5000);
             await this.click(SHOP_MENU_ICON);
             await this.isDisplayed(EDIT_MENU_OPTION);
             await this.click(EDIT_MENU_OPTION);

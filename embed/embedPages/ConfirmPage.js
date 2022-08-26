@@ -22,8 +22,10 @@
 
     async isAtConfirmPage(){
         await this.isDisplayed(VIEW_RECEIPT_BUTTON,90000);
-        //let date = await this.getCurrentDateAndTime();
-        //console.log(date);
+    }
+
+    async getTransactionTimeDate(){
+        return await this.dateTimeNow();
     }
 
     async clickViewReceiptButton(){

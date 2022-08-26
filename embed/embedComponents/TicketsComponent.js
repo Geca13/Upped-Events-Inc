@@ -5,6 +5,7 @@
     const TICKETS_LIST = { className: "tickets-list" }
     const TICKET_NOT_AVAILABLE_SOLD = { xpath: "//div[contains(@class, 'quantity-container')]//span" }
     const TICKET_CONTAINER = { xpath: "//li[contains(@class, 'list-group-item')]" }
+    const TICKET_QUANTITY_CONTAINER = { xpath: "//div[contains(@class, 'quantity-container')]" }
     const TICKET_NAME_AND_PRICE = { className: "name" }
     const TICKET_RULES_ICON = { xpath: "//span[@class= 'ticket-info']//i" }
     const DISCOUNTED_TICKET_PRICE = { xpath: "//span[contains(@class, 'has-discount')]" }
@@ -30,6 +31,11 @@
                     return await ticket.split(" ")[1]
                 }
             }
+        }
+
+        async sentKeysToTicketInputByTicketName(ticketName, qty){
+            let i = await this.getTicketIndexByTicketName(ticketName);
+            await this.sentKeysToChildByIndexAndParentIndex(TICKET_QUANTITY_CONTAINER, i, 0, qty)
         }
 
         async getFullTicketLayoutByTicketName(ticketName) {

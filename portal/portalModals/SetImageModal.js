@@ -24,6 +24,7 @@
             await this.timeout(750);
         }
         async clickSetButton(){
+            await this.isDisplayed(SET_IMAGE_BUTTON, 5000);
             await this.click(SET_IMAGE_BUTTON);
             await this.timeout(500);
             let set = await this.findAll(SET_IMAGE_BUTTON);
