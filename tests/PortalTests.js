@@ -68,13 +68,14 @@
     const AccountPage = require('../microsites/account/AccountPage');
     const ForgotPasswordModal = require("../microsites/micrositesComponents/ForgotPasswordModal");
     const ResetPasswordPage = require("../microsites/micrositesPages/ResetPasswordPage");
-    const LoginTab = require("../microsites/micrositesComponents/LoginTab")
+    const LoginTab = require("../microsites/micrositesComponents/LoginTab");
     const CreateAccountPage = require("../embed/embedPages/CreateAccountPage");
     const EmbeddingPage = require("../portal/eventOverview/DesignNav/EmbeddingPage");
     const EmbedTicketTermsModal = require('../embed/embedComponents/EmbedTicketTermsModal');
     const DonationPage = require('../portal/eventOverview/SettingsNav/DonationsPage');
     const EmbedDonateComponent = require('../embed/embedComponents/EmbedDonateComponent');
-    const ReceiptPopup = require('../microsites/micrositesComponents/ReceiptPopup')
+    const StepsComponent = require('../embed/embedComponents/StepsComponent');
+    const ReceiptPopup = require('../microsites/micrositesComponents/ReceiptPopup');
     const Files = require('../dummy/Files')
 
     describe('Should do everything', function () {
@@ -158,6 +159,7 @@
         let donation;
         let embedDonate;
         let receipt;
+        let steps;
 
         let base = 310053 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
@@ -2142,6 +2144,7 @@
 
         });
 
+        //PORTAL
         it('should create first promotion with $ value and assert data on promotions page and update promotion modal', async function () {
 
             portalLogin = new PortalLoginPage(driver);
@@ -2407,6 +2410,361 @@
             await embedConfirm.clickViewReceiptButton();
             await receipt.receiptPopupIsVisible();
             await receipt.timeDateAndEventName(timeDate, eventName);
+
+        });
+
+        //EMBED
+        it('should assert text on navbar on all pages', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            embedConfirm = new ConfirmPage(driver);
+            receipt = new ReceiptPopup(driver)
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.assertNavbarText(eventName + " Ticketing");
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await main.assertNavbarText("Upped Login");
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await main.assertNavbarText(eventName + " Ticketing");
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.assertNavbarText("Extras");
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await main.assertNavbarText("Payment");
+            await payment.clickSavedCardByIndex(0);
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await main.assertNavbarText("Double check your order details");
+            await orderDetails.clickPlaceOrderButton();
+            await embedConfirm.isAtConfirmPage();
+            await main.assertNavbarText("Confirmation");
+
+        });
+
+        //EMBED
+        it('should assert previous page button text', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.assertPreviousPageButtonText("Back to Event Info");
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await main.assertPreviousPageButtonText("Back to Extras");
+            await payment.clickSavedCardByIndex(0);
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await main.assertPreviousPageButtonText("Back to Payment");
+
+        });
+
+        //EMBED
+        it('when not logged in navigate to the login page with no tickets selected , when logged in alert select ticket should appear', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await main.assertAlertVisibleAndText("Please select a ticket first");
+
+        });
+
+        //EMBED
+        it('should get alert danger when next button clicked and payment method not selected', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            embedConfirm = new ConfirmPage(driver);
+            receipt = new ReceiptPopup(driver)
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await main.clickNextPageButton();
+            await main.assertAlertVisibleAndText("Please select a payment method!");
+
+        });
+
+        //EMBED
+        it('should assert steps names', async function () {
+
+            main = new EmbedMainPage(driver);
+            steps = new StepsComponent(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await steps.assertStepNames();
+
+        });
+
+        //EMBED
+        it('should assert completed steps count and current step name', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            embedConfirm = new ConfirmPage(driver);
+            steps = new StepsComponent(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await steps.numberOfCompletedStepsAndCurrentStepName("Select Tickets",0);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await steps.numberOfCompletedStepsAndCurrentStepName("Select Tickets",0);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await steps.numberOfCompletedStepsAndCurrentStepName("Add Extras",1);
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await steps.numberOfCompletedStepsAndCurrentStepName("Payment Details",2);
+            await payment.clickSavedCardByIndex(0);
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await steps.numberOfCompletedStepsAndCurrentStepName("Review and Pay",3);
+            await orderDetails.clickPlaceOrderButton();
+            await embedConfirm.isAtConfirmPage();
+            await steps.numberOfCompletedStepsAndCurrentStepName("All Done!",4);
+
+        });
+
+        //EMBED
+        it('should assert completed steps checkmark image is displayed', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            embedConfirm = new ConfirmPage(driver);
+            steps = new StepsComponent(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await steps.numberOfCompletedStepsAndCurrentStepName("Select Tickets",0);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await steps.numberOfCompletedStepsAndCurrentStepName("Select Tickets",0);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await steps.checkThatCheckmarkImageIsDisplayedWhenStepIsCompeted();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await steps.checkThatCheckmarkImageIsDisplayedWhenStepIsCompeted();
+            await payment.clickSavedCardByIndex(0);
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await steps.checkThatCheckmarkImageIsDisplayedWhenStepIsCompeted();
+            await orderDetails.clickPlaceOrderButton();
+            await embedConfirm.isAtConfirmPage();
+            await steps.checkThatCheckmarkImageIsDisplayedWhenStepIsCompeted();
+
+        });
+
+        //EMBED
+        it('should assert proper steps behaviour with fillin class on navbar on all pages', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            embedConfirm = new ConfirmPage(driver);
+            steps = new StepsComponent(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await steps.checkIfFillinClassIsAppliedToStep(0,true);
+            await steps.checkIfFillinClassIsAppliedToStep(1,false);
+            await steps.checkIfFillinClassIsAppliedToStep(2,false);
+            await steps.checkIfFillinClassIsAppliedToStep(3,false);
+            await steps.checkIfFillinClassIsAppliedToStep(4,false);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await steps.checkIfFillinClassIsAppliedToStep(0,false);
+            await steps.checkIfFillinClassIsAppliedToStep(1,false);
+            await steps.checkIfFillinClassIsAppliedToStep(2,false);
+            await steps.checkIfFillinClassIsAppliedToStep(3,false);
+            await steps.checkIfFillinClassIsAppliedToStep(4,false);
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await steps.checkIfFillinClassIsAppliedToStep(0,true);
+            await steps.checkIfFillinClassIsAppliedToStep(1,false);
+            await steps.checkIfFillinClassIsAppliedToStep(2,false);
+            await steps.checkIfFillinClassIsAppliedToStep(3,false);
+            await steps.checkIfFillinClassIsAppliedToStep(4,false);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await steps.checkIfFillinClassIsAppliedToStep(0,false);
+            await steps.checkIfFillinClassIsAppliedToStep(1,true);
+            await steps.checkIfFillinClassIsAppliedToStep(2,false);
+            await steps.checkIfFillinClassIsAppliedToStep(3,false);
+            await steps.checkIfFillinClassIsAppliedToStep(4,false);
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await steps.checkIfFillinClassIsAppliedToStep(0,false);
+            await steps.checkIfFillinClassIsAppliedToStep(1,false);
+            await steps.checkIfFillinClassIsAppliedToStep(2,true);
+            await steps.checkIfFillinClassIsAppliedToStep(3,false);
+            await steps.checkIfFillinClassIsAppliedToStep(4,false);
+            await payment.clickSavedCardByIndex(0);
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await steps.checkIfFillinClassIsAppliedToStep(0,false);
+            await steps.checkIfFillinClassIsAppliedToStep(1,false);
+            await steps.checkIfFillinClassIsAppliedToStep(2,false);
+            await steps.checkIfFillinClassIsAppliedToStep(3,true);
+            await steps.checkIfFillinClassIsAppliedToStep(4,false);
+            await orderDetails.clickPlaceOrderButton();
+            await embedConfirm.isAtConfirmPage();
+            await steps.checkIfFillinClassIsAppliedToStep(0,false);
+            await steps.checkIfFillinClassIsAppliedToStep(1,false);
+            await steps.checkIfFillinClassIsAppliedToStep(2,false);
+            await steps.checkIfFillinClassIsAppliedToStep(3,false);
+            await steps.checkIfFillinClassIsAppliedToStep(4,true);
+
+        });
+
+        //EMBED
+        it('should assert proper steps behaviour with active class on navbar on all pages', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            embedConfirm = new ConfirmPage(driver);
+            steps = new StepsComponent(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await steps.checkIfActiveClassIsAppliedToStep(0,true);
+            await steps.checkIfActiveClassIsAppliedToStep(1,false);
+            await steps.checkIfActiveClassIsAppliedToStep(2,false);
+            await steps.checkIfActiveClassIsAppliedToStep(3,false);
+            await steps.checkIfActiveClassIsAppliedToStep(4,false);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await steps.checkIfActiveClassIsAppliedToStep(0,false);
+            await steps.checkIfActiveClassIsAppliedToStep(1,false);
+            await steps.checkIfActiveClassIsAppliedToStep(2,false);
+            await steps.checkIfActiveClassIsAppliedToStep(3,false);
+            await steps.checkIfActiveClassIsAppliedToStep(4,false);
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await steps.checkIfActiveClassIsAppliedToStep(0,true);
+            await steps.checkIfActiveClassIsAppliedToStep(1,false);
+            await steps.checkIfActiveClassIsAppliedToStep(2,false);
+            await steps.checkIfActiveClassIsAppliedToStep(3,false);
+            await steps.checkIfActiveClassIsAppliedToStep(4,false);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await steps.checkIfActiveClassIsAppliedToStep(0,false);
+            await steps.checkIfActiveClassIsAppliedToStep(1,true);
+            await steps.checkIfActiveClassIsAppliedToStep(2,false);
+            await steps.checkIfActiveClassIsAppliedToStep(3,false);
+            await steps.checkIfActiveClassIsAppliedToStep(4,false);
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await steps.checkIfActiveClassIsAppliedToStep(0,false);
+            await steps.checkIfActiveClassIsAppliedToStep(1,false);
+            await steps.checkIfActiveClassIsAppliedToStep(2,true);
+            await steps.checkIfActiveClassIsAppliedToStep(3,false);
+            await steps.checkIfActiveClassIsAppliedToStep(4,false);
+            await payment.clickSavedCardByIndex(0);
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await steps.checkIfActiveClassIsAppliedToStep(0,false);
+            await steps.checkIfActiveClassIsAppliedToStep(1,false);
+            await steps.checkIfActiveClassIsAppliedToStep(2,false);
+            await steps.checkIfActiveClassIsAppliedToStep(3,true);
+            await steps.checkIfActiveClassIsAppliedToStep(4,false);
+            await orderDetails.clickPlaceOrderButton();
+            await embedConfirm.isAtConfirmPage();
+            await steps.checkIfActiveClassIsAppliedToStep(0,false);
+            await steps.checkIfActiveClassIsAppliedToStep(1,false);
+            await steps.checkIfActiveClassIsAppliedToStep(2,false);
+            await steps.checkIfActiveClassIsAppliedToStep(3,false);
+            await steps.checkIfActiveClassIsAppliedToStep(4,true);
 
         });
 

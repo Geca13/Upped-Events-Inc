@@ -102,18 +102,19 @@
     }
 
     async returnImgSrcAttribute(locator){
-          await this.timeout(2000)
+        await this.timeout(2000)
         let img = await this.find(locator);
         let src = await img.getAttribute('src');
         return src;
     }
+
     async returnImgSrcAttributeByIndex(locator, index){
          await this.timeout(2000);
          let images = await this.findAll(locator);
          let img = await images[index];
          let src = await img.getAttribute('src');
          return src;
-        }
+    }
 
     async numberWithCommas(locator) {
           let x = await this.getEnteredTextInTheInput(locator);
@@ -278,6 +279,25 @@
     async getBackgroundFromAnArray(locator, index){
         let elements = await this.findAll(locator)
         return elements[index].getCssValue('background-color')
+    }
+
+    async checkIfChildElementContainsClassByIndexOfParentInArray(locator, index){
+          let parents = await this.findAll(locator);
+              let child = await parents[index].findElement(By.xpath("./child::*"));
+              let classArray = []
+              let classes = await child.getAttribute('class');
+              let clases = classes.split(' ');
+              for (const item of classes) {
+                  classArray.push(item)
+                  console.log(classArray)
+                  let y = classArray.length;
+                  while (y--){
+                      if(classArray[y] == "fillin"){
+                          return true;
+                      }
+                  }
+              return false;
+          }
     }
 
     async checkIfClassIsApplied(locator, index, clas){
@@ -780,8 +800,8 @@
     }
 
     async dateTimeNow(){
-        let timeOffset = new Date().getTimezoneOffset();
-        let gmt = "GMT-" + (timeOffset/60).toString();
+        let timeOffset = moment().utcOffset();
+        let gmt = "GMT" + (timeOffset/60).toString();
         let dateTime = moment().format('MMMM DD, h:mm A');
         return dateTime + " " + gmt;
     }

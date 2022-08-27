@@ -11,7 +11,7 @@
    const LOGIN_LINK = { className: 'login-link' }
    const CHANGE_LOGIN_MESSAGE = { className: 'change-account' }
    const CHANGE_LOGIN_LINK = { className: 'change' }
-   const EVENT_INFO_BANNER = { className: 'event-info' }
+   const EVENT_INFO_BANNER = { xpath: "//span[@class='title-new']" }
    const TERMS_LABEL = { xpath: "//label[@for='isSavedCheck']"}
    const EVENT_NAME = { className: 'event-title' }
    const NO_TICKETS_MESSAGE = { xpath: "//p[contains(@class, 'pt-5')]" }
@@ -30,7 +30,6 @@
          await this.isDisplayed(IFRAME , 20000)
          await this.switchToAnIframe(IFRAME);
 
-
       }
 
       async clickPreviousPageButton(){
@@ -40,8 +39,8 @@
 
 
       async getNewlyOpenedTab(originalWindow){
-           await this.switchToNewlyOpenedWindowOrTab(originalWindow);
-        }
+         await this.switchToNewlyOpenedWindowOrTab(originalWindow);
+      }
 
       async isInFrame(eventName){
          await this.driver.executeScript("document.body.style.transform='scale(0.8, 0.8)'");
@@ -51,6 +50,11 @@
          assert.equal(eventName,extractedEventName)
          await this.timeout(1000)
 
+      }
+
+      async assertAlertVisibleAndText(text){
+         let alert = new Alerts(this.driver);
+         await alert.alertDangerIsDisplayAndAssertText(text)
       }
 
       async assertNoTicketsMessageIsDisplayed(){
@@ -87,7 +91,6 @@
          await this.click(TERMS_CHECKBOX)
       }
 
-
       async nextButtonIsVisible(){
          await this.isDisplayed(NEXT_BUTTON,5000);
          await this.timeout(500);
@@ -95,7 +98,7 @@
       }
       async clickNextPageButton(){
          await this.moveToElement(NEXT_BUTTON);
-        await this.click(NEXT_BUTTON)
+         await this.click(NEXT_BUTTON)
          await this.timeout(500);
       }
       async limitInfoMessageIsDisplayed(number){
@@ -132,6 +135,18 @@
          await this.timeout(500);
          let labelColor = await this.getFontColorFromAnArray(TERMS_LABEL,0);
          assert.equal(labelColor,'rgba(33, 37, 41, 1)');
+      }
+
+      async assertPreviousPageButtonText(text){
+         await this.isDisplayed(PREVIOUS_PAGE_BUTTON, 5000);
+         let button = await this.getElementText(PREVIOUS_PAGE_BUTTON);
+         assert.equal(button, text);
+      }
+
+      async assertNavbarText(text){
+         await this.isDisplayed(EVENT_INFO_BANNER, 5000);
+         let navbar = await this.getElementText(EVENT_INFO_BANNER);
+         assert.equal(navbar, text);
       }
 
 

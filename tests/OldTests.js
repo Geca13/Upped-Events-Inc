@@ -158,7 +158,7 @@ describe('Should do everything', function () {
     let embedDonate;
 
 
-    let base = 310053 // Math.floor(100000 + Math.random() * 900000);
+    let base = 836651// Math.floor(100000 + Math.random() * 900000);
     let eventName =  base.toString() + " FullEventName";
     let shortName = base.toString();
     let ticketOneName = base.toString() +"T1";
@@ -661,40 +661,6 @@ describe('Should do everything', function () {
 
     });
 
-    //PORTAL
-    it('should assert maximum allowed promotion tickets when multiple tickets are selected in one promotion', async function () {
-
-        portalLogin = new PortalLoginPage(driver);
-        dashboard = new DashboardPage(driver);
-        myEvents = new MyEventsPage(driver);
-        eventDetails = new GeneralDetailsTab(driver);
-        eventOptionTabs = new EventOptionTabs(driver);
-        ticketsNav = new TicketsNav(driver);
-        createTicket = new CreateTicketModal(driver);
-        promotions = new PromotionsPage(driver);
-        newPromotion = new AddNewPromotionModal(driver);
-
-        await portalLogin.loadPortalUrl();
-        await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
-        await dashboard.isAtDashboardPage();
-        await dashboard.clickMyEventsTab();
-        await myEvents.eventsTableIsDisplayed();
-        await myEvents.createdEventIsInTheTable(eventName);
-        await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-        await eventDetails.unpublishButtonIsDisplayed();
-        await eventOptionTabs.ticketingTabIsDisplayed();
-        await eventOptionTabs.clickTicketingTab();
-        await ticketsNav.addTicketButtonIsDisplayed();
-        let ticketOneAvailableQty = await ticketsNav.calculateAvailableTicketsByTicket(ticketOneName);
-        let ticketTwoAvailableQty = await ticketsNav.calculateAvailableTicketsByTicket(ticketTwoName);
-        let ticketThreeAvailableQty = await ticketsNav.calculateAvailableTicketsByTicket(ticketThreeName);
-        await eventOptionTabs.clickPromotionsTab();
-        await promotions.addPromotionButtonIsVisible();
-        await promotions.clickAddPromotionButton();
-        await newPromotion.addPromotionModalIsDisplayed();
-        await newPromotion.assertTooltipDisplaysCorrectAvailableMultipleTicketsAndEnteringLargerWillSetMaximumNumber(ticketOneName, ticketOneAvailableQty, ticketTwoName, ticketTwoAvailableQty, ticketThreeName, ticketThreeAvailableQty);
-    });
 
     it('Should check for tickets table columns and make changes', async function () {
 
@@ -782,41 +748,6 @@ describe('Should do everything', function () {
         await myWallet.myWalletScreenIsDisplayed();
         await myWallet.calculateBalanceAfterRefunds(userBalance);
 
-    });
-
-    //PORTAL
-    it('should assert maximum allowed promotion tickets when multiple tickets are selected in one promotion', async function () {
-
-        portalLogin = new PortalLoginPage(driver);
-        dashboard = new DashboardPage(driver);
-        myEvents = new MyEventsPage(driver);
-        eventDetails = new GeneralDetailsTab(driver);
-        eventOptionTabs = new EventOptionTabs(driver);
-        ticketsNav = new TicketsNav(driver);
-        createTicket = new CreateTicketModal(driver);
-        promotions = new PromotionsPage(driver);
-        newPromotion = new AddNewPromotionModal(driver);
-
-        await portalLogin.loadPortalUrl();
-        await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
-        await dashboard.isAtDashboardPage();
-        await dashboard.clickMyEventsTab();
-        await myEvents.eventsTableIsDisplayed();
-        await myEvents.createdEventIsInTheTable(eventName);
-        await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-        await eventDetails.unpublishButtonIsDisplayed();
-        await eventOptionTabs.ticketingTabIsDisplayed();
-        await eventOptionTabs.clickTicketingTab();
-        await ticketsNav.addTicketButtonIsDisplayed();
-        let ticketOneAvailableQty = await ticketsNav.calculateAvailableTicketsByTicket(ticketOneName);
-        let ticketTwoAvailableQty = await ticketsNav.calculateAvailableTicketsByTicket(ticketTwoName);
-        let ticketThreeAvailableQty = await ticketsNav.calculateAvailableTicketsByTicket(ticketThreeName);
-        await eventOptionTabs.clickPromotionsTab();
-        await promotions.addPromotionButtonIsVisible();
-        await promotions.clickAddPromotionButton();
-        await newPromotion.addPromotionModalIsDisplayed();
-        await newPromotion.assertTooltipDisplaysCorrectAvailableMultipleTicketsAndEnteringLargerWillSetMaximumNumber(ticketOneName, ticketOneAvailableQty, ticketTwoName, ticketTwoAvailableQty, ticketThreeName, ticketThreeAvailableQty);
     });
 
     it('should make checks in attendees page and user details modal', async function () {

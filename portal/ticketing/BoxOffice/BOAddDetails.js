@@ -43,7 +43,7 @@
             await this.sentKeys(PROMO_INPUT,"FgRgR1");
             await this.click(APPLY_BUTTON);
             await this.isDisplayed(INVALID_DISCOUNT_CODE_ICON,5000);
-            await this.timeout(500)
+            await this.timeout(1000)
             await this.clearInputField(PROMO_INPUT);
             await this.timeout(500)
 

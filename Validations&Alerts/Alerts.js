@@ -4,6 +4,7 @@
     const TOAST_TITLE = { className:'toast-title' }
     const TOAST_MESSAGE = { className:'toast-message' }
     const ALERT_INFO = { className: "alert-info" }
+    const ALERT_DANGER = { xpath: "//div[contains(@class, 'alert-danger')]" }
 
 
 
@@ -79,6 +80,14 @@
         assert.equal(alertTitle,'Updated');
         let alertMessage = await this.getElementText(TOAST_MESSAGE);
         assert.equal(text,alertMessage);
+        await this.timeout(1000);
+    }
+
+    async alertDangerIsDisplayAndAssertText(text){
+        await this.isDisplayed(ALERT_DANGER,5000);
+        await this.timeout(500);
+        let alertMessage = await this.getElementText(ALERT_DANGER);
+        assert.equal(alertMessage, text);
         await this.timeout(1000);
     }
 
