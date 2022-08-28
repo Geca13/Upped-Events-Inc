@@ -77,16 +77,38 @@
         }
 
         async confirmEnteredValuesBeforeLogin(){
-            //let firstSelectValue = this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 0);
-            let secondSelectValue = this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 1);
-            let thirdSelectValue = this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 2);
-            let fourthSelectValue = this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 3);
-            //assert.equal(firstSelectValue,0);
-            assert.equal(secondSelectValue,1);
-            assert.equal(thirdSelectValue,2);
-            assert.equal(fourthSelectValue,0);
+
+            let firstSelectValue =await this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 0);
+            let secondSelectValue =await this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 1);
+            let thirdSelectValue =await this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 2);
+            //let fourthSelectValue =await this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 3);
+            assert.equal(firstSelectValue,2);
+            assert.equal(secondSelectValue,3);
+            assert.equal(thirdSelectValue,1);
+            //assert.equal(fourthSelectValue,0);
 
         }
+
+        async getSelectedTicketQuantityByIndex(index){
+            let selected = await this.getEnteredTextInTheInputByIndex(TICKET_SELECT, index);
+            return selected;
+        }
+
+        async assertTicketCountInOrderTotal(summary){
+            await this.timeout(500);
+            let selected = [];
+            let selects = await this.findAll(TICKET_SELECT);
+            for(let i = 0; i < selects.length; i++){
+                let select = await this.getEnteredTextInTheInputByIndex(TICKET_SELECT, i);
+                selected.push(select);
+            }
+            let totalSelected = await this.convertAndCalculateStringArrayToNumberWithArray(selected);
+            let ticketsInSummary = await summary.returnTicketCount();
+            assert.equal(totalSelected, ticketsInSummary);
+
+        }
+
+
         async ticketListIsDisplayed(){
             await this.isDisplayed(TICKETS_LIST, 5000);
         }

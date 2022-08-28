@@ -152,5 +152,10 @@
             expect(parseFloat(fees)).to.equal(parseFloat(afterPromoFees));
             expect(parseFloat(taxes)).to.be.greaterThan(parseFloat(afterPromoTaxes));
         }
+        async returnTicketCount(){
+            let tickets = await this.getElementText(TICKETS_COUNT);
+            let count = tickets.substring(0, 1);
+            return count;
+        }
     }
     module.exports = SummaryComponent;

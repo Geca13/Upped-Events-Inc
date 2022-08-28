@@ -4,17 +4,18 @@
     const ORDER_DETAILS_HEADER = { xpath: "//div[@class='order-heading']//div"};
     const ORDER_DETAILS_SUBTITLE = { xpath: "//div[@class='ord-desc']"};
     const PAYMENT_INFO = { xpath: "//div[@class='payment-info']"};
-    const EDIT_PAYMENT_INFO_LINK = { xpath: "//div[@class='payment-info']//span"};
+    const EDIT_PAYMENT_INFO_LINK = { id: "editInfo"};
     const WALLET_AS_PAYMENT = { xpath : "//ng-conatiner//div[@class='ng-star-inserted']"};
     const CARD_AS_PAYMENT = { xpath: "//div[contains(@class , 'selected-card')]"}
     const CARD_BRAND = { xpath: "//div[contains(@class , 'selected-card')]//div[1]"}
     const CARD_NUMBER= { xpath: "//div[contains(@class , 'selected-card')]//div[@class='card-number']"};
     const TICKETS_SECTION_HEADER = { xpath: "//div[@class='ticket']"}
     const TICKETS_NAMES_AND_EDIT_CONTAINER = { xpath: "//div[@class='ticket-container']//div[contains(@class , 'wd-60')]" }
-    const EDIT_TICKET_LINK = { xpath: "//div[@class='ticket-container']//div[contains(@class , 'wd-60')]//span" }
-    const TICKETS_PRICES = { xpath: "//div[@class='ticket-container']//div[2]" }
+    const EDIT_TICKET_LINK = { id: "editDetail" }
+    const EDIT_DONATION_LINK = { id: "editDonations"}
+    const TICKETS_PRICES = { id: "ticketPrice" }
     const SUBTOTAL_TEXT = { xpath: "//div[contains(@class , 'order-subtotal')]//div[1]" }
-    const SUBTOTAL_VALUE = { xpath: "//div[contains(@class , 'order-subtotal')]//div[2]" }
+    const SUBTOTAL_VALUE = { id: "subtotalAmt" }
     const PLACE_ORDER_BUTTON = { xpath: "//*[text()='Place your order']"};
 
     class EmbedOrderDetailsPage extends BasePage{
@@ -62,6 +63,39 @@
             await this.click(EDIT_TICKET_LINK);
             await embedTickets.ticketListIsDisplayed();
             await this.timeout(1000);
+        }
+
+        async clickEditDonationLinkAndAssertItIsOnExtrasPage(embedDonate){
+            await this.isOnOrderDetailsPage();
+            await this.isDisplayed(EDIT_DONATION_LINK,5000);
+            await this.timeout(500);
+            await this.click(EDIT_DONATION_LINK);
+            await embedDonate.donateScreenIsVisible();
+            await this.timeout(1000);
+        }
+
+        async assertNumberOfEditTicketsLinks(number){
+            let editTicketsLinks = await this.returnElementsCount(EDIT_TICKET_LINK);
+            assert.equal(editTicketsLinks, number);
+        }
+
+        async assertTicketsSumEqualsSubtotalAndOrderTotalTicketsAndSubtotalValues(summary){
+            await this.timeout(1000)
+            let total = 0;
+            let rawPrices = await this.findAll(TICKETS_PRICES);
+            for(let i = 0; i < rawPrices.length; i++){
+                let rawPrice = await this.getElementTextFromAnArrayByIndex(TICKETS_PRICES, i);
+                let price = await this.convertPriceStringToDouble(rawPrice);
+                console.log(price);
+                total = total + parseFloat(price);
+            }
+            let subtotal = await this.convertPriceStringToDouble(await this.getElementText(SUBTOTAL_VALUE));
+            console.log(subtotal);
+            assert.equal(subtotal, total.toFixed(2));
+            let ticketsSummaryTotal = await summary.getTicketsTotal();
+            assert.equal(ticketsSummaryTotal, total.toFixed(2));
+            let summarySubTotal = await summary.getSubtotalValue();
+            assert.equal(summarySubTotal, total.toFixed(2));
         }
 
 

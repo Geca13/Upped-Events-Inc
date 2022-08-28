@@ -72,6 +72,7 @@
         }
 
         async clickOneDonationValueButton(index){
+            await this.isDisplayed(DONATE_HEADER, 5000);
             await this.clickElementReturnedFromAnArray(DONATE_BUTTONS, index);
         }
 
@@ -151,6 +152,10 @@
             assert.notEqual(input, "0");
             let addButtonStatus = await this.checkIfClassIsApplied(RESET_DONATION_BUTTON, 0, "disabled");
             assert.equal(addButtonStatus, true);
+        }
+
+        async donateScreenIsVisible(){
+            await this.isDisplayed(DONATE_HEADER, 5000);
         }
     }
     module.exports = EmbedDonateComponent;

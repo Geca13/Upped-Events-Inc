@@ -455,6 +455,9 @@
     }
 
     async convertPriceStringToDouble(priceString){
+        if(priceString[0] === "$"){
+            priceString = priceString.substring(1);
+        }
         let convertedPrice = await parseFloat(priceString);
         let price = await convertedPrice.toFixed(2)
         return price;
