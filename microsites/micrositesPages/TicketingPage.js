@@ -47,7 +47,7 @@
         }
 
         async getMiniTotalValuesByParentAndChildIndex(parentIndex, childIndex){
-            return await this.getChildByIndex(SUMMARY_ELEMENTS,parentIndex,childIndex);
+            return await this.getChildTextByParentIndexAndChildIndex(SUMMARY_ELEMENTS,parentIndex,childIndex);
         }
         async nextButtonPresent() {
             await this.isDisplayed(NEXT_BUTTON,5000);
@@ -68,7 +68,7 @@
             await this.click(BACK_TO_EVENT_INFO_BUTTON);
         }
         async getSubtotalText() {
-          return await this.getChildByIndex(SUMMARY_ELEMENTS,0, 0);
+          return await this.getChildTextByParentIndexAndChildIndex(SUMMARY_ELEMENTS,0, 0);
         }
         async getNextButtonText() {
           return  await this.getElementText(NEXT_BUTTON);

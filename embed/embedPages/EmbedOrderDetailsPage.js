@@ -86,7 +86,6 @@
             for(let i = 0; i < rawPrices.length; i++){
                 let rawPrice = await this.getElementTextFromAnArrayByIndex(TICKETS_PRICES, i);
                 let price = await this.convertPriceStringToDouble(rawPrice);
-                console.log(price);
                 total = total + parseFloat(price);
             }
             let subtotal = await this.convertPriceStringToDouble(await this.getElementText(SUBTOTAL_VALUE));
@@ -96,6 +95,29 @@
             assert.equal(ticketsSummaryTotal, total.toFixed(2));
             let summarySubTotal = await summary.getSubtotalValue();
             assert.equal(summarySubTotal, total.toFixed(2));
+        }
+
+        async assertSelectedTicketsAreDisplayedInOrderDetails(tickets){
+            let displayed = await this.findAll(TICKETS_NAMES_AND_EDIT_CONTAINER)
+            for(let i = 0; i< displayed.length; i++){
+                await this.driver.executeScript(`document.querySelectorAll('#editDetail')[${i}].style.visibility='hidden'`);
+            }
+            for(let i = 0; i< displayed.length; i++){
+                assert.equal(await displayed[i].getText(), tickets[i])
+            }
+        }
+
+        async assertTicketTotalByTicketName(ticketName, ticketTotal){
+            let names = await this.findAll(TICKETS_NAMES_AND_EDIT_CONTAINER);
+            for(let i = 0; i< names.length; i++){
+                await this.driver.executeScript(`document.querySelectorAll('#editDetail')[${i}].style.visibility='hidden'`);
+            }
+            for(let i = 0; i< names.length; i++){
+                if(await names[i].getText() === ticketName){
+                    let price = await this.getElementTextFromAnArrayByIndex(TICKETS_PRICES,i)
+                    assert.equal(price, "$"+ticketTotal.toString())
+                }
+            }
         }
 
 

@@ -29,7 +29,7 @@
 
         async getOrderTotalBeforeRefunds(){
             await this.orderDetailsModalIsDisplayed();
-            let rawBeforeTotal = await this.getChildByIndex(ORDER_DETAILS_MODAL_TOTAL,0,1);
+            let rawBeforeTotal = await this.getChildTextByParentIndexAndChildIndex(ORDER_DETAILS_MODAL_TOTAL,0,1);
             let substringTotal = rawBeforeTotal.substring(1)
             let beforeTotal = parseFloat(substringTotal);
             let fixed = beforeTotal.toFixed(2)
@@ -57,7 +57,7 @@
         }
         async getOrderTotalAfterRefunds(){
             await this.timeout(2000);
-            let rawAfterTotal = await this.getChildByIndex(ORDER_DETAILS_MODAL_TOTAL,0,1);
+            let rawAfterTotal = await this.getChildTextByParentIndexAndChildIndex(ORDER_DETAILS_MODAL_TOTAL,0,1);
             let afterTotalSubstring = rawAfterTotal.substring(1);
             let afterTotalFloat = parseFloat(afterTotalSubstring);
             let afterTotal = afterTotalFloat.toFixed(2)

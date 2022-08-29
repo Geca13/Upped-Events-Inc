@@ -107,7 +107,7 @@
         }
 
         async getTaxOrFeeValueByIndex(parentIndex, childIndex){
-            return await this.getChildByIndex(TAXES_AND_FEES_VALUES, parentIndex, childIndex);
+            return await this.getChildTextByParentIndexAndChildIndex(TAXES_AND_FEES_VALUES, parentIndex, childIndex);
         }
 
         async getFloatNumberForTaxOrFee(parentIndex,childIndex){

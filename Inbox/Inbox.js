@@ -67,13 +67,13 @@
 
         async checkAccountEmailIsSend(base){
 
-           let rawEmail = await this.getChildByIndex(INBOX_TABLE_ROWS,1,1);
+           let rawEmail = await this.getChildTextByParentIndexAndChildIndex(INBOX_TABLE_ROWS,1,1);
            let email = await this.getSubstringOfInboxEmailString(rawEmail);
            assert.equal(base+'@'+base+".mk", email);
 
         }
         async checkAdditionalEmailIsSend(base){
-            let rawEmail = await this.getChildByIndex(INBOX_TABLE_ROWS,0,1);
+            let rawEmail = await this.getChildTextByParentIndexAndChildIndex(INBOX_TABLE_ROWS,0,1);
             let email = await this.getSubstringOfInboxEmailString(rawEmail);
             assert.equal(base+'ad@ad'+base+".mk", email);
         }

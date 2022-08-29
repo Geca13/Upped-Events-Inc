@@ -49,10 +49,10 @@
 
         }
         async checkTicketsNamesInOrderDetails(ticketOneName,ticketTwoName,ticketThreeName,ticketFourName){
-            let rawTicketOne = await this.getChildByIndex(TICKETS_NAME_PARENT,0,0);
-            let rawTicketTwo = await this.getChildByIndex(TICKETS_NAME_PARENT,1,0);
-            let rawTicketThree = await this.getChildByIndex(TICKETS_NAME_PARENT,2,0);
-            let rawTicketFour = await this.getChildByIndex(TICKETS_NAME_PARENT,3,0);
+            let rawTicketOne = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT,0,0);
+            let rawTicketTwo = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT,1,0);
+            let rawTicketThree = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT,2,0);
+            let rawTicketFour = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT,3,0);
             assert.equal(ticketOneName, rawTicketOne.substring(0,8));
             assert.equal(ticketTwoName, rawTicketTwo.substring(0,8));
             assert.equal(ticketThreeName, rawTicketThree.substring(0,8));
@@ -60,13 +60,13 @@
         }
 
          async checkTicketPricesInOrderDetails() {
-             let rawTicketOne = await this.getChildByIndex(TICKETS_NAME_PARENT, 0, 1);
+             let rawTicketOne = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 0, 1);
              let ticketOne = rawTicketOne.substring(2);
-             let rawTicketTwo = await this.getChildByIndex(TICKETS_NAME_PARENT, 1, 1);
+             let rawTicketTwo = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 1, 1);
              let ticketTwo = rawTicketTwo.substring(2);
-             let rawTicketThree = await this.getChildByIndex(TICKETS_NAME_PARENT, 2, 1);
+             let rawTicketThree = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 2, 1);
              let ticketThree = rawTicketThree.substring(2);
-             let rawTicketFour = await this.getChildByIndex(TICKETS_NAME_PARENT, 3, 1);
+             let rawTicketFour = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 3, 1);
              let ticketFour = rawTicketFour.substring(2);
 
              assert.equal(parseFloat("1"), parseFloat(ticketOne));
@@ -78,7 +78,7 @@
          async calculateTicketsSubTotal(){
              let subtotal = 0.00;
              for (let i = 0; i < 4; i++){
-                 let rawAmount = await this.getChildByIndex(TICKETS_NAME_PARENT,i,1);
+                 let rawAmount = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT,i,1);
                  let amount = rawAmount.substring(2);
                  subtotal = subtotal + parseFloat(amount);
              }
@@ -91,7 +91,7 @@
             let items = await this.findAll(TICKETS_NAME_PARENT)
             let calculatedTotal = 0.00;
             for (let i = 0; i < items.length; i++){
-                let rawAmount = await this.getChildByIndex(TICKETS_NAME_PARENT,i,1);
+                let rawAmount = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT,i,1);
                 let amount = rawAmount.substring(2);
                 calculatedTotal = calculatedTotal + parseFloat(amount);
             }

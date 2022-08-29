@@ -47,9 +47,9 @@
             await this.isDisplayed(OVERVIEW_NFL_LIST_ITEM,5000);
             await this.click(COMPETITION_TAB);
             await this.isDisplayed(FOOTBALL_ACTIVITY_TITLE,5000);
-            let vikings = await this.getChildByIndex(TAGS_CONTAINER,2,0);
+            let vikings = await this.getChildTextByParentIndexAndChildIndex(TAGS_CONTAINER,2,0);
             assert.equal(vikings,'#Vikings');
-            let eagles = await this.getChildByIndex(TAGS_CONTAINER,2,1);
+            let eagles = await this.getChildTextByParentIndexAndChildIndex(TAGS_CONTAINER,2,1);
             assert.equal(eagles,'#Eagles');
         }
     }

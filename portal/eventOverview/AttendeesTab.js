@@ -15,7 +15,7 @@
         }
         async isOnAttendeesTab(){
             await this.isDisplayed(ATTENDEES_TABLE,5000);
-            await this.timeout(500)
+            await this.timeout(5000)
         }
         async checkForCustomerFullNameByIndex(index , firstName, lastName){
             await this.isOnAttendeesTab();

@@ -161,7 +161,7 @@
         let receipt;
         let steps;
 
-        let base = 836651 // Math.floor(100000 + Math.random() * 900000);
+        let base = 956532 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -2343,6 +2343,75 @@
             await main.clickNextPageButton();
             await orderDetails.isOnOrderDetailsPage();
             await orderDetails.assertNumberOfEditTicketsLinks(3);
+
+        });
+
+        it('should assert when three different tickets selected all three tickets displayed in Order details', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            summary = new SummaryComponent(driver);
+            embedLogin = new LoginPage(driver);
+            addMoney = new AddMoneyComponent(driver)
+            payment = new PaymentPage(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInput(0, 2);
+            await embedTickets.sentKeysToTicketInput(1, 1);
+            await embedTickets.sentKeysToTicketInput(2, 3);
+            //await embedTickets.sentKeysToTicketInput(3, 1);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            let tickets = await embedTickets.getListOfTicketsWhereQuantityIsBiggerThen0();
+            await main.clickNextPageButton();
+            await addMoney.addMoneyComponentIsDisplayed();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.assertSelectedTicketsAreDisplayedInOrderDetails(tickets);
+
+        });
+
+        it('should assert when three different tickets selected for each ticket total equals selected quantity times price', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            summary = new SummaryComponent(driver);
+            embedLogin = new LoginPage(driver);
+            addMoney = new AddMoneyComponent(driver)
+            payment = new PaymentPage(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 1);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, 3);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            let ticketOneTotal = await embedTickets.selectedTicketTotal(ticketOneName);
+            let ticketTwoTotal = await embedTickets.selectedTicketTotal(ticketTwoName);
+            let ticketFourTotal = await embedTickets.selectedTicketTotal(ticketFourName);
+            await main.clickNextPageButton();
+            await addMoney.addMoneyComponentIsDisplayed();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.assertTicketTotalByTicketName(ticketOneName, ticketOneTotal);
+            await orderDetails.assertTicketTotalByTicketName(ticketTwoName, ticketTwoTotal);
+            await orderDetails.assertTicketTotalByTicketName(ticketFourName, ticketFourTotal);
 
         });
 

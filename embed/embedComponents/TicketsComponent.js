@@ -1,6 +1,7 @@
     const BasePage = require("../../BasePage");
     const assert = require('assert')
-    const TICKET_SELECT = { tagName: 'select'};
+    const {By} = require("selenium-webdriver");
+    const TICKET_SELECT = { xpath: "//div[contains(@class, 'quantity-container')]//select"};
     const TICKET_SELECT_OPTIONS = { xpath: "//select//option"}
     const TICKETS_LIST = { className: "tickets-list" }
     const TICKET_NOT_AVAILABLE_SOLD = { xpath: "//div[contains(@class, 'quantity-container')]//span" }
@@ -31,6 +32,22 @@
                     return await ticket.split(" ")[1]
                 }
             }
+        }
+
+        async getSelectedQtyByTicketName(ticketName) {
+            let qtyContainers = await this.findAll(TICKET_QUANTITY_CONTAINER);
+            let i = await this.getTicketIndexByTicketName(ticketName);
+            let ticketQty = qtyContainers[i].findElement(By.css("*:first-child"));
+            let qty = ticketQty.getAttribute("value");
+            return qty;
+        }
+
+        async selectedTicketTotal(ticketName){
+            let ticketRawPrice = await this.getTicketPriceByTicketName(ticketName);
+            let ticketPrice = ticketRawPrice.substring(2, ticketRawPrice.length-1);
+            let selectedQty = await this.getSelectedQtyByTicketName(ticketName);
+            let total = parseFloat(ticketPrice) * parseInt(selectedQty);
+            return total.toFixed(2);
         }
 
         async sentKeysToTicketInputByTicketName(ticketName, qty){
@@ -146,6 +163,32 @@
             let strike = decoration.split(" ")[0]
             assert.equal(strike,"line-through");
         }
+
+        async getListOfTicketsWhereQuantityIsBiggerThen0(){
+            await this.isDisplayed(TICKET_SELECT, 5000)
+            let selectIndex = 0;
+            let ticketNames = [];
+            let qtyContainer = await this.findAll(TICKET_QUANTITY_CONTAINER);
+                for(let i = 0;i < qtyContainer.length; i++){
+                    let parent = await this.getElementFromAnArrayByIndex(TICKET_QUANTITY_CONTAINER, i);
+                    let child = parent.findElement(By.css("*:first-child"))
+                    let tag = await child.getTagName();
+                    if (tag === "select") {
+                        let ticketQty = await this.getEnteredTextInTheInputByIndex(TICKET_SELECT, selectIndex);
+                        if (parseInt(ticketQty) !== 0) {
+                            let fullTicketName = await this.getElementTextFromAnArrayByIndex(TICKET_NAME_AND_PRICE, i);
+                            let ticketName = fullTicketName.split(" ");
+                            ticketNames.push(ticketName[0]);
+                            selectIndex = selectIndex+1;
+                        }else{
+                            selectIndex = selectIndex + 1;
+                        }
+                    }
+                }
+            return ticketNames;
+        }
+
+
 
     }
 

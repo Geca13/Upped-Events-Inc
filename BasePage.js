@@ -211,7 +211,7 @@
         return await tickets[index].getText();
     }
 
-    async getChildByIndex(locator, parentIndex, childIndex) {
+    async getChildTextByParentIndexAndChildIndex(locator, parentIndex, childIndex) {
         let parent = await this.findAll(locator);
         let children = await parent[parentIndex].findElements(By.xpath("./child::*"));
         return await children[childIndex].getText();
@@ -223,7 +223,7 @@
         return await children[childIndex].sendKeys(keys);
     }
 
-    async findChildByIndexFromPrecedingSibling(locator){
+    async clickChildByIndexFromPrecedingSibling(locator){
         let knownSibling = await this.find(locator);
         let sibling = await knownSibling.findElement(By.xpath("./preceding-sibling::label"));
         let children = await sibling.findElements(By.xpath("./child::*"));
@@ -233,6 +233,14 @@
         let child = await this.find(locator);
         let parent = await child.findElement(By.xpath("ancestor::a"));
         await parent.click();
+    }
+
+    async getChildElementTagNameByParentIndex(locator){
+        let elements = await this.findAll(locator)
+        for(let i = 0; i < elements.length; i++){
+            let element = elements[i];
+            return element.getTagName();
+        }
     }
 
     async getElementFromAnArrayByIndex(locator, index){
@@ -363,7 +371,7 @@
     }
 
     async getSubstringOfPriceStringByParent(locator,parentIndex, childIndex){
-        let result = await this.getChildByIndex(locator,parentIndex, childIndex);
+        let result = await this.getChildTextByParentIndexAndChildIndex(locator,parentIndex, childIndex);
         return result.substring(1);
     }
 
@@ -375,7 +383,7 @@
 
 
     async getSubstringOfPriceStringWithStartAndEndIndex(locator,parentIndex, childIndex,startIndex, endIndex){
-        let result = await this.getChildByIndex(locator,parentIndex, childIndex);
+        let result = await this.getChildTextByParentIndexAndChildIndex(locator,parentIndex, childIndex);
         return result.substring(startIndex,endIndex);
     }
 
