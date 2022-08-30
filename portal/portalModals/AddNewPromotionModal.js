@@ -9,7 +9,7 @@
     const PROMOTION_DESCRIPTION_INPUT = { name: "description" };
     const SELECT_TICKET_DROPDOWN = { id: "tickets" };
     const SELECTED_TICKETS = { xpath: "//multi-dropdown[@id='tickets']//button//span"}
-    const TICKET_DROPDOWN_OPTIONS = { xpath: "//label[@class='pl-4']" }
+    const TICKET_DROPDOWN_OPTIONS = { xpath: "//multi-dropdown[@id='tickets']//label[@class='pl-4']" }
     const PROMOTION_STATUS_DROPDOWN = { name: "status" };
     const PROMOTION_DISTRIBUTION_DROPDOWN = { name: "codeDistributionType" };
     const PROMOTION_DISTRIBUTION_DROPDOWN_OPTIONS = { xpath: "//select-picker[@name='codeDistributionType']//a[@role='option']//span" };
@@ -21,10 +21,11 @@
     const PROMO_LIMIT_QUANTITY_INPUT = { name: "quantity" };
     const PROMO_$_VALUE_INPUT = { name: "price" };
     const PROMO_PERCENT_VALUE_INPUT = { name: "percentage" };
-    const ACCOUNT_LIMIT_QUANTITY_CHECKBOX = { name: "accountLimit" };
+    const ACCOUNT_LIMIT_QUANTITY_CHECKBOX = { xpath: "//div[contains(@class , 'inline-price-checkbox')]//label" };
     const PROMO_CODE_NAME_INPUT = { name: "promoCode" };
     const PROMO_PER_ACCOUNT_LIMIT_INPUT = { name: "accountUseLimit" };
     const SELECT_LIMIT_TICKETS_DROPDOWN = { id: "accountTickets" };
+    const SELECT_LIMIT_TICKETS_DROPDOWN_OPTIONS = { xpath: "//multi-dropdown[@id='accountTickets']//label[@class='pl-4']" };
     const GENERATE_MULTIPLE_CODES_BUTTON = { xpath: "//*[text()='Generate Multiple Unique Codes']"}
     const GENERATE_SINGLE_CODE_BUTTON = { xpath: "//*[text()='Generate Single Code']"}
     const QUANTITY_OF_CODES_INPUT = { name: "quantityOfCodes" };
@@ -66,9 +67,11 @@
         async startDateInputIsDisplayed(){
             await this.isDisplayed(PROMOTION_START_DATE_INPUT,10000)
         }
+
         async ticketsAreDisplayedInTheList(ticketName){
             await this.isDisplayed(By.xpath("//*[text()='"+ticketName+"']"),5000);
         }
+
         async clickTicketInTheList(ticketName){
             let ticket = await this.driver.findElement(By.xpath("//label/span[text()='"+ticketName+"']"));
            await ticket.click();
@@ -194,30 +197,6 @@
             await this.click(SAVE_PROMOTION_BUTTON);
             await this.timeout(1500);
             return promotion;
-           /* let promotions = new PromotionsPage(this.driver);
-            await promotions.assertThePromotionIsSavedCorrectOnPromotionsPage(name,description,ticket,quantity,origPrice,price,start,end,status);
-            await promotions.findPromotionByNameAndClickUpdateButton(name);
-            await this.isDisplayed(PROMOTION_TITLE_INPUT, 5000);
-            let updateName = await this.getEnteredTextInTheInput(PROMOTION_TITLE_INPUT)
-            let updateDescription = await this.getEnteredTextInTheInput(PROMOTION_DESCRIPTION_INPUT);
-            let updateTicket = await this.getElementText(SELECTED_TICKETS);
-            let updateStatus = await this.getElementText(SELECTED_STATUS);
-            let updateOrigStart = await this.getEnteredTextInTheInput(PROMOTION_START_DATE_INPUT)
-            let updateOrigEnd = await this.getEnteredTextInTheInput(PROMOTION_END_DATE_INPUT);
-            let updateQuantity = await this.getEnteredTextInTheInput(PROMO_LIMIT_QUANTITY_INPUT);
-            let updateOrigPrice = await this.getElementText(CURRENT_PRICE);
-            let updatePrice = await this.returnNumberWith$Sign(PROMO_$_VALUE_INPUT);
-            assert.equal(updateName, name);
-            assert.equal(updateDescription, description);
-            assert.equal(updateTicket, ticket);
-            assert.equal(updateStatus, status);
-            assert.equal(updateOrigStart, origStart);
-            assert.equal(updateOrigEnd, origEnd);
-            assert.equal(updateQuantity, quantity);
-            assert.equal(updateOrigPrice, origPrice);
-            assert.equal(updatePrice, price);
-            await this.click(CANCEL_PROMOTION_BUTTON);
-            await this.timeout(1000);*/
 
         }
 
@@ -320,6 +299,50 @@
             await this.timeout(1500)
         }
 
+        async assertTicketsOptionsInLimitDropdownEqualsPreviouslySelected(ticketOneName, ticketTwoName){
+            await this.click(SELECT_TICKET_DROPDOWN);
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
+            await this.timeout(500);
+            await this.clickTicketInTheList(ticketOneName);
+            await this.clickTicketInTheList(ticketTwoName);
+            await this.click(SELECT_TICKET_DROPDOWN);
+            await this.moveToElement(PROMOTION_START_DATE_INPUT);
+            await this.clickElementReturnedFromAnArray(ACCOUNT_LIMIT_QUANTITY_CHECKBOX,1);
+            await this.isDisplayed(SELECT_LIMIT_TICKETS_DROPDOWN,5000);
+            await this.click(SELECT_LIMIT_TICKETS_DROPDOWN);
+            await this.isDisplayed(SELECT_LIMIT_TICKETS_DROPDOWN_OPTIONS,5000);
+            let selectedTickets = await this.findAll(SELECT_LIMIT_TICKETS_DROPDOWN_OPTIONS);
+            assert.equal(await selectedTickets[0].getText(), "ALL")
+            assert.equal(await selectedTickets[1].getText(), ticketOneName)
+            assert.equal(await selectedTickets[2].getText(), ticketTwoName)
+
+        }
+
+        async assertAllTicketsDisplayedInLimitDropdownWhenAllOptionSelectedInTickets(){
+            await this.click(SELECT_TICKET_DROPDOWN);
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
+            await this.timeout(500);
+            await this.clickTicketInTheList("All");
+            await this.timeout(1000)
+            let tickets = [];
+            let allOptions = await this.findAll(TICKET_DROPDOWN_OPTIONS);
+            for(let i = 0; i < allOptions.length; i++){
+                let ticket = await this.getElementTextFromAnArrayByIndex(TICKET_DROPDOWN_OPTIONS, i);
+                tickets.push(ticket);
+            }
+            await this.click(SELECT_TICKET_DROPDOWN);
+            await this.moveToElement(PROMOTION_START_DATE_INPUT);
+            await this.clickElementReturnedFromAnArray(ACCOUNT_LIMIT_QUANTITY_CHECKBOX,1);
+            await this.isDisplayed(SELECT_LIMIT_TICKETS_DROPDOWN,5000);
+            await this.click(SELECT_LIMIT_TICKETS_DROPDOWN);
+            await this.isDisplayed(SELECT_LIMIT_TICKETS_DROPDOWN_OPTIONS,5000);
+            await this.timeout(1000)
+            let selectedTickets = await this.findAll(SELECT_LIMIT_TICKETS_DROPDOWN_OPTIONS);
+                for(let i = 0; i < allOptions.length; i++){
+                    assert.equal(await selectedTickets[i].getText(), tickets[i]);
+                }
+        }
+
         async createPromotionWith100discountForAllTickets(ticketNameOne, promoName, promoCode){
             await this.sentKeys(PROMOTION_TITLE_INPUT, promoName);
             await this.sentKeys(PROMOTION_DESCRIPTION_INPUT, promoName + ' description');
@@ -387,6 +410,20 @@
             assert.equal(ticketOneParsed, parseFloat(discountedPrice));
 
         };
+
+        async assertPriceIsNotDisplayedWhenMoreTicketsAreSelected(ticketOneName, ticketTwoName){
+            await this.click(SELECT_TICKET_DROPDOWN);
+            await this.ticketsAreDisplayedInTheList(ticketOneName);
+            await this.clickTicketInTheList(ticketOneName);
+            await this.isDisplayed(CURRENT_PRICE, 5000);
+            let currentPrice = await this.returnElementsCount(CURRENT_PRICE);
+            assert.equal(currentPrice, 1);
+            await this.clickTicketInTheList(ticketTwoName);
+            await this.timeout(500);
+            currentPrice = await this.returnElementsCount(CURRENT_PRICE);
+            assert.equal(currentPrice, 0);
+
+        }
 
         async assert$ValuePromotionCanNotAcceptLargerValueThenTicketPrice(ticketOnePrice){
             await this.click(SELECT_TICKET_DROPDOWN);

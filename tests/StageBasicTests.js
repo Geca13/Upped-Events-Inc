@@ -159,7 +159,7 @@ describe('Should do everything', function () {
     let embedDonate;
 
 
-    let base = 673158 // Math.floor(100000 + Math.random() * 900000);
+    let base =  Math.floor(100000 + Math.random() * 900000);
     let eventName =  base.toString() + " StageEventName";
     let shortName = base.toString();
     let ticketOneName = base.toString() +"T1";
@@ -218,7 +218,6 @@ describe('Should do everything', function () {
 
 
 
-/*
     it('should create new account on microsites with username and password, verify and login', async function() {
         events = new EventsPage(driver);
         createAccount = new CreateAccountModal(driver);
@@ -241,9 +240,8 @@ describe('Should do everything', function () {
         await login.loginAfterVerifyingAccount(customerPassword);
 
     });
-*/
 
-   /* it('Should create new event,tickets,promotions and make purchases', async function () {
+    it('Should create new event,tickets,promotions and make purchases', async function () {
         portalLogin = new PortalLoginPage(driver);
         dashboard = new DashboardPage(driver);
         createEvent = new CreateEventModal(driver);
@@ -271,11 +269,11 @@ describe('Should do everything', function () {
         await createEvent.createEventModalIsDisplayed();
         await createEvent.fillFormWithValidDataAndSave(eventName,shortName);
 
-        /!*await dashboard.clickMyEventsTab();
+        /*await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventOptionTabs.ticketingTabIsDisplayed();*!/
+            await eventOptionTabs.ticketingTabIsDisplayed();*/
 
         await eventOptionTabs.ticketingTabIsDisplayed();
         await eventOptionTabs.clickDesignNav();
@@ -350,7 +348,7 @@ describe('Should do everything', function () {
         await newPromotion.createPromotionWith100discountForAllTickets(ticketOneName, promoFiveName, promoCodeFive);
         await promotions.promotionsHeaderIsVisible();
         await eventOptionTabs.ticketingTabIsDisplayed();
-        /!*await eventOptionTabs.clickTicketingTab();
+        /*await eventOptionTabs.clickTicketingTab();
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
             await createTicket.createStaffTicket(staffTicket,"3");
@@ -358,9 +356,9 @@ describe('Should do everything', function () {
             await ticketsNav.clickActivateTicketToggle(staffTicket);
             await ticketsNav.activateTicketModalIsDisplayed();
             await ticketsNav.confirmActivationButton();
-            await eventOptionTabs.ticketingTabIsDisplayed();*!/
+            await eventOptionTabs.ticketingTabIsDisplayed();*/
 
-    });*/
+    });
 
     it('Should set payment card in customer profile',async function () {
         events = new EventsPage(driver);

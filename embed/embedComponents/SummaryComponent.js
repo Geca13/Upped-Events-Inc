@@ -157,5 +157,11 @@
             let count = tickets.substring(0, 1);
             return count;
         }
+        async assertTotalEqualsThreePromotedPlusOneRegularTicketPrice(originalPrice, promotedPrice){
+            let newTicketsTotal = await this.getTicketsTotal();
+            let promotedTotal = (parseFloat(promotedPrice) * 3).toFixed(2);
+            let ticketsTotal = parseFloat(promotedTotal) + parseFloat(originalPrice);
+            assert.equal(parseFloat(newTicketsTotal), ticketsTotal);
+        }
     }
     module.exports = SummaryComponent;

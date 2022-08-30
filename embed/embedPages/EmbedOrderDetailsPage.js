@@ -7,8 +7,8 @@
     const EDIT_PAYMENT_INFO_LINK = { id: "editInfo"};
     const WALLET_AS_PAYMENT = { xpath : "//ng-conatiner//div[@class='ng-star-inserted']"};
     const CARD_AS_PAYMENT = { xpath: "//div[contains(@class , 'selected-card')]"}
-    const CARD_BRAND = { xpath: "//div[contains(@class , 'selected-card')]//div[1]"}
-    const CARD_NUMBER= { xpath: "//div[contains(@class , 'selected-card')]//div[@class='card-number']"};
+    const CARD_BRAND = { id: "serviceName"}
+    const CARD_NUMBER= { id: "cardNumber"};
     const TICKETS_SECTION_HEADER = { xpath: "//div[@class='ticket']"}
     const TICKETS_NAMES_AND_EDIT_CONTAINER = { xpath: "//div[@class='ticket-container']//div[contains(@class , 'wd-60')]" }
     const EDIT_TICKET_LINK = { id: "editDetail" }
@@ -26,6 +26,14 @@
             await this.isDisplayed(ORDER_DETAILS_HEADER,5000);
             await this.timeout(500)
         }
+
+        async walletOptionIsDisplayedAndAssertText(){
+            await this.isDisplayed(WALLET_AS_PAYMENT, 5000);
+            let wallet = await this.getElementText(WALLET_AS_PAYMENT);
+            assert.equal(wallet, "Wallet")
+        }
+
+
         async clickPlaceOrderButton(){
             await this.isDisplayed(PLACE_ORDER_BUTTON,5000);
             await this.click(PLACE_ORDER_BUTTON);
@@ -54,6 +62,13 @@
             await this.click(EDIT_PAYMENT_INFO_LINK);
             let payment = new PaymentPage(this.driver);
             await payment.isAtPaymentPage();
+        }
+
+        async assertSelectedCardIsDisplayedAndAssertData(cardData){
+            await this.isDisplayed(CARD_AS_PAYMENT, 500);
+            let brand = await this.getElementText(CARD_BRAND);
+            let number = await this.getElementText(CARD_NUMBER);
+            assert.equal(brand + " " + number, cardData);
         }
 
         async clickEditLinkOnDisplayedTicketAssertIsOnTicketsPage(embedTickets){
@@ -118,6 +133,13 @@
                     assert.equal(price, "$"+ticketTotal.toString())
                 }
             }
+        }
+
+        async assertPromotedAndRegularTotalAreDisplayed(originalPrice, promotedPrice){
+            let prices = await this.findAll(TICKETS_PRICES);
+            let promotedTotal = parseFloat(promotedPrice) * 3;
+            assert.equal(prices[0].getText(), "$" + originalPrice );
+            assert.equal(prices[1].getText(), "$" + promotedTotal.toString() );
         }
 
 

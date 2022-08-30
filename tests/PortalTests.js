@@ -161,7 +161,7 @@
         let receipt;
         let steps;
 
-        let base = 956532 // Math.floor(100000 + Math.random() * 900000);
+        let base = 295984 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -1174,6 +1174,42 @@
         });
 
         //EMBED
+        it('should assert when wallet was selected on when edited to card , the card info is in Order Details', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            summary = new SummaryComponent(driver);
+            embedLogin = new LoginPage(driver);
+            addMoney = new AddMoneyComponent(driver)
+            payment = new PaymentPage(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInput(0, 2);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await main.clickNextPageButton();
+            await addMoney.addMoneyComponentIsDisplayed();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.walletOptionIsDisplayedAndAssertText();
+            await orderDetails.clickEditPaymentLinkAndAssertItIsOnPaymentPage();
+            await payment.clickSavedCardByIndex(0);
+            let cardData = await payment.getSelectedCardData();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.assertSelectedCardIsDisplayedAndAssertData(cardData);
+
+        });
+
+        //EMBED
         it('should click ticket edit link on Order Details and assert landing on Ticketing screen', async function () {
 
             main = new EmbedMainPage(driver);
@@ -1922,7 +1958,6 @@
             await promotions.addPromotionButtonIsVisible();
             await promotions.assertElementsOnPromotionsPageWhenNoPromotions();
             await promotions.assertElementsOnCreateNewPromotionModal(ticketOneName);
-            await promotions.createNew$ValuePromotionAndAssertData();
 
         });
 
@@ -2038,6 +2073,99 @@
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.assertCorrectPriceIsDisplayedWhenTickedIsSelectedInDropdown(ticketOnePrice);
+
+        });
+
+        //PORTAL
+        it('should check that when multiple tickets are selected in dropdown the price is not shown next to the promotion value inputs', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+            promotions = new PromotionsPage(driver);
+            newPromotion = new AddNewPromotionModal(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickPromotionsTab();
+            await promotions.addPromotionButtonIsVisible();
+            await promotions.clickAddPromotionButton();
+            await newPromotion.addPromotionModalIsDisplayed();
+            await newPromotion.assertPriceIsNotDisplayedWhenMoreTicketsAreSelected(ticketOneName, ticketTwoName);
+
+        });
+
+        //PORTAL
+        it('should assert that when multiple tickets selected for limitation the same tickets are displayed in limit dropdown', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+            promotions = new PromotionsPage(driver);
+            newPromotion = new AddNewPromotionModal(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickPromotionsTab();
+            await promotions.addPromotionButtonIsVisible();
+            await promotions.clickAddPromotionButton();
+            await newPromotion.addPromotionModalIsDisplayed();
+            await newPromotion.assertTicketsOptionsInLimitDropdownEqualsPreviouslySelected(ticketOneName, ticketTwoName);
+
+        });
+
+        //PORTAL
+        it('should assert that when all option selected for limitation the same all tickets displayed in limit dropdown', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+            promotions = new PromotionsPage(driver);
+            newPromotion = new AddNewPromotionModal(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickPromotionsTab();
+            await promotions.addPromotionButtonIsVisible();
+            await promotions.clickAddPromotionButton();
+            await newPromotion.addPromotionModalIsDisplayed();
+            await newPromotion.assertAllTicketsDisplayedInLimitDropdownWhenAllOptionSelectedInTickets();
 
         });
 
@@ -2310,7 +2438,7 @@
             await payment.isAtPaymentPage();
             await payment.enterPromoCode(promoCodeOne);
             await payment.clickApplyDiscountButton();
-            await payment.invalidCodeMessagesAreShown()
+            await payment.invalidCodeMessagesAreShown("The entered promotion code does not exist.")
 
         });
 
@@ -3054,6 +3182,125 @@
             await embedConfirm.clickViewReceiptButton();
             await receipt.receiptPopupIsVisible();
             await receipt.assertDataFromSummaryEqualReceiptValues(tickets,donations,subtotal,taxes,fees,discount,total)
+
+        });
+
+        it('should select four tickets exceeding the limit of promotion assert tickets in Order Details and promoted ticket shown twice with two prices', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            embedConfirm = new ConfirmPage(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInput(0, 4);
+            let originalPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketOneName);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.applyPromotion(promoCodeOne);
+            await summary.discountIsDisplayed();
+            await payment.exceedingPromotionQuantityAlertIsDisplayed();
+            await main.clickPreviousPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickPreviousPageButton();
+            await embedTickets.ticketListIsDisplayed();
+            let promotedPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketOneName);
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickSavedCardByIndex(0);
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.assertPromotedAndRegularTotalAreDisplayed(originalPrice, promotedPrice);
+
+        });
+
+        it('should make purchase with four tickets exceeding the limit of promotion assert promotion applied to only 3 tickets', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            embedConfirm = new ConfirmPage(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInput(0, 4);
+            let originalPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketOneName);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.applyPromotion(promoCodeOne);
+            await summary.discountIsDisplayed();
+            await payment.exceedingPromotionQuantityAlertIsDisplayed();
+            await main.clickPreviousPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickPreviousPageButton();
+            await embedTickets.ticketListIsDisplayed();
+            let promotedPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketOneName);
+            await summary.assertTotalEqualsThreePromotedPlusOneRegularTicketPrice(originalPrice, promotedPrice);
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickSavedCardByIndex(0);
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.clickPlaceOrderButton();
+            await embedConfirm.isAtConfirmPage();
+
+        });
+
+        it('should apply the promotion code when promotion qty is finished and get promo error message and assert input field still visible', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            embedConfirm = new ConfirmPage(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInput(0, 4);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.applyPromotion(promoCodeOne);
+            await payment.invalidCodeMessagesAreShown("The message when fixed");
 
         });
 

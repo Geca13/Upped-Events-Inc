@@ -8,6 +8,7 @@
     const TICKET_CONTAINER = { xpath: "//li[contains(@class, 'list-group-item')]" }
     const TICKET_QUANTITY_CONTAINER = { xpath: "//div[contains(@class, 'quantity-container')]" }
     const TICKET_NAME_AND_PRICE = { className: "name" }
+    const TICKET_PRICE = { xpath: "//span[@class='ticket-price']" }
     const TICKET_RULES_ICON = { xpath: "//span[@class= 'ticket-info']//i" }
     const DISCOUNTED_TICKET_PRICE = { xpath: "//span[contains(@class, 'has-discount')]" }
 
@@ -25,13 +26,19 @@
 
         async getTicketPriceByTicketName(ticketName) {
             let tickets = await this.findAll(TICKET_NAME_AND_PRICE);
+            let prices = await this.findAll(TICKET_PRICE);
             for(let i = 0; i < tickets.length; i++){
                 let ticket = await this.getElementTextFromAnArrayByIndex(TICKET_NAME_AND_PRICE,i);
                 let ticketname = ticket.split(" ")[0]
                 if(await ticketname == ticketName){
-                    return await ticket.split(" ")[1]
+                    return await prices[i].getText();
                 }
             }
+        }
+
+        async getCleanTicketPriceFromPriceWithBrackets(ticketName){
+            let price = await this.getTicketPriceByTicketName(ticketName);
+            return price.substring(2, price.length - 1);
         }
 
         async getSelectedQtyByTicketName(ticketName) {

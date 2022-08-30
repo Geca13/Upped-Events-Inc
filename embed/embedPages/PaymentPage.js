@@ -1,5 +1,6 @@
     const BasePage = require('../../BasePage');
     const assert = require('assert');
+    const Alerts = require('../../Validations&Alerts/Alerts');
     const NewCardComponent = require('../../microsites/micrositesComponents/NewCardComponent');
     const SummaryComponent = require('../embedComponents/SummaryComponent');
     const CARD_SERVICE_TAB = { xpath: "//*[text()='Pay with Card or Service']"}
@@ -11,6 +12,7 @@
     const PAY_WALLET_BUTTON = { xpath: "//button[contains(@class , 'other-service-item')]"}
     const CONFIRM_PAYMENT_BUTTON = { xpath: "//*[text()='Confirm Payment']"}
     const SAVED_CARD = { className: "user-card" } //list
+    const SELECTED_CARD = { xpath: "//div[contains(@class , 'selected-user-card')]"}
     const TABS = { xpath: "//div[contains(@class , 'pay-container')]//div[@class='box-container']" }
     const SECTION_HEADERS = { xpath: "//div[@class='title']" }
     const CODE_INVALID_MESSAGE = { xpath: "//label//span[contains(@class, 'ng-star-inserted')]" }
@@ -28,19 +30,31 @@
         async isAtPaymentPage(){
             await this.isDisplayed(CARD_SERVICE_TAB, 5000);
         }
+
         async clickCardOrServiceTab(){
             await this.click(CARD_SERVICE_TAB);
         }
+
         async clickSavedCardByIndex(index){
             await this.clickElementReturnedFromAnArray(SAVED_CARD,index);
+            await this.isDisplayed(SELECTED_CARD, 5000);
         }
+
+        async getSelectedCardData(){
+            let brand = await this.getChildTextByParentIndexAndChildIndex(SELECTED_CARD,0, 0);
+            let number = await this.getChildTextByParentIndexAndChildIndex(SELECTED_CARD,0, 1);
+            return brand + " " + number;
+        }
+
         async clickConfirmPaymentButton(){
             await this.isDisplayed(CONFIRM_PAYMENT_BUTTON,5000);
             await this.click(CONFIRM_PAYMENT_BUTTON);
         }
+
         async clickPayWithCardButton(){
             await this.click(PAY_CARD_BUTTON);
         }
+
         async clickPayWithWalletButton(){
             await this.click(PAY_WALLET_BUTTON);
             await this.timeout(500);
@@ -50,15 +64,18 @@
             await this.isAtPaymentPage();
             await this.click(NEW_CARD_TAB);
         }
+
         async fillValidDataOnCardOnTheEmbed(firstName,lastName){
             let newCard = new NewCardComponent(this.driver);
             await newCard.fillNewCardWithVisaData(firstName, lastName);
             await newCard.clickEmbedSaveCardButton();
         }
+
         async enterPromoCode(promoCode){
             await this.sentKeys(DISCOUNT_INPUT,promoCode);
             await this.timeout(500);
         }
+
         async clickApplyDiscountButton(){
             await this.click(APPLY_DISCOUNT_BUTTON);
             await this.timeout(1000);
@@ -68,10 +85,12 @@
             await this.enterPromoCode(promoCode);
             await this.clickApplyDiscountButton();
         }
+
         async isOnPayWithNewCardTab(){
             let newCardComponent = new NewCardComponent(this.driver);
             await newCardComponent.isAtNewCardTab();
         }
+
         async confirmElementsOnPayWithCardOrServiceTab(){
             await this.isAtPaymentPage();
             await this.timeout(1000);
@@ -106,14 +125,14 @@
             await newCardComponent.assertCountryOptionsAndSaveButtonNames();
         }
 
-        async invalidCodeMessagesAreShown(){
+        async invalidCodeMessagesAreShown(message){
             await this.isDisplayed(INVALID_TRIANGLE_ICON, 5000);
             await this.isDisplayed(CODE_INVALID_MESSAGE, 5000);
             await this.isDisplayed(INVALID_DESCRIPTION_MESSAGE, 5000);
             let codeInvalid = await this.getElementText(CODE_INVALID_MESSAGE);
             let invalidDescription = await this.getElementText(INVALID_DESCRIPTION_MESSAGE);
             assert.equal(codeInvalid, "(Code Invalid)");
-            assert.equal(invalidDescription, "The entered promotion code does not exist.");
+            assert.equal(invalidDescription, message);
         }
 
         async successfullyAddedPromotionElementsAreShown(promoCodeOne){
@@ -138,6 +157,11 @@
             let summary = new SummaryComponent(this.driver);
             await this.applyPromotion(promoCode);
             await summary.assertNewPricePlusDiscountEqualTicketPrice(ticketOnePrice);
+        }
+
+        async exceedingPromotionQuantityAlertIsDisplayed(){
+            let alert = new Alerts(this.driver);
+            await alert.correctInfoMessageIsDisplayed("You have exceeded the number of tickets you are eligible to purchase with this code.")
         }
 
     }
