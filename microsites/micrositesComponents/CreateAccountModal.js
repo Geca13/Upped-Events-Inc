@@ -1,5 +1,5 @@
     const BasePage = require('../../BasePage');
-    const Validations = require('../../Validations&Alerts/Validations');
+    const Validations = require('../../Validations&Alerts/MicrositesValidations');
     const Alerts = require('../../Validations&Alerts/Alerts');
     const assert = require('assert')
     const CLOSE_MODAL_BUTTON = { className: 'close-btn' };

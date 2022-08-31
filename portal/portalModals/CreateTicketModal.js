@@ -109,13 +109,13 @@
         }
 
 
-        async createNewTicket(ticketName,ticketPrice,ticketOneQuantity){
+        async createNewTicket(ticketName,ticketPrice,ticketQuantity){
             await this.ticketNameInputIsDisplayed();
             await this.sentKeys(TICKET_NAME_INPUT, ticketName);
             await this.sentKeys(TICKET_DESCRIPTION_INPUT, ticketName + ' description');
             await this.sentKeys(TICKET_RULES_INPUT, ticketName + ' rules');
             await this.clearInputField(TICKET_QUANTITY_INPUT);
-            await this.sentKeys(TICKET_QUANTITY_INPUT, ticketOneQuantity);
+            await this.sentKeys(TICKET_QUANTITY_INPUT, ticketQuantity);
             await this.sentKeys(TICKET_PRICE_INPUT, ticketPrice);
             await this.click(TICKET_START_DATE_INPUT);
             await this.timeout(1500)

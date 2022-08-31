@@ -66,7 +66,7 @@
 
         }
 
-        async assertThePromotionIsSavedCorrectOnPromotionsPage(promotion){
+        async assertThe$PromotionIsSavedCorrectOnPromotionsPage(promotion){
             await this.isDisplayed(PROMOTION_NAME,5000);
             let i = await this.returnIndexWhenTextIsKnown(PROMOTION_NAME,promotion[0]);
             await this.timeout(500);
@@ -82,8 +82,8 @@
             assert.equal(extDescription, "Single general promo code");
             assert.equal(nameTicket, promotion[2]);
             assert.equal(promoQty, promotion[3]);
-            //assert.equal(orPrice, promotion[4]);
-            //assert.equal(priceNew, promotion[5]);
+            assert.equal(orPrice, promotion[4]);
+            assert.equal(priceNew, promotion[5]);
             assert.equal(start, promotion[6]);
             assert.equal(end, promotion[7]);
         }
@@ -91,6 +91,27 @@
         async findPromotionByNameAndClickUpdateButton(promoName){
             let i = await this.returnIndexWhenTextIsKnown(PROMOTION_NAME,promoName);
             await this.clickElementReturnedFromAnArray(EDIT_PROMO_BUTTON, i);
+        }
+
+        async assertDataForPromotionWithThreeTicketsAndLimitOnTwoWithoutDateTime(promoName, ticketName,ticketPrice){
+            await this.isDisplayed(PROMOTION_NAME, 5000);
+            let i = await this.returnIndexWhenTextIsKnown(PROMOTION_NAME,promoName);
+            await this.timeout(500);
+            let namePromo = await this.getElementTextFromAnArrayByIndex(PROMOTION_NAME,i);
+            let extDescription = await this.getElementTextFromAnArrayByIndex(PROMOTION_DESCRIPTION,i);
+            let nameTicket = await this.getElementTextFromAnArrayByIndex(PROMOTION_TICKET, i);
+            let promoQty = await this.getElementTextFromAnArrayByIndex(PROMOTION_QUANTITY, i);
+            let orPrice = await this.getElementTextFromAnArrayByIndex(PROMOTION_ORIGINAL_PRICE, i);
+            let priceNew = await this.getElementTextFromAnArrayByIndex(PROMOTION_NEW_PRICE, i);
+            assert.equal(namePromo, promoName);
+            assert.equal(extDescription, "Single general promo code");
+            assert.equal(nameTicket, ticketName);
+            assert.equal(promoQty, "20");
+            assert.equal(orPrice, "$"+ticketPrice);
+            let discountedPriceForFirstTicket = parseFloat(ticketPrice) - (parseFloat(ticketPrice) * (75/100));
+            let discountedToFixed = discountedPriceForFirstTicket.toFixed(2);
+            assert.equal(priceNew+"0", "$"+discountedToFixed.toString());
+
         }
 
         async disablePromotionByPromoName(promoName){

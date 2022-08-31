@@ -24,7 +24,8 @@
     const PASSWORD_LENGTH_VALIDATION = 'Password must have at least 6 characters';
     const PASSWORD_REQUIRED_CHARS_VALIDATION = 'Password must have one small one capital letter and one number';
 
-    class Validations extends BasePage {
+
+    class MicrositesValidations extends BasePage {
 
     constructor(driver){
         super(driver);
@@ -165,4 +166,4 @@
 
 
     }
-    module.exports = Validations;
+    module.exports = MicrositesValidations;

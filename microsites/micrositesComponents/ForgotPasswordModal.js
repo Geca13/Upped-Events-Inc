@@ -1,6 +1,6 @@
     const BasePage = require('../../BasePage');
     const assert = require('assert')
-    const Validations = require('../../Validations&Alerts/Validations');
+    const Validations = require('../../Validations&Alerts/MicrositesValidations');
     const LoginComponent = require('../micrositesComponents/LoginComponent');
     const FORGOT_PASSWORD_MODAL = { tagName:'app-forgot-password'}
     const FORGOT_PASSWORD_HEADER = { xpath: "//*[text()='Forgot password']"}

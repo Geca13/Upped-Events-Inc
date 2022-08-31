@@ -1,6 +1,6 @@
     const BasePage = require('../../BasePage');
     const Alerts = require('../../Validations&Alerts/Alerts');
-    const Validations = require('../../Validations&Alerts/Validations');
+    const Validations = require('../../Validations&Alerts/MicrositesValidations');
     const assert = require("assert");
     const MODAL_HEADER = { xpath: "//h3[contains(@class, 'title')]"}
     const EMAIL_INPUT = { id: 'email' }

@@ -1,5 +1,5 @@
     const BasePage = require("../../BasePage");
-    const Validations = require('../../Validations&Alerts/Validations');
+    const Validations = require('../../Validations&Alerts/MicrositesValidations');
     const assert = require('assert')
     const RESET_PASSWORD_HEADER = { xpath: "//*[text()='Reset password']"}
     const PASSWORD_INPUT = { xpath: "//input[@formcontrolname='password']" };
