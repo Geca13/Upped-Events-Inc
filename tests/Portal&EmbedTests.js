@@ -161,7 +161,7 @@
         let receipt;
         let steps;
 
-        let base =  Math.floor(100000 + Math.random() * 900000);
+        let base = 604200 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -244,6 +244,7 @@
 
         });
 
+
         it('should create new event and verify data in events page and General Details',async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
@@ -302,6 +303,7 @@
 
         });
 
+        //PORTAL -> MICROSITES
         it('should check event image placeholder when main image is not set and when is set',async function () {
             events = new EventsPage(driver);
             portalLogin = new PortalLoginPage(driver);
@@ -350,6 +352,7 @@
             await events.assertPlaceholderImageIsRemovedWhenImageIsSet(shortName);
         });
 
+        //PORTAL -> MICROSITES
         it('should check event image is in card, event info and galery',async function () {
 
             events = new EventsPage(driver);
@@ -369,6 +372,7 @@
 
         });
 
+        //PORTAL -> MICROSITES
         it('should check messages when tickets are not created',async function () {
 
             events = new EventsPage(driver);
@@ -433,7 +437,7 @@
             await createTicket.createFirstTicketAndAssertDataOnTicketsAndUpdate(ticketOneName,ticketOnePrice,embedTicketQuantity);
 
         });
-
+            //PORTAL -> EMBED
         it('should make embed view for event', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
@@ -481,7 +485,7 @@
             await main.assertNoTicketsMessageIsDisplayed()
 
         });
-
+        //PORTAL -> MICROSITES
         it('should check button text and when tickets are activated/deactivated ',async function () {
 
             events = new EventsPage(driver);
@@ -517,6 +521,7 @@
             await info.assertBuyTicketsButtonText()
         });
 
+        //PORTAL -> MICROSITES
         it('should check button text when tickets are in the future ',async function () {
             events = new EventsPage(driver);
             info = new EventInfo(driver);
@@ -573,10 +578,10 @@
             await embedTickets.assertFullTicketNameDisplay(ticketOneName, ticketOnePrice);
         });
 
+        //MICROSITES
         it('Should check Account dropdown options',async function () {
             events = new EventsPage(driver);
             login = new LoginComponent(driver);
-
             await events.load();
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
@@ -585,7 +590,7 @@
             await events.checkAccountDropdownIconsOptions();
 
         });
-
+           //PORTAL - > MICROSITES
         it('should check correct date and time from portal events and microsites eventInfo pages',async function () {
             events = new EventsPage(driver);
             info = new EventInfo(driver);
@@ -613,6 +618,7 @@
             await info.assertDateAndTimeOnEventInfo(portalDateAndTime);
         });
 
+        //PORTAL -> MICROSITES
         it('should get location, description and names from event details and assert on event info ',async function () {
             events = new EventsPage(driver);
             info = new EventInfo(driver);
@@ -644,6 +650,7 @@
 
         });
 
+        //MICROSITES
         it('Should check for proper validation messages on create an account modal', async function() {
            events = new EventsPage(driver);
            createAccount = new CreateAccountModal(driver);
@@ -654,7 +661,7 @@
            await createAccount.secondCreateAccountModalIsDisplayed();
            await createAccount.allValidationsAreShown()
        });
-
+        // MICROSITES
         it('should check for elements , validations and alerts on login modal',async function () {
             events = new EventsPage(driver);
             login = new LoginComponent(driver);
@@ -666,6 +673,7 @@
 
         });
 
+        //MICROSITES
         it('should login and verify the data is correct in my profile page',async function () {
             events = new EventsPage(driver);
             login = new LoginComponent(driver);
@@ -681,6 +689,7 @@
 
         });
 
+        //MICROSITES
         it('should login and update user gender, phone and location in edit profile',async function () {
             events = new EventsPage(driver);
             login = new LoginComponent(driver);
@@ -696,6 +705,7 @@
 
         });
 
+        //MICROSITES
         it('Should display correct validation errors and finaly complete forgot password scenario', async function() {
            events = new EventsPage(driver);
            forgotPassword = new ForgotPasswordModal(driver);
@@ -718,6 +728,7 @@
            await login.getNewlyOpenedTab(originalWindow);
            await resetPassword.completeResetPasswordScenarioWithValidations(password);
            await events.signInButtonIsDisplayed();
+           await driver.sleep(5000)
            await events.clickSignInButton();
            await login.waitPopupToBeLoaded();
            await login.loginWithNewPassword(email,password)
@@ -806,7 +817,7 @@
             await ticketing.assertWhenTicketIsSelectedButNoTaxesAndFeesSubtotalAndTotalEqualTicketPrice(ticketPrice);
 
         });
-
+            //PORTAL
         it('should add excluded tax and check if bayer total is updated in ticket update modal', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
@@ -849,7 +860,7 @@
             await createTicket.assertBuyerTotalEqualsTicketPriceMultipliedByTaxPercentage(savedTaxValue);
 
         });
-
+            //PORTAL -> MICROSITES
         it('should check when excluded taxes subtotal equals ticket price and buyer total equals grand total ', async function () {
             events = new EventsPage(driver);
             info = new EventInfo(driver);
@@ -887,7 +898,7 @@
             await tickets.clickFirstIncreaseButton();
             await ticketing.assertTicketPriceEqualsSubtotalAndBuyerTotalEqualsGrandTotal( ticketPrice, ticketBuyerPrice);
         });
-
+            //PORTAL
         it('should remove tax and add $ value fee', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
@@ -975,6 +986,57 @@
 
         });
 
+        //PORTAL
+        it('should create three more tickets and assert data in tickets table ',async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.createNewTicket(ticketTwoName,ticketTwoPrice,ticketTwoQuantity);
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createdTicketIsInTheTable(ticketTwoName);
+            await ticketsNav.clickActivateTicketToggle(ticketTwoName);
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.createNewTicket(ticketThreeName,ticketThreePrice,ticketThreeQuantity);
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createdTicketIsInTheTable(ticketThreeName);
+            await ticketsNav.clickActivateTicketToggle(ticketThreeName);
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.createNewTicket(ticketFourName,ticketFourPrice,ticketFourQuantity);
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createdTicketIsInTheTable(ticketFourName);
+            await ticketsNav.clickActivateTicketToggle(ticketFourName);
+            //await driver.sleep(2000);
+            await ticketsNav.assertTicketNamePriceAndQuantity(ticketOneName,ticketOnePrice,embedTicketQuantity);
+            await ticketsNav.assertTicketNamePriceAndQuantity(ticketTwoName,ticketTwoPrice,ticketTwoQuantity);
+            await ticketsNav.assertTicketNamePriceAndQuantity(ticketThreeName,ticketThreePrice,ticketThreeQuantity);
+            await ticketsNav.assertTicketNamePriceAndQuantity(ticketFourName,ticketFourPrice,ticketFourQuantity);
+
+        });
+
 
         it('should calculate subtotal and total on one ticket quantity 3 with tax and fee', async function () {
 
@@ -1015,7 +1077,7 @@
             await events.clickNewEvent(shortName);
             await info.wishListButtonIsDisplayed();
             await info.clickBuyTicketsButton();
-            await tickets.sendKeysToQtyInput(0,2);
+            await tickets.sendKeysToQtyInput(1,2);
             await ticketing.assertTicketsSubtotalMultipliedByTaxesAndFeesForEachTicketEqualsGrandTotal( savedTaxValue, saved$FeeValue);
 
 
@@ -1031,7 +1093,7 @@
             await main.openEmbedPage();
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             await summary.calculateSubtotalAndTotalBeforeDonationIsAdded();
         });
 
@@ -1046,7 +1108,7 @@
             await main.openEmbedPage();
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             let ticketsTotal = await summary.getTicketsTotal();
             let ticketsSubtotal = await summary.getSubtotalValue();
             let taxes = await summary.getTaxesValue();
@@ -1073,7 +1135,7 @@
             await main.openEmbedPage();
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
@@ -1084,7 +1146,7 @@
 
         });
 
-        //EMBED
+        //EMBED 32
         it('should assert elements on Payment screen component in embed when user has no cards', async function () {
 
             main = new EmbedMainPage(driver);
@@ -1097,7 +1159,7 @@
             await main.openEmbedPage();
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
@@ -1113,6 +1175,26 @@
 
         });
 
+        it('Should set payment card in customer profile',async function () {
+            events = new EventsPage(driver);
+            login = new LoginComponent(driver);
+            myWallet = new MyWalletTab(driver);
+
+            await events.load();
+            await events.clickSignInButton();
+            await login.waitPopupToBeLoaded();
+            await login.authenticate(customerEmail, customerPassword);
+            await events.goToWalletPage();
+            await myWallet.myWalletScreenIsDisplayed();
+            userBalance = userBalance + await myWallet.returnBalanceState();
+            await myWallet.assertUserBalance('200.00');
+            await myWallet.setNewCardInProfile(customerFirstName, customerLastName);
+            await myWallet.checkCardHolderName(customerFirstName, customerLastName);
+            await myWallet.checkCardBrand("Visa");
+            await myWallet.checkDisplayedCardNumber("1111");
+        });
+
+
         //EMBED
         it('should assert elements on Order Details screen when payment with wallet', async function () {
 
@@ -1127,7 +1209,7 @@
             await main.openEmbedPage();
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
@@ -1139,7 +1221,7 @@
             await payment.clickPayWithWalletButton();
             await main.clickNextPageButton();
             await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.assertElementsWhenOneTicketIsSelected(ticketOneName);
+            await orderDetails.assertElementsWhenOneTicketIsSelected(ticketTwoName);
 
         });
 
@@ -1157,7 +1239,7 @@
             await main.openEmbedPage();
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
@@ -1187,7 +1269,7 @@
             await main.openEmbedPage();
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
@@ -1223,7 +1305,7 @@
             await main.openEmbedPage();
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
@@ -1254,7 +1336,7 @@
             await main.openEmbedPage();
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, '2');
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
@@ -1273,7 +1355,7 @@
         });
 
         //PORTAL -> EMBED
-        it('should get Sold out message when there are no tickets available in embed', async function () {
+        it('should get Sold out message when there is no qty available for selected ticket in embed', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
@@ -1305,7 +1387,7 @@
         });
 
         //PORTAL -> MICROSITES
-        it('should get Sold out message when there are no tickets available in microsites', async function () {
+        it('should get Sold out message when there is no qty available for selected ticket in microsites', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
@@ -1487,7 +1569,7 @@
             await main.openEmbedPage();
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 26);
+            await embedTickets.sentKeysToTicketInput(1, 28);
             let accountAvailable = 26-parseInt(purchasedTickets);
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
@@ -1498,6 +1580,39 @@
             await embedTickets.sentKeysToTicketInput(0, accountAvailable);
             await main.clickNextPageButton();
             await addMoney.addMoneyComponentIsDisplayed();
+        });
+
+        it('should remove limitation on tickets per account and make payments on embed and microsites with larger quantity',async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            createEvent = new CreateEventModal(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            capacity = new EventCapacitySubNav(driver);
+            ticketsNav = new TicketsNav(driver);
+            eventTickets = new EventTickets(driver)
+            settingsNav = new SettingsNav(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(2000);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await eventOptionTabs.clickSettingsNav();
+            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await settingsNav.clickEventCapacity();
+            await capacity.removeLimit();
+
         });
 
         // PORTAL -> EMBED
@@ -1773,7 +1888,7 @@
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInput(0, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedDonate.assertElementsOnDonateTab(eventName, donationMessage);
@@ -1795,7 +1910,7 @@
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInput(0, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedDonate.assertCorrectValuesInInputAfterDonationButtonIsClicked(0);
@@ -1805,7 +1920,7 @@
 
         });
 
-        //EMBED
+        //EMBED 55
         it('should assert when donation is added to order the amount is visible in Order Total in the embed',async function () {
 
             main = new EmbedMainPage(driver);
@@ -1820,7 +1935,7 @@
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInput(0, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedDonate.addDonationToOrderAndAssertDataInOrderTotal(0);
@@ -1849,7 +1964,7 @@
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInput(0, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedDonate.addCustomDonationAndAssertIsAddedInOrderTotal();
@@ -1871,7 +1986,7 @@
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInput(0, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedDonate.calculateTheOrderTotalAfterDonationIsAdded();
@@ -1893,7 +2008,7 @@
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInput(0, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedDonate.checkWhenInputValue0AddDonationButtonIsDisabledAndResetEnabled();
@@ -1916,7 +2031,7 @@
             await main.openEmbedPage();
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
@@ -1958,57 +2073,6 @@
             await promotions.addPromotionButtonIsVisible();
             await promotions.assertElementsOnPromotionsPageWhenNoPromotions();
             await promotions.assertElementsOnCreateNewPromotionModal(ticketOneName);
-
-        });
-
-        //PORTAL
-        it('should create three more tickets and assert data in tickets table ',async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketTwoName,ticketTwoPrice,ticketTwoQuantity);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(ticketTwoName);
-            await ticketsNav.clickActivateTicketToggle(ticketTwoName);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketThreeName,ticketThreePrice,ticketThreeQuantity);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(ticketThreeName);
-            await ticketsNav.clickActivateTicketToggle(ticketThreeName);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketFourName,ticketFourPrice,ticketFourQuantity);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(ticketFourName);
-            await ticketsNav.clickActivateTicketToggle(ticketFourName);
-            //await driver.sleep(2000);
-            await ticketsNav.assertTicketNamePriceAndQuantity(ticketOneName,ticketOnePrice,ticketOneQuantity);
-            await ticketsNav.assertTicketNamePriceAndQuantity(ticketTwoName,ticketTwoPrice,ticketTwoQuantity);
-            await ticketsNav.assertTicketNamePriceAndQuantity(ticketThreeName,ticketThreePrice,ticketThreeQuantity);
-            await ticketsNav.assertTicketNamePriceAndQuantity(ticketFourName,ticketFourPrice,ticketFourQuantity);
 
         });
 
@@ -2166,70 +2230,6 @@
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.assertAllTicketsDisplayedInLimitDropdownWhenAllOptionSelectedInTickets();
-
-        });
-
-        //PORTAL
-        it('should create promotion for 3 tickets and limit qty on two', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-            promotions = new PromotionsPage(driver);
-            newPromotion = new AddNewPromotionModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.newPromotionForThreeWithLimitOnTwo(ticketTwoName, ticketThreeName, ticketFourName, promoThreeName, promoCodeThree);
-            await promotions.assertDataForPromotionWithThreeTicketsAndLimitOnTwoWithoutDateTime(promoThreeName, ticketTwoName,ticketTwoPrice);
-            await promotions.findPromotionByNameAndClickUpdateButton(promoThreeName);
-            await newPromotion.assertDataOnUpdateModalForPromotionWithThreeTicketsAndLimit(ticketTwoName, ticketThreeName, ticketFourName, promoThreeName, promoCodeThree)
-
-        });
-
-        //PORTAL
-        it('should get promocode error validation when promotion code exists for current event', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            promotions = new PromotionsPage(driver);
-            newPromotion = new AddNewPromotionModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.errorValidationIsReturnedWhenExistingCodeIsEnteredAsPromoCodeForNewPromotion(promoCodeThree);
 
         });
 
@@ -2452,7 +2452,7 @@
             await promotions.addPromotionButtonIsVisible();
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
-            let promotion = await newPromotion.createPromotionForOneTicketWith$Value(ticketOneName, promoOneName, promoCodeOne);
+            let promotion = await newPromotion.createPromotionForOneTicketWith$Value(ticketTwoName, promoOneName, promoCodeOne);
             await promotions.assertThe$PromotionIsSavedCorrectOnPromotionsPage(promotion);
             await promotions.findPromotionByNameAndClickUpdateButton(promotion[0]);
             await newPromotion.assertDataFromCreateEqualsUpdateData(promotion)
@@ -2506,158 +2506,6 @@
 
         });
 
-        //EMBED
-        it('should assert when three different tickets selected three ticket edit links on Order details', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            summary = new SummaryComponent(driver);
-            embedLogin = new LoginPage(driver);
-            addMoney = new AddMoneyComponent(driver)
-            payment = new PaymentPage(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 2);
-            await embedTickets.sentKeysToTicketInput(1, 1);
-            await embedTickets.sentKeysToTicketInput(2, 3);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await main.clickNextPageButton();
-            await addMoney.addMoneyComponentIsDisplayed();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickPayWithWalletButton();
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.assertNumberOfEditTicketsLinks(3);
-
-        });
-
-        it('should assert when three different tickets selected all three tickets displayed in Order details', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            summary = new SummaryComponent(driver);
-            embedLogin = new LoginPage(driver);
-            addMoney = new AddMoneyComponent(driver)
-            payment = new PaymentPage(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 2);
-            await embedTickets.sentKeysToTicketInput(1, 1);
-            await embedTickets.sentKeysToTicketInput(2, 3);
-            //await embedTickets.sentKeysToTicketInput(3, 1);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            let tickets = await embedTickets.getListOfTicketsWhereQuantityIsBiggerThen0();
-            await main.clickNextPageButton();
-            await addMoney.addMoneyComponentIsDisplayed();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickPayWithWalletButton();
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.assertSelectedTicketsAreDisplayedInOrderDetails(tickets);
-
-        });
-
-        it('should assert when three different tickets selected for each ticket total equals selected quantity times price', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            summary = new SummaryComponent(driver);
-            embedLogin = new LoginPage(driver);
-            addMoney = new AddMoneyComponent(driver)
-            payment = new PaymentPage(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 1);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, 3);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            let ticketOneTotal = await embedTickets.selectedTicketTotal(ticketOneName);
-            let ticketTwoTotal = await embedTickets.selectedTicketTotal(ticketTwoName);
-            let ticketFourTotal = await embedTickets.selectedTicketTotal(ticketFourName);
-            await main.clickNextPageButton();
-            await addMoney.addMoneyComponentIsDisplayed();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickPayWithWalletButton();
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.assertTicketTotalByTicketName(ticketOneName, ticketOneTotal);
-            await orderDetails.assertTicketTotalByTicketName(ticketTwoName, ticketTwoTotal);
-            await orderDetails.assertTicketTotalByTicketName(ticketFourName, ticketFourTotal);
-
-        });
-
-        //EMBED
-        it('should assert selected ticket quantity is displayed in the Order Total corectly', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            summary = new SummaryComponent(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 2);
-            await embedTickets.sentKeysToTicketInput(1, 3);
-            await embedTickets.sentKeysToTicketInput(2, 1);
-            await embedTickets.assertTicketCountInOrderTotal(summary);
-
-        });
-
-        //EMBED
-        it('should assert when order details tickets sum equals order total tickets value & summary tickets and subtotal', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            summary = new SummaryComponent(driver);
-            embedLogin = new LoginPage(driver);
-            addMoney = new AddMoneyComponent(driver)
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 2);
-            await embedTickets.sentKeysToTicketInput(1, 3);
-            await embedTickets.sentKeysToTicketInput(2, 1);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.confirmEnteredValuesBeforeLogin();
-            await main.clickNextPageButton();
-            await addMoney.addMoneyComponentIsDisplayed();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickPayWithWalletButton();
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.assertTicketsSumEqualsSubtotalAndOrderTotalTicketsAndSubtotalValues(summary);
-
-        });
-
         //PORTAL -> EMBED
         it('should enable promotion and check promotion is applied and input is hidden', async function () {
             portalLogin = new PortalLoginPage(driver);
@@ -2694,7 +2542,7 @@
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInput(0, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
@@ -2705,7 +2553,7 @@
 
         });
 
-        //EMBED
+        //EMBED 75
         it('should add promo code and assert donation value + new price equals original ticket price in summary', async function () {
 
             main = new EmbedMainPage(driver);
@@ -2721,13 +2569,13 @@
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInput(0, 1);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '1');
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
             await main.clickNextPageButton();
             await payment.isAtPaymentPage();
-            await payment.applyPromotionAndCheckTicketPriceEqualsNewPricePlusDiscount(promoCodeOne,ticketOnePrice);
+            await payment.applyPromotionAndCheckTicketPriceEqualsNewPricePlusDiscount(promoCodeOne,ticketTwoPrice);
 
         });
 
@@ -2748,8 +2596,8 @@
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInput(0, 1);
-            let originalPrice = await embedTickets.getTicketPriceByTicketName(ticketOneName);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '1');
+            let originalPrice = await embedTickets.getTicketPriceByTicketName(ticketTwoName);
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
@@ -2761,11 +2609,170 @@
             await embedExtras.isAtExtrasPage();
             await main.clickPreviousPageButton();
             await embedTickets.ticketListIsDisplayed();
-            await embedTickets.assertTheNewTicketPriceEqualsDiscountedPrice(ticketOneName, discountedPrice);
-            await embedTickets.assertNewTicketNamePricesLayout(ticketOneName, originalPrice, discountedPrice);
+            await embedTickets.assertTheNewTicketPriceEqualsDiscountedPrice(ticketTwoName, discountedPrice);
+            await embedTickets.assertNewTicketNamePricesLayout(ticketTwoName, originalPrice, discountedPrice);
             await embedTickets.assertFontColorAndStrikeOnOriginalPrice(ticketOneName);
 
         });
+
+        //EMBED
+        it('should assert when three different tickets selected three ticket edit links on Order details', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            summary = new SummaryComponent(driver);
+            embedLogin = new LoginPage(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '2');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '2');
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.assertNumberOfEditTicketsLinks(3);
+
+        });
+
+        //EMBED
+        it('should assert when three different tickets selected all three tickets displayed in Order details', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            summary = new SummaryComponent(driver);
+            embedLogin = new LoginPage(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '2');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '2');
+            //await embedTickets.sentKeysToTicketInput(3, 1);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            let tickets = await embedTickets.getListOfTicketsWhereQuantityIsBiggerThen0();
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.assertSelectedTicketsAreDisplayedInOrderDetails(tickets);
+
+        });
+
+        //EMBED
+        it('should assert when three different tickets selected for each ticket total equals selected quantity times price', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            summary = new SummaryComponent(driver);
+            embedLogin = new LoginPage(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 1);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, 3);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            let ticketThreeTotal = await embedTickets.selectedTicketTotal(ticketThreeName);
+            let ticketTwoTotal = await embedTickets.selectedTicketTotal(ticketTwoName);
+            let ticketFourTotal = await embedTickets.selectedTicketTotal(ticketFourName);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.assertTicketTotalByTicketName(ticketThreeName, ticketThreeTotal);
+            await orderDetails.assertTicketTotalByTicketName(ticketTwoName, ticketTwoTotal);
+            await orderDetails.assertTicketTotalByTicketName(ticketFourName, ticketFourTotal);
+
+        });
+
+        //EMBED
+        it('should assert selected ticket quantity is displayed in the Order Total corectly', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            summary = new SummaryComponent(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '3');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '4');
+            await embedTickets.assertTicketCountInOrderTotal(summary);
+
+        });
+
+        //EMBED
+        it('should assert when order details tickets sum equals order total tickets value & summary tickets and subtotal', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            summary = new SummaryComponent(driver);
+            embedLogin = new LoginPage(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '3');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '1');
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.confirmEnteredValuesBeforeLogin();
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.assertTicketsSumEqualsSubtotalAndOrderTotalTicketsAndSubtotalValues(summary);
+
+        });
+
 
         //EMBED
         it('should make regular purchase with three different tickets and quantities and assert tickets on receipt', async function () {
@@ -2787,12 +2794,9 @@
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, 2);
             await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 1);
             await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, 3);
-            let ticketOneP = await embedTickets.getTicketPriceByTicketName(ticketOneName);
-            let ticketTwoP = await embedTickets.getTicketPriceByTicketName(ticketTwoName);
-            let ticketThreeP = await embedTickets.getTicketPriceByTicketName(ticketThreeName);
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
@@ -2805,10 +2809,11 @@
             await embedConfirm.isAtConfirmPage();
             await embedConfirm.clickViewReceiptButton();
             await receipt.receiptPopupIsVisible();
-            await receipt.assertTicketsOnReceipt(ticketOneName,ticketTwoName,ticketThreeName);
+            await receipt.assertTicketsOnReceipt(ticketTwoName,ticketThreeName,ticketFourName);
 
         });
 
+        //EMBED
         it('should make regular purchase and check event name and date of purchase', async function () {
 
             main = new EmbedMainPage(driver);
@@ -2828,7 +2833,7 @@
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
@@ -2869,7 +2874,7 @@
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
             await main.assertNavbarText(eventName + " Ticketing");
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
@@ -2904,7 +2909,7 @@
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
@@ -2959,7 +2964,7 @@
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
@@ -3005,7 +3010,7 @@
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
             await steps.numberOfCompletedStepsAndCurrentStepName("Select Tickets",0);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
@@ -3045,7 +3050,7 @@
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
             await steps.numberOfCompletedStepsAndCurrentStepName("Select Tickets",0);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
@@ -3098,7 +3103,7 @@
             await steps.checkIfFillinClassIsAppliedToStep(2,false);
             await steps.checkIfFillinClassIsAppliedToStep(3,false);
             await steps.checkIfFillinClassIsAppliedToStep(4,false);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
@@ -3167,7 +3172,7 @@
             await steps.checkIfActiveClassIsAppliedToStep(2,false);
             await steps.checkIfActiveClassIsAppliedToStep(3,false);
             await steps.checkIfActiveClassIsAppliedToStep(4,false);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
@@ -3201,6 +3206,7 @@
 
         });
 
+        //EMBED
         it('should make purchase for two tickets of same type with donation and promotion and assert data on the receipt', async function () {
 
             main = new EmbedMainPage(driver);
@@ -3221,7 +3227,7 @@
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInput(0, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
@@ -3249,6 +3255,7 @@
 
         });
 
+        //EMBED
         it('should select four tickets exceeding the limit of promotion assert tickets in Order Details and promoted ticket shown twice with two prices', async function () {
 
             main = new EmbedMainPage(driver);
@@ -3267,7 +3274,7 @@
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInput(0, 4);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '4');
             let originalPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketOneName);
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
@@ -3281,7 +3288,7 @@
             await embedExtras.isAtExtrasPage();
             await main.clickPreviousPageButton();
             await embedTickets.ticketListIsDisplayed();
-            let promotedPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketOneName);
+            let promotedPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketTwoName);
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
             await main.clickNextPageButton();
@@ -3311,8 +3318,8 @@
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInput(0, 4);
-            let originalPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketOneName);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '4');
+            let originalPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketTwoName);
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
@@ -3325,7 +3332,7 @@
             await embedExtras.isAtExtrasPage();
             await main.clickPreviousPageButton();
             await embedTickets.ticketListIsDisplayed();
-            let promotedPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketOneName);
+            let promotedPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketTwoName);
             await summary.assertTotalEqualsThreePromotedPlusOneRegularTicketPrice(originalPrice, promotedPrice);
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
@@ -3357,7 +3364,7 @@
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInput(0, 4);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '4');
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
@@ -3368,9 +3375,72 @@
 
         });
 
+        //PORTAL
+        it('should create promotion for 3 tickets and limit qty on two', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+            promotions = new PromotionsPage(driver);
+            newPromotion = new AddNewPromotionModal(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickPromotionsTab();
+            await promotions.addPromotionButtonIsVisible();
+            await promotions.clickAddPromotionButton();
+            await newPromotion.addPromotionModalIsDisplayed();
+            await newPromotion.newPromotionForThreeWithLimitOnTwo(ticketTwoName, ticketThreeName, ticketFourName, promoThreeName, promoCodeThree);
+            await promotions.assertDataForPromotionWithThreeTicketsAndLimitOnTwoWithoutDateTime(promoThreeName, ticketTwoName,ticketTwoPrice);
+            await promotions.findPromotionByNameAndClickUpdateButton(promoThreeName);
+            await newPromotion.assertDataOnUpdateModalForPromotionWithThreeTicketsAndLimit(ticketTwoName, ticketThreeName, ticketFourName, promoThreeName, promoCodeThree)
+
+        });
+
+        //PORTAL
+        it('should get promocode error validation when promotion code exists for current event', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            promotions = new PromotionsPage(driver);
+            newPromotion = new AddNewPromotionModal(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickPromotionsTab();
+            await promotions.addPromotionButtonIsVisible();
+            await promotions.clickAddPromotionButton();
+            await newPromotion.addPromotionModalIsDisplayed();
+            await newPromotion.errorValidationIsReturnedWhenExistingCodeIsEnteredAsPromoCodeForNewPromotion(promoCodeThree);
+
+        });
+
         //EMBED
-        it('should select account limit quantity for all tickets that have promotion in promotion with limit then add promo code and' +
-            ' assert only highest price ticket gets discount when subtotal calculated in order total', async function () {
+        it('should select account limit quantity for all tickets that have promotion in promotion with limit then add promo code and assert only highest price ticket gets discount when subtotal calculated in order total', async function () {
 
             main = new EmbedMainPage(driver);
             embedLogin = new LoginPage(driver);
@@ -3399,8 +3469,7 @@
         });
 
         //EMBED
-        it('should select total of account limit quantity for limited tickets that have promotion in promotion with limit then add promo code and' +
-            ' assert subtotal equals tickets discounted prices times quantity', async function () {
+        it('should select total of account limit quantity for limited tickets that have promotion in promotion with limit then add promo code and assert subtotal equals tickets discounted prices times quantity', async function () {
 
             main = new EmbedMainPage(driver);
             embedLogin = new LoginPage(driver);
@@ -3429,8 +3498,8 @@
         });
 
         //EMBED
-        it('should select more then total of account limit quantity for limited tickets that have promotion in promotion with limit then add promo code and' +
-            ' assert subtotal equals tickets discounted prices times quantity + regular price for cheaper ticket times exceeding limit qty + assert exceeding promo message', async function () {
+        it('should select more then total of account limit quantity for limited tickets that have promotion in promotion with limit then add promo code and ' +
+            'assert subtotal equals tickets discounted prices times quantity + regular price for cheaper ticket times exceeding limit qty + assert exceeding promo message', async function () {
 
             main = new EmbedMainPage(driver);
             embedLogin = new LoginPage(driver);
@@ -3460,8 +3529,8 @@
         });
 
         //EMBED
-        it('should select more then total of account limit quantity for not limited ticket that have promotion in promotion with limit then add promo code and' +
-            ' assert subtotal equals tickets discounted prices times quantity ', async function () {
+        it('should select more then total of account limit quantity for not limited ticket that have promotion ' +
+            'in promotion with limit then add promo code and assert subtotal equals tickets discounted prices times quantity ', async function () {
 
             main = new EmbedMainPage(driver);
             embedLogin = new LoginPage(driver);
@@ -3520,6 +3589,100 @@
         });
 
         //EMBED
+        it('should select 25 tickets, 11 for limited 14 for not limited, top of limited priced and 13 of not limited should get discount, limited as cheapest will not ', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '7');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '14');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '4');
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.applyPromotion(promoCodeThree);
+            await payment.exceedingPromotionQuantityAlertIsDisplayed();
+            await summary.calculateAndAssertTotalEquals20PromotedTicketsByEachTicketPromotedPricePlusExceeding5TicketsByRegularPrice(ticketTwoPrice, ticketThreePrice, ticketFourPrice);
+
+        });
+
+        //EMBED
+        it('should select 30 tickets, 10 for each, should get discount on total 20 - top priced from limited * 10 and not limited *10 , second limited regular price ', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '10');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '10');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '10');
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.applyPromotion(promoCodeThree);
+            await payment.exceedingPromotionQuantityAlertIsDisplayed();
+            await summary.calculateAndAssertTotalEquals20PromotedTicketsTopPrice10NotLimited10(ticketTwoPrice, ticketThreePrice, ticketFourPrice);
+
+        });
+
+        //EMBED
+        it('should select 30 tickets, 12 for top priced in limited, 12 for not limited, 6 for lower priced limited should get discount' +
+            ' on total 20 - top priced from limited * 10 and not limited *10 , second limited regular price, 2 tickets from discounted on regular ', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '12');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '12');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '6');
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.applyPromotion(promoCodeThree);
+            await payment.exceedingPromotionQuantityAlertIsDisplayed();
+            await summary.calculateAndAssertTotalEquals20PromotedTicketsTopPrice10NotLimited10RestOnRegular(ticketTwoPrice, ticketThreePrice, ticketFourPrice);
+
+        });
+
+        //EMBED
         it('should assert that percentage taxes are recalculated and dollar value fees are same when promotion is applied', async function () {
 
             main = new EmbedMainPage(driver);
@@ -3538,7 +3701,7 @@
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInput(0, 1);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
@@ -3546,7 +3709,7 @@
             await payment.isAtPaymentPage();
             let fees = await summary.getFeesValue();
             let taxes = await summary.getTaxesValue();
-            await payment.applyPromotion(promoCodeOne);
+            await payment.applyPromotion(promoCodeThree);
             await summary.assertTaxesAndFeesAreRefactoredToMatchNewPrice(fees,taxes);
 
         });
@@ -3663,7 +3826,7 @@
             await loginTab.loginWithEmailAndPasswordOnLoginTab(customerEmail,customerPassword);
             await ticketing.assertCorrectBehaviorAfterSuccessfulLogin();
             await ticketing.navButtonNameByIndex(1, "Extras");
-            await ticketing.assertNavButtonToBeActiveByIndexAndAssertName(0, "Tickets")();
+            await ticketing.assertNavButtonToBeActiveByIndexAndAssertName(0, "Tickets");
 
         });
 

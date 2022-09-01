@@ -51,11 +51,11 @@
             let selectedTicket = await this.getElementText(TICKETS_NAMES_AND_EDIT_CONTAINER);
             assert.equal(selectedTicket, ticketOneName + " Edit");
             let selectedTicketTotal = await this.getElementText(TICKETS_PRICES);
-            assert.equal(selectedTicketTotal,  "$2.00");
+            assert.equal(selectedTicketTotal,  "$2.40");
             let subtotalText = await this.getElementText(SUBTOTAL_TEXT);
             assert.equal(subtotalText, "Subtotal:");
             let subtotalValue = await this.getElementText(SUBTOTAL_VALUE);
-            assert.equal(subtotalValue,  "$2.00");
+            assert.equal(subtotalValue,  "$2.40");
         }
 
         async clickEditPaymentLinkAndAssertItIsOnPaymentPage(){
@@ -138,8 +138,8 @@
         async assertPromotedAndRegularTotalAreDisplayed(originalPrice, promotedPrice){
             let prices = await this.findAll(TICKETS_PRICES);
             let promotedTotal = parseFloat(promotedPrice) * 3;
-            assert.equal(prices[0].getText(), "$" + originalPrice );
-            assert.equal(prices[1].getText(), "$" + promotedTotal.toString() );
+            assert.equal(await prices[0].getText(), "$" + originalPrice );
+            assert.equal(await prices[1].getText(), "$" + promotedTotal.toString() );
         }
 
 

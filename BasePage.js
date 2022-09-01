@@ -343,7 +343,7 @@
         return await elements[index].getText();
     }
 
-    async getElementTextFromTheLastElementFromAnArray(locator){
+    async getElementTextForTheLastElementFromAnArray(locator){
          let elements = await this.findAll(locator);
          let element = await elements[elements.length - 1]
         return element.getText();

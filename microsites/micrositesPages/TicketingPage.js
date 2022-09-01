@@ -4,7 +4,7 @@
     const LoginTab = require('../micrositesComponents/LoginTab')
     const assert = require("assert");
     const TICKETS_TAB = { xpath: "//*[text()='Tickets']"}
-    const LOGIN_TAB = { xpath: "//*[text()='Login']"}
+    const LOGIN_TAB = { id: "loginBtn"}
     const EXTRAS_TAB = { xpath: "//*[text()='Extras']"}
     const PAY_TAB = { xpath: "//*[text()='Pay']"}
     const CONFIRM_TAB = { xpath: "//*[text()='Confirm']"}
@@ -206,8 +206,9 @@
 
         async assertCorrectBehaviorAfterSuccessfulLogin(){
             await this.navButtonsCount(4);
-            let alert = new Alerts(this.driver)
-            await alert.successAlertIsDisplayed("Sucessfully logged in")
+            /*let alert = new Alerts(this.driver)
+            await alert.successAlertIsDisplayed("Sucessfully logged in")*/
+            await this.timeout(1000)
             let loginTab = await this.returnElementsCount(LOGIN_TAB);
             assert.equal(loginTab, 0);
 

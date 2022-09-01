@@ -139,22 +139,23 @@
 
         async assertDropDownElementsEqualsAvailableTickets(availableTickets){
             await this.isDisplayed(TICKET_SELECT_OPTIONS,5000);
-            let dropdownOptions = await this.getElementTextFromTheLastElementFromAnArray(TICKET_SELECT_OPTIONS);
+            let dropdownOptions = await this.getElementTextForTheLastElementFromAnArray(TICKET_SELECT_OPTIONS);
             let converted = parseInt(dropdownOptions);
             assert.equal(converted, availableTickets);
         }
 
         async assertDropDownElementsEquals(number){
+
             await this.isDisplayed(TICKET_SELECT_OPTIONS,5000);
-            let dropdownOptions = await this.getElementTextFromTheLastElementFromAnArray(TICKET_SELECT_OPTIONS);
+            let dropdownOptions = await this.getElementTextForTheLastElementFromAnArray(TICKET_SELECT_OPTIONS);
             assert.equal(dropdownOptions, number);
         }
 
         async assertTheNewTicketPriceEqualsDiscountedPrice(ticketName, discountedPrice){
-            let prices = await this.getTicketPriceByTicketName(ticketName);
-            let index = prices.indexOf(")")
-            let newPrice = prices.substring(index + 1);
-            assert.equal( newPrice , "($" + parseFloat(discountedPrice).toFixed(2) + ")");
+            let price = await this.getTicketPriceByTicketName(ticketName);
+            //let index = prices.indexOf(")")
+            //let newPrice = prices.substring(index + 1);
+            assert.equal( price , "($" + parseFloat(discountedPrice).toFixed(2) + ")");
         }
 
         async assertNewTicketNamePricesLayout(ticketName, originalPrice, discountedPrice){

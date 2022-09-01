@@ -55,9 +55,9 @@
             expect(names[1]).to.equal(ticketTwoName);
             expect(names[2]).to.equal(ticketThreeName);
             let qty = await this.getCleanTicketQuantity()
-            expect(qty[0]).to.equal("2");
-            expect(qty[1]).to.equal("1");
-            expect(qty[2]).to.equal("3");
+            expect(qty[0]).to.equal("1");
+            expect(qty[1]).to.equal("3");
+            expect(qty[2]).to.equal("2");
         }
 
         async getCleanTicketNames(){

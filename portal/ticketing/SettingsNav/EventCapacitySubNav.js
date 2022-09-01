@@ -22,7 +22,7 @@
             await this.clickBackspaceKey(LIMIT_MAX_TICKET_PER_USER_INPUT);
             await this.clickBackspaceKey(LIMIT_MAX_TICKET_PER_USER_INPUT);
             await this.click(SAVE_BUTTON);
-            await this.timeout(2000);
+            await this.timeout(3000);
         }
     }
     module.exports = EventCapacitySubNav;

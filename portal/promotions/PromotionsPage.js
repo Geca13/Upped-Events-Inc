@@ -82,7 +82,7 @@
             assert.equal(extDescription, "Single general promo code");
             assert.equal(nameTicket, promotion[2]);
             assert.equal(promoQty, promotion[3]);
-            assert.equal(orPrice, promotion[4]);
+            assert.equal(orPrice + "0", promotion[4]);
             assert.equal(priceNew, promotion[5]);
             assert.equal(start, promotion[6]);
             assert.equal(end, promotion[7]);
