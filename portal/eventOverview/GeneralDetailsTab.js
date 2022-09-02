@@ -57,7 +57,6 @@
             await this.timeout(2000);
             await this.moveToElement(EVENT_SHORTNAME_INPUT)
             let name = await this.getEnteredTextInTheInput(EVENT_NAME_INPUT);
-            console.log(name + " name")
             let shortname = await this.getEnteredTextInTheInput(EVENT_SHORTNAME_INPUT)
             let location = await this.getEnteredTextInTheInput(ENTERED_ADDRESS);
             let start = await this.getEnteredTextInTheInput(START_DATE_TIME_PICKER);

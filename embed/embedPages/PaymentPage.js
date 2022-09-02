@@ -164,6 +164,11 @@
             await alert.correctInfoMessageIsDisplayed("You have exceeded the number of tickets you are eligible to purchase with this code.")
         }
 
+        async promotionNoLongerValidDangerMessageIsVisible(){
+            let alert = new Alerts(this.driver);
+            await alert.errorInfoMessageIsDisplayed("This promotion code is no longer valid")
+        }
+
         async exceedingPromotionQuantityAlertIsNotDisplayed(){
             let alert = new Alerts(this.driver);
             await alert.assertInfoMessageIsNotDisplayed();

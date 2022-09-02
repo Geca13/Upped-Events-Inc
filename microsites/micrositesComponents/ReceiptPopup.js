@@ -75,15 +75,74 @@
             let tickets = await this.findAll(TICKETS_NAMES_QUANTITY_DISCOUNT);
             for(let i = 0; i < tickets.length; i++){
                 let ticket = await this.getElementTextFromAnArrayByIndex(TICKETS_NAMES_QUANTITY_DISCOUNT, i);
-                cleaned.push(ticket.split(' ')[2].substring(1,2))
+                let ticketQty = ticket.split(' ')[2]
+                cleaned.push(ticketQty.substring(1, ticketQty.length - 1))
             }
             return cleaned;
         }
+
+        async getCleanTicketPrices(){
+            let cleaned = []
+            let prices = await this.findAll(TICKETS_PRICES);
+            for(let i = 0; i < prices.length; i++){
+                let price = await this.getElementTextFromAnArrayByIndex(TICKETS_PRICES, i)
+                cleaned.push(price.substring(1))
+            }
+            return cleaned;
+        }
+
+        async getCleanedTicketsDiscounts(){
+            let cleaned = []
+            let rawDiscounts = await this.findAll(DISCOUNT_BY_TICKET_TYPE);
+            for(let i = 0; i < rawDiscounts.length; i++){
+                let discount = await this.getElementTextFromAnArrayByIndex(DISCOUNT_BY_TICKET_TYPE, i)
+                let dis = discount.substring(3,discount.length - 1)
+                cleaned.push(dis)
+            }
+            return cleaned;
+        }
+
         async timeDateAndEventName(timeDate, eventName){
             let publishedEventName = await this.getElementText(EVENT_NAME);
             expect(publishedEventName).to.equal(eventName);
             let publishedTimeDate = await this.getElementText(PURCHASE_DETAILS);
             assert.equal(publishedTimeDate ,"Purchased on " + timeDate);
+        }
+
+        async calculateAndAssertOriginalTicketPriceAndDiscountIsCalculatedAndDisplayedCorrectlyNextToEachTicketByTicketName(ticketName, notDiscounted){
+            await this.isDisplayed(EVENT_NAME, 5000);
+            let tickets = await this.getCleanTicketNames();
+            let quantities = await this.getCleanTicketQuantity();
+            let prices = await this.getCleanTicketPrices();
+            let discounts = await this.getCleanedTicketsDiscounts();
+            let totalDiscount = 0.00;
+            for(let i = 0; i < tickets.length; i++){
+                if(tickets[i] === ticketName){
+                    let price = parseFloat(prices[i]);
+                    let quantity = parseInt(quantities[i]) - parseInt(notDiscounted);
+                    for(let i = 0; i < quantity; i++ ){
+                        let calculated = (price * 0.75).toFixed(2);
+                        let parsed = parseFloat(calculated)
+                        totalDiscount = totalDiscount + parsed;
+                    }
+                    let rawDiscount = await this.getElementTextFromAnArrayByIndex(DISCOUNT_BY_TICKET_TYPE, i);
+                    let discount = parseFloat(discounts[i]);
+                    //let totalDiscount = (quantity * price).toFixed(2) * 0.75;
+                    //let rangeUp = parseFloat(totalDiscount.toFixed(2)) + 0.01;
+                    //let rangeDown = totalDiscount.toFixed(2) - 0.01;
+                    console.log(totalDiscount.toFixed(2));
+                    assert.equal(discount, totalDiscount.toFixed(2));
+                    assert.equal(rawDiscount,"(-$" + totalDiscount.toFixed(2) + ")");
+                    //expect(discount.toFixed(2)).to.be.oneOf(  [totalDiscount.toFixed(2) ,rangeUp.toFixed(2) , rangeDown.toFixed(2)]);
+                    //expect(rawDiscount).to.be.oneOf(  ["(-$" + totalDiscount.toFixed(2) + ")" ,"(-$" + rangeUp.toFixed(2) + ")" ,"(-$" + rangeDown.toFixed(2) + ")"]);
+
+                }
+            }
+        }
+
+        async assertDiscountedTicketsCount(){
+           let discounted =  await this.returnElementsCount(DISCOUNT_BY_TICKET_TYPE);
+           assert.equal(discounted, 2);
         }
 
 

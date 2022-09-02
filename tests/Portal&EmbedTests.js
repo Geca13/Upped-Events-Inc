@@ -161,7 +161,7 @@
         let receipt;
         let steps;
 
-        let base = 604200 // Math.floor(100000 + Math.random() * 900000);
+        let base =  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -217,6 +217,8 @@
         afterEach(async function(){
             await driver.quit()
         })
+
+
 
         it('should create new account on microsites with username and password, verify and login', async function() {
             events = new EventsPage(driver);
@@ -1256,7 +1258,7 @@
         });
 
         //EMBED
-        it('should assert when wallet was selected on when edited to card , the card info is in Order Details', async function () {
+        it('should assert when wallet was selected on then edited to card , the card info is in Order Details', async function () {
 
             main = new EmbedMainPage(driver);
             embedTickets = new TicketsComponent(driver);
@@ -1582,7 +1584,8 @@
             await addMoney.addMoneyComponentIsDisplayed();
         });
 
-        it('should remove limitation on tickets per account and make payments on embed and microsites with larger quantity',async function () {
+        //PORTAL
+        it('should remove limitation on tickets per account ',async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             createEvent = new CreateEventModal(driver);
@@ -3683,6 +3686,129 @@
         });
 
         //EMBED
+        it('should make purchase for 9 tickets with promotion with limits and assert total discounted value per ticket is displayed', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            embedDonate = new EmbedDonateComponent(driver)
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            embedConfirm = new ConfirmPage(driver);
+            receipt = new ReceiptPopup(driver)
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '3');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '3');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '3');
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.applyPromotion(promoCodeThree);
+            await summary.discountIsDisplayed();
+            await payment.clickSavedCardByIndex(0);
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.clickPlaceOrderButton();
+            await embedConfirm.isAtConfirmPage();
+            await embedConfirm.clickViewReceiptButton();
+            await receipt.receiptPopupIsVisible();
+            await receipt.calculateAndAssertOriginalTicketPriceAndDiscountIsCalculatedAndDisplayedCorrectlyNextToEachTicketByTicketName(ticketTwoName, 0);
+            await receipt.calculateAndAssertOriginalTicketPriceAndDiscountIsCalculatedAndDisplayedCorrectlyNextToEachTicketByTicketName(ticketThreeName, 0);
+            await receipt.calculateAndAssertOriginalTicketPriceAndDiscountIsCalculatedAndDisplayedCorrectlyNextToEachTicketByTicketName(ticketFourName, 0);
+
+        });
+
+        //EMBED
+        it('should make purchase for 16 tickets exceeding account limit and promotion limit and assert exceeding message and discount is applied only for quantity inside limits', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            embedDonate = new EmbedDonateComponent(driver)
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            embedConfirm = new ConfirmPage(driver);
+            receipt = new ReceiptPopup(driver)
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '5');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '10');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '1');
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.applyPromotion(promoCodeThree);
+            await summary.discountIsDisplayed();
+            await payment.exceedingPromotionQuantityAlertIsDisplayed();
+            await payment.clickSavedCardByIndex(0);
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.clickPlaceOrderButton();
+            await embedConfirm.isAtConfirmPage();
+            await embedConfirm.clickViewReceiptButton();
+            await receipt.receiptPopupIsVisible();
+            await receipt.calculateAndAssertOriginalTicketPriceAndDiscountIsCalculatedAndDisplayedCorrectlyNextToEachTicketByTicketName(ticketTwoName, 1);
+            await receipt.calculateAndAssertOriginalTicketPriceAndDiscountIsCalculatedAndDisplayedCorrectlyNextToEachTicketByTicketName(ticketThreeName, 3);
+            await receipt.calculateAndAssertOriginalTicketPriceAndDiscountIsCalculatedAndDisplayedCorrectlyNextToEachTicketByTicketName(ticketFourName, 1);
+
+        });
+
+        //EMBED
+        it('should try to make purchase for 12 tickets when promo quantity is completed and receive promo no longer valid', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            embedDonate = new EmbedDonateComponent(driver)
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            embedConfirm = new ConfirmPage(driver);
+            receipt = new ReceiptPopup(driver)
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '4');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '4');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '4');
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.applyPromotion(promoCodeThree);
+            await payment.promotionNoLongerValidDangerMessageIsVisible();
+
+        });
+
+        //EMBED
         it('should assert that percentage taxes are recalculated and dollar value fees are same when promotion is applied', async function () {
 
             main = new EmbedMainPage(driver);
@@ -3701,7 +3827,7 @@
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '6');
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
