@@ -24,10 +24,6 @@
         await this.isDisplayed(VIEW_RECEIPT_BUTTON,90000);
     }
 
-    async getTransactionTimeDate(){
-        return await this.dateTimeNow();
-    }
-
     async clickViewReceiptButton(){
         await this.click(VIEW_RECEIPT_BUTTON);
     }

@@ -127,14 +127,8 @@
                     }
                     let rawDiscount = await this.getElementTextFromAnArrayByIndex(DISCOUNT_BY_TICKET_TYPE, i);
                     let discount = parseFloat(discounts[i]);
-                    //let totalDiscount = (quantity * price).toFixed(2) * 0.75;
-                    //let rangeUp = parseFloat(totalDiscount.toFixed(2)) + 0.01;
-                    //let rangeDown = totalDiscount.toFixed(2) - 0.01;
-                    console.log(totalDiscount.toFixed(2));
                     assert.equal(discount, totalDiscount.toFixed(2));
                     assert.equal(rawDiscount,"(-$" + totalDiscount.toFixed(2) + ")");
-                    //expect(discount.toFixed(2)).to.be.oneOf(  [totalDiscount.toFixed(2) ,rangeUp.toFixed(2) , rangeDown.toFixed(2)]);
-                    //expect(rawDiscount).to.be.oneOf(  ["(-$" + totalDiscount.toFixed(2) + ")" ,"(-$" + rangeUp.toFixed(2) + ")" ,"(-$" + rangeDown.toFixed(2) + ")"]);
 
                 }
             }

@@ -15,6 +15,7 @@
             await this.sentKeys(EMAIL_INPUT, "parma15@parma.it");
             await this.timeout(500);
             await this.click(PASSWORD_INPUT)
+            await this.timeout(500);
             await this.sentKeys(PASSWORD_INPUT, "Pero1234");
             await this.timeout(500);
             await this.click(LOGIN_BUTTON);

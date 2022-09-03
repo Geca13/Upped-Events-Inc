@@ -128,7 +128,7 @@
           array = value.split(" ");
           fullDate = array[0].split("/")
           let formatedYear = fullDate[2].substring(2);
-          let formated = array[0].substring(0,5) + formatedYear  + ', ' + array[1]+ ' ' + array[2];
+          let formated = array[0].substring(0,6) + formatedYear  + ', ' + array[1]+ ' ' + array[2];
           return formated;
     }
 
@@ -137,7 +137,8 @@
           let dateTimeValue = await this.getEnteredTextInTheInput(locator);
           fullDateTime = dateTimeValue.split(" ")
           let date = fullDateTime[0];
-          return date;
+          let formated = moment().format(date,'M/D/YYYY');
+          return formated;
     }
     async returnNumberWith$Sign(locator){
           let number = await this.getEnteredTextInTheInput(locator);

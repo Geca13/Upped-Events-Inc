@@ -1506,7 +1506,7 @@ describe('Should do everything', function () {
         await eventOptionTabs.clickSettingsNav();
         await settingsNav.taxesAndFeesSubTabIsDisplayed();
         await settingsNav.clickTicketQuestions();
-        await questions.createSimpleYesNoQuestion(base);
+        await questions.createSimpleYesNoQuestionAndAssertSavedDataAndElements(base);
         await events.loadStaging();
         await events.clickSignInButton();
         await login.waitPopupToBeLoaded();

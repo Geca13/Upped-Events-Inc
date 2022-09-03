@@ -2846,8 +2846,8 @@
             await main.clickNextPageButton();
             await orderDetails.isOnOrderDetailsPage();
             await orderDetails.clickPlaceOrderButton();
+            let timeDate = await orderDetails.getTransactionTimeDate();
             await embedConfirm.isAtConfirmPage();
-            let timeDate = await embedConfirm.getTransactionTimeDate();
             await embedConfirm.clickViewReceiptButton();
             await receipt.receiptPopupIsVisible();
             await receipt.timeDateAndEventName(timeDate, eventName);
@@ -3412,6 +3412,38 @@
 
         });
 
+        //EMBED
+        it('should assert that percentage taxes are recalculated and dollar value fees are same when promotion is applied', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+            embedConfirm = new ConfirmPage(driver);
+            receipt = new ReceiptPopup(driver);
+
+            await main.openEmbedPage();
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '6');
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            let fees = await summary.getFeesValue();
+            let taxes = await summary.getTaxesValue();
+            await payment.applyPromotion(promoCodeThree);
+            await summary.assertTaxesAndFeesAreRefactoredToMatchNewPrice(fees,taxes);
+
+        });
+
         //PORTAL
         it('should get promocode error validation when promotion code exists for current event', async function () {
 
@@ -3808,35 +3840,64 @@
 
         });
 
-        //EMBED
-        it('should assert that percentage taxes are recalculated and dollar value fees are same when promotion is applied', async function () {
+        //PORTAL
+        it('should assert elements on event tickets questions page and create ticket question modal', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            settingsNav = new SettingsNav(driver);
+            questions = new TicketQuestionsPage(driver);
+            questionsModal = new TicketQuestionsModal(driver);
 
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            embedConfirm = new ConfirmPage(driver);
-            receipt = new ReceiptPopup(driver);
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await eventOptionTabs.clickSettingsNav();
+            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await settingsNav.clickTicketQuestions();
+            await questions.isOnTicketQuestionsPage();
+            await questions.assertElementsOnEventTicketsQuestionsPage();
+            await questions.assertTableHeadersNames();
+            await questions.assertElementsOnCreateTicketQuestionModal();
 
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '6');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            let fees = await summary.getFeesValue();
-            let taxes = await summary.getTaxesValue();
-            await payment.applyPromotion(promoCodeThree);
-            await summary.assertTaxesAndFeesAreRefactoredToMatchNewPrice(fees,taxes);
+
+        });
+
+        //PORTAL
+        it('Should set ticket Simple Yes No question and assert saved data on questions table in portal', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            settingsNav = new SettingsNav(driver);
+            questions = new TicketQuestionsPage(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await eventOptionTabs.clickSettingsNav();
+            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await settingsNav.clickTicketQuestions();
+            await questions.createSimpleYesNoQuestionAndAssertSavedDataAndElements(base, ticketOneName, ticketThreeName);
 
         });
 

@@ -103,7 +103,7 @@
       }
       async limitInfoMessageIsDisplayed(number){
         let info = new Alerts(this.driver);
-        await info.correctInfoMessageIsDisplayed();
+        await info.correctInfoMessageIsDisplayed("You have exceeded maximum" + number + "limit to buy tickets");
         await this.timeout(5000);
       }
 

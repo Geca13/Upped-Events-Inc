@@ -38,6 +38,11 @@
             await this.isDisplayed(PLACE_ORDER_BUTTON,5000);
             await this.click(PLACE_ORDER_BUTTON);
         }
+
+        async getTransactionTimeDate(){
+            return await this.dateTimeNow();
+        }
+
         async assertElementsWhenOneTicketIsSelected(ticketOneName){
             await this.timeout(1000);
             let header = await this.getElementText(ORDER_DETAILS_HEADER);
