@@ -108,19 +108,24 @@
         }
 
         async addCustomDonationAndAssertIsAddedInOrderTotal(){
-            await this.isDisplayed(DONATE_HEADER,5000);
-            await this.isDisplayed(DONATION_INPUT,5000)
+            let parsedEntered = await this.addCustomDonation();
+            let summary = new SummaryComponent(this.driver);
+            let addedDonation = await summary.getDonationValue();
+            assert.equal(parsedEntered.toFixed(2),addedDonation);
+        }
+
+        async addCustomDonation() {
+            await this.isDisplayed(DONATE_HEADER, 5000);
+            await this.isDisplayed(DONATION_INPUT, 5000)
             await this.timeout(1000);
             await this.clearInputField(DONATION_INPUT);
-            await this.sentKeys(DONATION_INPUT,"7.77");
+            await this.sentKeys(DONATION_INPUT, "7.77");
             await this.click(ADD_DONATION_BUTTON);
             await this.timeout(500);
             let enteredDonation = await this.getEnteredTextInTheInput(DONATION_INPUT);
             let parsedEntered = parseFloat(enteredDonation);
             assert.equal(enteredDonation, "777");
-            let summary = new SummaryComponent(this.driver);
-            let addedDonation = await summary.getDonationValue();
-            assert.equal(parsedEntered.toFixed(2),addedDonation);
+            return parsedEntered;
         }
 
         async calculateTheOrderTotalAfterDonationIsAdded(){

@@ -552,15 +552,7 @@
        // await this.driver.sleep(1000);
     }
 
-    async simulateDragAndDrop(locatorSource, locatorTarget){
-        await this.focusElement(locatorSource);
-        await this.focusElement(locatorTarget)
-    }
 
-    async focusElement(locatorSource){
-        await this.moveToElement(locatorSource);
-        await this.clickEnterKey(locatorSource)
-    }
 
     async clickEnterKey(locator){
          let element = await this.find(locator);

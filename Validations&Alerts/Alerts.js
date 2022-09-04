@@ -61,6 +61,15 @@
 
     }
 
+        async successInfoMessageIsDisplayed(expected){
+            await this.isDisplayed(TOAST_MESSAGE,5000);
+            await this.timeout(500);
+            let alertMessage = await this.getElementText(TOAST_MESSAGE);
+            assert.equal(expected,alertMessage);
+            await this.timeout(5000);
+
+        }
+
     async alertInfoMessageIsDisplayed(expected){
         await this.isDisplayed(ALERT_INFO, 5000)
         await this.timeout(500);

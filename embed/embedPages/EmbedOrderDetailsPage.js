@@ -17,6 +17,16 @@
     const SUBTOTAL_TEXT = { xpath: "//div[contains(@class , 'order-subtotal')]//div[1]" }
     const SUBTOTAL_VALUE = { id: "subtotalAmt" }
     const PLACE_ORDER_BUTTON = { xpath: "//*[text()='Place your order']"};
+    const DONATIONS_TITLE = { id: "donations"}
+    const DONATIONS_VALUE= { id: "donationsTotal"};
+    const TAXES_TITLE = { id: "donations"}
+    const TAXES_VALUE= { id: "donationsTotal"};
+    const FEES_TITLE = { id: "donations"}
+    const FEES_VALUE= { id: "donationsTotal"};
+    const TOTAL_TITLE = { id: "donations"}
+    const TOTAL_VALUE= { id: "donationsTotal"};
+    const OPEN_ORDER_DETAILS_ON_MOBILE = { xpath: "//i[contains(@class , 'fa-greater-than')]" }
+    const CLOSE_ORDER_DETAILS_ON_MOBILE = { xpath: "//i[contains(@class , 'fa-angle-down')]" }
 
     class EmbedOrderDetailsPage extends BasePage{
         constructor(driver) {
@@ -25,6 +35,11 @@
         async isOnOrderDetailsPage(){
             await this.isDisplayed(ORDER_DETAILS_HEADER,5000);
             await this.timeout(500)
+        }
+
+        async openOrderDetailsOnMobile(){
+            await this.click(OPEN_ORDER_DETAILS_ON_MOBILE);
+            await this.isDisplayed(PAYMENT_INFO,5000);
         }
 
         async walletOptionIsDisplayedAndAssertText(){
@@ -145,6 +160,25 @@
             let promotedTotal = parseFloat(promotedPrice) * 3;
             assert.equal(await prices[0].getText(), "$" + originalPrice );
             assert.equal(await prices[1].getText(), "$" + promotedTotal.toString() );
+        }
+
+        async getAndAssertDonationValueEqualsSelected(value){
+            let donation = await this.getElementText(DONATIONS_VALUE);
+            assert.equal(await donation, "$" + value );
+        }
+
+        async calculateSubtotalAndTotalAfterDonationIsAddedInOrderDetails(){
+            let ticketsTotal = await this.getElementText(TICKETS_PRICES)
+            let donation = await this.getElementText(DONATIONS_VALUE)
+            let calculatedDonation = parseFloat(ticketsTotal.substring(1)) + parseFloat(donation.substring(1));
+            let subTotal = await this.getElementText(SUBTOTAL_VALUE)
+            assert.equal(calculatedDonation.toFixed(2),subTotal.substring(1));
+            let taxes = await this.getTaxesValue();
+            let fees = await this.getFeesValue();
+            let calculatedTotal = parseFloat(subTotal) + parseFloat(taxes) + parseFloat(fees);
+            let total = await this.getTotalValue();
+            assert.equal(calculatedTotal.toFixed(2),total);
+
         }
 
 

@@ -102,9 +102,9 @@
 
         async confirmEnteredValuesBeforeLogin(){
 
-            let firstSelectValue =await this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 0);
-            let secondSelectValue =await this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 1);
-            let thirdSelectValue =await this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 2);
+            let firstSelectValue =await this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 1);
+            let secondSelectValue =await this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 2);
+            let thirdSelectValue =await this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 3);
             //let fourthSelectValue =await this.getEnteredTextInTheInputByIndex(TICKET_SELECT, 3);
             assert.equal(firstSelectValue,2);
             assert.equal(secondSelectValue,3);
@@ -144,9 +144,11 @@
             assert.equal(converted, availableTickets);
         }
 
-        async assertDropDownElementsEquals(number){
+        async assertDropDownElementsEquals(ticketName , number){
 
             await this.isDisplayed(TICKET_SELECT_OPTIONS,5000);
+            let i = await this.returnIndexWhenTextIsKnown(ticketName);
+
             let dropdownOptions = await this.getElementTextForTheLastElementFromAnArray(TICKET_SELECT_OPTIONS);
             assert.equal(dropdownOptions, number);
         }

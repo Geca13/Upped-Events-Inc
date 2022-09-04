@@ -198,7 +198,6 @@
               await this.click(ADD_NEW_RESPONSE_OPTION);
               await this.sendKeysToElementReturnedFromAnArray(RESPONSE_INPUT, 1, base + " 18 and Over")
               await this.clickElementReturnedFromAnArray(CHECKBOXES,5);
-              //await this.click(PER_ELIGIBLE_TICKET);
               await this.click(SELECT_NO_ANSWERS);
               await this.isDisplayed(SELECT_NO_ANSWERS_OPTIONS,5000);
               await this.clickElementReturnedFromAnArray(SELECT_NO_ANSWERS_OPTIONS,0);

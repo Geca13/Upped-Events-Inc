@@ -174,5 +174,10 @@
             await alert.assertInfoMessageIsNotDisplayed();
         }
 
+        async successfulPromoCodeApplied(){
+            let alert = new Alerts(this.driver);
+            await alert.successInfoMessageIsDisplayed("Promo code applied.")
+        }
+
     }
     module.exports = PaymentPage;

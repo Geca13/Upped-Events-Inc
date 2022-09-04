@@ -152,6 +152,7 @@
             let afterPromoFees = await this.getFeesValue();
             expect(parseFloat(fees)).to.equal(parseFloat(afterPromoFees));
             expect(parseFloat(taxes)).to.be.greaterThan(parseFloat(afterPromoTaxes));
+            console.log("hhhhh")
         }
         async returnTicketCount(){
             let tickets = await this.getElementText(TICKETS_COUNT);
