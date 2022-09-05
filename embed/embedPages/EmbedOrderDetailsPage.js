@@ -14,7 +14,7 @@
     const EDIT_TICKET_LINK = { id: "editDetail" }
     const EDIT_DONATION_LINK = { id: "editDonations"}
     const TICKETS_PRICES = { id: "ticketPrice" }
-    const SUBTOTAL_TEXT = { xpath: "//div[contains(@class , 'order-subtotal')]//div[1]" }
+    const SUBTOTAL_TEXT = { id: "subtotal" }
     const SUBTOTAL_VALUE = { id: "subtotalAmt" }
     const PLACE_ORDER_BUTTON = { xpath: "//*[text()='Place your order']"};
     const DONATIONS_TITLE = { id: "donations"}
@@ -40,6 +40,11 @@
         async openOrderDetailsOnMobile(){
             await this.click(OPEN_ORDER_DETAILS_ON_MOBILE);
             await this.isDisplayed(PAYMENT_INFO,5000);
+        }
+
+        async closeOrderDetailsOnMobile(){
+            await this.click(CLOSE_ORDER_DETAILS_ON_MOBILE);
+            await this.timeout(500);
         }
 
         async walletOptionIsDisplayedAndAssertText(){
@@ -71,11 +76,11 @@
             let selectedTicket = await this.getElementText(TICKETS_NAMES_AND_EDIT_CONTAINER);
             assert.equal(selectedTicket, ticketOneName + " Edit");
             let selectedTicketTotal = await this.getElementText(TICKETS_PRICES);
-            assert.equal(selectedTicketTotal,  "$2.40");
+            assert.equal(selectedTicketTotal,  "$2.00");
             let subtotalText = await this.getElementText(SUBTOTAL_TEXT);
             assert.equal(subtotalText, "Subtotal:");
             let subtotalValue = await this.getElementText(SUBTOTAL_VALUE);
-            assert.equal(subtotalValue,  "$2.40");
+            assert.equal(subtotalValue,  "$2.00");
         }
 
         async clickEditPaymentLinkAndAssertItIsOnPaymentPage(){
@@ -112,6 +117,26 @@
         async assertNumberOfEditTicketsLinks(number){
             let editTicketsLinks = await this.returnElementsCount(EDIT_TICKET_LINK);
             assert.equal(editTicketsLinks, number);
+        }
+
+        async assertTicketsSumEqualsSubtotalAndOrderTotalTicketsAndSubtotalValuesOnMobile(summary){
+            await this.openOrderDetailsOnMobile();
+            await this.timeout(500)
+            let total = 0;
+            let rawPrices = await this.findAll(TICKETS_PRICES);
+            for(let i = 0; i < rawPrices.length; i++){
+                let rawPrice = await this.getElementTextFromAnArrayByIndex(TICKETS_PRICES, i);
+                let price = await this.convertPriceStringToDouble(rawPrice);
+                total = total + parseFloat(price);
+            }
+
+            let subtotal = await this.convertPriceStringToDouble(await this.getElementText(SUBTOTAL_VALUE));
+            assert.equal(subtotal, total.toFixed(2));
+            await this.closeOrderDetailsOnMobile()
+            let ticketsSummaryTotal = await summary.getTicketsTotal();
+            assert.equal(ticketsSummaryTotal, total.toFixed(2));
+            let summarySubTotal = await summary.getSubtotalValue();
+            assert.equal(summarySubTotal, total.toFixed(2));
         }
 
         async assertTicketsSumEqualsSubtotalAndOrderTotalTicketsAndSubtotalValues(summary){
@@ -164,7 +189,7 @@
 
         async getAndAssertDonationValueEqualsSelected(value){
             let donation = await this.getElementText(DONATIONS_VALUE);
-            assert.equal(await donation, "$" + value );
+            assert.equal(await donation, "$" + parseFloat(value).toFixed(2) );
         }
 
         async calculateSubtotalAndTotalAfterDonationIsAddedInOrderDetails(){

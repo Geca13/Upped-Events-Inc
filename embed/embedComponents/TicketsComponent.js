@@ -144,19 +144,15 @@
             assert.equal(converted, availableTickets);
         }
 
-        async assertDropDownElementsEquals(ticketName , number){
-
+        async assertDropDownElementsEquals(number){
             await this.isDisplayed(TICKET_SELECT_OPTIONS,5000);
-            let i = await this.returnIndexWhenTextIsKnown(ticketName);
-
             let dropdownOptions = await this.getElementTextForTheLastElementFromAnArray(TICKET_SELECT_OPTIONS);
+            console.log(dropdownOptions)
             assert.equal(dropdownOptions, number);
         }
 
         async assertTheNewTicketPriceEqualsDiscountedPrice(ticketName, discountedPrice){
             let price = await this.getTicketPriceByTicketName(ticketName);
-            //let index = prices.indexOf(")")
-            //let newPrice = prices.substring(index + 1);
             assert.equal( price , "($" + parseFloat(discountedPrice).toFixed(2) + ")");
         }
 

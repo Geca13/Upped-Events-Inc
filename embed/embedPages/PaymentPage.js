@@ -9,7 +9,7 @@
     const DISCOUNT_INPUT = { className: "discount"}
     const APPLY_DISCOUNT_BUTTON = { className: "apply-btn"}
     const PAY_CARD_BUTTON = { xpath: "//*[text()='Pay with card']"}
-    const PAY_WALLET_BUTTON = { xpath: "//button[contains(@class , 'other-service-item')]"}
+    const PAY_WALLET_BUTTON = { id: "payTitle"}
     const CONFIRM_PAYMENT_BUTTON = { xpath: "//*[text()='Confirm Payment']"}
     const SAVED_CARD = { className: "user-card" } //list
     const SELECTED_CARD = { xpath: "//div[contains(@class , 'selected-user-card')]"}
@@ -44,6 +44,11 @@
             let brand = await this.getChildTextByParentIndexAndChildIndex(SELECTED_CARD,0, 0);
             let number = await this.getChildTextByParentIndexAndChildIndex(SELECTED_CARD,0, 1);
             return brand + " " + number;
+        }
+
+        async assertSavedCardData(){
+            let savedCard = await this.getSelectedCardData();
+            assert.equal(savedCard, "Visa XXXX 1111" )
         }
 
         async clickConfirmPaymentButton(){

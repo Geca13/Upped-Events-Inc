@@ -161,7 +161,7 @@
         let receipt;
         let steps;
 
-        let base = 601247// Math.floor(100000 + Math.random() * 900000);
+        let base =  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -433,7 +433,6 @@
             await driver.manage().window().setRect({width: 414, height: 1000});
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 2);
             await main.nextButtonIsVisible();
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
@@ -456,7 +455,6 @@
             await driver.manage().window().setRect({width: 414, height: 1000});
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 2);
             await main.nextButtonIsVisible();
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
@@ -472,7 +470,6 @@
             await main.getNewlyOpenedTab(originalWindow);
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 2);
             await main.nextButtonIsVisible();
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
@@ -482,6 +479,7 @@
             console.log( " Completed Successfully ")
 
         });
+
 
         //PORTAL -> MICROSITES
         it('should check when excluded taxes subtotal equals ticket price and buyer total equals grand total ', async function () {
@@ -611,72 +609,23 @@
 
         });
 
-        //PORTAL
-        it('should create three more tickets and assert data in tickets table ',async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketTwoName,ticketTwoPrice,ticketTwoQuantity);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(ticketTwoName);
-            await ticketsNav.clickActivateTicketToggle(ticketTwoName);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketThreeName,ticketThreePrice,ticketThreeQuantity);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(ticketThreeName);
-            await ticketsNav.clickActivateTicketToggle(ticketThreeName);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketFourName,ticketFourPrice,ticketFourQuantity);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(ticketFourName);
-            await ticketsNav.clickActivateTicketToggle(ticketFourName);
-            //await driver.sleep(2000);
-            await ticketsNav.assertTicketNamePriceAndQuantity(ticketOneName,ticketOnePrice,embedTicketQuantity);
-            await ticketsNav.assertTicketNamePriceAndQuantity(ticketTwoName,ticketTwoPrice,ticketTwoQuantity);
-            await ticketsNav.assertTicketNamePriceAndQuantity(ticketThreeName,ticketThreePrice,ticketThreeQuantity);
-            await ticketsNav.assertTicketNamePriceAndQuantity(ticketFourName,ticketFourPrice,ticketFourQuantity);
-
-        });
-
         //EMBED
         it('should calculate subtotal and total on one ticket quantity 2 with tax and fee in embed', async function () {
 
             main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
             embedTickets = new TicketsComponent(driver);
             summary = new SummaryComponent(driver);
             embedExtras = new ExtrasPage(driver);
             payment = new PaymentPage(driver);
             orderDetails = new EmbedOrderDetailsPage(driver)
+            payment = new PaymentPage(driver)
 
             await main.openEmbedPage();
             await driver.manage().window().setRect({width: 414, height: 1000});
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, '2');
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
@@ -685,8 +634,8 @@
             await embedExtras.isAtExtrasPage();
             await main.clickNextPageButton();
             await payment.isAtPaymentPage();
-            await payment.clickPayWithWalletOption();
-            await payment.clickPayWithWalletButton();
+            await payment.clickPayWithWalletButton()
+            await main.clickNextPageButton();
             await orderDetails.isOnOrderDetailsPage();
             await summary.calculateSubtotalAndTotalBeforeDonationIsAdded();
 
@@ -706,7 +655,7 @@
             await driver.manage().window().setRect({width: 414, height: 1000});
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, '2');
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
@@ -731,7 +680,7 @@
             await driver.manage().window().setRect({width: 414, height: 1000});
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, '2');
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
@@ -746,192 +695,40 @@
             await payment.confirmElementsOnPayWithNewCardTab();
 
         });
-        //MICROSITES
-        it('Should set payment card in customer profile',async function () {
-            events = new EventsPage(driver);
-            login = new LoginComponent(driver);
-            myWallet = new MyWalletTab(driver);
-
-            await events.load();
-            await events.clickSignInButton();
-            await login.waitPopupToBeLoaded();
-            await login.authenticate(customerEmail, customerPassword);
-            await events.goToWalletPage();
-            await myWallet.myWalletScreenIsDisplayed();
-            userBalance = userBalance + await myWallet.returnBalanceState();
-            await myWallet.assertUserBalance('200.00');
-            await myWallet.setNewCardInProfile(customerFirstName, customerLastName);
-            await myWallet.checkCardHolderName(customerFirstName, customerLastName);
-            await myWallet.checkCardBrand("Visa");
-            await myWallet.checkDisplayedCardNumber("1111");
-        });
-
 
         //EMBED
-        it('should assert elements on Order Details screen when payment with wallet', async function () {
+        it('should make payment with new card in embed and assert card is saved',async function () {
 
             main = new EmbedMainPage(driver);
             embedTickets = new TicketsComponent(driver);
             summary = new SummaryComponent(driver);
             embedLogin = new LoginPage(driver);
-            addMoney = new AddMoneyComponent(driver)
+            embedExtras = new ExtrasPage(driver);
             payment = new PaymentPage(driver);
             orderDetails = new EmbedOrderDetailsPage(driver);
-
-            await main.openEmbedPage();
-            await driver.manage().window().setRect({width: 414, height: 1000});
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await main.clickNextPageButton();
-            await addMoney.addMoneyComponentIsDisplayed();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickPayWithWalletButton();
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.openOrderDetailsOnMobile();
-            await orderDetails.assertElementsWhenOneTicketIsSelected(ticketTwoName);
-
-        });
-
-        //EMBED
-        it('should click payment info edit link on Order Details and assert landing on Payment screen', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            summary = new SummaryComponent(driver);
-            embedLogin = new LoginPage(driver);
-            addMoney = new AddMoneyComponent(driver)
-            payment = new PaymentPage(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-
-            await main.openEmbedPage();
-            await driver.manage().window().setRect({width: 414, height: 1000});
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await main.clickNextPageButton();
-            await addMoney.addMoneyComponentIsDisplayed();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickPayWithWalletButton();
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.openOrderDetailsOnMobile();
-            await orderDetails.clickEditPaymentLinkAndAssertItIsOnPaymentPage();
-
-        });
-
-        //EMBED
-        it('should assert when wallet was selected on then edited to card , the card info is in Order Details', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            summary = new SummaryComponent(driver);
-            embedLogin = new LoginPage(driver);
-            addMoney = new AddMoneyComponent(driver)
-            payment = new PaymentPage(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-
-            await main.openEmbedPage();
-            await driver.manage().window().setRect({width: 414, height: 1000});
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await main.clickNextPageButton();
-            await addMoney.addMoneyComponentIsDisplayed();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickPayWithWalletButton();
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.openOrderDetailsOnMobile();
-            await orderDetails.walletOptionIsDisplayedAndAssertText();
-            await orderDetails.clickEditPaymentLinkAndAssertItIsOnPaymentPage();
-            await payment.clickSavedCardByIndex(0);
-            let cardData = await payment.getSelectedCardData();
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.assertSelectedCardIsDisplayedAndAssertData(cardData);
-
-        });
-
-        //EMBED
-        it('should click ticket edit link on Order Details and assert landing on Ticketing screen', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            summary = new SummaryComponent(driver);
-            embedLogin = new LoginPage(driver);
-            addMoney = new AddMoneyComponent(driver)
-            payment = new PaymentPage(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-
-            await main.openEmbedPage();
-            await driver.manage().window().setRect({width: 414, height: 1000});
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await main.clickNextPageButton();
-            await addMoney.addMoneyComponentIsDisplayed();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickPayWithWalletButton();
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.openOrderDetailsOnMobile();
-            await orderDetails.clickEditLinkOnDisplayedTicketAssertIsOnTicketsPage(embedTickets);
-
-        });
-
-        //EMBED
-        it('should make payment with wallet and assert elements on Confirmation page', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            summary = new SummaryComponent(driver);
-            embedLogin = new LoginPage(driver);
-            addMoney = new AddMoneyComponent(driver)
-            payment = new PaymentPage(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
+            newCardComponent = new NewCardComponent(driver);
             embedConfirm = new ConfirmPage(driver);
 
             await main.openEmbedPage();
-            await driver.manage().window().setRect({width: 414, height: 1000});
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, '2');
+            await embedTickets.sentKeysToTicketInput(0, 2)
+            await main.nextButtonIsVisible();
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
+            await embedLogin.loginWithEmailAndPassword(customerEmail, customerPassword);
+            await main.nextButtonIsVisible();
             await main.clickNextPageButton();
-            await addMoney.addMoneyComponentIsDisplayed();
+            await embedExtras.isAtExtrasPage();
             await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickPayWithWalletButton();
-            await main.clickNextPageButton();
+            await payment.clickNewCardTab();
+            await payment.fillValidDataOnCardOnTheEmbed(customerFirstName,customerLastName);
             await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.assertSelectedCardIsDisplayedAndAssertData("Visa XXXX 1111")
             await orderDetails.clickPlaceOrderButton();
             await embedConfirm.isAtConfirmPage();
-            await embedConfirm.assertElementsOnConfirmPage();
+
+
 
         });
 
@@ -1116,7 +913,7 @@
             await driver.manage().window().setRect({width: 414, height: 1000});
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(1, 28);
+            await embedTickets.sentKeysToTicketInput(0, 28);
             let accountAvailable = 26-parseInt(purchasedTickets);
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
@@ -1160,6 +957,224 @@
             await settingsNav.taxesAndFeesSubTabIsDisplayed();
             await settingsNav.clickEventCapacity();
             await capacity.removeLimit();
+
+        });
+
+        //EMBED
+        it('should assert elements on Order Details screen when payment with wallet', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            summary = new SummaryComponent(driver);
+            embedLogin = new LoginPage(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+
+            await main.openEmbedPage();
+            await driver.manage().window().setRect({width: 414, height: 1000});
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, '2');
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.openOrderDetailsOnMobile();
+            await orderDetails.assertElementsWhenOneTicketIsSelected(ticketOneName);
+
+        });
+
+        //EMBED
+        it('should click payment info edit link on Order Details and assert landing on Payment screen', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            summary = new SummaryComponent(driver);
+            embedLogin = new LoginPage(driver);
+            addMoney = new AddMoneyComponent(driver)
+            payment = new PaymentPage(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+
+            await main.openEmbedPage();
+            await driver.manage().window().setRect({width: 414, height: 1000});
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, '2');
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await main.clickNextPageButton();
+            await addMoney.addMoneyComponentIsDisplayed();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.openOrderDetailsOnMobile();
+            await orderDetails.clickEditPaymentLinkAndAssertItIsOnPaymentPage();
+
+        });
+
+        //EMBED
+        it('should assert when wallet was selected on then edited to card , the card info is in Order Details', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            summary = new SummaryComponent(driver);
+            embedLogin = new LoginPage(driver);
+            addMoney = new AddMoneyComponent(driver)
+            payment = new PaymentPage(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+
+            await main.openEmbedPage();
+            await driver.manage().window().setRect({width: 414, height: 1000});
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, '2');
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await main.clickNextPageButton();
+            await addMoney.addMoneyComponentIsDisplayed();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.openOrderDetailsOnMobile();
+            await orderDetails.walletOptionIsDisplayedAndAssertText();
+            await orderDetails.clickEditPaymentLinkAndAssertItIsOnPaymentPage();
+            await payment.clickSavedCardByIndex(0);
+            let cardData = await payment.getSelectedCardData();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.assertSelectedCardIsDisplayedAndAssertData(cardData);
+
+        });
+
+        //EMBED
+        it('should click ticket edit link on Order Details and assert landing on Ticketing screen', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            summary = new SummaryComponent(driver);
+            embedLogin = new LoginPage(driver);
+            addMoney = new AddMoneyComponent(driver)
+            payment = new PaymentPage(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+
+            await main.openEmbedPage();
+            await driver.manage().window().setRect({width: 414, height: 1000});
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, '2');
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await main.clickNextPageButton();
+            await addMoney.addMoneyComponentIsDisplayed();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.openOrderDetailsOnMobile();
+            await orderDetails.clickEditLinkOnDisplayedTicketAssertIsOnTicketsPage(embedTickets);
+
+        });
+
+        //PORTAL
+        it('should create three more tickets and assert data in tickets table ',async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.createNewTicket(ticketTwoName,ticketTwoPrice,ticketTwoQuantity);
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createdTicketIsInTheTable(ticketTwoName);
+            await ticketsNav.clickActivateTicketToggle(ticketTwoName);
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.createNewTicket(ticketThreeName,ticketThreePrice,ticketThreeQuantity);
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createdTicketIsInTheTable(ticketThreeName);
+            await ticketsNav.clickActivateTicketToggle(ticketThreeName);
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.createNewTicket(ticketFourName,ticketFourPrice,ticketFourQuantity);
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createdTicketIsInTheTable(ticketFourName);
+            await ticketsNav.clickActivateTicketToggle(ticketFourName);
+            await ticketsNav.assertTicketNamePriceAndQuantity(ticketOneName,ticketOnePrice,ticketOneQuantity);
+            await ticketsNav.assertTicketNamePriceAndQuantity(ticketTwoName,ticketTwoPrice,ticketTwoQuantity);
+            await ticketsNav.assertTicketNamePriceAndQuantity(ticketThreeName,ticketThreePrice,ticketThreeQuantity);
+            await ticketsNav.assertTicketNamePriceAndQuantity(ticketFourName,ticketFourPrice,ticketFourQuantity);
+
+        });
+
+        //EMBED
+        it('should make payment with wallet and assert elements on Confirmation page', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            summary = new SummaryComponent(driver);
+            embedLogin = new LoginPage(driver);
+            addMoney = new AddMoneyComponent(driver)
+            payment = new PaymentPage(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            embedConfirm = new ConfirmPage(driver);
+
+            await main.openEmbedPage();
+            await driver.manage().window().setRect({width: 414, height: 1000});
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await main.clickNextPageButton();
+            await addMoney.addMoneyComponentIsDisplayed();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.clickPlaceOrderButton();
+            await embedConfirm.isAtConfirmPage();
+            await embedConfirm.assertElementsOnConfirmPage();
 
         });
 
@@ -1483,6 +1498,7 @@
             embedTickets = new TicketsComponent(driver);
             embedDonate = new EmbedDonateComponent(driver);
             orderDetails = new EmbedOrderDetailsPage(driver);
+            payment = new PaymentPage(driver);
 
             await main.openEmbedPage();
             await driver.manage().window().setRect({width: 414, height: 1000});
@@ -1498,14 +1514,23 @@
             await embedDonate.clickOneDonationValueButton(0);
             await embedDonate.clickAddDonationButton();
             await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
             await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.getAndAssertDonationValueEqualsSelected("25.00")
+            await orderDetails.getAndAssertDonationValueEqualsSelected("20.00")
+            await main.clickPreviousPageButton();
+            await payment.isAtPaymentPage()
             await main.clickPreviousPageButton();
             await embedDonate.clickResetDonationButtonAndAssertInputIsReset();
             await embedDonate.clickOneDonationValueButton(2);
             await embedDonate.clickAddDonationButton();
             await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
             await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.openOrderDetailsOnMobile();
             await orderDetails.getAndAssertDonationValueEqualsSelected("50.00");
 
         });
@@ -1518,6 +1543,7 @@
             embedTickets = new TicketsComponent(driver);
             embedDonate = new EmbedDonateComponent(driver)
             orderDetails = new EmbedOrderDetailsPage(driver);
+            payment = new PaymentPage(driver);
 
             await main.openEmbedPage();
             await driver.manage().window().setRect({width: 414, height: 1000});
@@ -1532,6 +1558,9 @@
             await main.clickNextPageButton();
             let customDonation = await embedDonate.addCustomDonation();
             await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
             await orderDetails.isOnOrderDetailsPage();
             await orderDetails.getAndAssertDonationValueEqualsSelected(customDonation);
 
@@ -1545,7 +1574,8 @@
             embedTickets = new TicketsComponent(driver);
             embedDonate = new EmbedDonateComponent(driver);
             orderDetails = new EmbedOrderDetailsPage(driver);
-            summary = new SummaryComponent(driver)
+            summary = new SummaryComponent(driver);
+            payment = new PaymentPage(driver)
 
 
             await main.openEmbedPage();
@@ -1561,6 +1591,9 @@
             await main.clickNextPageButton();
             await embedDonate.clickOneDonationValueButton(0);
             await embedDonate.clickAddDonationButton();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickPayWithWalletButton();
             await main.clickNextPageButton();
             await summary.calculateSubtotalAndTotalAfterDonationIsAdded();
 
@@ -1757,13 +1790,15 @@
         });
 
         //EMBED 75
-        it('should add promo code and assert donation value + new price equals original ticket price in summary', async function () {
+        it('should add promo code and assert discount value + new price equals original ticket price in summary', async function () {
 
             main = new EmbedMainPage(driver);
             embedLogin = new LoginPage(driver);
             embedTickets = new TicketsComponent(driver);
             embedExtras = new ExtrasPage(driver);
             payment = new PaymentPage(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            summary = new SummaryComponent(driver)
 
             await main.openEmbedPage();
             await driver.manage().window().setRect({width: 414, height: 1000});
@@ -1781,10 +1816,10 @@
             await payment.isAtPaymentPage();
             await payment.applyPromotion(promoCodeOne);
             await payment.successfulPromoCodeApplied();
+            await payment.clickPayWithWalletButton();
             await main.clickNextPageButton();
             await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.openOrderDetailsOnMobile();
-            await summary.assertNewPricePlusDiscountEqualTicketPrice(ticketOnePrice);
+            await summary.assertNewPricePlusDiscountEqualTicketPrice(ticketTwoPrice);
 
         });
 
@@ -1797,6 +1832,7 @@
             embedExtras = new ExtrasPage(driver);
             payment = new PaymentPage(driver);
             summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
 
             await main.openEmbedPage();
             await driver.manage().window().setRect({width: 414, height: 1000});
@@ -1815,7 +1851,12 @@
             await payment.isAtPaymentPage();
             await payment.applyPromotion(promoCodeOne);
             await payment.successfulPromoCodeApplied();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
             let discountedPrice = await summary.getTicketsTotal();
+            await main.clickPreviousPageButton();
+            await payment.isAtPaymentPage();
             await main.clickPreviousPageButton();
             await embedExtras.isAtExtrasPage();
             await main.clickPreviousPageButton();
@@ -1856,6 +1897,7 @@
             await payment.clickPayWithWalletButton();
             await main.clickNextPageButton();
             await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.openOrderDetailsOnMobile();
             await orderDetails.assertNumberOfEditTicketsLinks(3);
 
         });
@@ -1941,15 +1983,32 @@
             main = new EmbedMainPage(driver);
             embedTickets = new TicketsComponent(driver);
             summary = new SummaryComponent(driver);
+            embedLogin = new LoginPage(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+
 
             await main.openEmbedPage();
             await driver.manage().window().setRect({width: 414, height: 1000});
             await main.switchToIframe();
             await main.isInFrame(eventName);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
             await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '3');
             await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '4');
-            await embedTickets.assertTicketCountInOrderTotal(summary);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await summary.assertTicketCountInOrderTotalInOrderDetails(9);
 
         });
 
@@ -1985,7 +2044,7 @@
             await payment.clickPayWithWalletButton();
             await main.clickNextPageButton();
             await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.assertTicketsSumEqualsSubtotalAndOrderTotalTicketsAndSubtotalValues(summary);
+            await orderDetails.assertTicketsSumEqualsSubtotalAndOrderTotalTicketsAndSubtotalValuesOnMobile(summary);
 
         });
 
@@ -2198,102 +2257,6 @@
         });
 
         //EMBED
-        it('should assert steps names', async function () {
-
-            main = new EmbedMainPage(driver);
-            steps = new StepsComponent(driver);
-
-            await main.openEmbedPage();
-            await driver.manage().window().setRect({width: 414, height: 1000});
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await steps.assertStepNames();
-
-        });
-
-        //EMBED
-        it('should assert completed steps count and current step name', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            steps = new StepsComponent(driver);
-
-            await main.openEmbedPage();
-            await driver.manage().window().setRect({width: 414, height: 1000});
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await steps.numberOfCompletedStepsAndCurrentStepName("Select Tickets",0);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await steps.numberOfCompletedStepsAndCurrentStepName("Select Tickets",0);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await steps.numberOfCompletedStepsAndCurrentStepName("Add Extras",1);
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await steps.numberOfCompletedStepsAndCurrentStepName("Payment Details",2);
-            await payment.clickSavedCardByIndex(0);
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await steps.numberOfCompletedStepsAndCurrentStepName("Review and Pay",3);
-            await orderDetails.clickPlaceOrderButton();
-            await embedConfirm.isAtConfirmPage();
-            await steps.numberOfCompletedStepsAndCurrentStepName("All Done!",4);
-
-        });
-
-        //EMBED
-        it('should assert completed steps checkmark image is displayed', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            steps = new StepsComponent(driver);
-
-            await main.openEmbedPage();
-            await driver.manage().window().setRect({width: 414, height: 1000});
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await steps.numberOfCompletedStepsAndCurrentStepName("Select Tickets",0);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await steps.numberOfCompletedStepsAndCurrentStepName("Select Tickets",0);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await steps.checkThatCheckmarkImageIsDisplayedWhenStepIsCompeted();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await steps.checkThatCheckmarkImageIsDisplayedWhenStepIsCompeted();
-            await payment.clickSavedCardByIndex(0);
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await steps.checkThatCheckmarkImageIsDisplayedWhenStepIsCompeted();
-            await orderDetails.clickPlaceOrderButton();
-            await embedConfirm.isAtConfirmPage();
-            await steps.checkThatCheckmarkImageIsDisplayedWhenStepIsCompeted();
-
-        });
-
-        //EMBED
         it('should assert proper steps behaviour with fillin class on navbar on all pages', async function () {
 
             main = new EmbedMainPage(driver);
@@ -2464,8 +2427,7 @@
             await main.clickNextPageButton();
             await payment.isAtPaymentPage();
             await payment.applyPromotion(promoCodeOne);
-            await summary.discountIsDisplayed();
-            await payment.clickSavedCardByIndex(0);
+            await payment.clickPayWithWalletButton();
             await main.clickNextPageButton();
             await orderDetails.isOnOrderDetailsPage();
             let tickets = await summary.getTicketsTotal();
@@ -2504,25 +2466,24 @@
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
             await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '4');
-            let originalPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketOneName);
+            let originalPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketTwoName);
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
             await main.clickNextPageButton();
             await payment.isAtPaymentPage();
             await payment.applyPromotion(promoCodeOne);
-            await summary.discountIsDisplayed();
             await payment.exceedingPromotionQuantityAlertIsDisplayed();
-            await main.clickPreviousPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickPreviousPageButton();
-            await embedTickets.ticketListIsDisplayed();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.openOrderDetailsOnMobile();
             let promotedPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketTwoName);
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
             await main.clickNextPageButton();
             await payment.isAtPaymentPage();
-            await payment.clickSavedCardByIndex(0);
+            await payment.clickPayWithWalletButton();
             await main.clickNextPageButton();
             await orderDetails.isOnOrderDetailsPage();
             await orderDetails.assertPromotedAndRegularTotalAreDisplayed(originalPrice, promotedPrice);
@@ -2556,14 +2517,19 @@
             await main.clickNextPageButton();
             await payment.isAtPaymentPage();
             await payment.applyPromotion(promoCodeOne);
-            await summary.discountIsDisplayed();
             await payment.exceedingPromotionQuantityAlertIsDisplayed();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.openOrderDetailsOnMobile();
+            let promotedPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketTwoName);
+            await summary.assertTotalEqualsThreePromotedPlusOneRegularTicketPrice(originalPrice, promotedPrice);
+            await main.clickPreviousPageButton();
+            await payment.isAtPaymentPage();
             await main.clickPreviousPageButton();
             await embedExtras.isAtExtrasPage();
             await main.clickPreviousPageButton();
             await embedTickets.ticketListIsDisplayed();
-            let promotedPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketTwoName);
-            await summary.assertTotalEqualsThreePromotedPlusOneRegularTicketPrice(originalPrice, promotedPrice);
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
             await main.clickNextPageButton();
@@ -2680,8 +2646,7 @@
             embedExtras = new ExtrasPage(driver);
             payment = new PaymentPage(driver);
             summary = new SummaryComponent(driver);
-            embedConfirm = new ConfirmPage(driver);
-            receipt = new ReceiptPopup(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
 
             await main.openEmbedPage();
             await driver.manage().window().setRect({width: 414, height: 1000});
@@ -2697,9 +2662,17 @@
             await embedExtras.isAtExtrasPage();
             await main.clickNextPageButton();
             await payment.isAtPaymentPage();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
             let fees = await summary.getFeesValue();
             let taxes = await summary.getTaxesValue();
+            await main.clickPreviousPageButton();
+            await payment.isAtPaymentPage();
             await payment.applyPromotion(promoCodeThree);
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.openOrderDetailsOnMobile();
             await summary.assertTaxesAndFeesAreRefactoredToMatchNewPrice(fees,taxes);
 
         });
@@ -2713,6 +2686,7 @@
             embedExtras = new ExtrasPage(driver);
             payment = new PaymentPage(driver);
             summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver)
 
             await main.openEmbedPage();
             await driver.manage().window().setRect({width: 414, height: 1000});
@@ -2730,6 +2704,9 @@
             await main.clickNextPageButton();
             await payment.isAtPaymentPage();
             await payment.applyPromotion(promoCodeThree);
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
             await summary.calculateAndAssertTotalEquals10PromotedTicketsForOriginalHighestPriceAnd10RegularForLowerPriced(ticketTwoPrice, ticketFourPrice);
 
         });
@@ -2743,6 +2720,7 @@
             embedExtras = new ExtrasPage(driver);
             payment = new PaymentPage(driver);
             summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver)
 
             await main.openEmbedPage();
             await driver.manage().window().setRect({width: 414, height: 1000});
@@ -2760,6 +2738,9 @@
             await main.clickNextPageButton();
             await payment.isAtPaymentPage();
             await payment.applyPromotion(promoCodeThree);
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
             await summary.calculateAndAssertTotalEquals10PromotedTicketsByEachTicketPromotedPrice(ticketTwoPrice, ticketFourPrice);
 
         });
@@ -2774,6 +2755,7 @@
             embedExtras = new ExtrasPage(driver);
             payment = new PaymentPage(driver);
             summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
 
             await main.openEmbedPage();
             await driver.manage().window().setRect({width: 414, height: 1000});
@@ -2792,6 +2774,9 @@
             await payment.isAtPaymentPage();
             await payment.applyPromotion(promoCodeThree);
             await payment.exceedingPromotionQuantityAlertIsDisplayed();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
             await summary.calculateAndAssertTotalEquals10PromotedTicketsByEachTicketPromotedPricePlusExceedingTicketsByRegularPrice(ticketTwoPrice, ticketFourPrice);
 
         });
@@ -2806,6 +2791,7 @@
             embedExtras = new ExtrasPage(driver);
             payment = new PaymentPage(driver);
             summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver)
 
             await main.openEmbedPage();
             await driver.manage().window().setRect({width: 414, height: 1000});
@@ -2823,6 +2809,9 @@
             await payment.isAtPaymentPage();
             await payment.applyPromotion(promoCodeThree);
             await payment.exceedingPromotionQuantityAlertIsNotDisplayed();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
             await summary.calculateAndAssertTotalEquals15PromotedTicketsForNotLimitedTicket(ticketThreePrice);
 
         });
@@ -2837,6 +2826,7 @@
             embedExtras = new ExtrasPage(driver);
             payment = new PaymentPage(driver);
             summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver)
 
             await main.openEmbedPage();
             await driver.manage().window().setRect({width: 414, height: 1000});
@@ -2854,6 +2844,9 @@
             await payment.isAtPaymentPage();
             await payment.applyPromotion(promoCodeThree);
             await payment.exceedingPromotionQuantityAlertIsDisplayed();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
             await summary.calculateAndAssertTotalEquals20PromotedTicketsPlus5RegularPriceForNotLimitedTicket(ticketThreePrice);
 
         });
@@ -2866,6 +2859,7 @@
             embedTickets = new TicketsComponent(driver);
             embedExtras = new ExtrasPage(driver);
             payment = new PaymentPage(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver)
             summary = new SummaryComponent(driver);
 
             await main.openEmbedPage();
@@ -2886,6 +2880,9 @@
             await payment.isAtPaymentPage();
             await payment.applyPromotion(promoCodeThree);
             await payment.exceedingPromotionQuantityAlertIsDisplayed();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
             await summary.calculateAndAssertTotalEquals20PromotedTicketsByEachTicketPromotedPricePlusExceeding5TicketsByRegularPrice(ticketTwoPrice, ticketThreePrice, ticketFourPrice);
 
         });
@@ -2899,6 +2896,7 @@
             embedExtras = new ExtrasPage(driver);
             payment = new PaymentPage(driver);
             summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver)
 
             await main.openEmbedPage();
             await driver.manage().window().setRect({width: 414, height: 1000});
@@ -2918,6 +2916,9 @@
             await payment.isAtPaymentPage();
             await payment.applyPromotion(promoCodeThree);
             await payment.exceedingPromotionQuantityAlertIsDisplayed();
+            await payment.clickPayWithWalletButton();
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
             await summary.calculateAndAssertTotalEquals20PromotedTicketsTopPrice10NotLimited10(ticketTwoPrice, ticketThreePrice, ticketFourPrice);
 
         });
@@ -2952,9 +2953,9 @@
             await payment.isAtPaymentPage();
             await payment.applyPromotion(promoCodeThree);
             await payment.exceedingPromotionQuantityAlertIsDisplayed();
+            await payment.clickPayWithWalletButton();
             await main.clickNextPageButton();
             await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.openOrderDetailsOnMobile();
             await summary.calculateAndAssertTotalEquals20PromotedTicketsTopPrice10NotLimited10RestOnRegular(ticketTwoPrice, ticketThreePrice, ticketFourPrice);
 
         });

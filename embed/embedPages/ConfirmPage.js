@@ -39,7 +39,7 @@
             "has been sent to your email. You can also view all of your orders in the purchases" +
             " page of your account whenever you want. You are on your way to experience the future of events!");
         let total = await this.getElementText(TOTAL);
-        assert.equal(total, "Total:$2.6");
+        assert.equal(total, "Total:$3.06");
         let receiptButton = await this.getElementText(VIEW_RECEIPT_BUTTON);
         assert.equal(receiptButton, "View Receipt");
         let shareHeader = await this.getElementText(SHARE_HEADER);

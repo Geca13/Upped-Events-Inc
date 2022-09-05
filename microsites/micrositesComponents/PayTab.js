@@ -37,6 +37,7 @@
             await this.click(PAY_WITH_CARD_BUTTON);
         }
         async clickPayWithWalletOption(){
+
             await this.click(PAY_WITH_WALLET_OPTION);
         }
         async clickPayWithWalletButton(){
