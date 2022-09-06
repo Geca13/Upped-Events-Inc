@@ -11,6 +11,9 @@
     const TICKET_PRICE = { xpath: "//span[@class='ticket-price']" }
     const TICKET_RULES_ICON = { xpath: "//span[@class= 'ticket-info']//i" }
     const DISCOUNTED_TICKET_PRICE = { xpath: "//span[contains(@class, 'has-discount')]" }
+    const TICKET_GROUPS = { xpath: "//ul[@id='pills-tab']//li" }
+    const TICKET_GROUPS_DROPDOWN = { tagName: "ng-select" }
+    const TICKET_GROUPS_DROPDOWN_OPTIONS = { xpath: "//div[contains(@class, 'ng-option-marked')]//span" }
 
     class TicketsComponent extends BasePage {
         constructor(driver) {
@@ -135,6 +138,29 @@
 
         async ticketListIsDisplayed(){
             await this.isDisplayed(TICKETS_LIST, 5000);
+        }
+
+        async assertGroupNamesAndCount(one, two, three){
+            let grOne = await this.getElementTextFromAnArrayByIndex(TICKET_GROUPS, 0);
+            let grTwo = await this.getElementTextFromAnArrayByIndex(TICKET_GROUPS, 1);
+            let grThree = await this.getElementTextFromAnArrayByIndex(TICKET_GROUPS, 2);
+            let grFour = await this.getElementTextFromAnArrayByIndex(TICKET_GROUPS, 3);
+            assert.equal(grOne, "All")
+            assert.equal(grTwo, one)
+            assert.equal(grThree, two)
+            assert.equal(grFour, three);
+            let count = await this.returnElementsCount(TICKET_GROUPS);
+            assert.equal(count, 4);
+        }
+
+        async ticketGroupsDropDownAppearedAssertNameAndTicketGroup(ticketGroupThree){
+            await this.isDisplayed(TICKET_GROUPS_DROPDOWN, 5000);
+            let dropdownName = await this.getElementText(TICKET_GROUPS_DROPDOWN);
+            assert.equal(dropdownName, "More Groups");
+            await this.click(TICKET_GROUPS_DROPDOWN);
+            await this.isDisplayed(TICKET_GROUPS_DROPDOWN_OPTIONS,5000);
+            let dropdownOptionName = await this.getElementText(TICKET_GROUPS_DROPDOWN_OPTIONS);
+            assert.equal(dropdownOptionName, ticketGroupThree);
         }
 
         async assertDropDownElementsEqualsAvailableTickets(availableTickets){

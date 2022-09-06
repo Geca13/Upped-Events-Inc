@@ -76,7 +76,7 @@ const DonationPage = require('../portal/eventOverview/SettingsNav/DonationsPage'
 const EmbedDonateComponent = require('../embed/embedComponents/EmbedDonateComponent')
 const Files = require('../dummy/Files')
 
-describe('Should do everything', function () {
+describe('Should do old tests', function () {
     this.timeout(500000);
     let driver;
     let portalLogin;
@@ -1546,7 +1546,7 @@ describe('Should do everything', function () {
         await eventOptionTabs.clickSettingsNav();
         await settingsNav.taxesAndFeesSubTabIsDisplayed();
         await settingsNav.clickTicketQuestions();
-        await questions.createSimpleYesNoQuestionAndAssertSavedDataAndElements(base);
+        await questions.createSimpleYesNoQuestionAndAssertSavedDataAndElements(base, ticketOneName, ticketThreeName);
         await events.load();
         await events.clickSignInButton();
         await login.waitPopupToBeLoaded();

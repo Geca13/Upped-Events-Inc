@@ -78,7 +78,7 @@
     const ReceiptPopup = require('../microsites/micrositesComponents/ReceiptPopup');
     const Files = require('../dummy/Files')
 
-    describe('Should do everything', function () {
+    describe('Should do embed tests', function () {
         this.timeout(500000);
         let driver;
         let portalLogin;
@@ -161,7 +161,7 @@
         let receipt;
         let steps;
 
-        let base = 658058 // Math.floor(100000 + Math.random() * 900000);
+        let base =  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -1222,7 +1222,7 @@
             await payment.clickPayWithWalletButton();
             await main.clickNextPageButton();
             await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.assertElementsWhenOneTicketIsSelected(ticketTwoName);
+            await orderDetails.assertElementsWhenOneTicketIsSelected(ticketOneName);
 
         });
 
@@ -1337,7 +1337,7 @@
             await main.openEmbedPage();
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, '2');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);

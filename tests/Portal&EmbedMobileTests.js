@@ -1095,7 +1095,7 @@
         });
 
         //PORTAL
-        it('should create three more tickets and assert data in tickets table ',async function () {
+        it('should create three more tickets and ticket groups, then assert data in tickets table ',async function () {
 
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
@@ -1117,6 +1117,12 @@
             await eventOptionTabs.ticketingTabIsDisplayed();
             await eventOptionTabs.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createTicketsGroup(ticketGroupOne);
+            await ticketsNav.successTicketGroupBannerIsDisplayed();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createTicketsGroup(ticketGroupTwo);
+            await ticketsNav.clickGroupTabByIndex(2);
+            await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
             await createTicket.createNewTicket(ticketTwoName,ticketTwoPrice,ticketTwoQuantity);
@@ -1131,16 +1137,38 @@
             await ticketsNav.createdTicketIsInTheTable(ticketThreeName);
             await ticketsNav.clickActivateTicketToggle(ticketThreeName);
             await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createTicketsGroup(ticketGroupThree);
+            await ticketsNav.clickGroupTabByIndex(3);
+            await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
             await createTicket.createNewTicket(ticketFourName,ticketFourPrice,ticketFourQuantity);
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.createdTicketIsInTheTable(ticketFourName);
             await ticketsNav.clickActivateTicketToggle(ticketFourName);
+            await ticketsNav.clickGroupTabByIndex(0);
+            await ticketsNav.assertTicketGroupNames(ticketGroupOne, ticketGroupTwo, ticketGroupThree);
             await ticketsNav.assertTicketNamePriceAndQuantity(ticketOneName,ticketOnePrice,ticketOneQuantity);
             await ticketsNav.assertTicketNamePriceAndQuantity(ticketTwoName,ticketTwoPrice,ticketTwoQuantity);
             await ticketsNav.assertTicketNamePriceAndQuantity(ticketThreeName,ticketThreePrice,ticketThreeQuantity);
             await ticketsNav.assertTicketNamePriceAndQuantity(ticketFourName,ticketFourPrice,ticketFourQuantity);
+
+        });
+
+        //EMBED
+        it('should assert ticket groups are displayed on wider screen, dropdown contains extra groups on width below 510px', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+
+            await main.openEmbedPage();
+            await driver.manage().window().setRect({width: 554, height: 1000});
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.assertGroupNamesAndCount(ticketGroupOne, ticketGroupTwo, ticketGroupThree);
+            await driver.manage().window().setRect({width: 554, height: 1000});
+            await embedTickets.ticketGroupsDropDownAppearedAssertNameAndTicketGroup(ticketGroupThree)
 
         });
 
@@ -2474,10 +2502,10 @@
             await payment.isAtPaymentPage();
             await payment.applyPromotion(promoCodeOne);
             await payment.exceedingPromotionQuantityAlertIsDisplayed();
-            await payment.clickPayWithWalletButton();
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.openOrderDetailsOnMobile();
+            await main.clickPreviousPageButton();
+            await extras.isAtExtrasPage();
+            await main.clickPreviousPageButton();
+            await embedTickets.ticketListIsDisplayed();
             let promotedPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketTwoName);
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
@@ -2518,25 +2546,19 @@
             await payment.isAtPaymentPage();
             await payment.applyPromotion(promoCodeOne);
             await payment.exceedingPromotionQuantityAlertIsDisplayed();
+            await main.clickPreviousPageButton();
+            await extras.isAtExtrasPage();
+            await main.clickPreviousPageButton();
+            await embedTickets.ticketListIsDisplayed();
+            let promotedPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketTwoName);
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
             await payment.clickPayWithWalletButton();
             await main.clickNextPageButton();
             await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.openOrderDetailsOnMobile();
-            let promotedPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketTwoName);
             await summary.assertTotalEqualsThreePromotedPlusOneRegularTicketPrice(originalPrice, promotedPrice);
-            await main.clickPreviousPageButton();
-            await payment.isAtPaymentPage();
-            await main.clickPreviousPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickPreviousPageButton();
-            await embedTickets.ticketListIsDisplayed();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickSavedCardByIndex(0);
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
             await orderDetails.clickPlaceOrderButton();
             await embedConfirm.isAtConfirmPage();
 

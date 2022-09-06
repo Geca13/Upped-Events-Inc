@@ -165,6 +165,7 @@
 
         async clickGroupTabByIndex(index){
             await this.clickElementReturnedFromAnArray(TICKET_GROUP_TAB,index);
+            await this.timeout(1000);
         }
 
         async clickAddTicketButton(){
@@ -179,6 +180,19 @@
         }
         async clickInactiveTicketsTab(){
             await this.click(INACTIVE_TICKETS_TAB);
+        }
+
+        async assertTicketGroupNames(one, two, three){
+            let grOne = await this.getElementTextFromAnArrayByIndex(TICKET_GROUP_TAB, 0);
+            let grTwo = await this.getElementTextFromAnArrayByIndex(TICKET_GROUP_TAB, 1);
+            let grThree = await this.getElementTextFromAnArrayByIndex(TICKET_GROUP_TAB, 2);
+            let grFour = await this.getElementTextFromAnArrayByIndex(TICKET_GROUP_TAB, 3);
+            assert.equal(grOne, "All")
+            assert.equal(grTwo, one)
+            assert.equal(grThree, two)
+            assert.equal(grFour, three);
+
+
         }
 
         async checkForSoldTicketsAfterFirstTest(){
