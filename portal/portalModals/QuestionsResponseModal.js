@@ -8,6 +8,7 @@
     const TICKET_ITEMS = { xpath: "//div[@class='items-container']//div[@class='item']" } //list
     const ANSWERS_TIMES = { xpath: "//div[contains(@class, 'justify-content-between')]//small" } ; //list
 
+
     class QuestionsResponseModal extends BasePage{
         constructor(driver) {
             super(driver);

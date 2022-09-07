@@ -3,6 +3,7 @@
     const Alerts = require('../../Validations&Alerts/Alerts')
     const ColumnOptionsModal = require('../portalModals/ColumnsOptionsModal');
     const CreateTicketModal = require('../portalModals/CreateTicketModal')
+    const { expect }= require('chai');
     const assert = require('assert')
     const ADD_TICKETS_GROUP_BUTTON = { xpath: "//*[text()=' Add Group']" }
     const ADD_TICKET_BUTTON = { xpath: "//*[text()='Add']" }
@@ -70,6 +71,7 @@
             await newTicket.createNewTicket(ticketOneName,ticketPrice,ticketOneQuantity)
 
         }
+
         async assertCorrectDataIsDisplayedInTableAfterCreatingFirstTicket(name,start,end,price,quantity){
             await this.isDisplayed(TICKETS_NAMES,5000);
             await this.timeout(500)
@@ -166,6 +168,56 @@
         async clickGroupTabByIndex(index){
             await this.clickElementReturnedFromAnArray(TICKET_GROUP_TAB,index);
             await this.timeout(1000);
+        }
+
+        async assertTicketsByGroupsAndClassIsAppliedWhenClicked(base, clas){
+            let tickets = await this.returnArrayOfStrings(TICKETS_NAMES);
+            let allTab = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 0, clas);
+            let first = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 1, clas);
+            let second = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 2, clas);
+            let third = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 3, clas);
+            expect(allTab).to.be.true;
+            expect(first).to.be.false;
+            expect(second).to.be.false;
+            expect(third).to.be.false;
+            await this.clickGroupTabByIndex(1);
+            let count = await this.returnElementsCount(TICKETS_NAMES);
+            expect(count).to.equal(1);
+            expect(tickets[0]).to.equal(base.toString() +"T1");
+            allTab = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 0, clas);
+            first = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 1, clas);
+            second = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 2, clas);
+            third = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 3, clas);
+            expect(allTab).to.be.false;
+            expect(first).to.be.true;
+            expect(second).to.be.false;
+            expect(third).to.be.false;
+            await this.clickGroupTabByIndex(2);
+            count = await this.returnElementsCount(TICKETS_NAMES);
+            expect(count).to.equal(2);
+            expect(tickets[1]).to.equal(base.toString() + "T2");
+            expect(tickets[2]).to.equal(base.toString() + "T3");
+            allTab = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 0, clas);
+            first = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 1, clas);
+            second = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 2, clas);
+            third = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 3, clas);
+            expect(allTab).to.be.false;
+            expect(first).to.be.false;
+            expect(second).to.be.true;
+            expect(third).to.be.false;
+            await this.clickGroupTabByIndex(3);
+            count = await this.returnElementsCount(TICKETS_NAMES);
+            expect(count).to.equal(1);
+            expect(tickets[3]).to.equal(base.toString() + "T4");
+            allTab = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 0, clas);
+            first = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 1, clas);
+            second = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 2, clas);
+            third = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 3, clas);
+            expect(allTab).to.be.false;
+            expect(first).to.be.false;
+            expect(second).to.be.false;
+            expect(third).to.be.true;
+
         }
 
         async clickAddTicketButton(){

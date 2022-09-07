@@ -12,6 +12,16 @@
     const FINISH_BUTTON = { className: "finish-btn"}
     const ANSWER_TEXTAREA = { tagName: "textarea"}
     const RESPONSES_CONTAINER = { className: "responses-container" }
+    const STAFF_TICKET_NAME = {  xpath: "//div[contains(@class, 'questions-container')]//div[contains(@class, 'ticket-name')]"}
+    const STAFF_DESCRIPTION = { xpath: "//div[contains(@class, 'questions-container')]//div[2]" }
+    const POSITION_OPTIONS_LABEL = { xpath: "//div[contains(@class, 'questions-container')]//div[3]//div//span" }
+    const POSITION_RADIO = { name: "staffFunction" }
+    const DEPARTMENT_INPUT = { name: "others" }
+    const NICKNAME_INPUT = { name: "nickname" }
+    const ROLE_INPUT = { name: "departmentRole" }
+    const POSITION_OTHER_LABEL = { xpath: "//div[contains(@class, 'questions-container')]//div[3]/span" }
+    const POSITION_NICKNAME_LABEL = { xpath: "//div[contains(@class, 'questions-container')]//div[4]" }
+    const POSITION_DEPARTMENT_LABEL = { xpath: "//div[contains(@class, 'm-t10')]" }
 
     class TicketQuestionsModal extends BasePage{
         constructor(driver) {
@@ -185,6 +195,41 @@
             await this.sendKeysToElementReturnedFromAnArray(ANSWER_TEXTAREA, 4, "Heineken Alcohol Free");
             await this.click(FINISH_BUTTON);
 
+        }
+
+        async assertElementsOnStaffModal(staff) {
+            await this.questionsModalIsDisplayed();
+            let heading = await this.getElementText(HEADING);
+            assert.equal(heading, "Before You Go...");
+            let subHeading = await this.getElementText(SUB_HEADING);
+            assert.equal(subHeading, "Please answer the following questions");
+            let ticketName = await this.getElementText(STAFF_TICKET_NAME);
+            expect(ticketName).to.equal(staff);
+            let description = await this.getElementText(STAFF_DESCRIPTION);
+            expect(description).to.equal("Which event department would you like to volunteer at? Department selections are not guaranteed, but we will try our best to match your preference (Choose one) *");
+            let position = await this.getElementText(POSITION_OPTIONS_LABEL);
+            expect(position).to.equal("new function");
+            let departmentLabel = await this.getElementText(POSITION_OTHER_LABEL);
+            expect(departmentLabel).to.equal("If Other what would it be? (Optional)");
+            let nickname = await this.getElementText(POSITION_NICKNAME_LABEL);
+            expect(nickname).to.equal("What is your preferred name/nickname? (Optional)");
+            let role = await this.getElementText(POSITION_DEPARTMENT_LABEL);
+            expect(role).to.equal("What is your department role? (Optional)");
+            let departmentPlaceholder = await this.getPlaceholderTextFromInputByIndex(DEPARTMENT_INPUT, 0);
+            expect(departmentPlaceholder).to.equal("Eg: Department");
+            let nicknamePlaceholder = await this.getPlaceholderTextFromInputByIndex(NICKNAME_INPUT, 0);
+            expect(nicknamePlaceholder).to.equal("Eg: Nickname");
+            let rolePlaceholder = await this.getPlaceholderTextFromInputByIndex(ROLE_INPUT, 0);
+            expect(rolePlaceholder).to.equal("Eg: Role Name");
+
+        }
+
+        async shouldAnswerStaffFormWithRandomButValidData(base){
+            await this.click(POSITION_RADIO);
+            await this.sentKeys(DEPARTMENT_INPUT, base + " department");
+            await this.sentKeys(NICKNAME_INPUT, base + " nickname");
+            await this.sentKeys(ROLE_INPUT, base + " role");
+            await this.click(FINISH_BUTTON);
         }
     }
     module.exports = TicketQuestionsModal

@@ -1,6 +1,7 @@
     const BasePage = require("../../BasePage");
     const assert = require('assert')
     const {By} = require("selenium-webdriver");
+    const {expect} = require("chai");
     const TICKET_SELECT = { xpath: "//div[contains(@class, 'quantity-container')]//select"};
     const TICKET_SELECT_OPTIONS = { xpath: "//select//option"}
     const TICKETS_LIST = { className: "tickets-list" }
@@ -12,6 +13,7 @@
     const TICKET_RULES_ICON = { xpath: "//span[@class= 'ticket-info']//i" }
     const DISCOUNTED_TICKET_PRICE = { xpath: "//span[contains(@class, 'has-discount')]" }
     const TICKET_GROUPS = { xpath: "//ul[@id='pills-tab']//li" }
+    const TICKET_GROUPS_MOBILE = { xpath: "//ul[@id='pills-tab-mobile']//li" }
     const TICKET_GROUPS_DROPDOWN = { tagName: "ng-select" }
     const TICKET_GROUPS_DROPDOWN_OPTIONS = { xpath: "//div[contains(@class, 'ng-option-marked')]//span" }
 
@@ -39,6 +41,17 @@
             }
         }
 
+        async getCleanTicketsNames() {
+            let cleaned = [];
+            let tickets = await this.findAll(TICKET_NAME_AND_PRICE);
+            for(let i = 0; i < tickets.length; i++){
+                let ticket = await this.getElementTextFromAnArrayByIndex(TICKET_NAME_AND_PRICE,i);
+                let name = ticket.split(" ")[0]
+                cleaned.push(name)
+            }
+            return cleaned;
+        }
+
         async getCleanTicketPriceFromPriceWithBrackets(ticketName){
             let price = await this.getTicketPriceByTicketName(ticketName);
             return price.substring(2, price.length - 1);
@@ -52,6 +65,11 @@
             return qty;
         }
 
+        async assertTicketSelectValueByName(staffTicket, value){
+            let tickets = await this.getSelectedQtyByTicketName(staffTicket);
+            expect(tickets).to.equal(value);
+        }
+
         async selectedTicketTotal(ticketName){
             let ticketRawPrice = await this.getTicketPriceByTicketName(ticketName);
             let ticketPrice = ticketRawPrice.substring(2, ticketRawPrice.length-1);
@@ -63,6 +81,7 @@
         async sentKeysToTicketInputByTicketName(ticketName, qty){
             let i = await this.getTicketIndexByTicketName(ticketName);
             await this.sentKeysToChildByIndexAndParentIndex(TICKET_QUANTITY_CONTAINER, i, 0, qty)
+            await this.timeout(1000)
         }
 
         async getFullTicketLayoutByTicketName(ticketName) {
@@ -153,6 +172,111 @@
             assert.equal(count, 4);
         }
 
+        async clickGroupTabByIndexInEmbed(index){
+            await this.clickElementReturnedFromAnArray(TICKET_GROUPS,index);
+            await this.timeout(1000);
+        }
+
+        async clickGroupTabByIndexInMobileEmbed(index){
+            await this.clickElementReturnedFromAnArray(TICKET_GROUPS_MOBILE,index);
+            await this.timeout(1000);
+        }
+
+        async assertTicketsByGroupsAndClassIsAppliedWhenClickedOnFullEmbed(base, clas){
+            let tickets = await this.getCleanTicketsNames();
+            let allTab = await this.checkIfClassIsApplied(TICKET_GROUPS, 0, clas);
+            let first = await this.checkIfClassIsApplied(TICKET_GROUPS, 1, clas);
+            let second = await this.checkIfClassIsApplied(TICKET_GROUPS, 2, clas);
+            let third = await this.checkIfClassIsApplied(TICKET_GROUPS, 3, clas);
+            expect(allTab).to.be.true;
+            expect(first).to.be.false;
+            expect(second).to.be.false;
+            expect(third).to.be.false;
+            await this.clickGroupTabByIndexInEmbed(1);
+            let count = await this.returnElementsCount(TICKET_NAME_AND_PRICE);
+            expect(count).to.equal(1);
+            expect(tickets[0]).to.equal(base.toString() +"T1");
+            allTab = await this.checkIfClassIsApplied(TICKET_GROUPS, 0, clas);
+            first = await this.checkIfClassIsApplied(TICKET_GROUPS, 1, clas);
+            second = await this.checkIfClassIsApplied(TICKET_GROUPS, 2, clas);
+            third = await this.checkIfClassIsApplied(TICKET_GROUPS, 3, clas);
+            expect(allTab).to.be.false;
+            expect(first).to.be.true;
+            expect(second).to.be.false;
+            expect(third).to.be.false;
+            await this.clickGroupTabByIndexInEmbed(2);
+            count = await this.returnElementsCount(TICKET_NAME_AND_PRICE);
+            expect(count).to.equal(2);
+            expect(tickets[1]).to.equal(base.toString() + "T2");
+            expect(tickets[2]).to.equal(base.toString() + "T3");
+            allTab = await this.checkIfClassIsApplied(TICKET_GROUPS, 0, clas);
+            first = await this.checkIfClassIsApplied(TICKET_GROUPS, 1, clas);
+            second = await this.checkIfClassIsApplied(TICKET_GROUPS, 2, clas);
+            third = await this.checkIfClassIsApplied(TICKET_GROUPS, 3, clas);
+            expect(allTab).to.be.false;
+            expect(first).to.be.false;
+            expect(second).to.be.true;
+            expect(third).to.be.false;
+            await this.clickGroupTabByIndexInEmbed(3);
+            count = await this.returnElementsCount(TICKET_NAME_AND_PRICE);
+            expect(count).to.equal(1);
+            expect(tickets[3]).to.equal(base.toString() + "T4");
+            allTab = await this.checkIfClassIsApplied(TICKET_GROUPS, 0, clas);
+            first = await this.checkIfClassIsApplied(TICKET_GROUPS, 1, clas);
+            second = await this.checkIfClassIsApplied(TICKET_GROUPS, 2, clas);
+            third = await this.checkIfClassIsApplied(TICKET_GROUPS, 3, clas);
+            expect(allTab).to.be.false;
+            expect(first).to.be.false;
+            expect(second).to.be.false;
+            expect(third).to.be.true;
+
+        }
+
+        async assertTicketsByGroupsAndClassIsAppliedWhenClickedOnMobileEmbed(base, clas){
+            let tickets = await this.getCleanTicketsNames();
+            let allTab = await this.checkIfClassIsApplied(TICKET_GROUPS_MOBILE, 0, clas);
+            let first = await this.checkIfClassIsApplied(TICKET_GROUPS_MOBILE, 1, clas);
+            let second = await this.checkIfClassIsApplied(TICKET_GROUPS_MOBILE, 2, clas);
+            expect(allTab).to.be.true;
+            expect(first).to.be.false;
+            expect(second).to.be.false;
+            await this.clickGroupTabByIndexInMobileEmbed(1);
+            let count = await this.returnElementsCount(TICKET_NAME_AND_PRICE);
+            expect(count).to.equal(1);
+            expect(tickets[0]).to.equal(base.toString() +"T1");
+            allTab = await this.checkIfClassIsApplied(TICKET_GROUPS_MOBILE, 0, clas);
+            first = await this.checkIfClassIsApplied(TICKET_GROUPS_MOBILE, 1, clas);
+            second = await this.checkIfClassIsApplied(TICKET_GROUPS_MOBILE, 2, clas);
+            expect(allTab).to.be.false;
+            expect(first).to.be.true;
+            expect(second).to.be.false;
+            await this.clickGroupTabByIndexInMobileEmbed(2);
+            count = await this.returnElementsCount(TICKET_NAME_AND_PRICE);
+            expect(count).to.equal(2);
+            expect(tickets[1]).to.equal(base.toString() + "T2");
+            expect(tickets[2]).to.equal(base.toString() + "T3");
+            allTab = await this.checkIfClassIsApplied(TICKET_GROUPS_MOBILE, 0, clas);
+            first = await this.checkIfClassIsApplied(TICKET_GROUPS_MOBILE, 1, clas);
+            second = await this.checkIfClassIsApplied(TICKET_GROUPS_MOBILE, 2, clas);
+            expect(allTab).to.be.false;
+            expect(first).to.be.false;
+            expect(second).to.be.true;
+            await this.click(TICKET_GROUPS_DROPDOWN);
+            await this.isDisplayed(TICKET_GROUPS_DROPDOWN_OPTIONS,5000);
+            await this.click(TICKET_GROUPS_DROPDOWN_OPTIONS);
+            await this.timeout(1000);
+            count = await this.returnElementsCount(TICKET_NAME_AND_PRICE);
+            expect(count).to.equal(1);
+            expect(tickets[3]).to.equal(base.toString() + "T4");
+            allTab = await this.checkIfClassIsApplied(TICKET_GROUPS, 0, clas);
+            first = await this.checkIfClassIsApplied(TICKET_GROUPS, 1, clas);
+            second = await this.checkIfClassIsApplied(TICKET_GROUPS, 2, clas);
+            expect(allTab).to.be.false;
+            expect(first).to.be.false;
+            expect(second).to.be.false;
+
+        }
+
         async ticketGroupsDropDownAppearedAssertNameAndTicketGroup(ticketGroupThree){
             await this.isDisplayed(TICKET_GROUPS_DROPDOWN, 5000);
             let dropdownName = await this.getElementText(TICKET_GROUPS_DROPDOWN);
@@ -219,6 +343,7 @@
                 }
             return ticketNames;
         }
+
 
 
 

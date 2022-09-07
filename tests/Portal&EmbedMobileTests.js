@@ -161,7 +161,7 @@
         let receipt;
         let steps;
 
-        let base =  Math.floor(100000 + Math.random() * 900000);
+        let base = 759680 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -176,9 +176,9 @@
         let ticketThreePrice = "0.75";
         let ticketFourName = base.toString() +"T4";
         let ticketFourQuantity = 666;
-        let ticketFourPrice = "0.25";
+        let ticketFourPrice = "0.50";
         let staffTicket = base.toString() +"staff";
-        let ticketStaffQuantity = 5;
+        let ticketStaffQuantity = 2;
         let ticketStaffPrice = "0.25";
         let promoOneName = base.toString() +"PN1";
         let promoTwoName = base.toString() +"PN2";
@@ -766,6 +766,146 @@
         });
 
         //EMBED
+        it('should assert proper steps behaviour with fillin class on navbar on all pages', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            embedConfirm = new ConfirmPage(driver);
+            steps = new StepsComponent(driver);
+
+            await main.openEmbedPage();
+            await driver.manage().window().setRect({width: 414, height: 1000});
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await steps.checkIfFillinClassIsAppliedToStep(0,true);
+            await steps.checkIfFillinClassIsAppliedToStep(1,false);
+            await steps.checkIfFillinClassIsAppliedToStep(2,false);
+            await steps.checkIfFillinClassIsAppliedToStep(3,false);
+            await steps.checkIfFillinClassIsAppliedToStep(4,false);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await steps.checkIfFillinClassIsAppliedToStep(0,false);
+            await steps.checkIfFillinClassIsAppliedToStep(1,false);
+            await steps.checkIfFillinClassIsAppliedToStep(2,false);
+            await steps.checkIfFillinClassIsAppliedToStep(3,false);
+            await steps.checkIfFillinClassIsAppliedToStep(4,false);
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await steps.checkIfFillinClassIsAppliedToStep(0,true);
+            await steps.checkIfFillinClassIsAppliedToStep(1,false);
+            await steps.checkIfFillinClassIsAppliedToStep(2,false);
+            await steps.checkIfFillinClassIsAppliedToStep(3,false);
+            await steps.checkIfFillinClassIsAppliedToStep(4,false);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await steps.checkIfFillinClassIsAppliedToStep(0,false);
+            await steps.checkIfFillinClassIsAppliedToStep(1,true);
+            await steps.checkIfFillinClassIsAppliedToStep(2,false);
+            await steps.checkIfFillinClassIsAppliedToStep(3,false);
+            await steps.checkIfFillinClassIsAppliedToStep(4,false);
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await steps.checkIfFillinClassIsAppliedToStep(0,false);
+            await steps.checkIfFillinClassIsAppliedToStep(1,false);
+            await steps.checkIfFillinClassIsAppliedToStep(2,true);
+            await steps.checkIfFillinClassIsAppliedToStep(3,false);
+            await steps.checkIfFillinClassIsAppliedToStep(4,false);
+            await payment.clickSavedCardByIndex(0);
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await steps.checkIfFillinClassIsAppliedToStep(0,false);
+            await steps.checkIfFillinClassIsAppliedToStep(1,false);
+            await steps.checkIfFillinClassIsAppliedToStep(2,false);
+            await steps.checkIfFillinClassIsAppliedToStep(3,true);
+            await steps.checkIfFillinClassIsAppliedToStep(4,false);
+            await orderDetails.clickPlaceOrderButton();
+            await embedConfirm.isAtConfirmPage();
+            await steps.checkIfFillinClassIsAppliedToStep(0,false);
+            await steps.checkIfFillinClassIsAppliedToStep(1,false);
+            await steps.checkIfFillinClassIsAppliedToStep(2,false);
+            await steps.checkIfFillinClassIsAppliedToStep(3,false);
+            await steps.checkIfFillinClassIsAppliedToStep(4,true);
+
+        });
+
+        //EMBED
+        it('should assert proper steps behaviour with active class on navbar on all pages', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedLogin = new LoginPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            embedExtras = new ExtrasPage(driver);
+            payment = new PaymentPage(driver);
+            summary = new SummaryComponent(driver);
+            orderDetails = new EmbedOrderDetailsPage(driver);
+            embedConfirm = new ConfirmPage(driver);
+            steps = new StepsComponent(driver);
+
+            await main.openEmbedPage();
+            await driver.manage().window().setRect({width: 414, height: 1000});
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await steps.checkIfActiveClassIsAppliedToStep(0,true);
+            await steps.checkIfActiveClassIsAppliedToStep(1,false);
+            await steps.checkIfActiveClassIsAppliedToStep(2,false);
+            await steps.checkIfActiveClassIsAppliedToStep(3,false);
+            await steps.checkIfActiveClassIsAppliedToStep(4,false);
+            await main.clickNextPageButton();
+            await embedLogin.isAtLoginPage();
+            await steps.checkIfActiveClassIsAppliedToStep(0,false);
+            await steps.checkIfActiveClassIsAppliedToStep(1,false);
+            await steps.checkIfActiveClassIsAppliedToStep(2,false);
+            await steps.checkIfActiveClassIsAppliedToStep(3,false);
+            await steps.checkIfActiveClassIsAppliedToStep(4,false);
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
+            await embedTickets.ticketListIsDisplayed();
+            await steps.checkIfActiveClassIsAppliedToStep(0,true);
+            await steps.checkIfActiveClassIsAppliedToStep(1,false);
+            await steps.checkIfActiveClassIsAppliedToStep(2,false);
+            await steps.checkIfActiveClassIsAppliedToStep(3,false);
+            await steps.checkIfActiveClassIsAppliedToStep(4,false);
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
+            await main.clickTicketTermsCheckbox();
+            await main.clickNextPageButton();
+            await embedExtras.isAtExtrasPage();
+            await steps.checkIfActiveClassIsAppliedToStep(0,false);
+            await steps.checkIfActiveClassIsAppliedToStep(1,true);
+            await steps.checkIfActiveClassIsAppliedToStep(2,false);
+            await steps.checkIfActiveClassIsAppliedToStep(3,false);
+            await steps.checkIfActiveClassIsAppliedToStep(4,false);
+            await main.clickNextPageButton();
+            await payment.isAtPaymentPage();
+            await steps.checkIfActiveClassIsAppliedToStep(0,false);
+            await steps.checkIfActiveClassIsAppliedToStep(1,false);
+            await steps.checkIfActiveClassIsAppliedToStep(2,true);
+            await steps.checkIfActiveClassIsAppliedToStep(3,false);
+            await steps.checkIfActiveClassIsAppliedToStep(4,false);
+            await payment.clickSavedCardByIndex(0);
+            await main.clickNextPageButton();
+            await orderDetails.isOnOrderDetailsPage();
+            await steps.checkIfActiveClassIsAppliedToStep(0,false);
+            await steps.checkIfActiveClassIsAppliedToStep(1,false);
+            await steps.checkIfActiveClassIsAppliedToStep(2,false);
+            await steps.checkIfActiveClassIsAppliedToStep(3,true);
+            await steps.checkIfActiveClassIsAppliedToStep(4,false);
+            await orderDetails.clickPlaceOrderButton();
+            await embedConfirm.isAtConfirmPage();
+            await steps.checkIfActiveClassIsAppliedToStep(0,false);
+            await steps.checkIfActiveClassIsAppliedToStep(1,false);
+            await steps.checkIfActiveClassIsAppliedToStep(2,false);
+            await steps.checkIfActiveClassIsAppliedToStep(3,false);
+            await steps.checkIfActiveClassIsAppliedToStep(4,true);
+
+        });
+
+        //EMBED
         it('should check that if available tickets are less then 100 the tickets dropdown in embed is the same that number', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
@@ -1155,6 +1295,31 @@
 
         });
 
+        //PORTAL
+        it('should assert tickets by groups in portal',async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.assertTicketsByGroupsAndClassIsAppliedWhenClicked(base, "active")
+
+        });
+
         //EMBED
         it('should assert ticket groups are displayed on wider screen, dropdown contains extra groups on width below 510px', async function () {
 
@@ -1167,8 +1332,22 @@
             await main.isInFrame(eventName);
             await embedTickets.ticketListIsDisplayed();
             await embedTickets.assertGroupNamesAndCount(ticketGroupOne, ticketGroupTwo, ticketGroupThree);
-            await driver.manage().window().setRect({width: 554, height: 1000});
+            await driver.manage().window().setRect({width: 414, height: 1000});
             await embedTickets.ticketGroupsDropDownAppearedAssertNameAndTicketGroup(ticketGroupThree)
+
+        });
+
+        //EMBED
+        it('should assert tickets by groups and active class is applied when clicked on mobile embed', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            await main.openEmbedPage();
+            await driver.manage().window().setRect({width: 414, height: 1000});
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.assertTicketsByGroupsAndClassIsAppliedWhenClickedOnMobileEmbed(base, "active");
 
         });
 
@@ -2285,146 +2464,6 @@
         });
 
         //EMBED
-        it('should assert proper steps behaviour with fillin class on navbar on all pages', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            steps = new StepsComponent(driver);
-
-            await main.openEmbedPage();
-            await driver.manage().window().setRect({width: 414, height: 1000});
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await steps.checkIfFillinClassIsAppliedToStep(0,true);
-            await steps.checkIfFillinClassIsAppliedToStep(1,false);
-            await steps.checkIfFillinClassIsAppliedToStep(2,false);
-            await steps.checkIfFillinClassIsAppliedToStep(3,false);
-            await steps.checkIfFillinClassIsAppliedToStep(4,false);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await steps.checkIfFillinClassIsAppliedToStep(0,false);
-            await steps.checkIfFillinClassIsAppliedToStep(1,false);
-            await steps.checkIfFillinClassIsAppliedToStep(2,false);
-            await steps.checkIfFillinClassIsAppliedToStep(3,false);
-            await steps.checkIfFillinClassIsAppliedToStep(4,false);
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await steps.checkIfFillinClassIsAppliedToStep(0,true);
-            await steps.checkIfFillinClassIsAppliedToStep(1,false);
-            await steps.checkIfFillinClassIsAppliedToStep(2,false);
-            await steps.checkIfFillinClassIsAppliedToStep(3,false);
-            await steps.checkIfFillinClassIsAppliedToStep(4,false);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await steps.checkIfFillinClassIsAppliedToStep(0,false);
-            await steps.checkIfFillinClassIsAppliedToStep(1,true);
-            await steps.checkIfFillinClassIsAppliedToStep(2,false);
-            await steps.checkIfFillinClassIsAppliedToStep(3,false);
-            await steps.checkIfFillinClassIsAppliedToStep(4,false);
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await steps.checkIfFillinClassIsAppliedToStep(0,false);
-            await steps.checkIfFillinClassIsAppliedToStep(1,false);
-            await steps.checkIfFillinClassIsAppliedToStep(2,true);
-            await steps.checkIfFillinClassIsAppliedToStep(3,false);
-            await steps.checkIfFillinClassIsAppliedToStep(4,false);
-            await payment.clickSavedCardByIndex(0);
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await steps.checkIfFillinClassIsAppliedToStep(0,false);
-            await steps.checkIfFillinClassIsAppliedToStep(1,false);
-            await steps.checkIfFillinClassIsAppliedToStep(2,false);
-            await steps.checkIfFillinClassIsAppliedToStep(3,true);
-            await steps.checkIfFillinClassIsAppliedToStep(4,false);
-            await orderDetails.clickPlaceOrderButton();
-            await embedConfirm.isAtConfirmPage();
-            await steps.checkIfFillinClassIsAppliedToStep(0,false);
-            await steps.checkIfFillinClassIsAppliedToStep(1,false);
-            await steps.checkIfFillinClassIsAppliedToStep(2,false);
-            await steps.checkIfFillinClassIsAppliedToStep(3,false);
-            await steps.checkIfFillinClassIsAppliedToStep(4,true);
-
-        });
-
-        //EMBED
-        it('should assert proper steps behaviour with active class on navbar on all pages', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            steps = new StepsComponent(driver);
-
-            await main.openEmbedPage();
-            await driver.manage().window().setRect({width: 414, height: 1000});
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await steps.checkIfActiveClassIsAppliedToStep(0,true);
-            await steps.checkIfActiveClassIsAppliedToStep(1,false);
-            await steps.checkIfActiveClassIsAppliedToStep(2,false);
-            await steps.checkIfActiveClassIsAppliedToStep(3,false);
-            await steps.checkIfActiveClassIsAppliedToStep(4,false);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await steps.checkIfActiveClassIsAppliedToStep(0,false);
-            await steps.checkIfActiveClassIsAppliedToStep(1,false);
-            await steps.checkIfActiveClassIsAppliedToStep(2,false);
-            await steps.checkIfActiveClassIsAppliedToStep(3,false);
-            await steps.checkIfActiveClassIsAppliedToStep(4,false);
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await steps.checkIfActiveClassIsAppliedToStep(0,true);
-            await steps.checkIfActiveClassIsAppliedToStep(1,false);
-            await steps.checkIfActiveClassIsAppliedToStep(2,false);
-            await steps.checkIfActiveClassIsAppliedToStep(3,false);
-            await steps.checkIfActiveClassIsAppliedToStep(4,false);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await steps.checkIfActiveClassIsAppliedToStep(0,false);
-            await steps.checkIfActiveClassIsAppliedToStep(1,true);
-            await steps.checkIfActiveClassIsAppliedToStep(2,false);
-            await steps.checkIfActiveClassIsAppliedToStep(3,false);
-            await steps.checkIfActiveClassIsAppliedToStep(4,false);
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await steps.checkIfActiveClassIsAppliedToStep(0,false);
-            await steps.checkIfActiveClassIsAppliedToStep(1,false);
-            await steps.checkIfActiveClassIsAppliedToStep(2,true);
-            await steps.checkIfActiveClassIsAppliedToStep(3,false);
-            await steps.checkIfActiveClassIsAppliedToStep(4,false);
-            await payment.clickSavedCardByIndex(0);
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await steps.checkIfActiveClassIsAppliedToStep(0,false);
-            await steps.checkIfActiveClassIsAppliedToStep(1,false);
-            await steps.checkIfActiveClassIsAppliedToStep(2,false);
-            await steps.checkIfActiveClassIsAppliedToStep(3,true);
-            await steps.checkIfActiveClassIsAppliedToStep(4,false);
-            await orderDetails.clickPlaceOrderButton();
-            await embedConfirm.isAtConfirmPage();
-            await steps.checkIfActiveClassIsAppliedToStep(0,false);
-            await steps.checkIfActiveClassIsAppliedToStep(1,false);
-            await steps.checkIfActiveClassIsAppliedToStep(2,false);
-            await steps.checkIfActiveClassIsAppliedToStep(3,false);
-            await steps.checkIfActiveClassIsAppliedToStep(4,true);
-
-        });
-
-        //EMBED
         it('should make purchase for two tickets of same type with donation and promotion and assert data on the receipt', async function () {
 
             main = new EmbedMainPage(driver);
@@ -2503,7 +2542,7 @@
             await payment.applyPromotion(promoCodeOne);
             await payment.exceedingPromotionQuantityAlertIsDisplayed();
             await main.clickPreviousPageButton();
-            await extras.isAtExtrasPage();
+            await embedExtras.isAtExtrasPage();
             await main.clickPreviousPageButton();
             await embedTickets.ticketListIsDisplayed();
             let promotedPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketTwoName);
@@ -2514,6 +2553,7 @@
             await payment.clickPayWithWalletButton();
             await main.clickNextPageButton();
             await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.openOrderDetailsOnMobile();
             await orderDetails.assertPromotedAndRegularTotalAreDisplayed(originalPrice, promotedPrice);
 
         });
@@ -2547,7 +2587,7 @@
             await payment.applyPromotion(promoCodeOne);
             await payment.exceedingPromotionQuantityAlertIsDisplayed();
             await main.clickPreviousPageButton();
-            await extras.isAtExtrasPage();
+            await embedExtras.isAtExtrasPage();
             await main.clickPreviousPageButton();
             await embedTickets.ticketListIsDisplayed();
             let promotedPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketTwoName);
@@ -3103,6 +3143,37 @@
             await payment.isAtPaymentPage();
             await payment.applyPromotion(promoCodeThree);
             await payment.promotionNoLongerValidDangerMessageIsVisible();
+
+        });
+
+        //PORTAL
+        it('Should create staff ticket in portal', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            settingsNav = new SettingsNav(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.createStaffTicket(staffTicket, ticketStaffPrice ,ticketStaffQuantity);
+            await ticketsNav.assertTicketNamePriceAndQuantity(staffTicket, ticketStaffPrice, ticketStaffQuantity);
+            await ticketsNav.clickActivateTicketToggle(staffTicket);
 
         });
 
