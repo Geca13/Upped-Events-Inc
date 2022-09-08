@@ -11,6 +11,7 @@
     const TICKET_NAME_AND_PRICE = { className: "name" }
     const TICKET_PRICE = { xpath: "//span[@class='ticket-price']" }
     const TICKET_RULES_ICON = { xpath: "//span[@class= 'ticket-info']//i" }
+    const TICKET_RULES_POPUP = { xpath: "//span[@class= 'ticket-info']//i" }
     const DISCOUNTED_TICKET_PRICE = { xpath: "//span[contains(@class, 'has-discount')]" }
     const TICKET_GROUPS = { xpath: "//ul[@id='pills-tab']//li" }
     const TICKET_GROUPS_MOBILE = { xpath: "//ul[@id='pills-tab-mobile']//li" }

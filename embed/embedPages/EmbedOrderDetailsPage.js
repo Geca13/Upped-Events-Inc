@@ -90,7 +90,7 @@
         }
 
         async assertSelectedCardIsDisplayedAndAssertData(cardData){
-            await this.isDisplayed(CARD_AS_PAYMENT, 500);
+            await this.isDisplayed(CARD_AS_PAYMENT, 5000);
             let brand = await this.getElementText(CARD_BRAND);
             let number = await this.getElementText(CARD_NUMBER);
             assert.equal(brand + " " + number, cardData);
@@ -129,7 +129,6 @@
                 let price = await this.convertPriceStringToDouble(rawPrice);
                 total = total + parseFloat(price);
             }
-
             let subtotal = await this.convertPriceStringToDouble(await this.getElementText(SUBTOTAL_VALUE));
             assert.equal(subtotal, total.toFixed(2));
             await this.closeOrderDetailsOnMobile()
@@ -149,7 +148,6 @@
                 total = total + parseFloat(price);
             }
             let subtotal = await this.convertPriceStringToDouble(await this.getElementText(SUBTOTAL_VALUE));
-            console.log(subtotal);
             assert.equal(subtotal, total.toFixed(2));
             let ticketsSummaryTotal = await summary.getTicketsTotal();
             assert.equal(ticketsSummaryTotal, total.toFixed(2));
