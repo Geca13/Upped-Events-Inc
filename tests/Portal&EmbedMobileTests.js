@@ -43,11 +43,11 @@
     const EmbedTicketTermsModal = require('../embed/embedComponents/EmbedTicketTermsModal');
     const DonationPage = require('../portal/eventOverview/SettingsNav/DonationsPage');
     const EmbedDonateComponent = require('../embed/embedComponents/EmbedDonateComponent');
-    const StepsComponent = require('../embed/embedComponents/StepsComponent');
     const ReceiptPopup = require('../microsites/micrositesComponents/ReceiptPopup');
     const Files = require('../dummy/Files')
 
     describe('Should do tests on mobile embed', function () {
+
         this.timeout(500000);
         let driver;
         let portalLogin;
@@ -97,7 +97,6 @@
         let donation;
         let embedDonate;
         let receipt;
-        let steps;
 
         let base =  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
@@ -276,7 +275,7 @@
             await createTicket.ticketNameInputIsDisplayed();
             await createTicket.clickStartDateTimeInput();
             await dateTime.datePickerIsVisible();
-            await dateTime.updateTimeToXMinLater(1);
+            await dateTime.updateTimeToXMinLater(2);
             await dateTime.clickSetButton();
             await createTicket.clickEndDateTimeInput();
             await dateTime.datePickerIsVisible();
@@ -646,6 +645,7 @@
             await payment.clickNewCardTab();
             await payment.fillValidDataOnCardOnTheEmbed(customerFirstName,customerLastName);
             await orderDetails.isOnOrderDetailsPage();
+            await orderDetails.openOrderDetailsOnMobile();
             await orderDetails.assertSelectedCardIsDisplayedAndAssertData("Visa XXXX 1111")
             await orderDetails.clickPlaceOrderButton();
             await embedConfirm.isAtConfirmPage();
@@ -839,6 +839,7 @@
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
+            await driver.sleep(5000);
             await main.clickNextPageButton();
             await main.limitInfoMessageIsDisplayed(accountAvailable);
             await embedTickets.sentKeysToTicketInput(0, accountAvailable);
@@ -1147,7 +1148,7 @@
             await driver.manage().window().setRect({width: 414, height: 1000});
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
+            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, '2');
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
@@ -2292,7 +2293,7 @@
 
         });
 
-        //EMBED
+        //EMBED -> fails because the value of the ticket that is out of promotion limit is not displayed separately
         it('should select four tickets exceeding the limit of promotion assert tickets in Order Details and promoted ticket shown twice with two prices', async function () {
 
             main = new EmbedMainPage(driver);
@@ -2384,7 +2385,7 @@
 
         });
 
-        //EMBED
+        //EMBED -> fails because when promotion qty is over we should get promotion finished error
         it('should apply the promotion code when promotion qty is finished and get promo error message and assert input field still visible', async function () {
 
             main = new EmbedMainPage(driver);
@@ -2549,7 +2550,6 @@
             await ticketsNav.clickActivateTicketToggle(staffTicket);
 
         });
-
         //EMBED
         it('should select account limit quantity for all tickets that have promotion in promotion with limit then add promo code and assert only highest price ticket gets discount when subtotal calculated in order total', async function () {
 
@@ -2964,6 +2964,7 @@
             embedTickets = new TicketsComponent(driver);
 
             await main.openEmbedPage();
+            await driver.manage().window().setRect({width: 414, height: 1000});
             await main.switchToIframe();
             await main.isInFrame(eventName);
             await embedTickets.ticketListIsDisplayed();
@@ -2988,6 +2989,7 @@
             questionsModal = new TicketQuestionsModal(driver);
 
             await main.openEmbedPage();
+            await driver.manage().window().setRect({width: 414, height: 1000});
             await main.switchToIframe();
             await main.isInFrame(eventName);
             await main.clickNextPageButton();
@@ -3012,145 +3014,40 @@
         });
 
         //EMBED
-        it('should assert proper steps behaviour with fillin class on navbar on all pages', async function () {
+        it('should try to purchase second staff ticket and should get error message', async function () {
 
             main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
             embedTickets = new TicketsComponent(driver);
+            embedLogin = new LoginPage(driver);
             embedExtras = new ExtrasPage(driver);
             payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
             orderDetails = new EmbedOrderDetailsPage(driver);
             embedConfirm = new ConfirmPage(driver);
-            steps = new StepsComponent(driver);
+            questionsModal = new TicketQuestionsModal(driver);
 
             await main.openEmbedPage();
             await driver.manage().window().setRect({width: 414, height: 1000});
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await steps.checkIfFillinClassIsAppliedToStep(0,true);
-            await steps.checkIfFillinClassIsAppliedToStep(1,false);
-            await steps.checkIfFillinClassIsAppliedToStep(2,false);
-            await steps.checkIfFillinClassIsAppliedToStep(3,false);
-            await steps.checkIfFillinClassIsAppliedToStep(4,false);
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
-            await steps.checkIfFillinClassIsAppliedToStep(0,false);
-            await steps.checkIfFillinClassIsAppliedToStep(1,false);
-            await steps.checkIfFillinClassIsAppliedToStep(2,false);
-            await steps.checkIfFillinClassIsAppliedToStep(3,false);
-            await steps.checkIfFillinClassIsAppliedToStep(4,false);
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
-            await steps.checkIfFillinClassIsAppliedToStep(0,true);
-            await steps.checkIfFillinClassIsAppliedToStep(1,false);
-            await steps.checkIfFillinClassIsAppliedToStep(2,false);
-            await steps.checkIfFillinClassIsAppliedToStep(3,false);
-            await steps.checkIfFillinClassIsAppliedToStep(4,false);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
+            await embedTickets.sentKeysToTicketInputByTicketName(staffTicket, '1');
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
-            await steps.checkIfFillinClassIsAppliedToStep(0,false);
-            await steps.checkIfFillinClassIsAppliedToStep(1,true);
-            await steps.checkIfFillinClassIsAppliedToStep(2,false);
-            await steps.checkIfFillinClassIsAppliedToStep(3,false);
-            await steps.checkIfFillinClassIsAppliedToStep(4,false);
             await main.clickNextPageButton();
             await payment.isAtPaymentPage();
-            await steps.checkIfFillinClassIsAppliedToStep(0,false);
-            await steps.checkIfFillinClassIsAppliedToStep(1,false);
-            await steps.checkIfFillinClassIsAppliedToStep(2,true);
-            await steps.checkIfFillinClassIsAppliedToStep(3,false);
-            await steps.checkIfFillinClassIsAppliedToStep(4,false);
             await payment.clickSavedCardByIndex(0);
+            await main.nextButtonIsVisible();
             await main.clickNextPageButton();
             await orderDetails.isOnOrderDetailsPage();
-            await steps.checkIfFillinClassIsAppliedToStep(0,false);
-            await steps.checkIfFillinClassIsAppliedToStep(1,false);
-            await steps.checkIfFillinClassIsAppliedToStep(2,false);
-            await steps.checkIfFillinClassIsAppliedToStep(3,true);
-            await steps.checkIfFillinClassIsAppliedToStep(4,false);
             await orderDetails.clickPlaceOrderButton();
-            await embedConfirm.isAtConfirmPage();
-            await steps.checkIfFillinClassIsAppliedToStep(0,false);
-            await steps.checkIfFillinClassIsAppliedToStep(1,false);
-            await steps.checkIfFillinClassIsAppliedToStep(2,false);
-            await steps.checkIfFillinClassIsAppliedToStep(3,false);
-            await steps.checkIfFillinClassIsAppliedToStep(4,true);
-
+            await questionsModal.assertElementsOnStaffModal(staffTicket);
+            await questionsModal.shouldAnswerStaffFormWithRandomButValidData(base);
+            await main.assertAlertVisibleAndText("The order was not completed, You cannot buy more then 1 ticket that will add you as a staff member");
         });
-
-        //EMBED
-        it('should assert proper steps behaviour with active class on navbar on all pages', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            steps = new StepsComponent(driver);
-
-            await main.openEmbedPage();
-            await driver.manage().window().setRect({width: 414, height: 1000});
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await steps.checkIfActiveClassIsAppliedToStep(0,true);
-            await steps.checkIfActiveClassIsAppliedToStep(1,false);
-            await steps.checkIfActiveClassIsAppliedToStep(2,false);
-            await steps.checkIfActiveClassIsAppliedToStep(3,false);
-            await steps.checkIfActiveClassIsAppliedToStep(4,false);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await steps.checkIfActiveClassIsAppliedToStep(0,false);
-            await steps.checkIfActiveClassIsAppliedToStep(1,false);
-            await steps.checkIfActiveClassIsAppliedToStep(2,false);
-            await steps.checkIfActiveClassIsAppliedToStep(3,false);
-            await steps.checkIfActiveClassIsAppliedToStep(4,false);
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await steps.checkIfActiveClassIsAppliedToStep(0,true);
-            await steps.checkIfActiveClassIsAppliedToStep(1,false);
-            await steps.checkIfActiveClassIsAppliedToStep(2,false);
-            await steps.checkIfActiveClassIsAppliedToStep(3,false);
-            await steps.checkIfActiveClassIsAppliedToStep(4,false);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, 2);
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await steps.checkIfActiveClassIsAppliedToStep(0,false);
-            await steps.checkIfActiveClassIsAppliedToStep(1,true);
-            await steps.checkIfActiveClassIsAppliedToStep(2,false);
-            await steps.checkIfActiveClassIsAppliedToStep(3,false);
-            await steps.checkIfActiveClassIsAppliedToStep(4,false);
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await steps.checkIfActiveClassIsAppliedToStep(0,false);
-            await steps.checkIfActiveClassIsAppliedToStep(1,false);
-            await steps.checkIfActiveClassIsAppliedToStep(2,true);
-            await steps.checkIfActiveClassIsAppliedToStep(3,false);
-            await steps.checkIfActiveClassIsAppliedToStep(4,false);
-            await payment.clickSavedCardByIndex(0);
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await steps.checkIfActiveClassIsAppliedToStep(0,false);
-            await steps.checkIfActiveClassIsAppliedToStep(1,false);
-            await steps.checkIfActiveClassIsAppliedToStep(2,false);
-            await steps.checkIfActiveClassIsAppliedToStep(3,true);
-            await steps.checkIfActiveClassIsAppliedToStep(4,false);
-            await orderDetails.clickPlaceOrderButton();
-            await embedConfirm.isAtConfirmPage();
-            await steps.checkIfActiveClassIsAppliedToStep(0,false);
-            await steps.checkIfActiveClassIsAppliedToStep(1,false);
-            await steps.checkIfActiveClassIsAppliedToStep(2,false);
-            await steps.checkIfActiveClassIsAppliedToStep(3,false);
-            await steps.checkIfActiveClassIsAppliedToStep(4,true);
-
-        });
-
 
         //PORTAL
         it('should assert elements on event tickets questions page and create ticket question modal', async function () {
@@ -3226,6 +3123,7 @@
             originalWindow =  driver.getWindowHandle();
 
             await main.openEmbedPage();
+            await driver.manage().window().setRect({width: 414, height: 1000});
             await main.switchToIframe();
             await main.isInFrame(eventName);
             await main.clickNextPageButton();
@@ -3291,6 +3189,7 @@
             originalWindow =  driver.getWindowHandle();
 
             await main.openEmbedPage();
+            await driver.manage().window().setRect({width: 414, height: 1000});
             await main.switchToIframe();
             await main.isInFrame(eventName);
             await embedTickets.sentKeysToTicketInput(0, 1)
@@ -3298,7 +3197,7 @@
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
             await driver.sleep(1000);
-            await embedLogin.loginWithEmailAndPassword("parma15@parma.it", "Pero1234");
+            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await main.nextButtonIsVisible();
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
@@ -3312,6 +3211,32 @@
             await orderDetails.clickPlaceOrderButton();
             await questionsModal.answerTicketQuestionWithTextInput(base,ticketOneName);
             await embedConfirm.isAtConfirmPage();
+
+        });
+
+        it('Should check for first two ticket questions responses made in embed mobile', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            ticketsNav = new TicketsNav(driver);
+            attendees = new AttendeesTab(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(500);
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickAttendeesNav();
+            await attendees.checkForTicketQuestionsResponsesForTheFirstTwoPurchases(base,0);
 
         });
 
@@ -3367,6 +3292,7 @@
             originalWindow =  driver.getWindowHandle();
 
             await main.openEmbedPage();
+            await driver.manage().window().setRect({width: 414, height: 1000});
             await main.switchToIframe();
             await main.isInFrame(eventName);
             await embedTickets.sentKeysToTicketInput(0, 2);
@@ -3399,6 +3325,30 @@
 
         });
 
+        it('Should check for first two ticket questions responses made in embed mobile', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            ticketsNav = new TicketsNav(driver);
+            attendees = new AttendeesTab(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(500);
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickAttendeesNav();
+            await attendees.checkForTicketQuestionsResponsesForTheUpdated(base,1);
+
+        });
+
     });
-
-

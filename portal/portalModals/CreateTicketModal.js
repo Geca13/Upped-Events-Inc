@@ -161,14 +161,6 @@
             await this.clearInputField(TICKET_QUANTITY_INPUT);
             await this.sentKeys(TICKET_QUANTITY_INPUT, quantity);
             await this.sentKeys(TICKET_PRICE_INPUT, ticketPrice);
-            await this.click(TICKET_START_DATE_INPUT);
-            await this.timeout(500)
-            let startDatePicker = new DateTimePickerModal(this.driver);
-            await startDatePicker.datePickerIsVisible();
-            await startDatePicker.enterTimeNow();
-            await this.timeout(500)
-            await startDatePicker.clickSetButton();
-            await this.timeout(500)
             await this.click(TICKET_TYPE_OPTIONS_BUTTON);
             await this.timeout(500)
             await this.click(TICKET_TYPE_OFF_BUTTON)
@@ -179,6 +171,15 @@
             await this.clickElementReturnedFromAnArray(TICKET_TYPE_DROPDOWNS,1);
             await this.isDisplayed(TICKET_STAFF_WILL_SELECT_DEPARTMENT,5000);
             await this.click(TICKET_STAFF_WILL_SELECT_DEPARTMENT);
+            await this.saveTicketButtonIsVisible();
+            await this.click(TICKET_START_DATE_INPUT);
+            await this.timeout(500)
+            let startDatePicker = new DateTimePickerModal(this.driver);
+            await startDatePicker.datePickerIsVisible();
+            await startDatePicker.enterTimeNow();
+            await this.timeout(500)
+            await startDatePicker.clickSetButton();
+            await this.timeout(500)
             await this.saveTicketButtonIsVisible();
             await this.click(SAVE_TICKET_BUTTON);
             await this.timeout(1500)

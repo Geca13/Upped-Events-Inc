@@ -25,9 +25,9 @@
         async clickOnCustomerByIndexToOpenUserDetailsModal(index){
             await this.click(ATTENDEES_NAMES, index);
         }
-        async checkForTicketQuestionsResponsesForTheFirstTwoPurchases(base){
+        async checkForTicketQuestionsResponsesForTheFirstTwoPurchases(base, index){
             await this.isOnAttendeesTab();
-            await this.clickElementReturnedFromAnArray(ATTENDEES_RESPONSES_COUNT, 2);
+            await this.clickElementReturnedFromAnArray(ATTENDEES_RESPONSES_COUNT, index);
             let responses = new QuestionsResponseModal(this.driver)
             await responses.assertTicketsForFirstTwoPurchases(base);
 

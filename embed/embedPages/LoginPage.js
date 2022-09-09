@@ -1,4 +1,5 @@
     const BasePage = require('../../BasePage');
+    require("dotenv").config();
     const FACEBOOK_SIGN_IN_BUTTON = { className: "facebook-login"}
     const FACEBOOK_EMAIL_INPUT = { id: 'email' }
     const FACEBOOK_PASSWORD_INPUT = { id: 'pass' }
@@ -31,7 +32,7 @@
 
 
         async completeSignInWithFacebook(){
-            await this.loginWithFacebookEmailAndPassword(FACEBOOK_EMAIL_INPUT, "geca1234567890@yahoo.com",FACEBOOK_PASSWORD_INPUT,"P@rma123",FACEBOOK_LOGIN_BUTTON);
+            await this.loginWithFacebookEmailAndPassword(FACEBOOK_EMAIL_INPUT, process.env.FACEBOOK_EMAIL,FACEBOOK_PASSWORD_INPUT,process.env.FACEBOOK_PASSWORD,FACEBOOK_LOGIN_BUTTON);
         }
 
 

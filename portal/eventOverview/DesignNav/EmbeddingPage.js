@@ -39,12 +39,14 @@
             await this.clickElementReturnedFromAnArray(COLOR_PICKER, 0);
             await this.timeout(500)
             await this.sentKeysToColorInputByIndex(0, "#ed05f5");
-            await this.timeout(500);
+            await this.moveAwayFromElement(COLOR_PICKER, 150,0);
+            await this.timeout(1500)
             await this.clickElementReturnedFromAnArray(COLOR_PICKER, 1);
             await this.timeout(500)
             await this.sentKeysToColorInputByIndex(1, "#0595f5");
-            await this.timeout(500);
-            await this.click(TICKETING_ONLY_BUTTON);
+            await this.moveAwayFromElement(COLOR_PICKER, 150,0);
+            await this.timeout(1500)
+            //await this.click(TICKETING_ONLY_BUTTON);
             await this.timeout(2000);
             await this.click(NEXT_BUTTON);
             await this.timeout(1000);

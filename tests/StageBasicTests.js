@@ -1665,7 +1665,7 @@ describe('Should do everything', function () {
         await driver.sleep(500);
         await eventOptionTabs.ticketingTabIsDisplayed();
         await eventOptionTabs.clickAttendeesNav();
-        await attendees.checkForTicketQuestionsResponsesForTheFirstTwoPurchases(base);
+        await attendees.checkForTicketQuestionsResponsesForTheFirstTwoPurchases(base, 2);
 
     });
 

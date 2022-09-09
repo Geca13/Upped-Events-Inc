@@ -809,20 +809,14 @@ describe('Should do old tests', function () {
         await eventOptionTabs.clickTicketingTab();
         await ticketsNav.addTicketButtonIsDisplayed();
         await ticketsNav.createTicketsGroup(ticketGroupOne);
-        await ticketsNav.successTicketGroupBannerIsDisplayed();
         await ticketsNav.createTicketsGroup(ticketGroupTwo);
         await ticketsNav.clickGroupTabByIndex(2);
         await ticketsNav.clickAddTicketButton();
         await createTicket.ticketNameInputIsDisplayed();
         await createTicket.createNewTicket(ticketTwoName,"10",ticketOneQuantity);
-        await driver.sleep(5000);
         await ticketsNav.addTicketButtonIsDisplayed();
-        await driver.sleep(5000);
         await ticketsNav.createdTicketIsInTheTable(ticketTwoName);
-        await driver.sleep(5000);
         await ticketsNav.clickActivateTicketToggle(ticketTwoName);
-        // await ticketsNav.activateTicketModalIsDisplayed();
-        // await ticketsNav.confirmActivationButton();
         await ticketsNav.addTicketButtonIsDisplayed();
         await ticketsNav.createTicketsGroup(ticketGroupThree);
         await ticketsNav.clickGroupTabByIndex(3);
@@ -832,8 +826,6 @@ describe('Should do old tests', function () {
         await ticketsNav.addTicketButtonIsDisplayed();
         await ticketsNav.createdTicketIsInTheTable(ticketThreeName);
         await ticketsNav.clickActivateTicketToggle(ticketThreeName);
-        // await ticketsNav.activateTicketModalIsDisplayed();
-        // await ticketsNav.confirmActivationButton();
         await ticketsNav.addTicketButtonIsDisplayed();
         await ticketsNav.clickAddTicketButton();
         await createTicket.ticketNameInputIsDisplayed();
@@ -848,8 +840,6 @@ describe('Should do old tests', function () {
         await ticketsNav.addTicketButtonIsDisplayed();
         await ticketsNav.createdTicketIsInTheTable(staffTicket);
         await ticketsNav.clickActivateTicketToggle(staffTicket);
-        //await ticketsNav.activateTicketModalIsDisplayed();
-        // await ticketsNav.confirmActivationButton();
         await ticketsNav.addTicketButtonIsDisplayed();
         await events.load();
         await events.clickSignInButton();
@@ -1683,7 +1673,7 @@ describe('Should do old tests', function () {
 
     });
 
-    it('Should check for first two ticket questions responces', async function () {
+    it('Should check for first two ticket questions responses', async function () {
 
         portalLogin = new PortalLoginPage(driver);
         dashboard = new DashboardPage(driver);
@@ -1705,7 +1695,7 @@ describe('Should do old tests', function () {
         await driver.sleep(500);
         await eventOptionTabs.ticketingTabIsDisplayed();
         await eventOptionTabs.clickAttendeesNav();
-        await attendees.checkForTicketQuestionsResponsesForTheFirstTwoPurchases(base);
+        await attendees.checkForTicketQuestionsResponsesForTheFirstTwoPurchases(base,2);
 
     });
 
@@ -1769,7 +1759,7 @@ describe('Should do old tests', function () {
         await confirm.isOnConfirmTab();
     });
 
-    it('Should check for the update ticket questions responces', async function () {
+    it('Should check for the update ticket questions responses', async function () {
 
         portalLogin = new PortalLoginPage(driver);
         dashboard = new DashboardPage(driver);
