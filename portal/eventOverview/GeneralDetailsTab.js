@@ -31,10 +31,10 @@
         }
 
         async publishButtonIsDisplayed(){
-            await this.isDisplayed(PUBLISH_EVENT_BUTTON,15000);
+            await this.isDisplayed(PUBLISH_EVENT_BUTTON,15000, "publishEvent");
         }
         async unpublishButtonIsDisplayed(){
-            await this.isDisplayed(UNPUBLISH_EVENT_BUTTON,15000);
+            await this.isDisplayed(UNPUBLISH_EVENT_BUTTON,15000, "unpublishEvent");
         }
         async clickPublishButton(){
             await this.timeout(500);
@@ -49,7 +49,7 @@
             //await this.isDisplayed(EVENT_STATUS_LABEL,5000);
             //await this.isDisplayed(EVENT_NAME_INPUT,5000);
             await this.timeout(2500)
-            await this.isDisplayed(EVENT_SHORTNAME_INPUT,5000);
+            await this.isDisplayed(EVENT_SHORTNAME_INPUT,5000, "eventShortName");
             await this.clearInputField(EVENT_SHORTNAME_INPUT);
             await this.sentKeys(EVENT_SHORTNAME_INPUT,shortName);
             await this.moveToElement(SAVE_BUTTON)
@@ -73,7 +73,7 @@
             assert.equal(location,loCation);
         }
         async publishEventAndAssertLabelBeforeAndAfter(){
-            await this.isDisplayed(EVENT_STATUS_LABEL,5000);
+            await this.isDisplayed(EVENT_STATUS_LABEL,5000, "eventStatus");
             await this.timeout(500);
             let status = await this.getElementText(EVENT_STATUS_LABEL);
             assert.equal(status, "Draft");
@@ -87,7 +87,7 @@
 
         }
         async unPublishEventAndAssertLabelBeforeAndAfter(){
-            await this.isDisplayed(EVENT_STATUS_LABEL,5000);
+            await this.isDisplayed(EVENT_STATUS_LABEL,5000, "eventStatus");
             await this.timeout(500);
             let status = await this.getElementText(EVENT_STATUS_LABEL);
             assert.equal(status, "Published");
@@ -102,7 +102,7 @@
         }
 
         async getEventDescription(){
-            await this.isDisplayed(EVENT_DESCRIPTION_INPUT,5000);
+            await this.isDisplayed(EVENT_DESCRIPTION_INPUT,5000, "eventDescription");
             await this.timeout(500);
             let description = await this.getEnteredTextInTheInput(EVENT_DESCRIPTION_INPUT);
             return description;
@@ -110,7 +110,7 @@
         async getCityAndState(){
             let firstSeparation = []
             let abbreviationSeparation = []
-            await this.isDisplayed(ENTERED_ADDRESS,5000);
+            await this.isDisplayed(ENTERED_ADDRESS,5000, "enteredAddress");
             await this.timeout(500);
             let location = await this.getEnteredTextInTheInput(ENTERED_ADDRESS);
             firstSeparation = await location.split(', ')
@@ -121,7 +121,7 @@
         }
 
         async getEmbedScriptVariable(){
-            await this.isDisplayed(EVENT_DESCRIPTION_INPUT, 5000);
+            await this.isDisplayed(EVENT_DESCRIPTION_INPUT, 5000, "eventDescription");
             await this.clearInputField(EVENT_DESCRIPTION_INPUT);
             await this.timeout(1000);
             await this.sentKeys(EVENT_DESCRIPTION_INPUT, Key.CONTROL + "v" );
@@ -139,7 +139,7 @@
             let cropper = new SetImageModal(this.driver);
             await cropper.setImageModalIsDisplayed();
             await cropper.clickSetButton();
-            await this.isDisplayed(PREVIEW_IMAGE_WRAPPER);
+            await this.isDisplayed(PREVIEW_IMAGE_WRAPPER, 5000, "previewImage");
             let alerts = new Alerts(this.driver);
             await alerts.alertInfoMessageIsDisplayed("Files uploaded: (1)");
             await this.click(SAVE_BUTTON);

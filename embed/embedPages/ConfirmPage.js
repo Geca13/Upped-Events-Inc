@@ -21,7 +21,7 @@
         }
 
     async isAtConfirmPage(){
-        await this.isDisplayed(VIEW_RECEIPT_BUTTON,90000);
+        await this.isDisplayed(VIEW_RECEIPT_BUTTON,90000, "viewReceiptBtn");
     }
 
     async clickViewReceiptButton(){

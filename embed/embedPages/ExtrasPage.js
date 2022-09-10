@@ -7,7 +7,7 @@
             super(driver);
         }
         async isAtExtrasPage(){
-            await this.isDisplayed(ADD_MONEY_TAB, 5000);
+            await this.isDisplayed(ADD_MONEY_TAB, 5000, "AddMoneyToWalletTab");
         }
         async clickAddMoneyTab(){
             await this.click(ADD_MONEY_TAB);

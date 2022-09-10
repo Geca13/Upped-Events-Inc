@@ -42,7 +42,7 @@
             await this.click(PRIMARY_CONTACT_NAV);
         }
         async clickDesignNav(){
-            await this.isDisplayed(DESIGN_NAV, 5000);
+            await this.isDisplayed(DESIGN_NAV, 5000, "designNav");
             await this.timeout(500);
             await this.moveToElement(DESIGN_NAV)
             await this.click(DESIGN_NAV);
@@ -53,11 +53,11 @@
            await this.click(GENERAL_DETAILS_NAV);
         }
         async ticketingTabIsDisplayed(){
-            await this.isDisplayed(TICKETING_TAB,5000);
+            await this.isDisplayed(TICKETING_TAB,5000, "ticketingTab");
         }
 
         async menusTabIsDisplayed(){
-            await this.isDisplayed(MENUS_TAB,5000);
+            await this.isDisplayed(MENUS_TAB,5000, "menusTab");
         }
 
         async clickMenusTab(){
@@ -76,7 +76,7 @@
         }
         async clickShopManagementTab(){
             await this.timeout(5000)
-            await this.isDisplayed(SHOP_MANAGEMENT_TAB,5000);
+            await this.isDisplayed(SHOP_MANAGEMENT_TAB,5000, "shopManagementTab");
             await this.click(SHOP_MANAGEMENT_TAB);
         }
         async clickPartnerManagementTab(){
@@ -107,7 +107,7 @@
 
         async moveToEventNavs(){
             await this.moveToElement(SETTINGS_NAV);
-            await this.isDisplayed(SETTINGS_NAV);
+            await this.isDisplayed(SETTINGS_NAV, 5000, "settingsNav");
         }
 
     }

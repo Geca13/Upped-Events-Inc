@@ -367,8 +367,8 @@
             await info.assertEventInfoPageImageIsAMatch(src);
             await info.clickPhotosTab();
             await photo.photosTabIsSelected();
-            //await photo.assertEventPhotosTabImageIsAMatch(src);
-            //await photo.assertGalleryImagesAreAMatch(src);
+            await photo.assertEventPhotosTabImageIsAMatch(src);
+            await photo.assertGalleryImagesAreAMatch(src);
 
         });
 

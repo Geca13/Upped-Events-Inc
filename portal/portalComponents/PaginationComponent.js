@@ -8,7 +8,7 @@
             super(driver);
         }
         async selectXRowsPerPage(keys){
-            await this.isDisplayed(SELECT_ITEMS_PER_PAGE_DROPDOWN,5000);
+            await this.isDisplayed(SELECT_ITEMS_PER_PAGE_DROPDOWN,5000, "selectItemsPerPage");
             await this.sentKeys(SELECT_ITEMS_PER_PAGE_DROPDOWN, keys);
             await this.timeout(1000);
         }

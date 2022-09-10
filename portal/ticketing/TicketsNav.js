@@ -161,7 +161,7 @@
             await this.isDisplayed(TICKETS_GROUP_NAME_INPUT,15000);
             await this.sentKeys(TICKETS_GROUP_NAME_INPUT, groupName);
             await this.click(SAVE_TICKETS_GROUP_BUTTON);
-            await this.timeout(1000)
+            await this.timeout(1500)
             //await this.locateElementByTextAndClick(" " +groupName +" ");
         }
 

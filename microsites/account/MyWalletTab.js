@@ -18,12 +18,12 @@
         }
         async myWalletScreenIsDisplayed(){
             await this.timeout(500);
-            await this.isDisplayed(BALANCE_TITLE, 5000);
+            await this.isDisplayed(BALANCE_TITLE, 5000, "balanceTitle");
             await this.timeout(500);
         }
         async returnBalanceState(){
            await this.timeout(2000);
-           await this.isDisplayed(WALLET_BALANCE);
+           await this.isDisplayed(WALLET_BALANCE, "walletBalance");
            await this.timeout(2000);
            let rawBalance = await this.getElementText(WALLET_BALANCE);
            let stringBalance = rawBalance.substring(1);
@@ -36,7 +36,7 @@
            assert.equal(balance, amount)
         }
         async checkCardHolderName(firstName,lastName){
-            await this.isDisplayed(CARD_CONTAINER,5000);
+            await this.isDisplayed(CARD_CONTAINER,5000, "profileCardContainer");
             let fullName = await this.getElementTextFromAnArrayByIndex(CARD_INFO,0);
             assert.equal(fullName, firstName + ' ' + lastName)
         }

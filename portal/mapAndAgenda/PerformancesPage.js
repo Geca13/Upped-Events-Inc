@@ -9,7 +9,7 @@
         }
 
         async isOnPerformancePage(){
-            await this.isDisplayed(ADD_PERFORMANCES_BUTTON,5000);
+            await this.isDisplayed(ADD_PERFORMANCES_BUTTON,5000, "addPerformanceBtn");
         }
         async clickAddPerformancesButton(){
             let newPerformance = new AddNewPerformanceModal(this.driver);

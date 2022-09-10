@@ -12,10 +12,8 @@
         }
 
         async eventMapIsDisplayed(){
-            await this.isDisplayed(MAP_BUTTONS,35000);
+            await this.isDisplayed(MAP_BUTTONS,35000, "mapBtns");
         }
-
-
 
         async addPerformanceLocationOnMap(){
             let modal = new AddLayerOnMap(this.driver)
@@ -27,14 +25,14 @@
             await this.moveAwayFromElement(MAP_BUTTONS, 150,0);
             await modal.modalIsLoaded();
             await modal.addStageLocationOnMap();
-            await this.timeout(5000);
+            await this.timeout(2000);
 
         }
 
         async addFootballLocationOnMap(){
             let modal = new AddLayerOnMap(this.driver)
             await this.eventMapIsDisplayed();
-            await this.driver.sleep(2000);
+            await this.timeout(2000);
             let pin = await this.getElementFromAnArrayByIndex(MAP_BUTTONS,1);
             pin.click();
             await this.moveAwayFromElement(MAP_BUTTONS, 300,0);
@@ -43,14 +41,14 @@
             await this.moveAwayFromElement(MAP_BUTTONS, 300,0);
             await modal.modalIsLoaded();
             await modal.addFootballPlaygroundLocationOnMap();
-            await this.driver.sleep(5000);
+            await this.timeout(2000);
 
         }
 
         async addVendorLocationOnMap(base){
             let modal = new AddLayerOnMap(this.driver)
             await this.eventMapIsDisplayed();
-            await this.driver.sleep(2000);
+            await this.timeout(2000);
             let pin = await this.getElementFromAnArrayByIndex(MAP_BUTTONS,3);
             pin.click();
             await this.moveAwayFromElement(MAP_BUTTONS, 180,0);
@@ -58,14 +56,14 @@
             await this.moveAwayFromElement(MAP_BUTTONS, 210,30);
             await modal.modalIsLoaded();
             await modal.addVendorBarLocationOnMap(base);
-            await this.driver.sleep(5000);
+            await this.timeout(2000);
 
         }
 
         async addTicketingLocationOnMap(base){
             let modal = new AddLayerOnMap(this.driver)
             await this.eventMapIsDisplayed();
-            await this.driver.sleep(2000);
+            await this.timeout(2000);
             let pin = await this.getElementFromAnArrayByIndex(MAP_BUTTONS,2);
             pin.click();
             await this.moveAwayFromElement(MAP_BUTTONS, 180,100);
@@ -73,7 +71,7 @@
             await this.moveAwayFromElement(MAP_BUTTONS, 230,100);
             await modal.modalIsLoaded();
             await modal.addTicketingLocationOnMap(base);
-            await this.driver.sleep(5000);
+            await this.timeout(5000);
         }
     }
     module.exports = EventMapPage;

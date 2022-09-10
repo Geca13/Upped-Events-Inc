@@ -56,12 +56,8 @@
 
         }
 
-        async donationIsDisplayed(){
-            await this.isDisplayed(DONATIONS_TOTAL,5000);
-        }
-
         async discountIsDisplayed(){
-            await this.isDisplayed(DISCOUNT_VALUE, 5000);
+            await this.isDisplayed(DISCOUNT_VALUE, 5000, "discountValue");
         }
         async getTicketsTotal(){
             let rawTickets =  await this.getSubstringOfPriceString(TICKETS_TOTAL);

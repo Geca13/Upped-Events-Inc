@@ -9,7 +9,7 @@
             super(driver);
         }
         async isOnConfirmTab(){
-            await this.isDisplayed(RECEIPT_BUTTON,90000);
+            await this.isDisplayed(RECEIPT_BUTTON,90000, "receiptBtnMicro");
         }
         async clickShareWithFacebookButton(){
             await this.click(FACEBOOK_SHARE_BUTTON);

@@ -7,7 +7,7 @@
     const HOUR_MINUTES_INPUTS = { className: "owl-dt-timer-input" }; //list
     const PM_BUTTON = { xpath: "//*[text()=' PM ']"};
     const SELECTED_DAY_BUTTON = { className: "owl-dt-calendar-cell-selected" };
-    const TODAY_DAY_BUTTON = { className: "owl-dt-calendar-cell-selected" };
+    const TODAY_DAY_BUTTON = { xpath: "//span[contains(@class , 'owl-dt-calendar-cell-today')]" };
     const MONTH_YEAR_BUTTON = { xpath: "//button[@aria-label='Choose month and year']//span[contains(@class, 'owl-dt-control-content')]" };
     const ADD_HOURS_BUTTON = { css: "button[aria-label='Add a hour']" };
     const ADD_MINUTES_BUTTON = { css: "button[aria-label='Add a minute']" };

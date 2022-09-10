@@ -28,7 +28,7 @@
             super(driver);
         }
         async questionsModalIsDisplayed(){
-            await this.isDisplayed(HEADING,5000);
+            await this.isDisplayed(HEADING,5000, "ticketQuestionsHeader");
         }
         async answerSimpleYesNo(base,ticketOneName){
             await this.questionsModalIsDisplayed();

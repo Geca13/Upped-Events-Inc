@@ -15,7 +15,7 @@
         }
         async checkFirstTicketTermsScenarioElementsAndClose(){
 
-            await this.isDisplayed(TERMS_EVENT_NAME,5000);
+            await this.isDisplayed(TERMS_EVENT_NAME,5000, "ticketTermsModal");
             await this.termsModalIsDisplayed();
             await this.timeout(500);
             let textBox = await this.find(TERMS_TEXT_WRAPPER);

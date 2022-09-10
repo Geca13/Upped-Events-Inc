@@ -68,8 +68,8 @@
             await this.timeout(1500)
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
+            await startDatePicker.selectTodayDate();
             await startDatePicker.enterTimeNow();
-            //await startDatePicker.clickPMButton();
             await this.timeout(1500)
             await startDatePicker.clickSetButton();
             await this.timeout(1500)
@@ -121,6 +121,7 @@
             await this.timeout(1500)
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
+            await startDatePicker.selectTodayDate();
             await startDatePicker.enterTimeNow();
             //await startDatePicker.clickPMButton();
             await this.timeout(1500)
@@ -145,6 +146,7 @@
             await this.timeout(1500)
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
+            await startDatePicker.selectTodayDate();
             await startDatePicker.enterTimeNow();
             await this.timeout(1500)
             await startDatePicker.clickSetButton();
@@ -176,6 +178,7 @@
             await this.timeout(500)
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
+            await startDatePicker.selectTodayDate();
             await startDatePicker.enterTimeNow();
             await this.timeout(500)
             await startDatePicker.clickSetButton();
@@ -259,7 +262,7 @@
         async updateTicketQuantity(quantity){
             await this.isDisplayed(TICKET_QUANTITY_INPUT,5000);
             await this.clearInputFieldByIndexAndSendKeys(TICKET_QUANTITY_INPUT,0, quantity);
-            await this.click(TICKET_START_DATE_INPUT);
+           /* await this.click(TICKET_START_DATE_INPUT);
             await this.timeout(1500)
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
@@ -268,7 +271,7 @@
             await this.timeout(1500)
             await startDatePicker.clickSetButton();
             await this.timeout(1500)
-            await this.saveTicketButtonIsVisible();
+            await this.saveTicketButtonIsVisible();*/
             await this.click(SAVE_TICKET_BUTTON);
             await this.timeout(1000);
         }

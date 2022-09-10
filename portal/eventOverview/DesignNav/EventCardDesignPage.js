@@ -15,22 +15,21 @@
             super(driver);
         }
         async uploadPhotoInputIsDisplayed(){
-            await this.isDisplayed(SAVE_DESIGN_BUTTON,5000);
+            await this.isDisplayed(SAVE_DESIGN_BUTTON,5000, "uploadPhotoEvent");
         }
 
         async uploadImage(){
-            await this.isDisplayed(SAVE_DESIGN_BUTTON,5000);
+            await this.isDisplayed(SAVE_DESIGN_BUTTON,5000, "saveDesign");
             await this.driver.executeScript("document.getElementsByClassName('file-upload-input')[0].style.visibility='visible'");
             await this.sentKeys(UPLOAD_PHOTO_INPUT,"D:\\Upped\\static\\image.jpg");
             await this.driver.executeScript("document.getElementsByTagName('figure')[0].style.visibility='visible'");
-            await this.isDisplayed(IMAGE,15000);
+            await this.isDisplayed(IMAGE,15000, "imageModal");
             await this.moveToElement(IMAGE);
-            await this.isDisplayed(CROP_IMAGE_BUTTON,5000);
+            await this.isDisplayed(CROP_IMAGE_BUTTON,5000, "cropImageBtnEvent");
             await this.click(CROP_IMAGE_BUTTON);
-            await this.isDisplayed(IMAGE_CROP_MODAL);
+            await this.isDisplayed(IMAGE_CROP_MODAL, 5000, "cropImageBtnEvent");
             await this.click(SET_CROPPED_IMAGE_BUTTON);
-            await this.isDisplayed(SAVE_DESIGN_BUTTON);
-            await this.timeout(500);
+            await this.isDisplayed(SAVE_DESIGN_BUTTON, 5000, "saveImageEvent");
             await this.click(SAVE_DESIGN_BUTTON);
             await this.timeout(1500);
         }

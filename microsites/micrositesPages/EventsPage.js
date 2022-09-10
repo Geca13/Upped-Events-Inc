@@ -14,6 +14,8 @@
     const DROPDOWN_LOGOUT_OPTION = { xpath: "//a[text()='Logout']" }
     const DROPDOWN_OPTIONS = { className: "dropdown-item" }
     const DROPDOWN_OPTIONS_ICONS = { xpath: "//a[contains(@class, 'dropdown-item')]//i" }
+    const ZAIRISH_ELEMENTS = { xpath: "/html/body/div[2]/section[5]/div/div[1]/div/div[1]/div/h2"}
+    const GET_A_DEMO_BUTTON = { xpath: "/html/body/div[2]/section[5]/div/div[1]/div/div[3]/div/div/a/span/span"}
 
 
     class EventsPage extends BasePage{
@@ -38,19 +40,19 @@
         await this.click(SIGN_UP_BUTTON);
     }
     async accountDropdownIsDisplayed(){
-        await this.isDisplayed(ACCOUNT_DROPDOWN,10000);
+        await this.isDisplayed(ACCOUNT_DROPDOWN,10000, "accountDropdown");
         await this.timeout(1000);
     }
     async goToWalletPage(){
         await this.accountDropdownIsDisplayed();
         await this.click(ACCOUNT_DROPDOWN);
-        await this.isDisplayed(DROPDOWN_PAYMENT_INFO_OPTION,5000);
+        await this.isDisplayed(DROPDOWN_PAYMENT_INFO_OPTION,5000, "dropdownPaymentOption");
         await this.click(DROPDOWN_PAYMENT_INFO_OPTION);
     }
     async checkAccountDropdownTextOptions(){
         await this.accountDropdownIsDisplayed();
         await this.click(ACCOUNT_DROPDOWN);
-        await this.isDisplayed(DROPDOWN_PAYMENT_INFO_OPTION,5000);
+        await this.isDisplayed(DROPDOWN_PAYMENT_INFO_OPTION,5000, "dropdownPaymentOption");
         await this.timeout(1500)
         let profile = await this.getElementTextFromAnArrayByIndex(DROPDOWN_OPTIONS,0);
         let receipts = await this.getElementTextFromAnArrayByIndex(DROPDOWN_OPTIONS,1);
@@ -81,39 +83,23 @@
     async logOut(){
         await this.accountDropdownIsDisplayed();
         await this.click(ACCOUNT_DROPDOWN);
-        await this.isDisplayed(DROPDOWN_LOGOUT_OPTION,5000);
+        await this.isDisplayed(DROPDOWN_LOGOUT_OPTION,5000, "dropdownLogoutOption");
         await this.timeout(500)
         await this.click(DROPDOWN_LOGOUT_OPTION);
         await this.timeout(2500)
     }
 
     async signInButtonIsDisplayed(){
-        await this.isDisplayed(SIGN_IN_BUTTON,10000);
+        await this.isDisplayed(SIGN_IN_BUTTON,10000, "signInButton");
     }
 
-    async successMessagePresent() {
-        return await this.isDisplayed(SUCCESS_MESSAGE,5000);
-    }
-
-    async successMessageText() {
-        return await this.getElementText(SUCCESS_MESSAGE);
-    }
-
-    async hover() {
-        return await this.moveToElement(SUCCESS_MESSAGE);
-    }
-    async eventIsAvailableToClick(){
-        return await this.isDisplayed(EVENT,25000)
-    }
     async eventCardIsAvailableToClick(){
-        return await this.isDisplayed(EVENT_CARD,25000)
+        await this.isDisplayed(EVENT_CARD,25000, "eventCard")
         await this.timeout(1000);
     }
-    async clickEvent(){
-        await this.click(EVENT);
-    }
+
     async clickNewEvent(eventName){
-        await this.isDisplayed(SHORTNAME,20000);
+        await this.isDisplayed(SHORTNAME,20000, "eventCardShortname");
         await this.timeout(1000)
         await this.locateElementByTextAndClick(eventName);
     }

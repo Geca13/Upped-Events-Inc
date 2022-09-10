@@ -35,7 +35,7 @@
         }
 
         async waitPopupToBeLoaded(){
-             await this.isDisplayed(SUBMIT_BUTTON, 5000)
+             await this.isDisplayed(SUBMIT_BUTTON, 5000, "loginSubmitBtn")
         }
 
         async clickForgotPasswordLink(){
@@ -53,7 +53,7 @@
         }
 
         async verifyElementsOnSignInModal(){
-            await this.isDisplayed(PASSWORD_INPUT,5000);
+            await this.isDisplayed(PASSWORD_INPUT,5000, "microLoginPassInput");
             await this.timeout(500);
             let header = await this.getElementText(MODAL_HEADER);
             let google = await this.getElementTextFromAnArrayByIndex(SIGN_IN_BUTTONS,0);

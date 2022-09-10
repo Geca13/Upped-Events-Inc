@@ -16,13 +16,13 @@
             super(driver);
         }
         async isOnDonationScreen(){
-            await this.isDisplayed(ADD_DONATION_BUTTON,5000);
+            await this.isDisplayed(ADD_DONATION_BUTTON,5000, "microDonateBtn");
         }
         async donateEventNameIsDisplayed(){
-            await this.isDisplayed(DONATE_EVENT_NAME,5000);
+            await this.isDisplayed(DONATE_EVENT_NAME,5000, "microDonateEventName");
         }
         async donationMessageIsDisplayed(){
-            await this.isDisplayed(DONATION_MESSAGE,5000);
+            await this.isDisplayed(DONATION_MESSAGE,5000, "microDonateMessage");
         }
         async clickDonationButtonsByIndex(index){
             await this.clickElementReturnedFromAnArray(index);

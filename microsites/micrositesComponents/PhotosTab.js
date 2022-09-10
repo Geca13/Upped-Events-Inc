@@ -16,7 +16,7 @@
         }
 
         async photosTabIsSelected(){
-            await this.isDisplayed(PHOTOS);
+            await this.isDisplayed(PHOTOS, 5000, "microPhotosTab");
             await this.timeout(500);
         }
         async assertEventPhotosTabImageIsAMatch(src){
@@ -27,7 +27,7 @@
 
         async assertGalleryImagesAreAMatch(src){
             await this.click(PHOTOS);
-            await this.isDisplayed(BACK_TO_GALLERY_BUTTON,5000);
+            await this.isDisplayed(BACK_TO_GALLERY_BUTTON,5000, "backGalleryBtn");
             await this.timeout(500);
             let gallerySrc = await this.returnImgSrcAttribute(MAIN_IMAGE);
             assert.equal(gallerySrc,src);

@@ -2451,7 +2451,7 @@
         });
 
         //PORTAL
-        it('should get promocode error validation when promotion code exists for current event', async function () {
+        it('should get promo code error validation when promotion code exists for current event', async function () {
 
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);

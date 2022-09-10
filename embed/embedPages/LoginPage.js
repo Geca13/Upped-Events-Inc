@@ -18,16 +18,16 @@
         }
 
         async clickAgreeButton(){
-            await this.isDisplayed(AGREE_BUTTON,5000);
+            await this.isDisplayed(AGREE_BUTTON,5000, "agreeEmbedButton");
             await this.timeout(500);
             await this.click(AGREE_BUTTON);
         }
 
         async isAtLoginPage(){
-            await this.isDisplayed(FACEBOOK_SIGN_IN_BUTTON, 5000);
+            await this.isDisplayed(FACEBOOK_SIGN_IN_BUTTON, 5000, "facebookSignInBtn");
         }
         async isAtFacebookPage(){
-            await this.isDisplayed(FACEBOOK_CONTENT, 5000);
+            await this.isDisplayed(FACEBOOK_CONTENT, 5000, "facebookContent");
         }
 
 
@@ -52,7 +52,7 @@
         }
 
         async loginWithVerifiedAccount(email, password){
-            await this.isDisplayed(EMAIL_INPUT, 5000);
+            await this.isDisplayed(EMAIL_INPUT, 5000, "loginEmail");
             await this.sentKeys(EMAIL_INPUT, email);
             await this.sentKeys(PASSWORD_INPUT, password);
             await this.timeout(500);

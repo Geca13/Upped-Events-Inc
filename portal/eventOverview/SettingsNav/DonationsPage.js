@@ -15,14 +15,14 @@
             super(driver);
         }
         async donationsPageCheckBoxIsDisplayed(){
-            await this.isDisplayed(DONATIONS_CHECKBOX,5000);
+            await this.isDisplayed(DONATIONS_CHECKBOX,5000, "donationCheck");
         }
         async clickDonationsCheckbox(){
             await this.click(DONATIONS_CHECKBOX);
             await this.timeout(500);
         }
         async donationsPageTextareaIsDisplayed(){
-            await this.isDisplayed(DONATIONS_TEXTAREA,5000);
+            await this.isDisplayed(DONATIONS_TEXTAREA,5000, "donationTextArea");
         }
         async sendDonationsMessage(){
             await this.sentKeys(DONATIONS_TEXTAREA, 'I need money for Beer, a lot of MONEY');
@@ -81,11 +81,10 @@
             await this.clickDonationsSaveButton();
         }
         async getDonationMessage(){
-            await this.isDisplayed(DONATIONS_TEXTAREA);
+            await this.isDisplayed(DONATIONS_TEXTAREA, 5000, "donationTextArea");
             await this.timeout(500);
             let textAreaText = await this.getEnteredTextInTheInput(DONATIONS_TEXTAREA);
             return textAreaText;
-            await this.timeout(500);
         }
 
     }

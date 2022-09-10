@@ -14,7 +14,7 @@
             super(driver);
         }
         async isOnAttendeesTab(){
-            await this.isDisplayed(ATTENDEES_TABLE,5000);
+            await this.isDisplayed(ATTENDEES_TABLE,5000, "attendeesTable");
             await this.timeout(5000)
         }
         async checkForCustomerFullNameByIndex(index , firstName, lastName){
@@ -31,16 +31,6 @@
             let responses = new QuestionsResponseModal(this.driver)
             await responses.assertTicketsForFirstTwoPurchases(base);
 
-            /*let thirdAnsweredQuestion = await this.getElementFromAnArrayByIndex(QUESTIONS_NAMES, 2);
-            assert.equal(thirdAnsweredQuestion, base + " Yes & No question")
-            let thirdRadioAnswer = await this.getElementFromAnArrayByIndex(RADIO_ANSWERS, 2);
-            assert.equal(thirdRadioAnswer, base + " COCA COLA")
-            let fourthAnsweredQuestion = await this.getElementFromAnArrayByIndex(QUESTIONS_NAMES, 3);
-            assert.equal(fourthAnsweredQuestion, base + " Attendee Age")
-            let fourthRadioAnswer = await this.getElementFromAnArrayByIndex(RADIO_ANSWERS, 3);
-            assert.equal(fourthRadioAnswer, base + " 18 and Over")
-            let fourthInputAnswer = await this.getElementFromAnArrayByIndex(INPUT_ANSWERS, 3);
-            assert.equal(fourthInputAnswer, "38");*/
         }
 
         async checkForTicketQuestionsResponsesForTheUpdated(base,index){

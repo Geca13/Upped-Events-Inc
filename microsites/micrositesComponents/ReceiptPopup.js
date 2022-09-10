@@ -29,7 +29,7 @@
         }
 
         async receiptPopupIsVisible(){
-            await this.isDisplayed(TAXES_TOTAL, 5000);
+            await this.isDisplayed(TAXES_TOTAL, 5000, "receiptTaxesTotal");
         }
         async assertDataFromSummaryEqualReceiptValues(tickets,donations,subtotal,taxes,fees,discount,total){
             await this.timeout(500)

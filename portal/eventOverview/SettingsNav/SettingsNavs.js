@@ -13,7 +13,7 @@
         }
 
         async eventSecuritySubNavIsDisplayed(){
-            await this.isDisplayed(EVENT_SECURITY_SUBNAV,5000)
+            await this.isDisplayed(EVENT_SECURITY_SUBNAV,5000, "eventSecuritySub")
         }
         async clickEventSecuritySubNav(){
             await this.click(EVENT_SECURITY_SUBNAV);
@@ -28,7 +28,7 @@
             await this.click(DONATIONS_SUBNAV);
         }
         async donationsSubNavIsDisplayed(){
-            await this.isDisplayed(DONATIONS_SUBNAV,5000);
+            await this.isDisplayed(DONATIONS_SUBNAV,5000, "donationSub");
             await this.timeout(500);
         }
         async makeDonationActive(){

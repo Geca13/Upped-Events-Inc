@@ -9,7 +9,7 @@
         }
 
         async isOnDetailsTab(){
-            await this.isDisplayed(EVENT_DESCRIPTION,5000);
+            await this.isDisplayed(EVENT_DESCRIPTION,5000, "eventDescription");
             await this.timeout(500);
         }
 

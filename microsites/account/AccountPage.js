@@ -18,7 +18,7 @@
         }
 
         async accountComponentIsDisplayed(){
-            await this.isDisplayed(PROFILE_FULL_NAME,5000)
+            await this.isDisplayed(PROFILE_FULL_NAME,5000, "profileFullName")
             await this.timeout(500);
         }
 

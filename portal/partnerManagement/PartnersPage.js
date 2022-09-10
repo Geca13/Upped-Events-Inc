@@ -11,7 +11,7 @@
         }
 
         async isOnPartnersPage(){
-            await this.isDisplayed(ADD_BUTTON,5000);
+            await this.isDisplayed(ADD_BUTTON,5000, "addPartnerBtn");
         }
         async clickAddPartnerButton(){
             await this.click(ADD_BUTTON);

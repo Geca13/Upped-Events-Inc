@@ -14,7 +14,7 @@
         }
 
         async addMoneyTabIsDisplayed() {
-            return await this.isDisplayed(ADD_MONEY_TAB,5000);
+            return await this.isDisplayed(ADD_MONEY_TAB,5000, "microAddMoneyTab");
         }
 
         async donateTabIsDisplayed(){

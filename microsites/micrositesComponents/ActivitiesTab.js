@@ -38,15 +38,15 @@
         }
 
         async isAtActivitiesTab(){
-            await this.isDisplayed(COMPETITION_TAB,5000)
+            await this.isDisplayed(COMPETITION_TAB,5000, "activitiesTabCompetition")
         }
 
         async verifyElementsOnActivitiesTab(){
             await this.isAtActivitiesTab();
-            await this.isDisplayed(COMPETITION_TITLE,5000);
-            await this.isDisplayed(OVERVIEW_NFL_LIST_ITEM,5000);
+            await this.isDisplayed(COMPETITION_TITLE,5000, "activitiesCompetitionTitle");
+            await this.isDisplayed(OVERVIEW_NFL_LIST_ITEM,5000, "activitiesNflList");
             await this.click(COMPETITION_TAB);
-            await this.isDisplayed(FOOTBALL_ACTIVITY_TITLE,5000);
+            await this.isDisplayed(FOOTBALL_ACTIVITY_TITLE,5000, "footballTitle");
             let vikings = await this.getChildTextByParentIndexAndChildIndex(TAGS_CONTAINER,2,0);
             assert.equal(vikings,'#Vikings');
             let eagles = await this.getChildTextByParentIndexAndChildIndex(TAGS_CONTAINER,2,1);

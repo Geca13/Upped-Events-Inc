@@ -27,7 +27,7 @@
             super(driver);
         }
         async firstCreateAccountModalIsDisplayed(){
-            await this.isDisplayed(SIGN_UP_WITH_EMAIL_BUTTON,5000);
+            await this.isDisplayed(SIGN_UP_WITH_EMAIL_BUTTON,5000, "microSignUpEmailBtn");
             let header = await this.getElementText(CREATE_AN_ACCOUNT_MODAL_TITLE);
             let description = await this.getElementText(CREATE_AN_ACCOUNT_MODAL_DESCRIPTION);
             let google = await this.getElementTextFromAnArrayByIndex(SIGN_UP_BUTTONS, 0);
@@ -43,7 +43,7 @@
 
         }
         async secondCreateAccountModalIsDisplayed(){
-            await this.isDisplayed(FIRST_NAME_INPUT,5000);
+            await this.isDisplayed(FIRST_NAME_INPUT,5000, "secondSignUpFirstName");
             await this.timeout(500);
         }
 

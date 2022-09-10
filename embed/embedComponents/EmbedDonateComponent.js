@@ -22,8 +22,7 @@
         }
 
         async assertElementsOnDonateTab(eventName, message){
-            await this.isDisplayed(DONATE_HEADER, 5000);
-            await this.timeout(500);
+            await this.donateScreenIsVisible()
             let donateHeader = await this.getElementText(DONATE_HEADER);
             assert.equal(donateHeader, "Donate");
             let donateToHeader = await this.getElementText(DONATE_TO_HEADER);
@@ -60,8 +59,7 @@
         }
 
         async assertCorrectValuesInInputAfterDonationButtonIsClicked(index){
-            await this.isDisplayed(DONATE_HEADER,5000);
-            await this.timeout(1000);
+            await this.donateScreenIsVisible()
             await this.clickElementReturnedFromAnArray(DONATE_BUTTONS,index);
             let buttonText = await this.getElementTextFromAnArrayByIndex(DONATE_BUTTONS,index);
             await this.timeout(500);
@@ -72,7 +70,7 @@
         }
 
         async clickOneDonationValueButton(index){
-            await this.isDisplayed(DONATE_HEADER, 5000);
+            await this.donateScreenIsVisible()
             await this.clickElementReturnedFromAnArray(DONATE_BUTTONS, index);
         }
 
@@ -91,9 +89,7 @@
         }
 
         async addDonationToOrderAndAssertDataInOrderTotal(index){
-            await this.isDisplayed(DONATE_HEADER,5000);
-            await this.isDisplayed(DONATE_BUTTONS,5000)
-            await this.timeout(1000);
+            await this.donateScreenIsVisible()
             await this.clickElementReturnedFromAnArray(DONATE_BUTTONS,index);
             let buttonText = await this.getElementTextFromAnArrayByIndex(DONATE_BUTTONS,index);
             let stringValue = buttonText.substring(1);
@@ -115,9 +111,7 @@
         }
 
         async addCustomDonation() {
-            await this.isDisplayed(DONATE_HEADER, 5000);
-            await this.isDisplayed(DONATION_INPUT, 5000)
-            await this.timeout(1000);
+            await this.donateScreenIsVisible()
             await this.clearInputField(DONATION_INPUT);
             await this.sentKeys(DONATION_INPUT, "7.77");
             await this.click(ADD_DONATION_BUTTON);
@@ -129,9 +123,7 @@
         }
 
         async calculateTheOrderTotalAfterDonationIsAdded(){
-            await this.isDisplayed(DONATE_HEADER,5000);
-            await this.isDisplayed(DONATION_INPUT,5000)
-            await this.timeout(1000);
+            await this.donateScreenIsVisible()
             await this.clickElementReturnedFromAnArray(DONATE_BUTTONS,2);
             await this.timeout(500);
             await this.clickAddDonationButton();
@@ -140,9 +132,7 @@
         }
 
         async checkWhenInputValue0AddDonationButtonIsDisabledAndResetEnabled(){
-            await this.isDisplayed(DONATE_HEADER,5000);
-            await this.isDisplayed(DONATION_INPUT,5000)
-            await this.timeout(1000);
+            await this.donateScreenIsVisible()
             let input = await this.getEnteredTextInTheInput(DONATION_INPUT);
             assert.equal(input, "0");
             let addButtonStatus = await this.checkIfClassIsApplied(ADD_DONATION_BUTTON, 0, "disabled");
@@ -150,9 +140,7 @@
         }
 
         async checkWhenInputValueNot0AddDonationButtonIsEnabledAndResetDisabled(){
-            await this.isDisplayed(DONATE_HEADER,5000);
-            await this.isDisplayed(DONATION_INPUT,5000)
-            await this.timeout(1000);
+            await this.donateScreenIsVisible()
             let input = await this.getEnteredTextInTheInput(DONATION_INPUT);
             assert.notEqual(input, "0");
             let addButtonStatus = await this.checkIfClassIsApplied(RESET_DONATION_BUTTON, 0, "disabled");
@@ -160,7 +148,8 @@
         }
 
         async donateScreenIsVisible(){
-            await this.isDisplayed(DONATE_HEADER, 5000);
+            await this.isDisplayed(DONATION_INPUT, 5000, "donateInput");
+            await this.timeout(500)
         }
     }
     module.exports = EmbedDonateComponent;

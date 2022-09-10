@@ -8,7 +8,7 @@
             super(driver);
         }
         async ticketTermsModalIsDisplayed(){
-            await this.isDisplayed(TICKET_TERMS_BODY,5000);
+            await this.isDisplayed(TICKET_TERMS_BODY,5000, "microTerms");
         }
         async clickCloseTermsModalButton(){
             await this.getElementFromAnArrayByIndex(CLOSE_TICKET_TERMS_MODAL_BUTTON,1);

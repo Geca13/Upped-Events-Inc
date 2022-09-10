@@ -20,7 +20,7 @@
             super(driver);
         }
         async savedCardsHeaderIsPresent() {
-            return await this.isDisplayed(SAVED_CARDS_HEADER,5000);
+            return await this.isDisplayed(SAVED_CARDS_HEADER,5000, "microSavedCards");
             await this.timeout(1000);
         }
         async clickFirstCard(){
@@ -45,13 +45,13 @@
             await this.click(PAY_WITH_WALLET_BUTTON);
         }
         async payWithWalletButtonIsDisplayed() {
-            return await this.isDisplayed(PAY_WITH_WALLET_BUTTON,5000);
+            return await this.isDisplayed(PAY_WITH_WALLET_BUTTON,5000, "payWalletBtn");
         }
         async payWithCardButtonIsDisplayed() {
-            return await this.isDisplayed(PAY_WITH_CARD_BUTTON,5000);
+            return await this.isDisplayed(PAY_WITH_CARD_BUTTON,5000, "payCardBtn");
         }
         async invalidPromoCodeIsDisplayed() {
-            return await this.isDisplayed(INVALID_PROMO_CODE_TRIANGLE,5000);
+            return await this.isDisplayed(INVALID_PROMO_CODE_TRIANGLE,5000, "microInvalidTriangle");
         }
         async clickApplyDiscountButton(){
             await this.timeout(500);

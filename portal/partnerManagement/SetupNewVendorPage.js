@@ -25,7 +25,7 @@
         }
 
         async verifyEnteredData(email, firstName, lastName){
-            await this.isDisplayed(ALREADY_HAVE_ACCOUNT_LINK,10000);
+            await this.isDisplayed(ALREADY_HAVE_ACCOUNT_LINK,10000, "alreadyHaveAccount");
             assert.equal(email, await this.getEmailInputValue());
             assert.equal(lastName, await this.getLastNameInputValue());
             assert.equal(firstName, await this.getFirstNameInputValue());
@@ -34,12 +34,12 @@
         async completeRegistration(base){
             await this.sentKeys(SET_PASSWORD_INPUT,base + 'P@ss');
             await this.click(CONTINUE_BUTTON);
-            await this.isDisplayed(ORGANIZATION_NAME_INPUT,10000);
+            await this.isDisplayed(ORGANIZATION_NAME_INPUT,10000, "organizationInput");
             await this.sentKeys(ORGANIZATION_NAME_INPUT, 'Geca'+ base);
             await this.sentKeys(ORGANIZATION_PHONE_INPUT, base + '1234');
             await this.sentKeys(LOCATION_INPUT, 'Minneapolis, Minnesota');
             await this.click(SUBMIT_BUTTON);
-            await this.driver.sleep(10000)
+            await this.timeout(10000)
         }
 
 

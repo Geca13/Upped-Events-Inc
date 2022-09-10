@@ -21,7 +21,7 @@
 
 
         async eventsTableIsDisplayed(){
-            await this.isDisplayed(EVENTS_TABLE,5000);
+            await this.isDisplayed(EVENTS_TABLE,5000, "myEvents");
             await this.timeout(3000);
         }
 

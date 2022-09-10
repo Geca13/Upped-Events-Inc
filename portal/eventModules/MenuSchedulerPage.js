@@ -10,7 +10,7 @@
             super(driver);
         }
         async isOnMenusScheduler(){
-            await this.isDisplayed(SELECT_EVENT_LABEL,5000);
+            await this.isDisplayed(SELECT_EVENT_LABEL,5000, "menuScheduler");
         }
         async clickMyMenusNav(){
             await this.isOnMenusScheduler();

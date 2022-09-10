@@ -26,14 +26,14 @@
     }
 
     async lineupTabIsDisplayed(){
-        await this.isDisplayed(LINEUP_TAB,5000);
+        await this.isDisplayed(LINEUP_TAB,5000, "microLineUp");
     }
     async clickLineupTab(){
         await this.click(LINEUP_TAB);
     }
 
     async activitiesTabTabIsDisplayed(){
-        await this.isDisplayed(ACTIVITIES_TAB,5000);
+        await this.isDisplayed(ACTIVITIES_TAB,5000, "microActivitiesTab");
     }
     async clickActivitiesTab(){
         await this.click(ACTIVITIES_TAB);
@@ -45,11 +45,11 @@
     }
 
     async buyTicketsButtonPresent() {
-        return await this.isDisplayed(BUY_TICKETS_BUTTON,5000);
+        return await this.isDisplayed(BUY_TICKETS_BUTTON,5000, "buyTicketsBtn");
     }
 
     async wishListButtonIsDisplayed(){
-        await this.isDisplayed(WISHLIST_BUTTON, 5000);
+        await this.isDisplayed(WISHLIST_BUTTON, 5000, "wishListBtn");
         await this.timeout(500);
     }
 

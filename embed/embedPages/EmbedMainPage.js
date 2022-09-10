@@ -1,4 +1,3 @@
-   /* const { Builder, By, until } = require('selenium-webdriver'); */
    const BasePage = require('../../BasePage');
    const Alerts = require('../../Validations&Alerts/Alerts')
    const assert = require('assert')
@@ -27,7 +26,7 @@
          await this.visit('https://dummy.dev.uppedevents.com/');
       }
       async switchToIframe(){
-         await this.isDisplayed(IFRAME , 20000)
+         await this.isDisplayed(IFRAME , 20000, "iFrame")
          await this.switchToAnIframe(IFRAME);
 
       }

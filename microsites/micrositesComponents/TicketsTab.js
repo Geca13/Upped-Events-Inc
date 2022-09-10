@@ -23,7 +23,7 @@
         }
 
         async allTicketsGroupButtonIsDisplayed(){
-            await this.isDisplayed(ALL_TICKETS_GROUP, 5000);
+            await this.isDisplayed(ALL_TICKETS_GROUP, 5000, "microAllGroupsBtn");
         }
         async clickGroupTabs(groupName){
             await this.locateElementByTextAndClick(' '+groupName+' ');
@@ -40,7 +40,7 @@
         }
 
         async sendKeysToQtyInput(index,qty){
-           await this.isDisplayed(QTY_INPUTS,5000)
+           await this.isDisplayed(QTY_INPUTS,5000, "ticketsQtyInput")
            await this.clearInputFieldByIndex(QTY_INPUTS,index)
            await this.sendKeysToElementReturnedFromAnArray(QTY_INPUTS,index,qty);
         }
@@ -52,7 +52,7 @@
         }
         async assertFirstTicketInfoEqualsInPortalUpdateModalAndMicrosites(index, ticketName,ticketPrice,ticketDescription){
             console.log(ticketName)
-            await this.isDisplayed(TICKETS_NAMES,5000);
+            await this.isDisplayed(TICKETS_NAMES,5000, "MicroTicketNames");
             await this.timeout(2000);
             let names = await this.returnElementsCount(TICKETS_NAMES)
             let i = index;
@@ -85,7 +85,7 @@
         }
 
         async assertThatPreviouslyAddedQuantitiesAreStillAppliedAfterLoggingIn(qtyFour,qtyTwo,qtyOne,qtyThree){
-            await this.isDisplayed(QTY_INPUTS, 5000);
+            await this.isDisplayed(QTY_INPUTS, 5000, "ticketsQtyInput");
             await this.timeout(500);
             let firstInput = await this.getEnteredTextInTheInputByIndex(QTY_INPUTS,0);
             let secondInput = await this.getEnteredTextInTheInputByIndex(QTY_INPUTS,1);

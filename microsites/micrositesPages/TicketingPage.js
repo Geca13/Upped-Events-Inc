@@ -39,22 +39,22 @@
         }
         async moveToTaxesInfoIcon(){
             await this.moveToElementFromArrayByIndex(INFO_ICONS,0)
-            await this.isDisplayed(TAXES_TOOLTIP,5000);
+            await this.isDisplayed(TAXES_TOOLTIP,5000, "taxesTooltip");
         }
         async moveToFeesInfoIcon(){
             await this.moveToElementFromArrayByIndex(INFO_ICONS,1)
-            await this.isDisplayed(FEES_TOOLTIP,5000);
+            await this.isDisplayed(FEES_TOOLTIP,5000, "feesTooltip");
         }
 
         async getMiniTotalValuesByParentAndChildIndex(parentIndex, childIndex){
             return await this.getChildTextByParentIndexAndChildIndex(SUMMARY_ELEMENTS,parentIndex,childIndex);
         }
         async nextButtonPresent() {
-            await this.isDisplayed(NEXT_BUTTON,5000);
+            await this.isDisplayed(NEXT_BUTTON,5000, "nextBtn");
             await this.timeout(500);
         }
         async termsButtonPresent() {
-            return await this.isDisplayed(TICKET_TERMS_BUTTON,5000);
+            return await this.isDisplayed(TICKET_TERMS_BUTTON,5000, "microTermsBtn");
         }
         async clickNextButton(){
             await this.click(NEXT_BUTTON);
@@ -64,7 +64,7 @@
         }
         async clickBackToEventInfoButton(){
             await this.timeout(7000);
-            await this.isDisplayed(BACK_TO_EVENT_INFO_BUTTON,10000);
+            await this.isDisplayed(BACK_TO_EVENT_INFO_BUTTON,10000, "backToInfoBtn");
             await this.click(BACK_TO_EVENT_INFO_BUTTON);
         }
         async getSubtotalText() {
@@ -78,7 +78,7 @@
             return await this.getSubstringOfPriceStringByParent(SUMMARY_ELEMENTS,0, 1)
         }
         async removeDiscountIconIsDisplayed(){
-            await this.isDisplayed(DISCOUNT_TRASH_ICON,5000);
+            await this.isDisplayed(DISCOUNT_TRASH_ICON,5000, "discountTrash");
         }
         async limitInfoMessageIsDisplayed(number){
             let info = new Alerts(this.driver);
@@ -86,7 +86,7 @@
         }
 
         async clickCloseTicketingPopupButton(){
-            await this.isDisplayed(CLOSE_BUTTON, 5000);
+            await this.isDisplayed(CLOSE_BUTTON, 5000, "closeBtn");
             await this.click(CLOSE_BUTTON);
             await this.timeout(3000);
         }
@@ -193,7 +193,7 @@
         }
 
         async assertLoginLinkIsDisplayedAndText(){
-            await this.isDisplayed(LOGIN_INFO_MESSAGE, 5000);
+            await this.isDisplayed(LOGIN_INFO_MESSAGE, 5000, "loginInfoMessage");
             let message = await this.getElementText(LOGIN_INFO_MESSAGE);
             assert.equal(message, "You will be able to update your tickets, apply discount codes, and/or access user-specific tickets after you login.")
         }

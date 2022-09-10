@@ -23,7 +23,7 @@
             await this.click(CREATE_EVENT_BUTTON);
         }
         async isAtDashboardPage(){
-            await this.isDisplayed(DASHBOARD_HEADER,155000);
+            await this.isDisplayed(DASHBOARD_HEADER,155000, "dashboard");
             //await this.driver.executeScript("document.body.style.transform='scale(0.8, 0.8)'");
             //await this.driver.executeScript("document.body.style.zoom = '80%'")
         }

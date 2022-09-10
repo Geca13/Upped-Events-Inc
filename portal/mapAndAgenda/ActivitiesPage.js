@@ -9,7 +9,7 @@
             super(driver);
         }
         async isOnActivitiesPage(){
-            await this.isDisplayed(ADD_ACTIVITY_BUTTON,5000);
+            await this.isDisplayed(ADD_ACTIVITY_BUTTON,5000, "addActivityBtn");
         }
         async createFootballActivity(){
             let newActivity = new AddNewActivityModal(this.driver);

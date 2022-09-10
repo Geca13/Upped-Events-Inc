@@ -11,19 +11,19 @@
             super(driver);
         }
         async mapAndAgendaHeaderIsDisplayed(){
-            await this.isDisplayed(MAP_AND_AGENDA_HEADER,5000)
+            await this.isDisplayed(MAP_AND_AGENDA_HEADER,5000, "mapAndAgenda")
         }
         async eventMapNavIsDisplayed(){
-            await this.isDisplayed(EVENT_MAP_NAV,5000)
+            await this.isDisplayed(EVENT_MAP_NAV,5000, "eventMap")
         }
         async scheduleNavIsDisplayed(){
-            await this.isDisplayed(SCHEDULE_NAV,5000)
+            await this.isDisplayed(SCHEDULE_NAV,5000, "scheduleNav")
         }
         async performancesNavIsDisplayed(){
-            await this.isDisplayed(PERFORMANCES_NAV,5000)
+            await this.isDisplayed(PERFORMANCES_NAV,5000, "performanceNav")
         }
         async activitiesNavIsDisplayed(){
-            await this.isDisplayed(ACTIVITIES_NAV,5000)
+            await this.isDisplayed(ACTIVITIES_NAV,5000, "activityNav")
         }
         async clickEventMapNav(){
             await this.click(EVENT_MAP_NAV)
