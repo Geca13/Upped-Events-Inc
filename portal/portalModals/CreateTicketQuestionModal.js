@@ -68,9 +68,9 @@
               expect(atTime).to.equal("At time of ticketing");
               let before = await this.getElementTextFromAnArrayByIndex(RADIO_LABELS, 3);
               expect(before).to.equal("Sometime before the event");
-              await this.isDisplayed(RESET_BUTTON,5000);
-              await this.isDisplayed(CLOSE_BUTTON,5000);
-              await this.isDisplayed(CREATE_BUTTON,5000);
+              await this.isDisplayed(RESET_BUTTON,5000, "resetBtn");
+              await this.isDisplayed(CLOSE_BUTTON,5000, "closeBtn");
+              await this.isDisplayed(CREATE_BUTTON,5000, "createBtn");
 
           }
 
@@ -156,10 +156,10 @@
 
 
           async createYesNoQuestion(base){
-              await this.isDisplayed(TITLE_INPUT, 5000);
+              await this.isDisplayed(TITLE_INPUT, 5000, "questionTitleInp");
               await this.sentKeys(TITLE_INPUT, base + " Yes & No question");
               await this.click(TICKETS_SELECT);
-              await this.isDisplayed(TICKETS_LIST, 5000);
+              await this.isDisplayed(TICKETS_LIST, 5000, "ticketsList");
               await this.clickElementReturnedFromAnArray(TICKETS_LIST,0);
               await this.clickElementReturnedFromAnArray(TICKETS_LIST,2);
               await this.click(TITLE_INPUT);
@@ -169,14 +169,13 @@
               await this.sendKeysToElementReturnedFromAnArray(RESPONSE_INPUT, 1, base + " COCA COLA")
               //await this.click(PER_ELIGIBLE_TICKET);
               await this.click(SELECT_NO_ANSWERS);
-              await this.isDisplayed(SELECT_NO_ANSWERS_OPTIONS,5000);
+              await this.isDisplayed(SELECT_NO_ANSWERS_OPTIONS,5000, "numberOfAnswersOpt");
               await this.clickElementReturnedFromAnArray(SELECT_NO_ANSWERS_OPTIONS,0);
               await this.click(CREATE_BUTTON);
           }
 
           async updateYesNoQuestion(base){
-              await this.driver.sleep(1000)
-              await this.isDisplayed(TITLE_INPUT, 5000);
+              await this.isDisplayed(TITLE_INPUT, 5000, "questionTitleInp");
               await this.click(ADD_NEW_RESPONSE_OPTION);
               await this.sendKeysToElementReturnedFromAnArray(RESPONSE_INPUT, 2, base + " OTHER");
               await this.moveToElement(BEFORE_EVENT_OPTION)
@@ -186,10 +185,10 @@
           }
 
           async createQuestionWithTextInput(base){
-              await this.isDisplayed(TITLE_INPUT, 5000);
+              await this.isDisplayed(TITLE_INPUT, 5000, "questionTitleInp");
               await this.sentKeys(TITLE_INPUT, base + " Attendee Age");
               await this.click(TICKETS_SELECT);
-              await this.isDisplayed(TICKETS_LIST, 5000);
+              await this.isDisplayed(TICKETS_LIST, 5000, "ticketsList");
               await this.clickElementReturnedFromAnArray(TICKETS_LIST,0);
               await this.click(TITLE_INPUT);
               await this.sentKeys(QUESTION, base + " What is your Age?");
@@ -199,7 +198,7 @@
               await this.sendKeysToElementReturnedFromAnArray(RESPONSE_INPUT, 1, base + " 18 and Over")
               await this.clickElementReturnedFromAnArray(CHECKBOXES,5);
               await this.click(SELECT_NO_ANSWERS);
-              await this.isDisplayed(SELECT_NO_ANSWERS_OPTIONS,5000);
+              await this.isDisplayed(SELECT_NO_ANSWERS_OPTIONS,5000, "numberOfAnswersOpt");
               await this.clickElementReturnedFromAnArray(SELECT_NO_ANSWERS_OPTIONS,0);
               await this.click(CREATE_BUTTON);
         }

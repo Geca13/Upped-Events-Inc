@@ -24,14 +24,14 @@
         }
 
         async includeExcludeIsVisible(){
-           await this.isDisplayed(INCLUDED_TAXES_RADIO, 5000);
+           await this.isDisplayed(INCLUDED_TAXES_RADIO, 5000, "includedTaxesRadio");
            await this.timeout(1000);
         }
         async taxNameInputIsVisible(){
-            await this.isDisplayed(TAX_NAME_INPUT, 5000)
+            await this.isDisplayed(TAX_NAME_INPUT, 5000, "taxNameInput")
         }
         async feeNameInputIsVisible(){
-            await this.isDisplayed(FEE_NAME_INPUT, 5000)
+            await this.isDisplayed(FEE_NAME_INPUT, 5000, "feeNameInput")
         }
         async clickIncludeTaxesInPriceRadio(){
             await this.click(INCLUDED_TAXES_RADIO)
@@ -125,7 +125,7 @@
         }
 
         async clickRemoveTaxOrFeeButtonByIndex(index) {
-            await this.isDisplayed(DELETE_TAX_OR_FEE, 5000);
+            await this.isDisplayed(DELETE_TAX_OR_FEE, 5000, "deleteTaxOrFee");
             await this.timeout(500);
             await this.clickElementReturnedFromAnArray(DELETE_TAX_OR_FEE,index);
             await this.timeout(500);

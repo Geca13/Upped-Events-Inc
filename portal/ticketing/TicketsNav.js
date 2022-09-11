@@ -40,18 +40,18 @@
             super(driver);
         }
         async createdTicketIsInTheTable(ticketName){
-            await this.isDisplayed(By.xpath("//*[text()='"+ticketName+"']"),15000);
+            await this.isDisplayed(By.xpath("//*[text()='"+ticketName+"']"),15000, ticketName);
         }
         async addTicketButtonIsDisplayed(){
-            await this.isDisplayed(ADD_TICKET_BUTTON, 15000)
+            await this.isDisplayed(ADD_TICKET_BUTTON, 15000, "addTicketBtn")
             await this.timeout(1000);
         }
         async activateTicketModalIsDisplayed(){
-            await this.isDisplayed(TICKET_ACTIVATION_MODAL, 15000)
+            await this.isDisplayed(TICKET_ACTIVATION_MODAL, 15000, "ticketActivation")
         }
 
         async getTicketPriceForTicket(name){
-            await this.isDisplayed(TICKETS_NAMES,5000);
+            await this.isDisplayed(TICKETS_NAMES,5000, "ticketNames");
             await this.timeout(500)
             let i = await this.returnIndexWhenTextIsKnown(TICKETS_NAMES, name);
             let price = await this.getElementTextFromAnArrayByIndex(TICKETS_PRICES,i);
@@ -73,7 +73,7 @@
         }
 
         async assertCorrectDataIsDisplayedInTableAfterCreatingFirstTicket(name,start,end,price,quantity){
-            await this.isDisplayed(TICKETS_NAMES,5000);
+            await this.isDisplayed(TICKETS_NAMES,5000, "ticketNames");
             await this.timeout(500)
             let i = await this.returnIndexWhenTextIsKnown(TICKETS_NAMES, name);
             await this.timeout(2000)
@@ -94,7 +94,7 @@
         }
 
         async assertTicketNamePriceAndQuantity(name,price,quantity){
-            await this.isDisplayed(TICKETS_NAMES,5000);
+            await this.isDisplayed(TICKETS_NAMES,5000, "ticketNames");
             await this.timeout(500)
             let i = await this.returnIndexWhenTextIsKnown(TICKETS_NAMES, name);
             await this.timeout(2000)
@@ -108,12 +108,12 @@
         }
 
         async clickEditTicketButton(index){
-            await this.isDisplayed(EDIT_TICKET_BUTTONS,5000);
+            await this.isDisplayed(EDIT_TICKET_BUTTONS,5000, "editTicketBtn");
             await this.clickElementReturnedFromAnArray(EDIT_TICKET_BUTTONS,index)
         }
 
         async clickEditTicketButtonByTicketName(ticketOneName){
-            await this.isDisplayed(TICKETS_NAMES,5000);
+            await this.isDisplayed(TICKETS_NAMES,5000, "ticketNames");
             let i = await this.returnIndexWhenTextIsKnown(TICKETS_NAMES, ticketOneName);
             await this.timeout(2000);
             await this.clickElementReturnedFromAnArray(EDIT_TICKET_BUTTONS,i);
@@ -140,7 +140,7 @@
         }
 
         async clickActivateTicketToggle(ticketName){
-            await this.isDisplayed(TICKETS_NAMES,5000);
+            await this.isDisplayed(TICKETS_NAMES,5000, "ticketNames");
             let i = await this.returnIndexWhenTextIsKnown(TICKETS_NAMES, ticketName);
             await this.timeout(2000);
             await this.clickElementReturnedFromAnArray(DEACTIVATED_TICKET_TOGGLE,i);
@@ -150,15 +150,15 @@
         }
 
         async confirmActivationButton(){
-            await this.isDisplayed(TICKET_ACTIVATION_YES_BUTTON,5000);
+            await this.isDisplayed(TICKET_ACTIVATION_YES_BUTTON,5000, "activationYesBtn");
             await this.timeout(500);
             await this.click(TICKET_ACTIVATION_YES_BUTTON);
-            await this.isDisplayed(ACTIVATED_TICKET_TOGGLE,5000);
+            await this.isDisplayed(ACTIVATED_TICKET_TOGGLE,5000, "onToggle");
         }
         async createTicketsGroup(groupName){
             await this.timeout(1000);
             await this.click(ADD_TICKETS_GROUP_BUTTON);
-            await this.isDisplayed(TICKETS_GROUP_NAME_INPUT,15000);
+            await this.isDisplayed(TICKETS_GROUP_NAME_INPUT,15000, "groupNameInput");
             await this.sentKeys(TICKETS_GROUP_NAME_INPUT, groupName);
             await this.click(SAVE_TICKETS_GROUP_BUTTON);
             await this.timeout(1500)
@@ -243,12 +243,10 @@
             assert.equal(grTwo, one)
             assert.equal(grThree, two)
             assert.equal(grFour, three);
-
-
         }
 
         async checkForSoldTicketsAfterFirstTest(){
-            await this.isDisplayed(SOLD_TICKETS_NUMBER,15000);
+            await this.isDisplayed(SOLD_TICKETS_NUMBER,15000, "soldTicketsNumber");
             let firstTicketSolds = await this.getRawTicketPrice(SOLD_TICKETS_NUMBER,0);
             let secondTicketSolds = await this.getRawTicketPrice(SOLD_TICKETS_NUMBER,1);
             let thirdTicketSolds = await this.getRawTicketPrice(SOLD_TICKETS_NUMBER,2);
@@ -261,7 +259,7 @@
         }
 
         async checkForTableColumnsTexts(){
-            await this.isDisplayed(TABLE_HEADERS,5000)
+            await this.isDisplayed(TABLE_HEADERS,5000, "tableHeaders")
             let headers = await this.returnElementsCount(TABLE_HEADERS);
             assert.equal(headers,8);
             let first = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 0);
@@ -326,14 +324,14 @@
         }
 
         async assertNoTicketsMessageText(){
-            await this.isDisplayed(NO_TICKETS_MESSAGE);
+            await this.isDisplayed(NO_TICKETS_MESSAGE, 5000, "noTickets");
             await this.timeout(1000);
             let message = await this.getElementText(NO_TICKETS_MESSAGE);
             assert.equal(message,"You do not currently have any ticket.");
             await this.timeout(1000);
         }
         async assertQuantityEqualsSoldColumnByTicket(ticketName){
-            await this.isDisplayed(TICKETS_NAMES,5000);
+            await this.isDisplayed(TICKETS_NAMES,5000, "ticketNames");
             let i = await this.returnIndexWhenTextIsKnown(TICKETS_NAMES, ticketName);
             let quantity = await this.getElementTextFromAnArrayByIndex(TICKETS_QUANTITIES,i);
             let sold = await this.getElementTextFromAnArrayByIndex(SOLD_TICKETS_NUMBER,i);

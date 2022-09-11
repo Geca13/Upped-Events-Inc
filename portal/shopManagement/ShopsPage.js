@@ -19,7 +19,7 @@
         }
 
         async addShopDropdownIsDisplayed(){
-            await this.isDisplayed(ADD_SHOP_DROPDOWN,5000);
+            await this.isDisplayed(ADD_SHOP_DROPDOWN,5000, "addShopDropdown");
         }
         async clickAddShopDropdown(){
             await this.click(ADD_SHOP_DROPDOWN);
@@ -31,7 +31,7 @@
             await this.click(ADD_VENDOR_PARTNER_OPTION);
         }
         async addShopOptionIsDisplayed(){
-            await this.isDisplayed(ADD_SHOP_OPTION,5000);
+            await this.isDisplayed(ADD_SHOP_OPTION,5000, "addShopOption");
         }
         async clickAddShopOption(){
             await this.click(ADD_SHOP_OPTION);
@@ -58,9 +58,9 @@
 
         }
         async createMenuFromShopsManagementPageForTickets(eventName,base,sectionName, sectionIndex, editIconIndex){
-            await this.isDisplayed(SHOP_MENU_ICON,5000);
-            await this.click(SHOP_MENU_ICON);
-            await this.isDisplayed(EDIT_MENU_OPTION);
+            await this.isDisplayed(SHOP_MENU_ICON,5000, "shopMenuIcon");
+            await this.click(SHOP_MENU_ICON, 5000, "shopMenuIcon");
+            await this.isDisplayed(EDIT_MENU_OPTION, 5000, "editMenuOption");
             await this.click(EDIT_MENU_OPTION);
             let menu = new MenuPage(this.driver);
             await menu.isOnMyMenusPage();

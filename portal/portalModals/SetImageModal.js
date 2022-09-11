@@ -20,11 +20,10 @@
         }
 
         async setImageModalIsDisplayed(){
-            await this.isDisplayed(SET_IMAGE_BUTTON);
-            await this.timeout(750);
+            await this.isDisplayed(SET_IMAGE_BUTTON, 5000, "setImageBtn");
         }
         async clickSetButton(){
-            await this.isDisplayed(SET_IMAGE_BUTTON, 5000);
+            await this.setImageModalIsDisplayed();
             await this.click(SET_IMAGE_BUTTON);
             await this.timeout(500);
             let set = await this.findAll(SET_IMAGE_BUTTON);
@@ -38,16 +37,12 @@
             await this.dragAndDropElementByOffset(MOVE_BLOCK, 0,90);
         }
         async setVranecImageToCenter(){
-            await this.click(ZOOM_OUT_BUTTON);
-            await this.click(ZOOM_OUT_BUTTON);
-            await this.click(ZOOM_OUT_BUTTON);
-            await this.click(ZOOM_OUT_BUTTON);
-            await this.click(ZOOM_OUT_BUTTON);
-            await this.click(ZOOM_OUT_BUTTON);
-            await this.click(ZOOM_OUT_BUTTON);
-            await this.click(ZOOM_OUT_BUTTON);
+            for(let i = 0; i < 7 ; i++){
+                await this.click(ZOOM_OUT_BUTTON);
+            }
             await this.dragAndDropElementByOffset(MOVE_BLOCK, 0,90);
         }
+
         async setWhiskeyImageToCenter(){
             await this.click(ZOOM_OUT_BUTTON);
             await this.dragAndDropElementByOffset(MOVE_BLOCK, 0,40);

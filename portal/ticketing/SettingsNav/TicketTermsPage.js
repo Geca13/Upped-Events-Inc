@@ -27,10 +27,10 @@
         }
 
         async termsPageIsDisplayed(){
-            await this.isDisplayed(TICKET_TERMS_INPUT,5000);
+            await this.isDisplayed(TICKET_TERMS_INPUT,5000, "termsInput");
         }
         async heading3IsDisplayed(){
-            await this.isDisplayed(TEXT_SELECTOR_HEADING_3,5000);
+            await this.isDisplayed(TEXT_SELECTOR_HEADING_3,5000, "textSelector3");
         }
         async typeInInput(term){
             await this.sentKeys(TICKET_TERMS_INPUT,term)

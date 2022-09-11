@@ -15,7 +15,7 @@
             super(driver);
         }
         async isOnUserInfoScreen(){
-            await this.isDisplayed(ATTENDEE_FULL_NAME, 5000);
+            await this.isDisplayed(ATTENDEE_FULL_NAME, 5000, "userInfoScreen");
         }
         async assertUserInfoLabelsAndEmailData(customerEmail){
             let genderLabel = await this.getElementText(GENDER_LABEL);

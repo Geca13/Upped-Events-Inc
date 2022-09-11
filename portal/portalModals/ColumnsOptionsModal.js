@@ -19,7 +19,7 @@
             super(driver);
         }
         async columnOptionsModalIsDisplayed(){
-            await this.isDisplayed(COLUMN_NAMES);
+            await this.isDisplayed(COLUMN_NAMES, 5000, "columnNames");
         }
         async changeColumnOrdersByColumnIndex(){
             await this.columnOptionsModalIsDisplayed();
@@ -78,7 +78,7 @@
             assert.equal(fifth,'Reserved');
             assert.equal(sixth,'Active/Inactive');
             await this.click(ADD_COLUMN_BUTTON);
-            await this.isDisplayed(SELECT_COLUMN_DROPDOWN, 5000);
+            await this.isDisplayed(SELECT_COLUMN_DROPDOWN, 5000, "selectColumnDropdown");
             await this.sentKeys(SELECT_COLUMN_DROPDOWN, "Start Date/Time");
             first = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 0);
             second = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 1);

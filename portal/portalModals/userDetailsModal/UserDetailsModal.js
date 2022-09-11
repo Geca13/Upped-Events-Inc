@@ -14,7 +14,7 @@
             super(driver);
         }
     async userInfoNavIsDisplayed(){
-        await this.isDisplayed(USER_INFO_NAV,5000);
+        await this.isDisplayed(USER_INFO_NAV,5000, "userDetailsModal");
     }
     async clickUserInfoNav(){
             await this.click(USER_INFO_NAV);

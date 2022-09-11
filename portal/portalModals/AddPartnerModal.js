@@ -30,7 +30,7 @@
         }
 
         async isOnNewPartnerModal(){
-            await this.isDisplayed(ADD_PARTNER_HEADER,5000);
+            await this.isDisplayed(ADD_PARTNER_HEADER,5000, "partnerHeader");
         }
 
         async clickPartnerTypeDropdown(){
@@ -39,15 +39,15 @@
         async inviteVendorWithEmail(email, firstName, lastName){
             await this.isOnNewPartnerModal();
             await this.clickPartnerTypeDropdown();
-            await this.isDisplayed(VENDOR_MERCHANT_OPTION,5000);
+            await this.isDisplayed(VENDOR_MERCHANT_OPTION,5000, "vendorMerchantOpt");
             await this.timeout(2000);
             await this.click(VENDOR_MERCHANT_OPTION);
             await this.timeout(500);
             await this.clickElementReturnedFromAnArray(DROPDOWNS,2);
-            await this.isDisplayed(INVITE_EMAIL_OPTION,5000);
+            await this.isDisplayed(INVITE_EMAIL_OPTION,5000, "inviteEmailOpt");
             await this.click(INVITE_EMAIL_OPTION);
             await this.clickElementReturnedFromAnArray(DROPDOWNS,3);
-            await this.isDisplayed(INDIVIDUAL_OPTION,5000);
+            await this.isDisplayed(INDIVIDUAL_OPTION,5000, "individualOpt");
             await this.click(INDIVIDUAL_OPTION);
             await this.timeout(500);
             await this.sentKeys(EMAIL_INPUT,email);

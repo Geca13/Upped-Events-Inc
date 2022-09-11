@@ -21,8 +21,7 @@
            await this.visit('https://dev.portal.uppedevents.com/')
         }
         async isAtPortalLoginPage(){
-            await this.isDisplayed(SIGN_IN_BUTTON, 30000)
-            await this.timeout(2000);
+            await this.isDisplayed(SIGN_IN_BUTTON, 30000, "portalSignInBtn")
         }
 
 

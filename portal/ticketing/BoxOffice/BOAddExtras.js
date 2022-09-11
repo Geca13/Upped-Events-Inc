@@ -12,10 +12,10 @@
             super(driver);
         }
         async isOnExtrasScreen(){
-            await this.isDisplayed(EXTRAS_HEADER,5000);
+            await this.isDisplayed(EXTRAS_HEADER,5000, "boExtrasHeader");
         }
         async clickNextButton(){
-            await this.isDisplayed(NEXT_BUTTON,5000);
+            await this.isDisplayed(NEXT_BUTTON,5000, "extrasNextBtn");
             await this.click(NEXT_BUTTON);
         }
         async add20$ToOrderOnExtrasPage(){
@@ -24,7 +24,7 @@
             let donation = new DonationComponent(this.driver);
             await donation.isOnDonationScreen();
             await donation.click$20DonationButton();
-            await this.driver.sleep(500);
+            await this.timeout(500);
             await donation.clickAddDonationToOrderButton();
             await this.clickNextButton()
         }
@@ -44,7 +44,7 @@
             let donation = new DonationComponent(this.driver);
             await donation.isOnDonationScreen();
             await donation.click$50DonationButton();
-            await this.driver.sleep(500);
+            await this.timeout(500);
             await donation.clickAddDonationToOrderButton();
             await this.clickNextButton()
         }
@@ -54,7 +54,7 @@
             let donation = new DonationComponent(this.driver);
             await donation.isOnDonationScreen();
             await donation.enterCustomAmountInInput("1");
-            await this.driver.sleep(500);
+            await this.timeout(500);
             await donation.clickAddDonationToOrderButton();
             await this.clickNextButton();
         }

@@ -21,12 +21,12 @@
             super(driver);
         }
         async overrideModalIsDisplayed(){
-            await this.isDisplayed(MANAGER_CODE_INPUT,5000);
+            await this.isDisplayed(MANAGER_CODE_INPUT,5000, "menCodeInp");
         }
         async loginToTheOverrideModal(){
             await this.sentKeys(MANAGER_CODE_INPUT, "0000");
             await this.click(CONFIRM_OVERRIDE);
-            await this.isDisplayed(VALID_CODE_MESSAGE,5000);
+            await this.isDisplayed(VALID_CODE_MESSAGE,5000, "validCode");
         }
         async overrideTicketQuantity(newQuantity){
             await this.sentKeys(NEW_TICKET_QUANTITY_INPUT,newQuantity);
@@ -35,7 +35,6 @@
             await this.sentKeys(NEW_TICKET_PRICE_INPUT,newPrice);
         }
         async clickSaveChangesButton(){
-            //await this.isDisplayed(SAVE_BUTTON)
             await this.clickElementReturnedFromAnArray(SAVE_BUTTON,1)
         }
 

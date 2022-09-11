@@ -3,6 +3,7 @@
     const WebElement = require('selenium-webdriver').WebElement
     const fsp = require('fs').promises
     const moment = require('moment');
+    const path = require('path');
 
 
     class BasePage {
@@ -665,7 +666,8 @@
                   await this.timeout(500);
                   return true
               }catch (error){
-                  await this.takeScreenshot(description)
+                  await this.takeScreenshot(description);
+                  await this.writeError(error);
                   console.log(locator + " not located" +  " " + error )
               }
           } else{
@@ -698,9 +700,16 @@
     async takeScreenshot(location){
         this.driver.takeScreenshot().then(
              function(image) {
-        require('fs').writeFileSync(location+'.png', image, 'base64');
+        require('fs').writeFileSync(path.join('./screenshots/', location+'.png'), image, 'base64');
             }
         );
+    }
+
+    async writeError(error){
+        require('fs').writeFile('./screenshots/errors.txt', error.toString() + "--------------", function (err) {
+            if (err) throw err;
+            console.log('Saved!');
+        });
     }
 
     async conditionalClick(locator1, locator2, locator3){

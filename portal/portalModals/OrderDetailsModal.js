@@ -24,7 +24,7 @@
             super(driver);
         }
         async orderDetailsModalIsDisplayed(){
-            await this.isDisplayed(RESEND_TICKETS_BUTTON,5000);
+            await this.isDisplayed(RESEND_TICKETS_BUTTON,5000, "resendTicketsBtn");
         }
 
         async getOrderTotalBeforeRefunds(){
@@ -49,10 +49,10 @@
             await this.clickElementReturnedFromAnArray(OPEN_REFUND_TICKETS_DROPDOWNS,1);
             await this.elementFromArrayOfElementsIsDisplayed(SELECT_TICKET_REFUND_CHECKBOX,1);
             await this.clickAllElementsReturnedFromArray(SELECT_TICKET_REFUND_CHECKBOX);
-            await this.driver.sleep(500);
+            await this.timeout(500);
             await this.sendKeysAllElementsReturnedFromArray(REFUND_AMOUNT_INPUT,"1");
             await this.click(PROCESS_REFUND_BUTTON);
-            await this.driver.sleep(500)
+            await this.timeout(500)
 
         }
         async getOrderTotalAfterRefunds(){
@@ -64,7 +64,7 @@
             return afterTotal;
         }
         async closeOrderTotalModal(){
-            await this.isDisplayed(CLOSE_POPUP_BUTTON,5000)
+            await this.isDisplayed(CLOSE_POPUP_BUTTON,5000, "closePopupBtn")
             await this.click(CLOSE_POPUP_BUTTON);
         }
     }

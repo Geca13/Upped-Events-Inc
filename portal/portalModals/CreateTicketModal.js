@@ -37,11 +37,11 @@
 
 
         async ticketNameInputIsDisplayed(){
-            await this.isDisplayed(TICKET_NAME_INPUT, 5000)
+            await this.isDisplayed(TICKET_NAME_INPUT, 5000, "ticketNameInp")
             await this.timeout(1000);
         }
         async saveTicketButtonIsVisible(){
-            await this.isDisplayed(SAVE_TICKET_BUTTON, 5000)
+            await this.isDisplayed(SAVE_TICKET_BUTTON, 5000, "ticketSaveBtn")
         }
         async clickStartDateTimeInput(){
             await this.click(TICKET_START_DATE_INPUT);
@@ -90,7 +90,7 @@
             await this.timeout(1500)
             let ticketNav = new TicketsNav(this.driver);
             await ticketNav.assertCorrectDataIsDisplayedInTableAfterCreatingFirstTicket(name,start,end,price,quantity);
-            await this.isDisplayed(TICKET_NAME_INPUT,5000);
+            await this.ticketNameInputIsDisplayed();
             let descriptionOnUpdate = await this.getEnteredTextInTheInput(TICKET_DESCRIPTION_INPUT);
             let rulesOnUpdate = await this.getEnteredTextInTheInput(TICKET_RULES_INPUT);
             let origStartOnUpdate = await this.getEnteredTextInTheInput(TICKET_START_DATE_INPUT)
@@ -156,7 +156,7 @@
         }
 
         async createStaffTicket(ticketName,ticketPrice, quantity){
-            await this.isDisplayed(TICKET_NAME_INPUT, 5000);
+            await this.ticketNameInputIsDisplayed()
             await this.sentKeys(TICKET_NAME_INPUT, ticketName);
             await this.sentKeys(TICKET_DESCRIPTION_INPUT, ticketName + ' description');
             await this.sentKeys(TICKET_RULES_INPUT, ticketName + ' rules');
@@ -167,7 +167,7 @@
             await this.timeout(500)
             await this.click(TICKET_TYPE_OFF_BUTTON)
             await this.click(TICKET_TYPE_DROPDOWNS);
-            await this.isDisplayed(TICKET_STAFF_OPTION,5000);
+            await this.isDisplayed(TICKET_STAFF_OPTION,5000, "ticketStaffOpt");
             await this.click(TICKET_STAFF_OPTION);
             await this.elementFromArrayOfElementsIsDisplayed(TICKET_TYPE_DROPDOWNS,1);
             await this.clickElementReturnedFromAnArray(TICKET_TYPE_DROPDOWNS,1);
@@ -262,16 +262,6 @@
         async updateTicketQuantity(quantity){
             await this.isDisplayed(TICKET_QUANTITY_INPUT,5000);
             await this.clearInputFieldByIndexAndSendKeys(TICKET_QUANTITY_INPUT,0, quantity);
-           /* await this.click(TICKET_START_DATE_INPUT);
-            await this.timeout(1500)
-            let startDatePicker = new DateTimePickerModal(this.driver);
-            await startDatePicker.datePickerIsVisible();
-            await startDatePicker.enterTimeNow();
-            //await startDatePicker.clickPMButton();
-            await this.timeout(1500)
-            await startDatePicker.clickSetButton();
-            await this.timeout(1500)
-            await this.saveTicketButtonIsVisible();*/
             await this.click(SAVE_TICKET_BUTTON);
             await this.timeout(1000);
         }

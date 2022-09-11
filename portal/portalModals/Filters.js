@@ -47,7 +47,7 @@
         }
 
         async filtersModalIsOpened(){
-            await this.isDisplayed(ORDER_ID_INPUT, 5000);
+            await this.isDisplayed(ORDER_ID_INPUT, 5000, "transCentOrdId");
             await this.timeout(500);
         }
         async filterByIdInTransactionCenter(id){
@@ -149,7 +149,7 @@
             await this.timeout(500);
             await this.click(TRANSACTIONS_STATUS_SELECT);
             await this.timeout(500);
-            await this.isDisplayed(VISIBLE_SELECT_OPTIONS,5000);
+            await this.isDisplayed(VISIBLE_SELECT_OPTIONS,5000, "visSelOpt");
         }
 
         async returnOptionName(index) {

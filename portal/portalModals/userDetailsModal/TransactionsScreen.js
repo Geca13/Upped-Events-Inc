@@ -15,16 +15,13 @@
     const AMOUNT_COLUMN_HEADER = { xpath: "//span[text()='Amount']"}
     const DATE_COLUMN_HEADER = { xpath: "//span[text()='Date']"}
 
-
-
-
     class TransactionsScreen extends BasePage{
         constructor(driver) {
             super(driver);
         }
 
         async isOnTransactionScreen(){
-            await this.isDisplayed(TOP_CARDS_DATA,5000);
+            await this.isDisplayed(TOP_CARDS_DATA,5000, "TransactionsScreen");
         }
         async assertCardsDescriptions(){
             await this.isOnTransactionScreen();

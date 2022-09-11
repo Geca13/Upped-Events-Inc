@@ -23,7 +23,7 @@
         }
 
         async isOnBoxOfficePage(){
-            await this.isDisplayed(COLUMN_SELECTS,5000);
+            await this.isDisplayed(COLUMN_SELECTS,5000, "boTicketSelects");
         }
 
         async selectTicketByIndexAndSendQuantity(index, quantity){

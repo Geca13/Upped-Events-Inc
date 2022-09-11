@@ -16,7 +16,7 @@
 
         async assertTicketsForFirstTwoPurchases(base){
 
-            await this.isDisplayed(MODAL_HEADER, 5000);
+            await this.isDisplayed(MODAL_HEADER, 5000, "responseModalHeader");
             await this.timeout(1000);
             let fullNumberOfTickets = await this.getElementText(FULL_NUMBER_OF_TICKETS_TEXT);
             assert.equal(fullNumberOfTickets, "Number of tickets: 2")
@@ -42,8 +42,7 @@
         }
 
         async assertForTicketQuestionsResponsesForTheUpdated(base){
-
-            await this.isDisplayed(MODAL_HEADER, 5000);
+            await this.isDisplayed(MODAL_HEADER, 5000, "responseModalHeader");
             await this.timeout(1500);
             let numberOfTickets = await this.getElementText(ONLY_NUMBER_OF_TICKETS);
             assert.equal(numberOfTickets, "3")

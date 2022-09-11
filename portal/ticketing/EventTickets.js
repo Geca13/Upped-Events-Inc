@@ -14,11 +14,11 @@
         }
 
         async eventTicketsHeaderIsDisplayed(){
-            await this.isDisplayed(EVENT_TICKETS_HEADER,5000)
+            await this.isDisplayed(EVENT_TICKETS_HEADER,5000, "ticketsHeader")
         }
 
         async clickTicketsTab(){
-            await this.isDisplayed(TICKETS_NAV,5000)
+            await this.isDisplayed(TICKETS_NAV,5000, "ticketsNav")
             await this.timeout(500);
             await this.scrollUpOrDown(-150);
             await this.timeout(1500);
@@ -35,7 +35,7 @@
             await this.click(SETTINGS_NAV);
         }
         async clickBoxOfficeNav(){
-            await this.isDisplayed(BOX_OFFICE_NAV,5000);
+            await this.isDisplayed(BOX_OFFICE_NAV,5000, "boxOfficeNav");
             await this.moveToElement(BOX_OFFICE_NAV)
             await this.click(BOX_OFFICE_NAV);
         }

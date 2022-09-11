@@ -29,17 +29,17 @@
             super(driver);
         }
         async promotionsHeaderIsVisible(){
-            await this.isDisplayed(PROMOTIONS_HEADER,5000)
+            await this.isDisplayed(PROMOTIONS_HEADER,5000, "promotionsHeader")
         }
         async clickAddPromotionButton(){
             await this.timeout(500);
-            await this.isDisplayed(ADD_PROMOTION_BUTTON,5000)
+            await this.addPromotionButtonIsVisible()
             await this.timeout(500);
             await this.click(ADD_PROMOTION_BUTTON)
         }
         async addPromotionButtonIsVisible(){
             await this.timeout(500);
-            await this.isDisplayed(ADD_PROMOTION_BUTTON, 5000);
+            await this.isDisplayed(ADD_PROMOTION_BUTTON, 5000, "addPromoBtn");
             await this.timeout(2000);
         }
 
@@ -67,7 +67,7 @@
         }
 
         async assertThe$PromotionIsSavedCorrectOnPromotionsPage(promotion){
-            await this.isDisplayed(PROMOTION_NAME,5000);
+            await this.isDisplayed(PROMOTION_NAME,5000, "promotionName");
             let i = await this.returnIndexWhenTextIsKnown(PROMOTION_NAME,promotion[0]);
             await this.timeout(500);
             let namePromo = await this.getElementTextFromAnArrayByIndex(PROMOTION_NAME,i);
@@ -94,9 +94,9 @@
         }
 
         async assertDataForPromotionWithThreeTicketsAndLimitOnTwoWithoutDateTime(promoName, ticketName,ticketPrice){
-            await this.isDisplayed(PROMOTION_NAME, 5000);
+            await this.isDisplayed(PROMOTION_NAME,5000, "promotionName");
             let i = await this.returnIndexWhenTextIsKnown(PROMOTION_NAME,promoName);
-            await this.timeout(500);
+            await this.timeout(550);
             let namePromo = await this.getElementTextFromAnArrayByIndex(PROMOTION_NAME,i);
             let extDescription = await this.getElementTextFromAnArrayByIndex(PROMOTION_DESCRIPTION,i);
             let nameTicket = await this.getElementTextFromAnArrayByIndex(PROMOTION_TICKET, i);

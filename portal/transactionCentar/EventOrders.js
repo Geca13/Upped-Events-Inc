@@ -35,14 +35,14 @@
             super(driver);
         }
         async isAtTransactionCenterPage(){
-            await this.isDisplayed(TRANSACTIONS_VIEW_TAB,5000);
+            await this.isDisplayed(TRANSACTIONS_VIEW_TAB,5000, "transactionViewTab");
             await this.timeout(500);
         }
         async makeFullRefundWithReinstateTicket(){
             await this.isAtTransactionCenterPage();
             await this.timeout(500);
             await this.clickElementReturnedFromAnArray(ORDER_DETAILS_MENU,0);
-            await this.isDisplayed(DETAILS_MENU_OPTION,5000);
+            await this.isDisplayed(DETAILS_MENU_OPTION,5000, "detailsMenuOption");
             await this.click(DETAILS_MENU_OPTION);
             let orderDetails = new OrderDetailsModal(this.driver);
             await orderDetails.orderDetailsModalIsDisplayed();
@@ -65,20 +65,20 @@
             let pagination = new PaginationComponent(this.driver);
             await pagination.selectXRowsPerPage(50);
             await this.takeScreenshot("bg-light")
-            await this.isDisplayed(TABLE_ROWS,5000);
+            await this.isDisplayed(TABLE_ROWS,5000, "tableRows");
             let rows = await this.returnElementsCount(TABLE_ROWS);
             return rows;
         }
 
         async assertOrderIdsAreShownInDescendingOrder(){
             await this.isAtTransactionCenterPage();
-            await this.isDisplayed(ORDERS_IDS,5000);
+            await this.orderIdsAreDisplayed();
             expect(await this.assertNumberedArrayIsSortedDescending(ORDERS_IDS)).to.be.true;
         }
 
         async assertOrderIdsAreShownInAscendingOrder(){
             await this.isAtTransactionCenterPage();
-            await this.isDisplayed(ORDERS_IDS,5000);
+            await this.orderIdsAreDisplayed();
             expect(await this.checkIfClassIsApplied(TABLE_HEADS, 0, "sorted")).to.be.false;
             expect(await this.checkIfClassIsApplied(TABLE_HEADS, 0, "desc")).to.be.true;
             await this.clickElementReturnedFromAnArray(TABLE_HEADS,0);
@@ -93,7 +93,7 @@
 
         async assertPricesAreShownInDescendingOrder(){
             await this.isAtTransactionCenterPage();
-            await this.isDisplayed(ORDERS_IDS,5000);
+            await this.orderIdsAreDisplayed();
             expect(await this.checkIfClassIsApplied(TABLE_HEADS, 4, "sorted")).to.be.false;
             await this.clickElementReturnedFromAnArray(TABLE_HEADS,4);
             await this.timeout(4000);
@@ -105,7 +105,7 @@
         }
         async assertPricesAreShownInAscendingOrder(){
             await this.isAtTransactionCenterPage();
-            await this.isDisplayed(ORDERS_IDS,5000);
+            await this.orderIdsAreDisplayed();
             await this.clickElementReturnedFromAnArray(TABLE_HEADS,4);
             await this.timeout(1000);
             expect(await this.checkIfClassIsApplied(TABLE_HEADS, 4, "sorted")).to.be.true;
@@ -118,7 +118,7 @@
 
         async assertItemsAreShownInDescendingOrder(){
             await this.isAtTransactionCenterPage();
-            await this.isDisplayed(ORDERS_IDS,5000);
+            await this.orderIdsAreDisplayed();
             expect(await this.checkIfClassIsApplied(TABLE_HEADS, 3, "sorted")).to.be.false;
             await this.clickElementReturnedFromAnArray(TABLE_HEADS,3);
             await this.timeout(4000);
@@ -130,7 +130,7 @@
         }
         async assertItemsAreShownInAscendingOrder(){
             await this.isAtTransactionCenterPage();
-            await this.isDisplayed(ORDERS_IDS,5000);
+            await this.orderIdsAreDisplayed();
             await this.clickElementReturnedFromAnArray(TABLE_HEADS,3);
             await this.timeout(1000);
             expect(await this.checkIfClassIsApplied(TABLE_HEADS, 3, "sorted")).to.be.true;
@@ -143,7 +143,7 @@
 
         async filterByOrderId(){
             await this.isAtTransactionCenterPage();
-            await this.isDisplayed(ORDERS_IDS);
+            await this.orderIdsAreDisplayed();
             await this.timeout(500);
             let orderIds = await this.returnElementsCount(ORDERS_IDS);
             assert.notEqual(orderIds, 1);
@@ -169,7 +169,7 @@
 
         async filterByPriceMinAndAssertValues(){
             await this.isAtTransactionCenterPage();
-            await this.isDisplayed(ORDERS_IDS);
+            await this.orderIdsAreDisplayed();
             await this.timeout(500);
             let orderIds = await this.returnElementsCount(ORDERS_IDS);
             await this.click(FILTER_BUTTON);
@@ -185,7 +185,7 @@
 
         async filterByPriceMaxAndAssertValues(){
             await this.isAtTransactionCenterPage();
-            await this.isDisplayed(ORDERS_IDS);
+            await this.orderIdsAreDisplayed();
             await this.timeout(500);
             let orderIds = await this.returnElementsCount(ORDERS_IDS);
             await this.click(FILTER_BUTTON);
@@ -201,7 +201,7 @@
 
         async filterByPriceRangeAndAssertValues(){
             await this.isAtTransactionCenterPage();
-            await this.isDisplayed(ORDERS_IDS);
+            await this.orderIdsAreDisplayed();
             await this.timeout(500);
             let orderIds = await this.returnElementsCount(ORDERS_IDS);
             await this.click(FILTER_BUTTON);
@@ -217,7 +217,7 @@
 
         async filterByMinPurchasedItemsAndAssertValues(){
             await this.isAtTransactionCenterPage();
-            await this.isDisplayed(ORDERS_IDS);
+            await this.orderIdsAreDisplayed();
             await this.timeout(500);
             let orderIds = await this.returnElementsCount(ORDERS_IDS);
             await this.click(FILTER_BUTTON);
@@ -233,7 +233,7 @@
 
         async filterByMaxPurchasedItemsAndAssertValues(){
             await this.isAtTransactionCenterPage();
-            await this.isDisplayed(ORDERS_IDS);
+            await this.orderIdsAreDisplayed();
             await this.timeout(500);
             let orderIds = await this.returnElementsCount(ORDERS_IDS);
             await this.click(FILTER_BUTTON);
@@ -249,7 +249,7 @@
 
         async filterByPurchasedItemsRangeAndAssertValues(){
             await this.isAtTransactionCenterPage();
-            await this.isDisplayed(ORDERS_IDS);
+            await this.orderIdsAreDisplayed();
             await this.timeout(500);
             let orderIds = await this.returnElementsCount(ORDERS_IDS);
             await this.click(FILTER_BUTTON);
@@ -264,7 +264,7 @@
         }
         async filterByFullUserAndAssertValues(base){
             await this.isAtTransactionCenterPage();
-            await this.isDisplayed(ORDERS_IDS);
+            await this.orderIdsAreDisplayed();
             await this.timeout(500);
             let orderIds = await this.returnElementsCount(ORDERS_IDS);
             await this.click(FILTER_BUTTON);
@@ -281,7 +281,7 @@
 
         async filterByPartialUserNameAndAssertValues(){
             await this.isAtTransactionCenterPage();
-            await this.isDisplayed(ORDERS_IDS);
+            await this.orderIdsAreDisplayed();
             await this.timeout(500);
             let orderIds = await this.returnElementsCount(ORDERS_IDS);
             await this.click(FILTER_BUTTON);
@@ -297,7 +297,7 @@
 
         async filterByFullUserPriceRangeAndAssertValues(base){
             await this.isAtTransactionCenterPage();
-            await this.isDisplayed(ORDERS_IDS);
+            await this.orderIdsAreDisplayed();
             await this.timeout(500);
             let orderIds = await this.returnElementsCount(ORDERS_IDS);
             await this.click(FILTER_BUTTON);
@@ -315,7 +315,7 @@
 
         async filterByAllStatusOptionsAndAssertValues(){
             await this.isAtTransactionCenterPage();
-            await this.isDisplayed(ORDERS_IDS);
+            await this.orderIdsAreDisplayed();
             await this.timeout(500);
             let filter = new Filters(this.driver)
             let pagination = new PaginationComponent(this.driver);
@@ -335,5 +335,8 @@
             }
         }
 
+        async orderIdsAreDisplayed() {
+            await this.isDisplayed(ORDERS_IDS, 5000, "trOrderIds");
+        }
     }
     module.exports = EventOrders;

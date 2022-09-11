@@ -24,7 +24,7 @@
             super(driver);
         }
         async isOnDetailsPage(){
-            await this.isDisplayed(ORDER_DETAILS_BOX,5000);
+            await this.isDisplayed(ORDER_DETAILS_BOX,5000, "orderDetailsBox");
         }
 
         async continueToPayment(){
@@ -37,13 +37,12 @@
             await this.timeout(500);
             await this.click(APPLY_BUTTON);
             await this.timeout(500);
-            await this.isDisplayed(APPLIED_PROMOTION_DIV,5000);
+            await this.isDisplayed(APPLIED_PROMOTION_DIV,5000, "appliedPromotionMessage");
         }
         async addWrongPromoCode(){
             await this.sentKeys(PROMO_INPUT,"FgRgR1");
             await this.click(APPLY_BUTTON);
-            await this.isDisplayed(INVALID_DISCOUNT_CODE_ICON,5000);
-            await this.timeout(1000)
+            await this.isDisplayed(INVALID_DISCOUNT_CODE_ICON,5000, "invalidDiscount");
             await this.clearInputField(PROMO_INPUT);
             await this.timeout(500)
 
@@ -160,26 +159,32 @@
             let checkboxes = await this.returnElementsCount(QUESTIONS_ROUND_CHECKBOXES);
             assert.equal(count, checkboxes);
         }
+
         async checkForNumberOfTextInputs(count){
             let inputs = await this.returnElementsCount(QUESTION_INPUTS);
             assert.equal(count, inputs);
         }
+
         async checkForNumberOfQuestions(count){
             let questions = await this.returnElementsCount(QUESTIONS);
             assert.equal(count, questions);
         }
+
         async checkForNumberOfQuestionTitles(count){
             let titles = await this.returnElementsCount(QUESTION_TITLES);
             assert.equal(count, titles);
         }
+
         async checkForNumberOfDisplayedOptionLabels(count){
             let labels = await this.returnElementsCount(RESPONSE_RADIO_TEXT);
             assert.equal(count, labels);
         }
+
         async checkForOptionsLabelByIndex(index,label){
             let l = await this.getElementTextFromAnArrayByIndex(RESPONSE_RADIO_TEXT,index);
             assert.equal(l, label);
         }
+
         async checkQuestionForm(checkboxes, inputs,questions, titles, labels){
             await this.isOnDetailsPage();
             await this.timeout(2000);
@@ -204,8 +209,6 @@
             await this.sendKeysToElementReturnedFromAnArray(QUESTION_INPUTS, 1, "38");
 
         }
-
-
 
     }
     module.exports = BOAddDetails;

@@ -15,29 +15,29 @@
 
 
         async taxesAndFeesSubTabIsDisplayed(){
-            await this.isDisplayed(TAXES_AND_FEES_SUBNAV,5000)
+            await this.isDisplayed(TAXES_AND_FEES_SUBNAV,5000, "taxesAndFeesSub")
             await this.timeout(1000);
         }
         async clickTaxesAndFeesSubNav(){
             await this.click(TAXES_AND_FEES_SUBNAV,5000)
         }
         async clickGeneralSettings(){
-            await this.click(GENERAL_SETTINGS_SUBNAV,5000)
+            await this.click(GENERAL_SETTINGS_SUBNAV)
         }
         async clickRefundRules(){
-            await this.click(REFUND_RULES_SUBNAV,5000)
+            await this.click(REFUND_RULES_SUBNAV)
         }
         async clickTicketTerms(){
-            await this.click(TICKET_TERMS_SUBNAV,5000)
+            await this.click(TICKET_TERMS_SUBNAV)
         }
         async clickTicketQuestions(){
-            await this.click(TICKET_QUESTIONS_SUBNAV,5000)
+            await this.click(TICKET_QUESTIONS_SUBNAV)
         }
         async clickEventCapacity(){
-            await this.click(EVENT_CAPACITY_SUBNAV,5000)
+            await this.click(EVENT_CAPACITY_SUBNAV)
         }
         async clickTicketPermissions(){
-            await this.click(TICKET_PERMISSIONS_SUBNAV,5000)
+            await this.click(TICKET_PERMISSIONS_SUBNAV)
         }
 
     }

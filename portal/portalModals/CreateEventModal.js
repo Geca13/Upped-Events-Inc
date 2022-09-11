@@ -22,14 +22,14 @@
         }
 
         async occurrenceOptionsAreDisplayed(){
-            await this.isDisplayed(OCCUR_OPTIONS,5000);
+            await this.isDisplayed(OCCUR_OPTIONS,5000, "occurrenceOpt");
         }
 
         async createEventModalIsDisplayed(){
-           await this.isDisplayed(EVENT_NAME_LABEL,5000);
+           await this.isDisplayed(EVENT_NAME_LABEL,5000, "eventNameLabel");
         }
         async submitButtonIsClickable(){
-            await this.isDisplayed(CREATE_EVENT_BUTTON,15000);
+            await this.isDisplayed(CREATE_EVENT_BUTTON,15000, "createEventBtn");
         }
 
         async fillFormWithValidDataAndSave(eventName,shortName){
@@ -80,7 +80,6 @@
 
         async returnEnteredEventName(){
             let eventName = await this.getEnteredTextInTheInput(EVENT_NAME_INPUT);
-            console.log(eventName);
             return eventName;
         }
 

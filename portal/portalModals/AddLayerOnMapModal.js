@@ -22,13 +22,13 @@
             super(driver);
         }
         async modalIsLoaded(){
-            await this.isDisplayed(TITLE_INPUT,15000);
+            await this.isDisplayed(TITLE_INPUT,15000, "addLayerOnMapModal");
         }
         async saveLayerButtonIsDisplayed(){
-            await this.isDisplayed(SAVE_LAYER_BUTTON,25000);
+            await this.isDisplayed(SAVE_LAYER_BUTTON,25000, "saveLayerButton");
         }
         async categoryOptionsAreDisplayed(){
-            await this.isDisplayed(CATEGORY_OPTIONS,15000);
+            await this.isDisplayed(CATEGORY_OPTIONS,15000, "layerCategoryOptions");
         }
         async addVendorBarLocationOnMap(base){
             await this.sentKeys(TITLE_INPUT, base +" Bar");
@@ -105,7 +105,7 @@
             await this.clickElementReturnedFromAnArray(LOCATION_OFFERING_ACTIVITIES_OPTION,1);
             await this.driver.executeScript("document.getElementsByClassName('file-upload-input')[0].style.visibility='visible'");
             await this.sentKeys(UPLOAD_PHOTO_INPUT,"D:\\Upped\\static\\eagles-vs-vikings.jpg");
-            await this.isDisplayed(SET_IMAGE_BUTTON,5000);
+            await this.isDisplayed(SET_IMAGE_BUTTON,5000, "setImageButton");
             await this.click(ZOOM_OUT_BUTTON);
             await this.timeout(500)
             await this.click(ZOOM_OUT_BUTTON);
