@@ -98,7 +98,7 @@
         let embedDonate;
         let receipt;
 
-        let base =  Math.floor(100000 + Math.random() * 900000);
+        let base = 480024// Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -217,7 +217,7 @@
             await embedding.isOnEmbeddingTab();
             await embedding.setEmbedViewForEvent();
             await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickGeneralDetailsNav();
+            await eventOptionTabs.clickEventFullNameTab();
             await eventDetails.unpublishButtonIsDisplayed();
             let text = await eventDetails.getEmbedScriptVariable();
             await files.openDummyPage();

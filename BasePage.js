@@ -668,7 +668,6 @@
               }catch (error){
                   await this.takeScreenshot(description);
                   await this.writeError(error);
-                  console.log(locator + " not located" +  " " + error )
               }
           } else{
              try {
@@ -705,17 +704,22 @@
         );
     }
 
+    async returnBrowserName(){
+          await this.driver.getCapabilities().then(function (caps){
+              let browser = caps.get("browserName")
+              console.log(browser)
+          })
+    }
+
     async writeError(error){
-        require('fs').writeFile('./screenshots/errors.txt', error.toString() + "--------------", function (err) {
+        require('fs').appendFile('./screenshots/errors.txt', error.toString() + '\r\n'+ '------' +'\r\n' , function (err) {
             if (err) throw err;
-            console.log('Saved!');
         });
     }
 
     async conditionalClick(locator1, locator2, locator3){
           await this.timeout(10000)
         let first = await this.findAll(locator1);
-        console.log(first.length)
         if (first.length > 0){
             await this.click(locator2)
         }else {

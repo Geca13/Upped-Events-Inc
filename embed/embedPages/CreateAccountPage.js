@@ -41,6 +41,7 @@
             await this.timeout(500)
             await this.click(GENDER_MALE_OPTION);
             assert.equal(await createButton.isEnabled(), false);
+            //await this.sentKeys(DOB_INPUT, '2012-12-24'); //for firefox
             await this.sentKeys(DOB_INPUT, '11112000');
             assert.equal(await createButton.isEnabled(), false);
             await this.sentKeys(PASSWORD_INPUT, "P@ssword123");
@@ -48,6 +49,7 @@
             await this.sentKeys(VERIFY_PASSWORD_INPUT, "P@ssword123");
             assert.equal(await createButton.isEnabled(), false);
             await this.click(AGREE_TERMS_CHECKBOX);
+            await this.timeout(500)
             assert.equal(await createButton.isEnabled(), true);
             await this.timeout(1500);
             await this.click(CREATE_ACCOUNT_BUTTON);
@@ -62,6 +64,7 @@
             await this.click(GENDER_SELECT);
             await this.timeout(500)
             await this.click(GENDER_MALE_OPTION);
+            //await this.sentKeys(DOB_INPUT, '2000-12-24'); //for firefox
             await this.sentKeys(DOB_INPUT, '11112000');
             await this.sentKeys(PASSWORD_INPUT, password);
             await this.sentKeys(VERIFY_PASSWORD_INPUT, password);

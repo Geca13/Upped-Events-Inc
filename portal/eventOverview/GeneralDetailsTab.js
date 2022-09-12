@@ -52,10 +52,11 @@
             await this.isDisplayed(EVENT_SHORTNAME_INPUT,5000, "eventShortName");
             await this.clearInputField(EVENT_SHORTNAME_INPUT);
             await this.sentKeys(EVENT_SHORTNAME_INPUT,shortName);
+            await this.scrollToView(SAVE_BUTTON)
             await this.moveToElement(SAVE_BUTTON)
             await this.click(SAVE_BUTTON);
             await this.timeout(2000);
-            await this.moveToElement(EVENT_SHORTNAME_INPUT)
+            await this.scrollToView(EVENT_SHORTNAME_INPUT)
             let name = await this.getEnteredTextInTheInput(EVENT_NAME_INPUT);
             let shortname = await this.getEnteredTextInTheInput(EVENT_SHORTNAME_INPUT)
             let location = await this.getEnteredTextInTheInput(ENTERED_ADDRESS);
@@ -133,7 +134,7 @@
         }
 
         async setBannerImageInThePortalAndAssertElements(){
-
+            await this.scrollToView(EVENT_BANNER_INPUT);
             await this.moveToElement(EVENT_BANNER_INPUT);
             await this.sentKeys(EVENT_BANNER_INPUT,"D:\\Upped\\static\\image.jpg");
             let cropper = new SetImageModal(this.driver);

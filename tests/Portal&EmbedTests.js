@@ -286,7 +286,7 @@
             await embedding.isOnEmbeddingTab();
             await embedding.setEmbedViewForEvent();
             await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickGeneralDetailsNav();
+            await eventOptionTabs.clickEventFullNameTab();
             await eventDetails.unpublishButtonIsDisplayed();
             let text = await eventDetails.getEmbedScriptVariable();
             await files.openDummyPage();
@@ -947,7 +947,7 @@
             await main.openEmbedPage();
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 28);
+            await embedTickets.sentKeysToTicketInput(0, 26);
             let accountAvailable = 26-parseInt(purchasedTickets);
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();

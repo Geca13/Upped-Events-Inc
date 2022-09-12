@@ -112,7 +112,7 @@
       }
 
       async ticketTermsLabelIsDisplayedAndAssertText(){
-         await this.isDisplayed(TERMS_LABEL, 5000);
+         await this.isDisplayed(TERMS_LABEL, 5000, "termsLabel");
          await this.timeout(500)
          let label = await this.getElementText(TERMS_LABEL);
          assert.equal(label, "Ticket Terms and Conditions");
@@ -125,7 +125,7 @@
          assert.equal(labelColor,'rgba(255, 0, 0, 1)');
       }
       async clickTermsLabel(){
-         await this.isDisplayed(TERMS_LABEL,5000);
+         await this.isDisplayed(TERMS_LABEL,5000, "embedTermsLabel");
          await this.click(TERMS_LABEL);
       }
 
@@ -137,7 +137,7 @@
       }
 
       async assertPreviousPageButtonText(text){
-         await this.isDisplayed(PREVIOUS_PAGE_BUTTON, 5000);
+         await this.isDisplayed(PREVIOUS_PAGE_BUTTON, 5000 , "previousPageBtn");
          let button = await this.getElementText(PREVIOUS_PAGE_BUTTON);
          assert.equal(button, text);
       }

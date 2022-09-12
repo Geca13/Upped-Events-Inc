@@ -2,6 +2,7 @@
     const MENUS_TAB = { xpath: "//*[text()='Menus']"}
     const TICKETING_TAB = { xpath: "//*[text()='Ticketing']"}
     const TRANSACTION_CENTER_TAB = { xpath: "//*[text()='Transaction Center']"}
+    const EVENT_FULL_NAME_TAB = { xpath: "//li[contains(@class , 'nav-subMenu-event-overflow')]//a"}
     const MAP_AND_AGENDA_TAB = { xpath: "//*[text()='Map and Agenda']"}
     const SHOP_MANAGEMENT_TAB = { xpath: "//*[text()='Shop Management']"}
     const PARTNER_MANAGEMENT_TAB = { xpath: "//*[text()='Partner Management']"}
@@ -48,7 +49,12 @@
             await this.click(DESIGN_NAV);
         }
 
+        async clickEventFullNameTab(){
+            await this.click(EVENT_FULL_NAME_TAB);
+        }
+
         async clickGeneralDetailsNav(){
+           await this.scrollToView(GENERAL_DETAILS_NAV)
            await this.moveToElement(GENERAL_DETAILS_NAV)
            await this.click(GENERAL_DETAILS_NAV);
         }
