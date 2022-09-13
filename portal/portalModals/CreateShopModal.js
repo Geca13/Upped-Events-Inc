@@ -32,7 +32,7 @@
         }
 
         async createVendorShop(base) {
-            await this.isDisplayed(SHOP_NAME_INPUT, 5000, "shopNameInp");
+            await this.isDisplayed(SHOP_NAME_INPUT, 5000);
             await this.timeout(1000);
             await this.sentKeys(SHOP_NAME_INPUT, base + " shops name");
             await this.click(MAKE_FEATURED_CHECKBOX)
@@ -55,13 +55,13 @@
             await endDatePicker.clickSetButton();
             await this.timeout(1000);
             await this.clickElementReturnedFromAnArray(SELECTS, 1);
-            await this.isDisplayed(VIRTUAL_SHOP_OPTION, 5000, "virtualShop");
+            await this.isDisplayed(VIRTUAL_SHOP_OPTION, 5000);
             await this.clickElementByText(base + " Bar");
-            await this.isDisplayed(SELECT_PARTNER_DROPDOWN, 5000, "selectPartnerDrop");
+            await this.isDisplayed(SELECT_PARTNER_DROPDOWN, 5000);
             await this.click(SELECT_PARTNER_DROPDOWN);
-            await this.isDisplayed(PARTNER_MANAGEMENT_LIST_OPTION, 5000, "partnerList");
+            await this.isDisplayed(PARTNER_MANAGEMENT_LIST_OPTION, 5000);
             await this.click(PARTNER_MANAGEMENT_LIST_OPTION);
-            await this.isDisplayed(VENDOR_EMAIL, 5000, "vendorEmail");
+            await this.isDisplayed(VENDOR_EMAIL, 5000);
             await this.timeout(1000);
             await this.clickLastElementReturnedFromAnArray(CHECKBOX)
             //await this.driver.executeScript("document.getElementsByClassName('myRipple2')[3].click()");
@@ -81,7 +81,7 @@
         }
 
         async addShopForTickets(base) {
-            await this.isDisplayed(SHOP_NAME_INPUT, 5000, "shopNameInp");
+            await this.isDisplayed(SHOP_NAME_INPUT, 5000);
             await this.timeout(1000);
             await this.sentKeys(SHOP_NAME_INPUT, base + " tickets shop name");
             await this.click(MAKE_FEATURED_CHECKBOX)
@@ -105,10 +105,10 @@
             await this.timeout(1000);
             await this.clickElementReturnedFromAnArray(SELECTS, 1);
             await this.timeout(1000);
-            await this.isDisplayed(VIRTUAL_SHOP_OPTION, 5000, "virtualShop");
+            await this.isDisplayed(VIRTUAL_SHOP_OPTION, 5000);
             await this.timeout(1000);
             await this.clickElementByText(base + " Tickets");
-            await this.isDisplayed(SELECT_PARTNER_DROPDOWN, 5000, "selectPartnerDrop");
+            await this.isDisplayed(SELECT_PARTNER_DROPDOWN, 5000);
             await this.click(SELECT_PARTNER_DROPDOWN);
             await this.isDisplayed(EVENT_MANAGE_OPTION, 5000);
             await this.click(EVENT_MANAGE_OPTION);
@@ -118,7 +118,7 @@
             await imager.setImageModalIsDisplayed();
             await this.timeout(1000);
             await imager.clickSetButton();
-            await this.isDisplayed(TAGS_INPUT, 5000, "tagsInp");
+            await this.isDisplayed(TAGS_INPUT, 5000);
             await this.sentKeys(TAGS_INPUT, base + ' ticketing tag');
             await this.clickEnterKey(TAGS_INPUT);
             await this.timeout(1000);

@@ -28,7 +28,7 @@
         }
 
         async isAtPaymentPage(){
-            await this.isDisplayed(CARD_SERVICE_TAB, 5000, "cardServiceTab");
+            await this.isDisplayed(CARD_SERVICE_TAB, 5000);
         }
 
         async clickCardOrServiceTab(){
@@ -37,7 +37,7 @@
 
         async clickSavedCardByIndex(index){
             await this.clickElementReturnedFromAnArray(SAVED_CARD,index);
-            await this.isDisplayed(SELECTED_CARD, 5000, "selectedCard");
+            await this.isDisplayed(SELECTED_CARD, 5000);
         }
 
         async getSelectedCardData(){
@@ -52,7 +52,6 @@
         }
 
         async clickConfirmPaymentButton(){
-            await this.isDisplayed(CONFIRM_PAYMENT_BUTTON,5000, "confirmPaymentBtn");
             await this.click(CONFIRM_PAYMENT_BUTTON);
         }
 
@@ -131,9 +130,9 @@
         }
 
         async invalidCodeMessagesAreShown(message){
-            await this.isDisplayed(INVALID_TRIANGLE_ICON, 5000, "triangle");
-            await this.isDisplayed(CODE_INVALID_MESSAGE, 5000, "invalidCode");
-            await this.isDisplayed(INVALID_DESCRIPTION_MESSAGE, 5000, "invalidCodeMessage");
+            await this.isDisplayed(INVALID_TRIANGLE_ICON, 5000);
+            await this.isDisplayed(CODE_INVALID_MESSAGE, 5000);
+            await this.isDisplayed(INVALID_DESCRIPTION_MESSAGE, 5000);
             let codeInvalid = await this.getElementText(CODE_INVALID_MESSAGE);
             let invalidDescription = await this.getElementText(INVALID_DESCRIPTION_MESSAGE);
             assert.equal(codeInvalid, "(Code Invalid)");

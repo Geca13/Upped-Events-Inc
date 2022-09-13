@@ -21,7 +21,7 @@
         }
 
         async isOnTransactionScreen(){
-            await this.isDisplayed(TOP_CARDS_DATA,5000, "TransactionsScreen");
+            await this.isDisplayed(TOP_CARDS_DATA,5000);
         }
         async assertCardsDescriptions(){
             await this.isOnTransactionScreen();

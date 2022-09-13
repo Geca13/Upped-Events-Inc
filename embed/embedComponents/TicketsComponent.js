@@ -118,7 +118,7 @@
         }
 
         async assertTicketNotAvailableMessageIsDisplayed(){
-            await this.isDisplayed(TICKET_NOT_AVAILABLE_SOLD, 5000, "ticketNotAvailableOrSold");
+            await this.isDisplayed(TICKET_NOT_AVAILABLE_SOLD, 5000);
             let message = await this.getElementText(TICKET_NOT_AVAILABLE_SOLD);
             assert.equal(message, "Ticket not available!")
         }
@@ -157,7 +157,7 @@
 
 
         async ticketListIsDisplayed(){
-            await this.isDisplayed(TICKETS_LIST, 5000, "embedTicketList");
+            await this.isDisplayed(TICKETS_LIST, 5000);
         }
 
         async assertGroupNamesAndCount(one, two, three){
@@ -263,7 +263,7 @@
             expect(first).to.be.false;
             expect(second).to.be.true;
             await this.click(TICKET_GROUPS_DROPDOWN);
-            await this.isDisplayed(TICKET_GROUPS_DROPDOWN_OPTIONS,5000, "ticketGroupsDropdown");
+            await this.isDisplayed(TICKET_GROUPS_DROPDOWN_OPTIONS,5000);
             await this.click(TICKET_GROUPS_DROPDOWN_OPTIONS);
             await this.timeout(1000);
             count = await this.returnElementsCount(TICKET_NAME_AND_PRICE);
@@ -279,24 +279,24 @@
         }
 
         async ticketGroupsDropDownAppearedAssertNameAndTicketGroup(ticketGroupThree){
-            await this.isDisplayed(TICKET_GROUPS_DROPDOWN, 5000, "ticketGroupsDropdown");
+            await this.isDisplayed(TICKET_GROUPS_DROPDOWN, 5000);
             let dropdownName = await this.getElementText(TICKET_GROUPS_DROPDOWN);
             assert.equal(dropdownName, "More Groups");
             await this.click(TICKET_GROUPS_DROPDOWN);
-            await this.isDisplayed(TICKET_GROUPS_DROPDOWN_OPTIONS,5000, "ticketGroupsDropdownOptions");
+            await this.isDisplayed(TICKET_GROUPS_DROPDOWN_OPTIONS,5000);
             let dropdownOptionName = await this.getElementText(TICKET_GROUPS_DROPDOWN_OPTIONS);
             assert.equal(dropdownOptionName, ticketGroupThree);
         }
 
         async assertDropDownElementsEqualsAvailableTickets(availableTickets){
-            await this.isDisplayed(TICKET_SELECT_OPTIONS,5000, "ticketSelectOptions");
+            await this.isDisplayed(TICKET_SELECT_OPTIONS,5000);
             let dropdownOptions = await this.getElementTextForTheLastElementFromAnArray(TICKET_SELECT_OPTIONS);
             let converted = parseInt(dropdownOptions);
             assert.equal(converted, availableTickets);
         }
 
         async assertDropDownElementsEquals(number){
-            await this.isDisplayed(TICKET_SELECT_OPTIONS,5000, "ticketGroupsDropdown");
+            await this.isDisplayed(TICKET_SELECT_OPTIONS,5000);
             let dropdownOptions = await this.getElementTextForTheLastElementFromAnArray(TICKET_SELECT_OPTIONS);
             console.log(dropdownOptions)
             assert.equal(dropdownOptions, number);
@@ -322,7 +322,7 @@
         }
 
         async getListOfTicketsWhereQuantityIsBiggerThen0(){
-            await this.isDisplayed(TICKET_SELECT, 5000, "ticketSelect")
+            await this.isDisplayed(TICKET_SELECT, 5000)
             let selectIndex = 0;
             let ticketNames = [];
             let qtyContainer = await this.findAll(TICKET_QUANTITY_CONTAINER);

@@ -24,7 +24,7 @@
             super(driver);
         }
         async orderDetailsModalIsDisplayed(){
-            await this.isDisplayed(RESEND_TICKETS_BUTTON,5000, "resendTicketsBtn");
+            await this.isDisplayed(RESEND_TICKETS_BUTTON,5000);
         }
 
         async getOrderTotalBeforeRefunds(){
@@ -64,7 +64,7 @@
             return afterTotal;
         }
         async closeOrderTotalModal(){
-            await this.isDisplayed(CLOSE_POPUP_BUTTON,5000, "closePopupBtn")
+            await this.isDisplayed(CLOSE_POPUP_BUTTON,5000)
             await this.click(CLOSE_POPUP_BUTTON);
         }
     }

@@ -49,7 +49,7 @@
         }
 
         async isOnTicketQuestionsPage(){
-            await this.isDisplayed(ADD_BUTTON,5000, "addBtn");
+            await this.isDisplayed(ADD_BUTTON,5000);
         }
         async createSimpleYesNoQuestionAndAssertSavedDataAndElements(base, ticketOneName, ticketThreeName){
             await this.isOnTicketQuestionsPage();
@@ -68,23 +68,21 @@
 
         async updateFirstQuestionToIncludeInputAndForEachTicket(base){
             await this.isOnTicketQuestionsPage();
-            await this.isDisplayed(EDIT_QUESTION_ICON,5000, "editQuestionBtn")
+            await this.isDisplayed(EDIT_QUESTION_ICON,5000)
             await this.click(EDIT_QUESTION_ICON);
             let createQuestionModal = new CreateTicketQuestionPage(this.driver);
             await createQuestionModal.updateYesNoQuestion(base);
-            await this.isDisplayed(SAVED_QUESTION, 5000, "savedQuestion");
+            await this.isDisplayed(SAVED_QUESTION, 5000);
             let question = await this.getTextFromElementOfArray(SAVED_QUESTION,0);
             assert.equal(question, base + " Yes & No question");
         }
 
         async createQuestionWithInput(base){
             await this.isOnTicketQuestionsPage();
-            await this.timeout(1000);
-            await this.click(QUESTION_OFF_TOGGLE);
             await this.click(ADD_BUTTON);
             let createQuestionModal = new CreateTicketQuestionPage(this.driver);
             await createQuestionModal.createQuestionWithTextInput(base);
-            await this.isDisplayed(SAVED_QUESTION, 5000, "savedQuestion");
+            await this.isDisplayed(SAVED_QUESTION, 5000);
             await this.timeout(1000);
             let question = await this.getTextFromElementOfArray(SAVED_QUESTION,1);
             assert.equal(question, base + " Attendee Age");

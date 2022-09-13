@@ -23,7 +23,7 @@
         }
 
         async isAtNewCardTab(){
-            await this.isDisplayed(CARDHOLDER_NAME_INPUT,5000, "newCardNameInput")
+            await this.isDisplayed(CARDHOLDER_NAME_INPUT,5000)
         }
 
         async fillNewCardWithValidData(){
@@ -93,14 +93,14 @@
 
         async assertFieldsAreDisplayed(){
             await this.isAtNewCardTab()
-            await this.isDisplayed(CARD_NUMBER_INPUT, 5000, "cardNumberInput");
-            await this.isDisplayed(CVV_INPUT, 5000, "cvvInput");
-            await this.isDisplayed(MONTH_SELECT, 5000, "monthSelect");
-            await this.isDisplayed(YEAR_SELECT, 5000, "yearSelect");
-            await this.isDisplayed(STREET_ADDRESS_INPUT, 5000, "addressInput");
-            await this.isDisplayed(COUNTRY_SELECT, 5000, "countrySelect");
-            await this.isDisplayed(STATE_SELECT, 5000, "stateSelect");
-            await this.isDisplayed(ZIP_CODE_INPUT, 5000, "zipInput");
+            await this.isDisplayed(CARD_NUMBER_INPUT, 5000);
+            await this.isDisplayed(CVV_INPUT, 5000);
+            await this.isDisplayed(MONTH_SELECT, 5000);
+            await this.isDisplayed(YEAR_SELECT, 5000);
+            await this.isDisplayed(STREET_ADDRESS_INPUT, 5000);
+            await this.isDisplayed(COUNTRY_SELECT, 5000);
+            await this.isDisplayed(STATE_SELECT, 5000);
+            await this.isDisplayed(ZIP_CODE_INPUT, 5000);
         }
 
         async assertCountryOptionsAndSaveButtonNames(){

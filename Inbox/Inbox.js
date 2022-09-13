@@ -37,7 +37,7 @@
             await this.timeout(1000)
         }
         async verifyEmailButtonIsDisplayed(){
-            await this.isDisplayed(VERIFY_EMAIL_BUTTON,5000, "verifyEmailButton");
+            await this.isDisplayed(VERIFY_EMAIL_BUTTON,5000);
         }
 
         async clickResetPasswordButton(){

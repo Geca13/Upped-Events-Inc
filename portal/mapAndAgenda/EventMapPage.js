@@ -12,7 +12,7 @@
         }
 
         async eventMapIsDisplayed(){
-            await this.isDisplayed(MAP_BUTTONS,35000, "mapBtns");
+            await this.isDisplayed(MAP_BUTTONS,35000);
         }
 
         async addPerformanceLocationOnMap(){

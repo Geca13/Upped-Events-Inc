@@ -20,7 +20,7 @@
             super(driver);
         }
         async isOnEmbeddingTab(){
-            await this.isDisplayed(COLOR_PICKER, 5000, "colorPicker");
+            await this.isDisplayed(COLOR_PICKER, 5000);
         }
 
         async sentKeysToColorInputByIndex(index, hex){
@@ -45,12 +45,11 @@
             await this.timeout(1000);
             await this.click(NEXT_BUTTON);
             await this.timeout(1000);
-            await this.isDisplayed(WEBSITE_INPUT, 5000, "websiteInput");
             await this.scrollToView(WEBSITE_INPUT);
             await this.moveToElement(WEBSITE_INPUT);
             await this.originWebsite();
             await this.click(GENERATE_BUTTON);
-            await this.isDisplayed(COPY_EMBED_ICON, 5000, "copyEmbedIcon");
+            await this.isDisplayed(COPY_EMBED_ICON, 5000);
             await this.click(COPY_EMBED_ICON);
             await this.timeout(2000);
             await this.click(CLOSE_POPUP_BUTTON);

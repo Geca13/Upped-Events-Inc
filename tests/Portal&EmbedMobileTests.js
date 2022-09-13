@@ -98,7 +98,7 @@
         let embedDonate;
         let receipt;
 
-        let base = 480024// Math.floor(100000 + Math.random() * 900000);
+        let base = Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -833,7 +833,7 @@
             await driver.manage().window().setRect({width: 414, height: 1000});
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 28);
+            await embedTickets.sentKeysToTicketInput(0, 26);
             let accountAvailable = 26-parseInt(purchasedTickets);
             await main.clickNextPageButton();
             await embedLogin.isAtLoginPage();
@@ -3171,6 +3171,7 @@
             await eventOptionTabs.clickSettingsNav();
             await settingsNav.taxesAndFeesSubTabIsDisplayed();
             await settingsNav.clickTicketQuestions();
+            await questions.clickDeactivateQuestionButton(0);
             await questions.createQuestionWithInput(base);
 
         });

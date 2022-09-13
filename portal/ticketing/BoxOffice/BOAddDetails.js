@@ -24,7 +24,7 @@
             super(driver);
         }
         async isOnDetailsPage(){
-            await this.isDisplayed(ORDER_DETAILS_BOX,5000, "orderDetailsBox");
+            await this.isDisplayed(ORDER_DETAILS_BOX,5000);
         }
 
         async continueToPayment(){
@@ -37,12 +37,12 @@
             await this.timeout(500);
             await this.click(APPLY_BUTTON);
             await this.timeout(500);
-            await this.isDisplayed(APPLIED_PROMOTION_DIV,5000, "appliedPromotionMessage");
+            await this.isDisplayed(APPLIED_PROMOTION_DIV,5000);
         }
         async addWrongPromoCode(){
             await this.sentKeys(PROMO_INPUT,"FgRgR1");
             await this.click(APPLY_BUTTON);
-            await this.isDisplayed(INVALID_DISCOUNT_CODE_ICON,5000, "invalidDiscount");
+            await this.isDisplayed(INVALID_DISCOUNT_CODE_ICON,5000);
             await this.clearInputField(PROMO_INPUT);
             await this.timeout(500)
 
@@ -155,7 +155,7 @@
         }
 
         async checkForNumberOfCheckBoxes(count){
-            await this.isDisplayed(QUESTIONS_ROUND_CHECKBOXES)
+            await this.isDisplayed(QUESTIONS_ROUND_CHECKBOXES,5000)
             let checkboxes = await this.returnElementsCount(QUESTIONS_ROUND_CHECKBOXES);
             assert.equal(count, checkboxes);
         }

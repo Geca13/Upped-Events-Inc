@@ -37,11 +37,11 @@
         }
 
         async isAtCreateActivityModal() {
-            await this.isDisplayed(ACTIVITY_NAME_INPUT, 5000, "activityModalNameInput");
+            await this.isDisplayed(ACTIVITY_NAME_INPUT, 5000);
         }
 
         async typesDropdownOptionsAreDisplayed() {
-            await this.isDisplayed(TYPE_AND_LOCATION_OPTIONS, 5000, "activityTypes");
+            await this.isDisplayed(TYPE_AND_LOCATION_OPTIONS, 5000);
         }
 
         async locationOptionsAreDisplayed() {
@@ -66,7 +66,7 @@
             await this.sentKeys(ACTIVITY_DESCRIPTION_TEXTAREA, "Best Football Game");
             await this.sentKeys(TAG_INPUT, "Vikings");
             await this.clickElementReturnedFromAnArray(ADD_TAG_BUTTON, 3);
-            await this.isDisplayed(SAVED_TAGS, 5000, "activityTags");
+            await this.isDisplayed(SAVED_TAGS, 5000);
             await this.find(TAG_INPUT).clear();
             await this.timeout(500);
             await this.sentKeys(TAG_INPUT, "Eagles");
@@ -82,12 +82,12 @@
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='hidden'");
             await this.moveToElement(ADD_REMINDER_LINK);
             await this.click(ADD_REMINDER_LINK);
-            await this.isDisplayed(NOTIFY_USERS_DROPDOWN,5000, "notifyUsersDropdown");
+            await this.isDisplayed(NOTIFY_USERS_DROPDOWN,5000);
             await this.click(NOTIFY_USERS_DROPDOWN)
-            await this.isDisplayed(NOTIFY_ATTENDEES_OPTION, 5000, "notifyAttendeesOptions");
+            await this.isDisplayed(NOTIFY_ATTENDEES_OPTION, 5000);
             await this.click(NOTIFY_ATTENDEES_OPTION);
             await this.click(NOTIFY_TIME_DROPDOWN);
-            await this.isDisplayed(HOUR_1_BEFORE_OPTION, 5000, "1hourOption");
+            await this.isDisplayed(HOUR_1_BEFORE_OPTION, 5000);
             await this.click(HOUR_1_BEFORE_OPTION);
             await this.moveToElement(ADD_REMINDER_LINK);
             await this.sentKeys(ACTIVITY_REMINDERS_MESSAGE_TEXTAREA, 'Game is to start in an hour!!! RUNNNN!!!');

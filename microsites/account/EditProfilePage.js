@@ -27,7 +27,7 @@
             super(driver);
         }
         async isOnEditProfilePage(){
-            await this.isDisplayed(SAVE_BUTTON,5000, "editSaveBtn");
+            await this.isDisplayed(SAVE_BUTTON,5000);
             await this.timeout(500);
         }
 
@@ -96,7 +96,7 @@
             await this.sentKeys(ZIP_CODE_INPUT, base.toString());
             await this.timeout(500);
             await this.click(GENDER_SELECT);
-            await this.isDisplayed(GENDER_OPTIONS,5000, "genderOptions");
+            await this.isDisplayed(GENDER_OPTIONS,5000);
             await this.timeout(1000);
             await this.clickElementReturnedFromAnArray(GENDER_OPTIONS,1);
             await this.timeout(500);
@@ -123,7 +123,7 @@
         }
 
         async assertMadeChangesAreSavedCorrectly(base){
-            await this.isDisplayed(GENDER_SELECT,5000, "genderSelect");
+            await this.isDisplayed(GENDER_SELECT,5000);
             await this.timeout(1500);
             let genderInput = await this.getEnteredTextInTheInput(GENDER_SELECT);
             let phoneInput = await this.getEnteredTextInTheInput(PHONE_INPUT);

@@ -49,7 +49,7 @@
             //await this.isDisplayed(EVENT_STATUS_LABEL,5000);
             //await this.isDisplayed(EVENT_NAME_INPUT,5000);
             await this.timeout(2500)
-            await this.isDisplayed(EVENT_SHORTNAME_INPUT,5000, "eventShortName");
+            await this.isDisplayed(EVENT_SHORTNAME_INPUT,5000);
             await this.clearInputField(EVENT_SHORTNAME_INPUT);
             await this.sentKeys(EVENT_SHORTNAME_INPUT,shortName);
             await this.scrollToView(SAVE_BUTTON)

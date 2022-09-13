@@ -98,14 +98,14 @@
         }
 
         async isOnMyMenusPage(){
-            await this.isDisplayed(MENU_SCHEDULER_NAV,15000 ,"menuSchedulerNav");
+            await this.isDisplayed(MENU_SCHEDULER_NAV,15000 );
         }
         async createNewMenuAndSetNewName(base){
             await this.driver.sleep(2000);
             await this.conditionalClick(MENUS,ADD_NEW_MENU_BUTTON,CREATE_NEW_MENU_LINK);
-            await this.isDisplayed(ADD_NEW_SECTION_BUTTON,15000, "menuSection");
+            await this.isDisplayed(ADD_NEW_SECTION_BUTTON,15000);
             await this.moveToElement(MENU_TITLE_INPUT);
-            await this.isDisplayed(EDIT_ICON,5000, "menuEditIcon");
+            await this.isDisplayed(EDIT_ICON,5000);
             await this.moveToElement(EDIT_ICON);
             await this.click(EDIT_ICON);
             await this.clearInputField(MENU_TITLE_INPUT);
@@ -131,22 +131,22 @@
         async createBeerStoutMenuItem(){
             await this.clickElementReturnedFromAnArray(ADD_NEW_MENU_ITEM_FROM_SECTION_BUTTON,0);
             await this.driver.executeScript("document.getElementsByClassName('dropdown-menu-right')[0].style.visibility='visible'");
-            await this.isDisplayed(MAIN_CATEGORIES_DROPDOWN,5000, "menuCategories");
+            await this.isDisplayed(MAIN_CATEGORIES_DROPDOWN,5000);
             await this.timeout(500);
             await this.takeScreenshot("categories")
             await this.timeout(500);
             await this.clickElementReturnedFromAnArray(BEVERAGE_OPTION,0);
             await this.timeout(500);
             await this.takeScreenshot("selected")
-            await this.isDisplayed(NEW_ITEM_NAME_INPUT,5000, "menuItemNameInput");
+            await this.isDisplayed(NEW_ITEM_NAME_INPUT,5000);
             await this.sentKeys(NEW_ITEM_NAME_INPUT, "Heineken Beer Stout");
             await this.sentKeys(NEW_ITEM_PRICE_INPUT, "7.5");
             await this.click(NEW_ITEM_CATEGORY_DROPDOWN);
             await this.takeScreenshot("Beer")
-            await this.isDisplayed(BEER_CATEGORY,5000, "beerCategory");
+            await this.isDisplayed(BEER_CATEGORY,5000);
             await this.click(BEER_CATEGORY);
             await this.click(NEW_ITEM_SUBCATEGORY_DROPDOWN);
-            await this.isDisplayed(STOUT_BEER_SUBCATEGORY,5000, "stoutSubcategory");
+            await this.isDisplayed(STOUT_BEER_SUBCATEGORY,5000);
             await this.click(STOUT_BEER_SUBCATEGORY);
             await this.sentKeys(NEW_ITEM_DESCRIPTION_TEXTAREA, "Heineken Beer Stout Description");
             await this.sentKeys(NEW_ITEM_INGREDIENTS_TEXTAREA, "Heineken Beer Stout Ingredients");
@@ -156,7 +156,7 @@
             await this.timeout(1500);
             await imager.setHeinekenImageToCenter();
             await imager.clickSetButton();
-            await this.isDisplayed(ADD_SAVE_ITEM_BUTTON,5000, "saveMenuItemBtn");
+            await this.isDisplayed(ADD_SAVE_ITEM_BUTTON,5000);
             await this.click(ADD_SAVE_ITEM_BUTTON);
             await this.timeout(1500);
             //await this.simulateDragAndDrop(MENU_ITEM_FROM_LIST,MENU_SECTION);
@@ -166,19 +166,17 @@
         async createRedWineMenuItem(){
             await this.clickElementReturnedFromAnArray(ADD_NEW_MENU_ITEM_FROM_SECTION_BUTTON,0);
             await this.driver.executeScript("document.getElementsByClassName('dropdown-menu-right')[0].style.visibility='visible'");
-            await this.isDisplayed(MAIN_CATEGORIES_DROPDOWN,5000, "mainCategories");
+            await this.isDisplayed(MAIN_CATEGORIES_DROPDOWN,5000);
             await this.timeout(500);
             await this.clickElementReturnedFromAnArray(BEVERAGE_OPTION,0);
             await this.timeout(500);
-            await this.isDisplayed(NEW_ITEM_NAME_INPUT,5000, "newItemNameInput");
+            await this.isDisplayed(NEW_ITEM_NAME_INPUT,5000);
             await this.sentKeys(NEW_ITEM_NAME_INPUT, "Kamnik Vranec Teroir");
             await this.sentKeys(NEW_ITEM_PRICE_INPUT, "57.5");
             await this.click(NEW_ITEM_CATEGORY_DROPDOWN);
-            await this.isDisplayed(WINE_CATEGORY,5000, "wineCategory");
+            await this.isDisplayed(WINE_CATEGORY,5000);
             await this.click(WINE_CATEGORY);
-            await this.isDisplayed(NEW_ITEM_SUBCATEGORY_DROPDOWN,5000, "newItemSubCategory");
             await this.click(NEW_ITEM_SUBCATEGORY_DROPDOWN);
-            await this.isDisplayed(RED_WINE_SUBCATEGORY,5000, "redWineSubCategory");
             await this.click(RED_WINE_SUBCATEGORY);
             await this.sentKeys(NEW_ITEM_DESCRIPTION_TEXTAREA, "Kamnik Vranec Teroir Description");
             await this.sentKeys(NEW_ITEM_INGREDIENTS_TEXTAREA, "Kamnik Vranec Teroir Ingredients");
@@ -188,7 +186,6 @@
             await this.timeout(1500);
             await imager.setVranecImageToCenter();
             await imager.clickSetButton();
-            await this.isDisplayed(ADD_SAVE_ITEM_BUTTON,5000, "saveMenuItemBtn");
             await this.click(ADD_SAVE_ITEM_BUTTON);
             await this.timeout(1500);
             //await this.simulateDragAndDrop(MENU_ITEM_FROM_LIST,MENU_SECTION);
@@ -198,19 +195,16 @@
         async createWhiskeyMenuItem(){
             await this.clickElementReturnedFromAnArray(ADD_NEW_MENU_ITEM_FROM_SECTION_BUTTON,0);
             await this.driver.executeScript("document.getElementsByClassName('dropdown-menu-right')[0].style.visibility='visible'");
-            await this.isDisplayed(MAIN_CATEGORIES_DROPDOWN,5000, "mainCategories");
+            await this.isDisplayed(MAIN_CATEGORIES_DROPDOWN,5000);
             await this.timeout(500);
             await this.clickElementReturnedFromAnArray(BEVERAGE_OPTION,0);
             await this.timeout(500);
-            await this.isDisplayed(NEW_ITEM_NAME_INPUT,5000, "newMenuItemInput");
+            await this.isDisplayed(NEW_ITEM_NAME_INPUT,5000);
             await this.sentKeys(NEW_ITEM_NAME_INPUT, "Whiskey");
             await this.sentKeys(NEW_ITEM_PRICE_INPUT, "17.5");
             await this.click(NEW_ITEM_CATEGORY_DROPDOWN);
-            await this.isDisplayed(COCKTAIL_CATEGORY,5000, "cocktailCategory");
             await this.click(COCKTAIL_CATEGORY);
-            await this.isDisplayed(NEW_ITEM_SUBCATEGORY_DROPDOWN,5000, "newItemSubCategory");
             await this.click(NEW_ITEM_SUBCATEGORY_DROPDOWN);
-            await this.isDisplayed(WHISKEY_SUBCATEGORY,5000, "whiskeySubCategory");
             await this.click(WHISKEY_SUBCATEGORY);
             await this.sentKeys(NEW_ITEM_DESCRIPTION_TEXTAREA, "Whiskey Description");
             await this.sentKeys(NEW_ITEM_INGREDIENTS_TEXTAREA, "Whiskey Ingredients");
@@ -220,7 +214,6 @@
             await this.timeout(1500);
             await imager.setWhiskeyImageToCenter();
             await imager.clickSetButton();
-            await this.isDisplayed(ADD_SAVE_ITEM_BUTTON,5000, "saveMenuItemBtn");
             await this.click(ADD_SAVE_ITEM_BUTTON);
             await this.timeout(1500);
             //await this.simulateDragAndDrop(MENU_ITEM_FROM_LIST,MENU_SECTION);
@@ -229,10 +222,8 @@
 
         async createMenuForTickets(eventName){
             await this.click(ADD_NEW_MENU_ITEM_BUTTON);
-            await this.isDisplayed(TICKET_OPTION,5000, "ticketOption");
             await this.click(TICKET_OPTION);
             await this.isDisplayed(SELECT_TICKET_GROUP_HEADER,5000, "ticketGroupHeader");
-            await this.isDisplayed(SEARCH_EVENT_INPUT,5000, "searchEventInput");
             await this.sentKeys(SEARCH_EVENT_INPUT,eventName);
             await this.timeout(500);
             await this.sentKeys(SEARCH_EVENT_INPUT, Key.BACK_SPACE)

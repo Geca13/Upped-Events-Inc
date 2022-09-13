@@ -161,7 +161,7 @@
         let receipt;
         let steps;
 
-        let base =  Math.floor(100000 + Math.random() * 900000);
+        let base = 999716 //  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -212,7 +212,7 @@
         afterEach(async function(){
             await driver.quit()
         })
-        //PORTAL
+/*        //PORTAL
         it('should create new event and verify data in events page and General Details',async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
@@ -260,7 +260,7 @@
             await ticketsNav.clickAddTicketButton();
             await createTicket.createFirstTicketAndAssertDataOnTicketsAndUpdate(ticketOneName,ticketOnePrice,embedTicketQuantity);
 
-        });
+        });*/
 
         //PORTAL -> EMBED
         it('should make embed view for event', async function () {

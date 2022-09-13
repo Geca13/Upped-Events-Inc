@@ -35,14 +35,13 @@
             super(driver);
         }
         async isAtTransactionCenterPage(){
-            await this.isDisplayed(TRANSACTIONS_VIEW_TAB,5000, "transactionViewTab");
+            await this.isDisplayed(TRANSACTIONS_VIEW_TAB,5000);
             await this.timeout(500);
         }
         async makeFullRefundWithReinstateTicket(){
             await this.isAtTransactionCenterPage();
             await this.timeout(500);
             await this.clickElementReturnedFromAnArray(ORDER_DETAILS_MENU,0);
-            await this.isDisplayed(DETAILS_MENU_OPTION,5000, "detailsMenuOption");
             await this.click(DETAILS_MENU_OPTION);
             let orderDetails = new OrderDetailsModal(this.driver);
             await orderDetails.orderDetailsModalIsDisplayed();
@@ -65,7 +64,7 @@
             let pagination = new PaginationComponent(this.driver);
             await pagination.selectXRowsPerPage(50);
             await this.takeScreenshot("bg-light")
-            await this.isDisplayed(TABLE_ROWS,5000, "tableRows");
+            await this.isDisplayed(TABLE_ROWS,5000);
             let rows = await this.returnElementsCount(TABLE_ROWS);
             return rows;
         }
@@ -336,7 +335,7 @@
         }
 
         async orderIdsAreDisplayed() {
-            await this.isDisplayed(ORDERS_IDS, 5000, "trOrderIds");
+            await this.isDisplayed(ORDERS_IDS, 5000);
         }
     }
     module.exports = EventOrders;

@@ -11,16 +11,16 @@
         }
 
         async partnersNavIsDisplayed(){
-            await this.isDisplayed(PARTNERS_NAV,5000, "partnersNav");
+            await this.isDisplayed(PARTNERS_NAV,5000);
         }
         async partnersSettingNavIsDisplayed(){
-            await this.isDisplayed(PARTNER_SETTINGS_NAV,5000, "partnerSettingsNav");
+            await this.isDisplayed(PARTNER_SETTINGS_NAV,5000);
         }
         async contractsNavIsDisplayed(){
-            await this.isDisplayed(CONTRACTS_NAV,5000, "contractsNav");
+            await this.isDisplayed(CONTRACTS_NAV,5000);
         }
         async applicationNavIsDisplayed(){
-            await this.isDisplayed(APPLICATION_NAV,5000, "applicationNav");
+            await this.isDisplayed(APPLICATION_NAV,5000);
         }
         async clickPartnersNav(){
             await this.click(PARTNERS_NAV);

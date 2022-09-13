@@ -36,7 +36,7 @@
         }
 
         async isOnReviewPage(){
-            await this.isDisplayed(PLACE_ORDER_BUTTON, 5000, "placeOrderBtn");
+            await this.isDisplayed(PLACE_ORDER_BUTTON, 5000);
         }
 
         async makePayment(base){
@@ -78,7 +78,7 @@
             expect(await this.elementIsEnabled(STATE)).to.be.false;
             await this.fillUserData(base);
             await this.click(PLACE_ORDER_BUTTON);
-            await this.isDisplayed(CONFIRMATION_MODAL,60000, "confirmationModal");
+            await this.isDisplayed(CONFIRMATION_MODAL,60000);
             await this.timeout(1000);
             await this.confirmElementsForPayment(base);
             await this.timeout(1000);
@@ -93,7 +93,7 @@
             await this.sentKeys(ADDITIONAL_EMAIL,base+'ad@ad'+base+".mk");
             await this.click(ADD_BUTTON);
             await this.timeout(1000);
-            await this.isDisplayed(ADDITIONAL_EMAIL_BADGE,5000, "additionalEmailBadge");
+            await this.isDisplayed(ADDITIONAL_EMAIL_BADGE,5000);
             await this.timeout(1000);
 
         }
@@ -123,7 +123,7 @@
             await this.sentKeys(ADDITIONAL_EMAIL,process.env.AOL_VENDOR_EMAIL);
             await this.click(ADD_BUTTON);
             await this.timeout(1000);
-            await this.isDisplayed(ADDITIONAL_EMAIL_BADGE,5000, "additionalEmailBadge");
+            await this.isDisplayed(ADDITIONAL_EMAIL_BADGE,5000);
             await this.timeout(10000);
 
         }

@@ -20,7 +20,7 @@
         }
 
         async setImageModalIsDisplayed(){
-            await this.isDisplayed(SET_IMAGE_BUTTON, 5000, "setImageBtn");
+            await this.isDisplayed(SET_IMAGE_BUTTON, 5000);
         }
         async clickSetButton(){
             await this.setImageModalIsDisplayed();

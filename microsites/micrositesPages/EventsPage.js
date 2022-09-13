@@ -40,19 +40,19 @@
         await this.click(SIGN_UP_BUTTON);
     }
     async accountDropdownIsDisplayed(){
-        await this.isDisplayed(ACCOUNT_DROPDOWN,10000, "accountDropdown");
+        await this.isDisplayed(ACCOUNT_DROPDOWN,10000);
         await this.timeout(1000);
     }
     async goToWalletPage(){
         await this.accountDropdownIsDisplayed();
         await this.click(ACCOUNT_DROPDOWN);
-        await this.isDisplayed(DROPDOWN_PAYMENT_INFO_OPTION,5000, "dropdownPaymentOption");
+        await this.isDisplayed(DROPDOWN_PAYMENT_INFO_OPTION,5000);
         await this.click(DROPDOWN_PAYMENT_INFO_OPTION);
     }
     async checkAccountDropdownTextOptions(){
         await this.accountDropdownIsDisplayed();
         await this.click(ACCOUNT_DROPDOWN);
-        await this.isDisplayed(DROPDOWN_PAYMENT_INFO_OPTION,5000, "dropdownPaymentOption");
+        await this.isDisplayed(DROPDOWN_PAYMENT_INFO_OPTION,5000);
         await this.timeout(1500)
         let profile = await this.getElementTextFromAnArrayByIndex(DROPDOWN_OPTIONS,0);
         let receipts = await this.getElementTextFromAnArrayByIndex(DROPDOWN_OPTIONS,1);
@@ -83,23 +83,23 @@
     async logOut(){
         await this.accountDropdownIsDisplayed();
         await this.click(ACCOUNT_DROPDOWN);
-        await this.isDisplayed(DROPDOWN_LOGOUT_OPTION,5000, "dropdownLogoutOption");
+        await this.isDisplayed(DROPDOWN_LOGOUT_OPTION,5000);
         await this.timeout(500)
         await this.click(DROPDOWN_LOGOUT_OPTION);
         await this.timeout(2500)
     }
 
     async signInButtonIsDisplayed(){
-        await this.isDisplayed(SIGN_IN_BUTTON,10000, "signInButton");
+        await this.isDisplayed(SIGN_IN_BUTTON,10000);
     }
 
     async eventCardIsAvailableToClick(){
-        await this.isDisplayed(EVENT_CARD,25000, "eventCard")
+        await this.isDisplayed(EVENT_CARD,25000)
         await this.timeout(1000);
     }
 
     async clickNewEvent(eventName){
-        await this.isDisplayed(SHORTNAME,20000, "eventCardShortname");
+        await this.isDisplayed(SHORTNAME,20000);
         await this.timeout(1000)
         await this.locateElementByTextAndClick(eventName);
     }

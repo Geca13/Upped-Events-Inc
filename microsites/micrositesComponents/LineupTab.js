@@ -19,10 +19,10 @@
         }
 
         async isOnComedyTab(){
-            await this.isDisplayed(LINEUP_DETAILS_CONTAINER,5000, "microDetailsLineUp");
+            await this.isDisplayed(LINEUP_DETAILS_CONTAINER,5000);
         }
         async isOnOverviewTab(){
-            await this.isDisplayed(LINEUP_CONTAINER,5000, "microLineUp");
+            await this.isDisplayed(LINEUP_CONTAINER,5000);
         }
 
         async checkForPerformancesInOverviewTab(performanceName){

@@ -12,10 +12,10 @@
             super(driver);
         }
         async isOnExtrasScreen(){
-            await this.isDisplayed(EXTRAS_HEADER,5000, "boExtrasHeader");
+            await this.isDisplayed(EXTRAS_HEADER,5000);
         }
         async clickNextButton(){
-            await this.isDisplayed(NEXT_BUTTON,5000, "extrasNextBtn");
+            await this.isDisplayed(NEXT_BUTTON,5000,);
             await this.click(NEXT_BUTTON);
         }
         async add20$ToOrderOnExtrasPage(){

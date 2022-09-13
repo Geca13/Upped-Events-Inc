@@ -23,7 +23,7 @@
         }
 
         async datePickerIsVisible(){
-           await this.isDisplayed(SET_DATE_TIME_BUTTON, 5000, "setDateTimeBtn")
+           await this.isDisplayed(SET_DATE_TIME_BUTTON, 5000)
         }
         async clickNextMonthButton(){
             await this.click(NEXT_MONTH_BUTTON);
@@ -82,7 +82,7 @@
         }
 
         async updateTimeToXMinLater(minutesToAdd){
-            await this.isDisplayed(HOUR_MINUTES_INPUTS,5000, "hourMinInp");
+            await this.isDisplayed(HOUR_MINUTES_INPUTS,5000);
             await this.timeout(500);
             let today = new Date();
             let minutes = today.getMinutes();
@@ -94,7 +94,6 @@
         }
 
         async updateHourByOne(){
-            await this.isDisplayed(ADD_HOURS_BUTTON,5000, "addHourBtn");
             await this.click(ADD_HOURS_BUTTON);
             await this.timeout(500);
             await this.clickSetButton();

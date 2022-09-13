@@ -158,12 +158,11 @@
         let embedDonate;
 
 
-        let base = Math.floor(100000 + Math.random() * 900000);
+        let base = 480024 //Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
-        let embedTicketQuantity = 2;
-        let ticketOneQuantity = 999;
+        let ticketOneQuantity = 2;
         let ticketOnePrice = "1";
         let ticketTwoName = base.toString() +"T2";
         let ticketTwoQuantity = 888;
@@ -191,23 +190,28 @@
         let ticketGroupTwo = base.toString() +"TG2";
         let ticketGroupThree = base.toString() +"TG3";
         let ticketGroupFour = base.toString() +"TG4";
-        let vendorFirstName = 'vfn'+base.toString();
-        let vendorLastName = 'vln'+base.toString();
-        let vendorEmail = vendorFirstName + '@' + vendorLastName+'.com';
         let customerFirstName = 'cfn'+base.toString();
         let customerLastName = 'cln'+base.toString();
         let customerEmail = customerFirstName + '@' + customerLastName+'.com';
         let customerPassword = base.toString() + 'Password';
-        let userBalance = 0.00;
-        let userWalletPurchasesTotal = 0.00;
-        let userTotalPurchases = 0.00;
+
 
 
 
         beforeEach(async function(){
             driver = await new Builder().forBrowser('chrome').build();
             await driver.manage().window().maximize();
-            //driver.execute("document.body.style.zoom='80%'")
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            eventTickets = new EventTickets(driver)
+            bosTickets = new BOSelectTickets(driver);
+            bosExtras = new BOAddExtras(driver);
+            bosDetails = new BOAddDetails(driver);
+            bosReview = new BOReviewAndPay(driver);
 
         });
 
@@ -215,50 +219,12 @@
             await driver.quit()
         })
 
-        it('should create new account on microsites with username and password, verify and login', async function() {
-            events = new EventsPage(driver);
-            createAccount = new CreateAccountModal(driver);
-            inbox = new Inbox(driver);
-            login = new LoginComponent(driver);
-            originalWindow = inbox.getOriginalWindow();
-
-            await events.load();
-            await events.clickSignUpButton();
-            await createAccount.firstCreateAccountModalIsDisplayed();
-            await createAccount.clickSignUpWithEmailButton();
-            await createAccount.secondCreateAccountModalIsDisplayed();
-            await createAccount.fillRandomButValidDataAndCreateAccount(customerFirstName,customerLastName,customerEmail,customerPassword);
-            await inbox.loadInbox();
-            await inbox.elementIsDisplayedInInbox('<'+customerEmail+'>');
-            await inbox.findAndClickTheEmailForNewAccount('<'+customerEmail+'>');
-            await inbox.switchToInboxIFrame();
-            await inbox.verifyEmailButtonIsDisplayed();
-            await inbox.verifyEmail();
-            await driver.switchTo().defaultContent();
-            await login.getNewlyOpenedTab(originalWindow);
-            await login.waitPopupToBeLoaded();
-            await login.loginAfterVerifyingAccount(customerPassword);
-
-        });
-
-        it('Should create new event,tickets,promotions', async function () {
+        //PORTAL
+        it('should create new event',async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             createEvent = new CreateEventModal(driver);
             myEvents = new MyEventsPage(driver);
-            dateTime = new DateTimePickerModal(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            createTicket = new CreateTicketModal(driver);
-            ticketsNav = new TicketsNav(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            promotions = new PromotionsPage(driver);
-            newPromotion = new AddNewPromotionModal(driver);
-            settingsNav = new SettingsNav(driver);
-            taxesAndFees = new TaxesAndFeesPage(driver);
-            ticketTerms = new TicketTermsPage(driver);
-            eventCardDesignPage = new EventCardDesignPage(driver);
-            eventDesignNavs = new DesignNavs(driver);
-
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
@@ -268,79 +234,52 @@
             await dashboard.clickCreateEventButton();
             await createEvent.createEventModalIsDisplayed();
             await createEvent.fillFormWithValidDataAndSave(eventName,shortName);
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickDesignNav();
-            await eventDesignNavs.clickEventCardDesignSubNav();
-            await eventCardDesignPage.uploadPhotoInputIsDisplayed();
-            await eventCardDesignPage.uploadImage();
-            await eventOptionTabs.clickGeneralDetailsNav();
-            await eventDetails.publishButtonIsDisplayed();
-            await eventDetails.clickPublishButton();
-            await eventDetails.unpublishButtonIsDisplayed();
+        });
+
+        it('should verify box-office table headers and no tickets message', async function () {
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventOptionTabs.ticketingTabIsDisplayed();
             await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketOneName,"1.0",ticketOneQuantity);
             await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(ticketOneName);
+            await eventTickets.clickBoxOfficeNav();
+            await bosTickets.assertTableHeaders();
+            await bosTickets.assertNoTicketMessage();
+
+        });
+
+        //PORTAL
+        it('should create first ticket and assert data in box-office table',async function () {
+
+            createTicket = new CreateTicketModal(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(5000);
+            await eventDetails.publishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.createNewTicket(ticketOneName,ticketOnePrice, ticketOneQuantity);
+            await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickActivateTicketToggle(ticketOneName);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketTwoName,"1.2",ticketOneQuantity);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(ticketTwoName);
-            await ticketsNav.clickActivateTicketToggle(ticketTwoName);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketThreeName,"0.75",ticketOneQuantity);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(ticketThreeName);
-            await ticketsNav.clickActivateTicketToggle(ticketThreeName);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketFourName,"0.25",ticketOneQuantity);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(ticketFourName);
-            await ticketsNav.clickActivateTicketToggle(ticketFourName);
-            await eventOptionTabs.clickSettingsNav();
-            await ticketTerms.termsPageIsDisplayed();
-            await ticketTerms.saveTerms();
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickTaxesAndFeesSubNav();
-            await taxesAndFees.createTaxesAndFeesForEventTickets();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.promotionsHeaderIsVisible();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.createPromotionForOneTicketWith$Value(ticketOneName, promoOneName, promoCodeOne);
-            await promotions.promotionsHeaderIsVisible();
-            await promotions.addPromotionButtonIsVisible()
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.createPromotionForMembersWithPercentValue(ticketTwoName, promoTwoName, promoCodeTwo);
-            await promotions.promotionsHeaderIsVisible();
-            await promotions.addPromotionButtonIsVisible()
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.createPromotionForMultipleTicketsWithLimitationsWithPercentValue(ticketOneName, promoThreeName, promoCodeThree);
-            await promotions.promotionsHeaderIsVisible();
-            await promotions.addPromotionButtonIsVisible()
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.createPromotionForMultipleTicketsWithLimitationsWithPercentValue(ticketOneName, promoFourName, promoCodeFour);
-            await promotions.promotionsHeaderIsVisible();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.createPromotionWith100discountForAllTickets(ticketOneName, promoFiveName, promoCodeFive);
-            await promotions.promotionsHeaderIsVisible();
-            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventTickets.clickBoxOfficeNav();
+            await bosTickets.assertTicketDataByTicketName(ticketOneName,ticketOnePrice, ticketOneQuantity);
 
         });
 
@@ -386,27 +325,10 @@
             await pay.payWithWalletButtonIsDisplayed();
             await pay.clickPayWithWalletButton();
             await confirm.isOnConfirmTab();
-            userWalletPurchasesTotal = userWalletPurchasesTotal + await confirm.getPurchaseTotalAmount();
             await ticketing.clickCloseTicketingPopupButton();
 
         });
 
-
-
-        it('Should check balance equals original minus transactions totals',async function () {
-            events = new EventsPage(driver);
-            login = new LoginComponent(driver);
-            myWallet = new MyWalletTab(driver);
-            await events.load();
-            await events.clickSignInButton();
-            await login.waitPopupToBeLoaded();
-            await login.authenticate(customerEmail, customerPassword);
-            await events.goToWalletPage();
-            await myWallet.myWalletScreenIsDisplayed();
-            userBalance = userBalance - userWalletPurchasesTotal;
-            console.log(userBalance);
-            await myWallet.calculateBalanceAfterPurchases(userBalance);
-        });
 
         it('Should check for sold tickets', async function () {
 
@@ -445,15 +367,7 @@
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
             eventOrders = new EventOrders(driver);
-            events = new EventsPage(driver);
-            login = new LoginComponent(driver);
-            info = new EventInfo(driver);
-            ticketing = new TicketingPage(driver);
-            tickets = new TicketsTab(driver);
-            extras = new ExtrasTab(driver);
-            pay = new PayTab(driver);
-            confirm = new ConfirmTab(driver);
-            myWallet = new MyWalletTab(driver);
+
 
         });
 
@@ -595,22 +509,7 @@
             let fee2value = await taxesAndFees.getTaxOrFeeValueByIndex(6,1);
             let fee1NameSubstring = fee1.substring(0,5)
             let fee2NameSubstring = fee2.substring(0,5)
-            await events.load();
-            await events.eventCardIsAvailableToClick();
-            await events.clickNewEvent(shortName);
-            await info.buyTicketsButtonPresent();
-            await info.clickBuyTicketsButton();
-            await ticketing.nextButtonPresent();
-            await ticketing.moveToTaxesInfoIcon();
-            let firstTaxLabel = await ticketing.getMiniTotalValuesByParentAndChildIndex(2, 0)
-            let secondTaxLabel = await ticketing.getMiniTotalValuesByParentAndChildIndex(3, 0)
-            assert.equal(firstTaxLabel,tax1 + ' ('+tax1value+')')
-            assert.equal(secondTaxLabel,tax2 + ' ('+tax2value+')')
-            await ticketing.moveToFeesInfoIcon();
-            let firstFeeLabel = await ticketing.getMiniTotalValuesByParentAndChildIndex(3, 0)
-            let secondFeeLabel = await ticketing.getMiniTotalValuesByParentAndChildIndex(4, 0)
-            //assert.equal(firstFeeLabel,fee1NameSubstring + ' ('+fee1value+')')  the $ value doesnt appear on hover when qty is 0
-            assert.equal(secondFeeLabel,fee2NameSubstring + ' ('+fee2value+')')
+
 
         });
 

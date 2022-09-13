@@ -19,7 +19,7 @@
             let validations = new Validations(this.driver);
             await login.waitPopupToBeLoaded();
             await login.clickForgotPasswordLink();
-            await this.isDisplayed(SUBMIT_BUTTON,5000, "forgotPassSubmitBtn");
+            await this.isDisplayed(SUBMIT_BUTTON,5000);
             await this.timeout(500);
             await this.click(SUBMIT_BUTTON);
             await validations.emailInputValidationIsDisplayed();

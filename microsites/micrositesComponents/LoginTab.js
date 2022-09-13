@@ -20,7 +20,7 @@
         }
 
         async isAtLoginTab(){
-            await this.isDisplayed(EMAIL_INPUT, 5000, "microTicketingEmail");
+            await this.isDisplayed(EMAIL_INPUT, 5000);
         }
 
         async loginWithEmailAndPasswordOnLoginTab(customerEmail,customerPassword){

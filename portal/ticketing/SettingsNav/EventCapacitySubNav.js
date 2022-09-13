@@ -9,7 +9,7 @@
             super(driver);
         }
         async isOnEventCapacitySubNav(){
-            await this.isDisplayed(SAVE_BUTTON,5000, "eventCapacitySaveBtn");
+            await this.isDisplayed(SAVE_BUTTON,5000);
         }
         async setLimitPerAccount(keys){
             await this.isOnEventCapacitySubNav();

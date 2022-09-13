@@ -24,7 +24,7 @@
         }
 
         async isAtShopCategoriesPage(){
-            await this.isDisplayed(POTENTIAL_CATEGORIES_BOX,5000, "potentialCategories");
+            await this.isDisplayed(POTENTIAL_CATEGORIES_BOX,5000);
         }
 
         async move6CategoriesFromPotentialToOrdered(){

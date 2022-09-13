@@ -15,7 +15,7 @@
 
 
         async taxesAndFeesSubTabIsDisplayed(){
-            await this.isDisplayed(TAXES_AND_FEES_SUBNAV,5000, "taxesAndFeesSub")
+            await this.isDisplayed(TAXES_AND_FEES_SUBNAV,5000)
             await this.timeout(1000);
         }
         async clickTaxesAndFeesSubNav(){

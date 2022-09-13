@@ -20,6 +20,7 @@
 
         async messageWhenTableIsEmpty(message){
             let empty = await this.getElementText(TABLE_EMPTY_MESSAGE);
+            assert.equal(empty,message);
         }
 
     }

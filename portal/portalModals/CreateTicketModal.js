@@ -37,11 +37,11 @@
 
 
         async ticketNameInputIsDisplayed(){
-            await this.isDisplayed(TICKET_NAME_INPUT, 5000, "ticketNameInp")
+            await this.isDisplayed(TICKET_NAME_INPUT, 5000)
             await this.timeout(1000);
         }
         async saveTicketButtonIsVisible(){
-            await this.isDisplayed(SAVE_TICKET_BUTTON, 5000, "ticketSaveBtn")
+            await this.isDisplayed(SAVE_TICKET_BUTTON, 5000)
         }
         async clickStartDateTimeInput(){
             await this.click(TICKET_START_DATE_INPUT);
@@ -123,7 +123,6 @@
             await startDatePicker.datePickerIsVisible();
             await startDatePicker.selectTodayDate();
             await startDatePicker.enterTimeNow();
-            //await startDatePicker.clickPMButton();
             await this.timeout(1500)
             await startDatePicker.clickSetButton();
             await this.timeout(1500)

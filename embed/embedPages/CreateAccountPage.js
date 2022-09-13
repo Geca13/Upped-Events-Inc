@@ -22,7 +22,7 @@
         }
 
         async isOnCreateAccountEmbedPage(){
-            await this.isDisplayed(FIRST_NAME_INPUT, 5000, "embedCreateAccountInput");
+            await this.isDisplayed(FIRST_NAME_INPUT, 5000);
             await this.timeout(500);
         }
 

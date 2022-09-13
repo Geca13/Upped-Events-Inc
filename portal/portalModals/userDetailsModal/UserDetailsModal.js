@@ -14,7 +14,7 @@
             super(driver);
         }
     async userInfoNavIsDisplayed(){
-        await this.isDisplayed(USER_INFO_NAV,5000, "userDetailsModal");
+        await this.isDisplayed(USER_INFO_NAV,5000);
     }
     async clickUserInfoNav(){
             await this.click(USER_INFO_NAV);
@@ -40,9 +40,6 @@
             await transactions.assertCardTotalEqualsOrdersTotal();
             await transactions.assertTotalFromTransactionsOnTransactionsScreenTotal(total);
     }
-
-
-
 
     }
     module.exports = UserDetailsModal;

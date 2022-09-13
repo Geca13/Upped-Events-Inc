@@ -74,7 +74,7 @@
         }
 
         async addMoneyComponentIsDisplayed(){
-            await this.isDisplayed(ADD_MONEY_BUTTON, 5000, "addMoneyMicro");
+            await this.isDisplayed(ADD_MONEY_BUTTON, 5000);
         }
 
         async assertAddMoneyComponentElements(){

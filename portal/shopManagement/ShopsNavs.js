@@ -11,19 +11,19 @@
             super(driver);
         }
         async headerIsDisplayed(){
-            await this.isDisplayed(SHOPS_MANAGEMENT_HEADER,5000, "shopsPageHeader");
+            await this.isDisplayed(SHOPS_MANAGEMENT_HEADER,5000);
         }
         async shopsNavIsDisplayed(){
-            await this.isDisplayed(SHOPS_NAV,5000, "shopsNav");
+            await this.isDisplayed(SHOPS_NAV,5000);
         }
         async applicationsNavIsDisplayed(){
-            await this.isDisplayed(APPLICATIONS_NAV,5000, "applicationsNav");
+            await this.isDisplayed(APPLICATIONS_NAV,5000);
         }
         async vendorNavIsDisplayed(){
-            await this.isDisplayed(VENDOR_SIGN_UP_FORM_NAV,5000, "vendorNav");
+            await this.isDisplayed(VENDOR_SIGN_UP_FORM_NAV,5000);
         }
         async shopCategoriesNavIsDisplayed(){
-            await this.isDisplayed(SHOP_CATEGORIES_NAV,5000, "shopCategoriesNav");
+            await this.isDisplayed(SHOP_CATEGORIES_NAV,5000);
         }
         async clickShopsNav(){
             await this.click(SHOPS_NAV);

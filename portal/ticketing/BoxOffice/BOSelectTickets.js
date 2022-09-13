@@ -1,15 +1,17 @@
     const BasePage = require('../../../BasePage');
     const assert = require('assert')
-    const OverrideTicketModal = require('../../portalModals/OverrideTicketModal')
+    const { expect }= require('chai');
+    const OverrideTicketModal = require('../../portalModals/OverrideTicketModal');
+    const TableComponent = require('../../portalComponents/TableComponent')
     const TICKET_GROUPS_TABS = { id: "eventsTab" }
     const COLUMN_TICKET_NAME = { className: "table-ticket-name" } //list
     const COLUMN_PRICE = { xpath: "//td[contains(@class, 'column-price')]//span" } //list
+    const COLUMN_DESCRIPTION = { xpath: "//td[contains(@class, 'column-description')]//span" } //list
     const COLUMN_QUANTITY = { className: "column-quantity" } //list
     const COLUMN_SOLD = { className: "column-sold" } //list
     const COLUMN_SELECTS = { className: "numeric-dropdown" } //list
     const OVERRIDEN_QUANTITY_OPTIONS = { xpath: "//option[contains(@class, 'overriden')]" }
     const OVERRIDEN_TICKET_PRICE = { xpath: "//span[contains(@class, 'overriden')]" }
-
     const COLUMN_OVERRIDE = { className: "text-second" } //list
     const STEPPER = { id: "stepper" };
     const SAVE_BUTTON = { xpath: "//*[text()='Save']"};
@@ -23,7 +25,27 @@
         }
 
         async isOnBoxOfficePage(){
-            await this.isDisplayed(COLUMN_SELECTS,5000, "boTicketSelects");
+            await this.isDisplayed(COLUMN_SELECTS,5000);
+        }
+
+        async assertTicketDataByTicketName(ticketName,ticketPrice, ticketQuantity){
+
+                await this.isOnBoxOfficePage();
+                let i = await this.returnIndexWhenTextIsKnown(COLUMN_TICKET_NAME, ticketName);
+                let ticketOne = await this.getTextFromElementOfArray(COLUMN_TICKET_NAME,i);
+                let description = await this.getTextFromElementOfArray(COLUMN_DESCRIPTION,i);
+                let price = await this.getTextFromElementOfArray(COLUMN_PRICE,i);
+                let quantity = await this.getTextFromElementOfArray(COLUMN_QUANTITY,i);
+                let sold = await this.getTextFromElementOfArray(COLUMN_SOLD,i);
+                let selectValue = await this.getEnteredTextInTheInputByIndex(COLUMN_SELECTS,i);
+                expect(ticketOne).to.equal(ticketName)
+                expect(description).to.equal(ticketName + " description")
+                expect(price).to.equal("$" + ticketPrice)
+                expect(quantity).to.equal(ticketQuantity.toString())
+                expect(sold).to.equal("0")
+                expect(selectValue).to.equal("0")
+
+
         }
 
         async selectTicketByIndexAndSendQuantity(index, quantity){
@@ -100,6 +122,24 @@
             assert.equal(ticketTwoName,ticketTwo);
             assert.equal(ticketThreeName,ticketThree);
             assert.equal(ticketFourName,ticketFour);
+        }
+
+        async assertTableHeaders(){
+            await this.isOnBoxOfficePage();
+            let table = new TableComponent(this.driver);
+            await table.assertColumnNamesByIndex(0 ,"Ticket Name");
+            await table.assertColumnNamesByIndex(1 ,"Desciption");
+            await table.assertColumnNamesByIndex(2 ,"Price");
+            await table.assertColumnNamesByIndex(3 ,"Quantity");
+            await table.assertColumnNamesByIndex(4 ,"Sold");
+            await table.assertColumnNamesByIndex(5,"Select Ticket");
+            await table.assertColumnNamesByIndex(6 ,"Overrides: Price/Quantity");
+        }
+
+        async assertNoTicketMessage(){
+            await this.isOnBoxOfficePage();
+            let table = new TableComponent(this.driver);
+            await table.messageWhenTableIsEmpty("No record available")
         }
     }
     module.exports = BOSelectTickets;

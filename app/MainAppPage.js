@@ -8,7 +8,7 @@ class MainAppPage extends BasePage{
     }
 
     async mainPageIsLoaded(){
-        await this.isDisplayed(LOGIN_BUTTON);
+        await this.isDisplayed(LOGIN_BUTTON, 5000);
         await this.timeout(5000)
 
     }

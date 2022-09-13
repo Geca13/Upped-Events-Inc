@@ -37,10 +37,10 @@
         }
 
         async isAtCreatePerformanceModal(){
-            await this.isDisplayed(PERFORMANCE_NAME_INPUT,5000, "performanceNameInput");
+            await this.isDisplayed(PERFORMANCE_NAME_INPUT,5000);
         }
         async typesDropdownOptionsAreDisplayed(){
-            await this.isDisplayed(TYPE_AND_LOCATION_OPTIONS,5000, "typeAndLocation");
+            await this.isDisplayed(TYPE_AND_LOCATION_OPTIONS,5000);
         }
         async locationOptionsAreDisplayed(){
             await this.isDisplayedFromArray(TYPE_AND_LOCATION_OPTIONS,7,5000);
@@ -64,7 +64,7 @@
             await this.sentKeys(PERFORMANCE_DESCRIPTION_TEXTAREA, "Best comedy tv shows");
             await this.sentKeys(TAG_INPUT, "Bartowski");
             await this.clickElementReturnedFromAnArray(ADD_TAG_BUTTON,3);
-            await this.isDisplayed(SAVED_TAGS,5000, "savedTags");
+            await this.isDisplayed(SAVED_TAGS,5000);
             await this.sentKeys(TAG_INPUT, "Grimes");
             await this.clickElementReturnedFromAnArray(ADD_TAG_BUTTON,3);
             //await this.click(MAKE_FEATURED_CHECKBOX);

@@ -148,7 +148,7 @@
         }
 
         async donateScreenIsVisible(){
-            await this.isDisplayed(DONATION_INPUT, 5000, "donateInput");
+            await this.isDisplayed(DONATION_INPUT, 5000);
             await this.timeout(500)
         }
     }

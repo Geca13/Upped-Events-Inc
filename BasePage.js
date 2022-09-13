@@ -657,26 +657,21 @@
          return element.isEnabled();
     }
 
-    async isDisplayed(locator,timeout, description) {
-          if (timeout){
-              try {
-                  await this.driver.wait(until.elementLocated(locator), timeout)
-                  await this.driver.wait(until.elementIsVisible(this.find(locator)), timeout)
-                  await this.driver.wait(until.elementIsEnabled(this.find(locator)), timeout)
-                  await this.timeout(500);
-                  return true
-              }catch (error){
-                  await this.takeScreenshot(description);
-                  await this.writeError(error);
-              }
-          } else{
-             try {
-                 return await this.find(locator).isDisplayed()
-             } catch (error) {
-                return false
-             }
-          }
-    }
+        async isDisplayed(locator,timeout) {
+            if (timeout){
+                await this.driver.wait(until.elementLocated(locator), timeout)
+                await this.driver.wait(until.elementIsVisible(this.find(locator)), timeout)
+                await this.driver.wait(until.elementIsEnabled(this.find(locator)), timeout)
+                await this.timeout(500)
+                return true
+            } else{
+                try {
+                    return await this.find(locator).isDisplayed()
+                } catch (error) {
+                    return false
+                }
+            }
+        }
 
     async isDisplayedFromArray(locator,index ,timeout) {
         if (timeout){

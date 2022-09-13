@@ -22,14 +22,14 @@
         }
 
         async occurrenceOptionsAreDisplayed(){
-            await this.isDisplayed(OCCUR_OPTIONS,5000, "occurrenceOpt");
+            await this.isDisplayed(OCCUR_OPTIONS,500);
         }
 
         async createEventModalIsDisplayed(){
-           await this.isDisplayed(EVENT_NAME_LABEL,5000, "eventNameLabel");
+           await this.isDisplayed(EVENT_NAME_LABEL,5000);
         }
         async submitButtonIsClickable(){
-            await this.isDisplayed(CREATE_EVENT_BUTTON,15000, "createEventBtn");
+            await this.isDisplayed(CREATE_EVENT_BUTTON,15000);
         }
 
         async fillFormWithValidDataAndSave(eventName,shortName){

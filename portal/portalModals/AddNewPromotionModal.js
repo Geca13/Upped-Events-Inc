@@ -63,15 +63,15 @@
             super(driver);
         }
         async addPromotionModalIsDisplayed(){
-            await this.isDisplayed(PROMOTION_TITLE_INPUT,10000, "promotionNameInput")
+            await this.isDisplayed(PROMOTION_TITLE_INPUT,10000)
         }
 
         async startDateInputIsDisplayed(){
-            await this.isDisplayed(PROMOTION_START_DATE_INPUT,10000, "startDateInput")
+            await this.isDisplayed(PROMOTION_START_DATE_INPUT,10000)
         }
 
         async ticketsAreDisplayedInTheList(ticketName){
-            await this.isDisplayed(By.xpath("//*[text()='"+ticketName+"']"),5000, "ticketName" + ticketName);
+            await this.isDisplayed(By.xpath("//*[text()='"+ticketName+"']"),5000);
         }
 
         async clickTicketInTheList(ticketName){
@@ -85,7 +85,7 @@
         }
 
         async promotionDescriptionIsDisplayed(){
-            await this.isDisplayed(PROMOTION_DESCRIPTION_INPUT,5000, "promotionDescription");
+            await this.isDisplayed(PROMOTION_DESCRIPTION_INPUT,5000);
         }
 
         async assertElementsOnNewPromotionsScreen(ticketOneName){
@@ -108,7 +108,7 @@
             assert.equal(statusLabel, "STATUS");
             await this.click(PROMOTION_STATUS_DROPDOWN);
             await this.enabledStatusIsDisplayed();
-            await this.isDisplayed(DISABLED_STATUS_OPTION,5000, "disabledStatusPromotion");
+            await this.isDisplayed(DISABLED_STATUS_OPTION,5000);
             await this.click(PROMOTION_STATUS_DROPDOWN);
             await this.scrollUpOrDown(200);
             let discountQuantity = await this.getElementTextFromAnArrayByIndex(CHECKBOXES_LABELS,1);
@@ -123,11 +123,11 @@
             assert.equal(limitByAccount, "Limit how many times this promo code can be used by a single account.");
             await this.scrollUpOrDown(200)
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='hidden'");
-            await this.isDisplayed(GENERATE_MULTIPLE_CODES_BUTTON,5000, "generateMultipleCodes");
+            await this.isDisplayed(GENERATE_MULTIPLE_CODES_BUTTON,5000);
             await this.click(GENERATE_MULTIPLE_CODES_BUTTON);
-            await this.isDisplayed(QUANTITY_OF_CODES_INPUT,5000, "codesQty");
-            await this.isDisplayed(GENERATE_SINGLE_CODE_BUTTON,5000, "singleCodeButton");
-            await this.isDisplayed(DESCRIPTION_QUESTIONS,5000, "descriptionQuestions");
+            await this.isDisplayed(QUANTITY_OF_CODES_INPUT,5000);
+            await this.isDisplayed(GENERATE_SINGLE_CODE_BUTTON,5000);
+            await this.isDisplayed(DESCRIPTION_QUESTIONS,5000);
             await this.timeout(500);
             let uniqueCodesQuestion = await this.getElementTextFromAnArrayByIndex(DESCRIPTION_QUESTIONS,0);
             assert.equal(uniqueCodesQuestion, "How many unique codes would you like generated?");
@@ -155,7 +155,7 @@
         }
 
         async enabledStatusIsDisplayed() {
-            await this.isDisplayed(ENABLED_STATUS_OPTION, 5000, "enabledStatusPromotion");
+            await this.isDisplayed(ENABLED_STATUS_OPTION, 5000);
         }
 
         async createPromotionForOneTicketWith$Value(ticketName, promoName, promoCode){
@@ -173,7 +173,7 @@
             await this.sentKeys(PROMO_CODE_NAME_INPUT,promoCode);
             await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='hidden'");
             //await this.driver.executeScript("document.body.style.zoom = '80%'")
-            await this.startDateInputIsDisplayed(PROMOTION_START_DATE_INPUT, 5000, "promoStartDateInput");
+            await this.startDateInputIsDisplayed(PROMOTION_START_DATE_INPUT, 5000);
             await this.timeout(1500)
             await this.click(PROMOTION_START_DATE_INPUT)
             let startDatePicker = new DateTimePickerModal(this.driver);
@@ -286,7 +286,7 @@
             await this.sentKeys(PROMO_CODE_NAME_INPUT,promoCode);
             await this.driver.executeScript("document.getElementsByName('accountLimit')[0].click()");
             await this.moveToElement(PROMOTION_START_DATE_INPUT);
-            await this.isDisplayed(PROMO_PER_ACCOUNT_LIMIT_INPUT,5000, "promoPerAccountLimitInput");
+            await this.isDisplayed(PROMO_PER_ACCOUNT_LIMIT_INPUT,5000);
             await this.sentKeys(PROMO_PER_ACCOUNT_LIMIT_INPUT, "10");
             await this.click(SELECT_LIMIT_TICKETS_DROPDOWN);
             await this.ticketsAreDisplayedInTheList(ticketNameOne);
@@ -357,11 +357,11 @@
         }
 
         async selectLimitTicketDropdownIsDisplayed() {
-            await this.isDisplayed(SELECT_LIMIT_TICKETS_DROPDOWN, 5000, "limitTicketDropdown");
+            await this.isDisplayed(SELECT_LIMIT_TICKETS_DROPDOWN, 5000);
         }
 
         async selectLimitTicketDropdownOptionsAreDisplayed() {
-            await this.isDisplayed(SELECT_LIMIT_TICKETS_DROPDOWN_OPTIONS, 5000, "limitTicketOptions");
+            await this.isDisplayed(SELECT_LIMIT_TICKETS_DROPDOWN_OPTIONS, 5000);
         }
 
         async assertDataOnUpdateModalForPromotionWithThreeTicketsAndLimit(ticketTwoName, ticketThreeName, ticketFourName, promoThreeName, promoCodeThree){
@@ -389,7 +389,7 @@
 
         async assertTicketsOptionsInLimitDropdownEqualsPreviouslySelected(ticketOneName, ticketTwoName){
             await this.click(SELECT_TICKET_DROPDOWN);
-            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000, "ticketDropdownOptions");
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
             await this.timeout(500);
             await this.clickTicketInTheList(ticketOneName);
             await this.clickTicketInTheList(ticketTwoName);
@@ -408,7 +408,7 @@
 
         async assertAllTicketsDisplayedInLimitDropdownWhenAllOptionSelectedInTickets(){
             await this.click(SELECT_TICKET_DROPDOWN);
-            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000, "ticketDropdownOptions");
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
             await this.timeout(500);
             await this.clickTicketInTheList("All");
             await this.timeout(1000)
@@ -469,7 +469,7 @@
 
         async assertAllTicketsAreListedInTicketTypeDropdown(tickets){
             await this.click(SELECT_TICKET_DROPDOWN);
-            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000, "ticketDropdownOptions");
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
             await this.timeout(500);
             let dropdownOptionsText = [];
             let dropdownOptions = await this.findAll(TICKET_DROPDOWN_OPTIONS);
@@ -487,7 +487,7 @@
 
         async assertCorrectPriceIsDisplayedWhenTickedIsSelectedInDropdown(ticketOnePrice){
             await this.click(SELECT_TICKET_DROPDOWN);
-            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000, "ticketDropdownOptions");
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
             await this.timeout(500);
             await this.clickElementReturnedFromAnArray(TICKET_DROPDOWN_OPTIONS,1);
             await this.click(SELECT_TICKET_DROPDOWN);
@@ -506,7 +506,7 @@
             await this.click(SELECT_TICKET_DROPDOWN);
             await this.ticketsAreDisplayedInTheList(ticketOneName);
             await this.clickTicketInTheList(ticketOneName);
-            await this.isDisplayed(CURRENT_PRICE, 5000, "currentPrice");
+            await this.isDisplayed(CURRENT_PRICE, 5000);
             let currentPrice = await this.returnElementsCount(CURRENT_PRICE);
             assert.equal(currentPrice, 1);
             await this.clickTicketInTheList(ticketTwoName);
@@ -518,7 +518,7 @@
 
         async assert$ValuePromotionCanNotAcceptLargerValueThenTicketPrice(ticketOnePrice){
             await this.click(SELECT_TICKET_DROPDOWN);
-            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000, "ticketDropdownOptions");
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
             await this.timeout(500);
             await this.clickElementReturnedFromAnArray(TICKET_DROPDOWN_OPTIONS,1);
             await this.click(SELECT_TICKET_DROPDOWN);
@@ -531,7 +531,7 @@
 
         async assertWhen$ValuePromotionIsEnteredIsDisplayedNextToOriginalPrice(ticketOnePrice, newPrice){
             await this.click(SELECT_TICKET_DROPDOWN);
-            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000, "ticketDropdownOptions");
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
             await this.timeout(500);
             await this.clickElementReturnedFromAnArray(TICKET_DROPDOWN_OPTIONS,1);
             await this.click(SELECT_TICKET_DROPDOWN);
@@ -547,7 +547,7 @@
 
         async assertWhenPercentageValuePromotionIsEnteredIsDisplayedNextToOriginalPrice(ticketOnePrice, discount){
             await this.click(SELECT_TICKET_DROPDOWN);
-            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000, "ticketDropdownOptions");
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
             await this.timeout(500);
             await this.clickElementReturnedFromAnArray(TICKET_DROPDOWN_OPTIONS,1);
             await this.click(SELECT_TICKET_DROPDOWN);
@@ -565,7 +565,7 @@
 
         async assertTooltipDisplaysCorrectAvailableTicketsAndEnteringLargerWillSetMaximumNumber(ticketOneName, ticketOneQuantity){
             await this.click(SELECT_TICKET_DROPDOWN);
-            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000, "ticketDropdownOptions");
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
             await this.timeout(500);
             await this.clickElementReturnedFromAnArray(TICKET_DROPDOWN_OPTIONS,1);
             await this.click(SELECT_TICKET_DROPDOWN);
@@ -581,7 +581,7 @@
 
         async assertTooltipDisplaysCorrectAvailableMultipleTicketsAndEnteringLargerWillSetMaximumNumber(ticketOneName, ticketOneAvailableQty, ticketTwoName, ticketTwoAvailableQty, ticketThreeName, ticketThreeAvailableQty){
             await this.click(SELECT_TICKET_DROPDOWN);
-            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000, "ticketDropdownOptions");
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
             await this.timeout(500);
             await this.clickElementReturnedFromAnArray(TICKET_DROPDOWN_OPTIONS,1);
             await this.clickElementReturnedFromAnArray(TICKET_DROPDOWN_OPTIONS,2);
@@ -610,7 +610,7 @@
 
         async assertAllowedCharactersInPromoCodeInputAndMaximumLength(){
             await this.click(SELECT_TICKET_DROPDOWN);
-            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000, "ticketDropdownOptions");
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
             await this.timeout(500);
             await this.clickElementReturnedFromAnArray(TICKET_DROPDOWN_OPTIONS,1);
             let testString = '1234567890!@#$%^&*(){}[]?/abcdefghijklmnopqrstuvwxyz';
@@ -627,7 +627,7 @@
         async errorValidationIsReturnedWhenExistingCodeIsEnteredAsPromoCodeForNewPromotion(promoCodeThree){
             await this.addPromotionModalIsDisplayed();
             await this.click(SELECT_TICKET_DROPDOWN);
-            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000, "ticketDropdownOptions");
+            await this.isDisplayed(TICKET_DROPDOWN_OPTIONS,5000);
             await this.clickElementReturnedFromAnArray(TICKET_DROPDOWN_OPTIONS,1);
             await this.click(SELECT_TICKET_DROPDOWN);
             await this.moveToElement(PROMOTION_START_DATE_INPUT)

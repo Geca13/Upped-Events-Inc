@@ -17,7 +17,7 @@
         async completeResetPasswordScenarioWithValidations(password){
             let validations = new Validations(this.driver);
 
-            await this.isDisplayed(RESET_PASSWORD_HEADER,5000, "resetPassHeader");
+            await this.isDisplayed(RESET_PASSWORD_HEADER,5000);
             await this.sentKeys(PASSWORD_INPUT, 'Pass' );
             await this.click(RESET_PASSWORD_HEADER);
             await validations.passwordInputLengthValidationIsDisplayed();

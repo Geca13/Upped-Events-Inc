@@ -33,7 +33,7 @@
             super(driver);
         }
         async isOnOrderDetailsPage(){
-            await this.isDisplayed(ORDER_DETAILS_HEADER,5000, "orderDetailsHeader");
+            await this.isDisplayed(ORDER_DETAILS_HEADER,5000);
             await this.timeout(500)
         }
 
