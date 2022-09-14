@@ -161,7 +161,7 @@
         let receipt;
         let steps;
 
-        let base = 999716 //  Math.floor(100000 + Math.random() * 900000);
+        let base = Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -212,7 +212,8 @@
         afterEach(async function(){
             await driver.quit()
         })
-/*        //PORTAL
+
+        //PORTAL
         it('should create new event and verify data in events page and General Details',async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
@@ -260,7 +261,7 @@
             await ticketsNav.clickAddTicketButton();
             await createTicket.createFirstTicketAndAssertDataOnTicketsAndUpdate(ticketOneName,ticketOnePrice,embedTicketQuantity);
 
-        });*/
+        });
 
         //PORTAL -> EMBED
         it('should make embed view for event', async function () {
@@ -2845,7 +2846,7 @@
 
         });
 
-        //EMBED
+        //EMBED -> fails because the value of the ticket that is out of promotion limit is not displayed separately
         it('should select four tickets exceeding the limit of promotion assert tickets in Order Details and promoted ticket shown twice with two prices', async function () {
 
             main = new EmbedMainPage(driver);
@@ -2936,6 +2937,7 @@
 
         });
 
+        //EMBED -> fails because when promotion qty is over we should get promotion finished error
         it('should apply the promotion code when promotion qty is finished and get promo error message and assert input field still visible', async function () {
 
             main = new EmbedMainPage(driver);
@@ -3458,8 +3460,6 @@
 
         });
 
-
-
         //EMBED
         it('should assert on staff ticket only one ticket can be selected', async function () {
 
@@ -3635,6 +3635,7 @@
             await eventOptionTabs.clickSettingsNav();
             await settingsNav.taxesAndFeesSubTabIsDisplayed();
             await settingsNav.clickTicketQuestions();
+            await questions.clickDeactivateQuestionButton(0);
             await questions.createQuestionWithInput(base);
 
         });
@@ -3677,7 +3678,8 @@
 
         });
 
-        it('Should check for first two ticket questions responses made in embed mobile', async function () {
+        //PORTAL
+        it('Should check for first two ticket questions responses made in embed', async function () {
 
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
@@ -3787,7 +3789,8 @@
 
         });
 
-        it('Should check for first two ticket questions responses made in embed mobile', async function () {
+        //PORTAL
+        it('Should check response provided for the updated question', async function () {
 
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);

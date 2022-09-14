@@ -58,7 +58,7 @@
             let heading = await this.getElementText(HEADING);
             assert.equal(heading, "Before You Go...");
             let subHeading = await this.getElementText(SUB_HEADING);
-            assert.equal(subHeading, "Please answer the following questions");
+            assert.equal(subHeading, "Please answer the following question");
             await this.driver.executeScript("document.getElementsByClassName('question-title')[0].style.visibility='hidden'");
             await this.driver.executeScript("document.getElementsByClassName('responses-container')[0].style.visibility='hidden'");
             let ticketName = await this.getElementText(TICKET_NAME);

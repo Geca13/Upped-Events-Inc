@@ -158,7 +158,7 @@
         let embedDonate;
 
 
-        let base = 480024 //Math.floor(100000 + Math.random() * 900000);
+        let base = Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -283,50 +283,21 @@
 
         });
 
-
-        it('should make purchase with limitation on tickets promotions for one ticket',async function () {
-            events = new EventsPage(driver);
-            login = new LoginComponent(driver);
-            info = new EventInfo(driver);
-            ticketing = new TicketingPage(driver);
-            tickets = new TicketsTab(driver);
-            extras = new ExtrasTab(driver);
-            pay = new PayTab(driver);
-            confirm = new ConfirmTab(driver);
-            newCardComponent = new NewCardComponent(driver);
-            terms = new TicketTermsModal(driver);
-            await events.load();
-            await events.clickSignInButton();
-            await login.waitPopupToBeLoaded();
-            await login.authenticate(customerEmail, customerPassword);
-            await driver.sleep(10000);
-            await events.eventCardIsAvailableToClick();
-            await events.clickNewEvent(shortName);
-            await info.buyTicketsButtonPresent();
-            await info.clickBuyTicketsButton();
-            await ticketing.termsButtonPresent();
-            /*await ticketing.clickTermsButton();
-            await terms.ticketTermsModalIsDisplayed();
-            await terms.clickCloseTermsModalButton();*/
-
-            await ticketing.nextButtonPresent();
-            await tickets.sendKeysToQtyInput(0,"3");
-            await tickets.sendKeysToQtyInput(1,"4");
-            await tickets.sendKeysToQtyInput(2,"4");
-            await tickets.sendKeysToQtyInput(3,"5");
-            await ticketing.clickNextButton();
-            await extras.addMoneyTabIsDisplayed();
-            await ticketing.clickNextButton();
-            await pay.savedCardsHeaderIsPresent();
-            await pay.enterPromotionCode(promoCodeThree);
-            await pay.clickApplyDiscountButton();
-            await ticketing.removeDiscountIconIsDisplayed();
-            await pay.clickPayWithWalletOption();
-            await pay.payWithWalletButtonIsDisplayed();
-            await pay.clickPayWithWalletButton();
-            await confirm.isOnConfirmTab();
-            await ticketing.clickCloseTicketingPopupButton();
-
+        it('should get red error message when tickets are not selected and user clicks on the save button',async function () {
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await eventTickets.clickBoxOfficeNav();
+            await bosTickets.isOnBoxOfficePage();
+            await bosTickets.assertWhenSelectedTicketQtyEqualZeroErrorMessageIsReturned();
         });
 
 

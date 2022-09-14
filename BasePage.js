@@ -83,7 +83,7 @@
     }
 
     async clickElementByText(text){
-         let element = await this.driver.findElement(By.xpath("//*[text()='"+text+"']"));
+         let element = await this.driver.findElement(By.xpath("//span[text()='"+text+"']"));
          await element.click();
     }
 

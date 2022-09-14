@@ -1,6 +1,7 @@
     const BasePage = require('../../../BasePage');
     const assert = require('assert')
     const { expect }= require('chai');
+    const Alerts = require('../../../Validations&Alerts/Alerts')
     const OverrideTicketModal = require('../../portalModals/OverrideTicketModal');
     const TableComponent = require('../../portalComponents/TableComponent')
     const TICKET_GROUPS_TABS = { id: "eventsTab" }
@@ -30,21 +31,20 @@
 
         async assertTicketDataByTicketName(ticketName,ticketPrice, ticketQuantity){
 
-                await this.isOnBoxOfficePage();
-                let i = await this.returnIndexWhenTextIsKnown(COLUMN_TICKET_NAME, ticketName);
-                let ticketOne = await this.getTextFromElementOfArray(COLUMN_TICKET_NAME,i);
-                let description = await this.getTextFromElementOfArray(COLUMN_DESCRIPTION,i);
-                let price = await this.getTextFromElementOfArray(COLUMN_PRICE,i);
-                let quantity = await this.getTextFromElementOfArray(COLUMN_QUANTITY,i);
-                let sold = await this.getTextFromElementOfArray(COLUMN_SOLD,i);
-                let selectValue = await this.getEnteredTextInTheInputByIndex(COLUMN_SELECTS,i);
-                expect(ticketOne).to.equal(ticketName)
-                expect(description).to.equal(ticketName + " description")
-                expect(price).to.equal("$" + ticketPrice)
-                expect(quantity).to.equal(ticketQuantity.toString())
-                expect(sold).to.equal("0")
-                expect(selectValue).to.equal("0")
-
+            await this.isOnBoxOfficePage();
+            let i = await this.returnIndexWhenTextIsKnown(COLUMN_TICKET_NAME, ticketName);
+            let ticketOne = await this.getTextFromElementOfArray(COLUMN_TICKET_NAME,i);
+            let description = await this.getTextFromElementOfArray(COLUMN_DESCRIPTION,i);
+            let price = await this.getTextFromElementOfArray(COLUMN_PRICE,i);
+            let quantity = await this.getTextFromElementOfArray(COLUMN_QUANTITY,i);
+            let sold = await this.getTextFromElementOfArray(COLUMN_SOLD,i);
+            let selectValue = await this.getEnteredTextInTheInputByIndex(COLUMN_SELECTS,i);
+            expect(ticketOne).to.equal(ticketName)
+            expect(description).to.equal(ticketName + " description")
+            expect(price).to.equal("$" + ticketPrice)
+            expect(quantity).to.equal(ticketQuantity.toString())
+            expect(sold).to.equal("0")
+            expect(selectValue).to.equal("0")
 
         }
 
@@ -140,6 +140,15 @@
             await this.isOnBoxOfficePage();
             let table = new TableComponent(this.driver);
             await table.messageWhenTableIsEmpty("No record available")
+        }
+
+        async assertWhenSelectedTicketQtyEqualZeroErrorMessageIsReturned(){
+            let selected = await this.getEnteredTextInTheInput(COLUMN_SELECTS);
+            assert.equal(selected, "0");
+            await this.click(SAVE_BUTTON);
+            let alert = new Alerts(this.driver)
+            await alert.errorInfoMessageIsDisplayed("Please select atleast one ticket");
+
         }
     }
     module.exports = BOSelectTickets;

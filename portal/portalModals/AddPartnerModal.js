@@ -46,6 +46,7 @@
             await this.clickElementReturnedFromAnArray(DROPDOWNS,2);
             await this.click(INVITE_EMAIL_OPTION);
             await this.clickElementReturnedFromAnArray(DROPDOWNS,3);
+            await this.isDisplayed(INDIVIDUAL_OPTION, 5000);
             await this.click(INDIVIDUAL_OPTION);
             await this.timeout(500);
             await this.sentKeys(EMAIL_INPUT,email);

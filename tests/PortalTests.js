@@ -542,31 +542,7 @@
 
         });
 
-        //EMBED
-        it('should assert tickets groups', async function () {
 
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.assertGroupNamesAndCount(ticketGroupOne, ticketGroupTwo, ticketGroupThree);
-
-        });
-
-        //EMBED
-        it('should assert tickets by groups and active class is applied when clicked on group in embed', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.assertTicketsByGroupsAndClassIsAppliedWhenClickedOnFullEmbed(base, "active");
-
-        });
 
         //EMBED
         it('should limit the tickets per account and check if all dropdowns are at that maximum in the embed', async function () {
@@ -684,45 +660,6 @@
 
         });
 
-        // PORTAL -> EMBED
-        it('should assert that ticket terms elements in embed are not displayed when not created in portal', async function () {
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedLogin = new LoginPage(driver);
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            ticketsNav = new TicketsNav(driver);
-            eventTickets = new EventTickets(driver);
-            ticketTerms = new TicketTermsPage(driver);
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab()
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await eventTickets.clickSettingsTab();
-            await ticketTerms.termsPageIsDisplayed();
-            await ticketTerms.assertTicketTermsIsEmpty();
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.ticketTermsCheckBoxAndLabelAreNotDisplayed();
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await main.ticketTermsCheckBoxAndLabelAreNotDisplayed()
-
-        });
-
         // PORTAL
         it('should set ticket terms in the portal and assert entered tags and text', async function () {
             portalLogin = new PortalLoginPage(driver);
@@ -748,23 +685,6 @@
             await ticketTerms.termsPageIsDisplayed();
             await ticketTerms.saveTerms();
             await ticketTerms.assertElementsInTheTermsBoxAfterSavingTerms();
-        });
-
-        // EMBED
-        it('should assert that ticket terms are displayed only when user is logged in', async function () {
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedLogin = new LoginPage(driver);
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.ticketTermsCheckBoxAndLabelAreNotDisplayed();
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await main.ticketTermsCheckBoxAndLabelAreDisplayed();
-
         });
 
         // EMBED
@@ -964,127 +884,7 @@
 
         });
 
-        //EMBED
-        it('should assert when donation button is clicked the amount is visible in donation input in the embed',async function () {
 
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedDonate = new EmbedDonateComponent(driver)
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedDonate.assertCorrectValuesInInputAfterDonationButtonIsClicked(0);
-            await embedDonate.assertCorrectValuesInInputAfterDonationButtonIsClicked(1);
-            await embedDonate.assertCorrectValuesInInputAfterDonationButtonIsClicked(2);
-            await embedDonate.assertCorrectValuesInInputAfterDonationButtonIsClicked(3);
-
-        });
-
-        //EMBED 55
-        it('should assert when donation is added to order the amount is visible in Order Total in the embed',async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedDonate = new EmbedDonateComponent(driver)
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedDonate.addDonationToOrderAndAssertDataInOrderTotal(0);
-            await embedDonate.clickResetDonationButtonAndAssertInputIsReset();
-            await embedDonate.addDonationToOrderAndAssertDataInOrderTotal(1);
-            await embedDonate.clickResetDonationButtonAndAssertInputIsReset();
-            await embedDonate.addDonationToOrderAndAssertDataInOrderTotal(2);
-            await embedDonate.clickResetDonationButtonAndAssertInputIsReset();
-            await embedDonate.addDonationToOrderAndAssertDataInOrderTotal(3);
-            await embedDonate.clickResetDonationButtonAndAssertInputIsReset();
-
-        });
-
-        //EMBED
-        it('should assert when custom donation is added to order the amount is visible in Order Total in the embed',async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedDonate = new EmbedDonateComponent(driver)
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedDonate.addCustomDonationAndAssertIsAddedInOrderTotal();
-
-        });
-
-        //EMBED
-        it('should assert when donation is added to order calculates corectly in Order Total in the embed',async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedDonate = new EmbedDonateComponent(driver)
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedDonate.calculateTheOrderTotalAfterDonationIsAdded();
-
-        });
-
-        //EMBED
-        it('should assert add / reset buttons disabled scenarios',async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedDonate = new EmbedDonateComponent(driver)
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedDonate.checkWhenInputValue0AddDonationButtonIsDisabledAndResetEnabled();
-            await embedDonate.clickOneDonationValueButton(2)
-            await embedDonate.checkWhenInputValueNot0AddDonationButtonIsEnabledAndResetDisabled();
-
-        });
 
         //EMBED
         it('should click donation edit link on Order Details and assert landing on extras screen', async function () {

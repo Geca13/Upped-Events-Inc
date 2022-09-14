@@ -158,7 +158,7 @@
         let embedDonate;
 
 
-        let base = 916054 // Math.floor(100000 + Math.random() * 900000);
+        let base = 618569 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -364,8 +364,8 @@
         });
 
 
+        //PORTAL -> EMBED
         it('should make embed view for event', async function () {
-
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
@@ -388,7 +388,7 @@
             await embedding.isOnEmbeddingTab();
             await embedding.setEmbedViewForEvent();
             await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickGeneralDetailsNav();
+            await eventOptionTabs.clickEventFullNameTab();
             await eventDetails.unpublishButtonIsDisplayed();
             let text = await eventDetails.getEmbedScriptVariable();
             await files.openDummyPage();
@@ -1911,7 +1911,6 @@
             await embedLogin.isAtLoginPage();
             await driver.sleep(1000);
             await embedLogin.loginWithEmailAndPassword(customerEmail, customerPassword);
-            await embedLogin.clickAgreeButton();
             await main.nextButtonIsVisible();
             await driver.sleep(5000);
             await main.clickTicketTermsCheckbox();

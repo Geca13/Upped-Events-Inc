@@ -98,7 +98,7 @@
         let embedDonate;
         let receipt;
 
-        let base = Math.floor(100000 + Math.random() * 900000);
+        let base =  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -561,7 +561,6 @@
 
         });
 
-
         //EMBED
         it('should assert elements on Add Money component in embed', async function () {
 
@@ -586,7 +585,7 @@
 
         });
 
-        //EMBED 32
+        //EMBED
         it('should assert elements on Payment screen component in embed when user has no cards', async function () {
 
             main = new EmbedMainPage(driver);
@@ -615,7 +614,6 @@
             await payment.confirmElementsOnPayWithNewCardTab();
 
         });
-
         //EMBED
         it('should make payment with new card in embed and assert card is saved',async function () {
 
@@ -1380,7 +1378,6 @@
             await termsModal.assertImagePlaceholderIsDisplayedInTheModal("https://events.dev.uppedevents.com/assets/images/placeholder2.png");
 
         });
-
         //PORTAL
         it('should assert elements on donation page in portal and enable donations',async function () {
 
@@ -1478,7 +1475,7 @@
 
         });
 
-        //EMBED 55
+        //EMBED
         it('should assert when donation is added to order the amount is visible in Order Details in the embed',async function () {
 
             main = new EmbedMainPage(driver);
@@ -2036,7 +2033,6 @@
 
         });
 
-
         //EMBED
         it('should make regular purchase with three different tickets and quantities and assert tickets on receipt', async function () {
 
@@ -2415,7 +2411,6 @@
             await payment.invalidCodeMessagesAreShown("The message when fixed");
 
         });
-
         //PORTAL
         it('should create promotion for 3 tickets and limit qty on two', async function () {
 
@@ -2550,6 +2545,7 @@
             await ticketsNav.clickActivateTicketToggle(staffTicket);
 
         });
+
         //EMBED
         it('should select account limit quantity for all tickets that have promotion in promotion with limit then add promo code and assert only highest price ticket gets discount when subtotal calculated in order total', async function () {
 
@@ -3215,6 +3211,7 @@
 
         });
 
+        //PORTAL
         it('Should check for first two ticket questions responses made in embed mobile', async function () {
 
             portalLogin = new PortalLoginPage(driver);
@@ -3326,7 +3323,7 @@
 
         });
 
-        it('Should check for first two ticket questions responses made in embed mobile', async function () {
+        it('Should check for questions responses for updated in embed mobile', async function () {
 
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
