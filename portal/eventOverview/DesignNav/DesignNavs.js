@@ -15,6 +15,7 @@
             await this.isDisplayed(EMBEDDING_SUBNAV,5000)
         }
         async clickEventCardDesignSubNav(){
+            await this.isDisplayed(EVENT_CARD_DESIGN_SUBNAV, 5000);
             await this.click(EVENT_CARD_DESIGN_SUBNAV);
         }
         async clickAppDesignSubNav(){

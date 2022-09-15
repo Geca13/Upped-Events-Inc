@@ -101,7 +101,7 @@
             await this.isDisplayed(MENU_SCHEDULER_NAV,15000 );
         }
         async createNewMenuAndSetNewName(base){
-            await this.driver.sleep(2000);
+            await this.timeout(1000);
             await this.conditionalClick(MENUS,ADD_NEW_MENU_BUTTON,CREATE_NEW_MENU_LINK);
             await this.isDisplayed(ADD_NEW_SECTION_BUTTON,15000);
             await this.moveToElement(MENU_TITLE_INPUT);
@@ -111,13 +111,13 @@
             await this.clearInputField(MENU_TITLE_INPUT);
             await this.sentKeys(MENU_TITLE_INPUT,base + "'s Menu")
             await this.click(SAVE_MENU_NAME_ICON);
-            await this.timeout(1500);
+            await this.timeout(100);
         }
 
         async createNewSection(sectionName, sectionIndex, editIconIndex){
-            await this.timeout(25000);
+            await this.isDisplayed(ADD_NEW_SECTION_BUTTON, 5000)
             await this.click(ADD_NEW_SECTION_BUTTON);
-            await this.timeout(1500);
+            await this.timeout(500);
             await this.isDisplayedFromArray(SECTION_TITLE_INPUT,sectionIndex,5000);
             await this.moveToElementFromArrayByIndex(SECTION_TITLE_INPUT,sectionIndex);
             await this.timeout(500);

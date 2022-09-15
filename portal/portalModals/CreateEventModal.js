@@ -75,7 +75,6 @@
             await details.publishButtonIsDisplayed();
             await details.verifyDetailsInGeneralDetailsPageAfterCreation(shortName, name,location,origStart,origEnd,origAtt,description);
 
-
         }
 
         async returnEnteredEventName(){

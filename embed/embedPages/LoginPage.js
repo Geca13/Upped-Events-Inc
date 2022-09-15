@@ -18,6 +18,7 @@
         }
 
         async clickAgreeButton(){
+            await this.isDisplayed(AGREE_BUTTON, 5000);
             await this.click(AGREE_BUTTON);
         }
 

@@ -14,6 +14,7 @@
     const BUSINESS_TYPE_DROPDOWN = { xpath: "//button[@title='Select Business Type']"}
     const INDIVIDUAL_OPTION = { xpath:"//*[text()='Individual / Sole Proprietorship']"}
     const ORGANIZATION_OPTION = { xpath:"//*[text()='Organization']"}
+    const BUSINESS_NAME = { xpath: "//input[@formcontrolname='businessName']" };
     const ADD_BUTTON = { xpath:"//*[text()='Add']"}
     const EMAIL_INPUT = { xpath: "//input[@formcontrolname='email']" };
     const FIRST_NAME_INPUT = { xpath: "//input[@formcontrolname='contactFirstName']" };
@@ -40,15 +41,14 @@
             await this.isOnNewPartnerModal();
             await this.clickPartnerTypeDropdown();
             await this.isDisplayed(VENDOR_MERCHANT_OPTION,5000);
-            await this.timeout(2000);
             await this.click(VENDOR_MERCHANT_OPTION);
-            await this.timeout(500);
             await this.clickElementReturnedFromAnArray(DROPDOWNS,2);
             await this.click(INVITE_EMAIL_OPTION);
             await this.clickElementReturnedFromAnArray(DROPDOWNS,3);
             await this.isDisplayed(INDIVIDUAL_OPTION, 5000);
             await this.click(INDIVIDUAL_OPTION);
             await this.timeout(500);
+            await this.sentKeys(BUSINESS_NAME,firstName+" business");
             await this.sentKeys(EMAIL_INPUT,email);
             await this.sentKeys(FIRST_NAME_INPUT,firstName);
             await this.sentKeys(LAST_NAME_INPUT,lastName);

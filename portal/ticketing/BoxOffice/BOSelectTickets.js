@@ -3,7 +3,8 @@
     const { expect }= require('chai');
     const Alerts = require('../../../Validations&Alerts/Alerts')
     const OverrideTicketModal = require('../../portalModals/OverrideTicketModal');
-    const TableComponent = require('../../portalComponents/TableComponent')
+    const TableComponent = require('../../portalComponents/TableComponent');
+    const BOStepper = require('../BoxOffice/BOStepper');
     const TICKET_GROUPS_TABS = { id: "eventsTab" }
     const COLUMN_TICKET_NAME = { className: "table-ticket-name" } //list
     const COLUMN_PRICE = { xpath: "//td[contains(@class, 'column-price')]//span" } //list
@@ -15,7 +16,7 @@
     const OVERRIDEN_TICKET_PRICE = { xpath: "//span[contains(@class, 'overriden')]" }
     const COLUMN_OVERRIDE = { className: "text-second" } //list
     const STEPPER = { id: "stepper" };
-    const SAVE_BUTTON = { xpath: "//*[text()='Save']"};
+    const SAVE_BUTTON = { xpath: "//button[contains(@class, 'btn-purple')]"};
 
 
 
@@ -25,8 +26,13 @@
             super(driver);
         }
 
+        async openBoxOfficeDirectly(eventId){
+            await this.visit("https://dev.portal.uppedevents.com/dashboard/event/" + eventId + "/ticket/box-office")
+            await this.isOnBoxOfficePage();
+        }
+
         async isOnBoxOfficePage(){
-            await this.isDisplayed(COLUMN_SELECTS,5000);
+            await this.isDisplayed(SAVE_BUTTON,5000);
         }
 
         async assertTicketDataByTicketName(ticketName,ticketPrice, ticketQuantity){
@@ -50,7 +56,7 @@
 
         async selectTicketByIndexAndSendQuantity(index, quantity){
             await this.isOnBoxOfficePage();
-            await this.timeout(1000);
+            await this.timeout(500);
             await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,index,quantity);
             await this.click(SAVE_BUTTON);
         }
@@ -69,27 +75,41 @@
         }
 
         async select18Tickets(){
+           try{
             await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,0,"5");
             await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,1,"3");
             await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,2,"4");
             await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,3,"6");
             await this.click(SAVE_BUTTON);
+          } catch (error){
+            await this.takeScreenshot("boTickets_18Tickets")
+            await this.writeError(error)
+            throw error.toString();
+        }
         }
 
         async addNewQuantityAndSetNewPrice(){
-            await this.clickElementReturnedFromAnArray(COLUMN_OVERRIDE,0);
-            let override = new OverrideTicketModal(this.driver);
-            await override.overrideModalIsDisplayed();
-            await override.loginToTheOverrideModal();
-            //await override.overrideTicketQuantity("1");
-            await this.timeout(500);
-            await override.setNewPrice('5');
-            await override.clickSaveChangesButton();
-            await this.timeout(1500);
-            let newPrice = await this.getElementText(OVERRIDEN_TICKET_PRICE);
-            assert.equal(newPrice,'$15');
-            let fontColor = await this.getFontColorFromAnArray(OVERRIDEN_TICKET_PRICE,0);
-            assert.equal(fontColor,'rgba(255, 0, 0, 1)');
+            try {
+                await this.clickElementReturnedFromAnArray(COLUMN_OVERRIDE,0);
+                let override = new OverrideTicketModal(this.driver);
+                await override.overrideModalIsDisplayed();
+                await override.loginToTheOverrideModal();
+                //await override.overrideTicketQuantity("1");
+                await this.timeout(500);
+                await override.setNewPrice('5');
+                await override.clickSaveChangesButton();
+                await this.timeout(1500);
+                let newPrice = await this.getElementText(OVERRIDEN_TICKET_PRICE);
+                assert.equal(newPrice,'$15');
+                let fontColor = await this.getFontColorFromAnArray(OVERRIDEN_TICKET_PRICE,0);
+                assert.equal(fontColor,'rgba(255, 0, 0, 1)');
+
+            } catch (error){
+                await this.takeScreenshot("boTickets_newPrice")
+                await this.writeError(error)
+                throw error.toString();
+            }
+
         }
 
         /*async assertNewPriceAndQuantity(){
@@ -142,7 +162,7 @@
             await table.messageWhenTableIsEmpty("No record available")
         }
 
-        async assertWhenSelectedTicketQtyEqualZeroErrorMessageIsReturned(){
+        async clickSaveButtonWhenTicketsNotSelectedAssertErrorMessage(){
             let selected = await this.getEnteredTextInTheInput(COLUMN_SELECTS);
             assert.equal(selected, "0");
             await this.click(SAVE_BUTTON);
@@ -150,5 +170,30 @@
             await alert.errorInfoMessageIsDisplayed("Please select atleast one ticket");
 
         }
+
+        async assertNavigationButtonsCountAndText(){
+            let stepper = new BOStepper(this.driver);
+            await stepper.assertNavStepsCountAndStepsNames();
+        }
+
+        async clickAddExtrasNavButtonWhenTicketsNotSelectedAssertErrorMessage(){
+            try {
+                let stepper = new BOStepper(this.driver);
+                await stepper.clickNavElementByIndex(1);
+                let alert = new Alerts(this.driver)
+                await alert.errorInfoMessageIsDisplayed("Please select at least one ticket");
+            }catch (error){
+                await this.takeScreenshot("boTickets")
+                await this.writeError(error)
+                throw error.toString();
+            }
+        }
+
+        async clickNavButtonByIndexWhenTicketsSelected(index){
+            let stepper = new BOStepper(this.driver);
+            await stepper.clickNavElementByIndex(index);
+        }
+
+
     }
     module.exports = BOSelectTickets;

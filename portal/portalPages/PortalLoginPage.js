@@ -20,6 +20,7 @@
         async loadPortalUrl(){
            await this.visit('https://dev.portal.uppedevents.com/')
             await this.returnBrowserName();
+           await this.isAtPortalLoginPage();
         }
         async isAtPortalLoginPage(){
             await this.isDisplayed(SIGN_IN_BUTTON, 30000)

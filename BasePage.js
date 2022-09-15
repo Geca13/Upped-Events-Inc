@@ -570,13 +570,13 @@
          const actions = this.driver.actions({bridge: true});
          let elements = await this.findAll(locator);
          let element = elements[index];
-         await actions.move({duration:5000,origin:element,x:0,y:0}).perform();
+         await actions.move({duration:1000,origin:element,x:0,y:0}).perform();
     }
 
     async moveAwayFromElement(locator, horizontal, vertical) {
          const actions = this.driver.actions();
          let element = await this.find(locator);
-         await actions.move({duration:2500,origin:element,x:horizontal,y:vertical}).press().release().perform();
+         await actions.move({duration:1500,origin:element,x:horizontal,y:vertical}).press().release().perform();
          await actions.doubleClick(element);
     }
 
@@ -713,7 +713,6 @@
     }
 
     async conditionalClick(locator1, locator2, locator3){
-          await this.timeout(10000)
         let first = await this.findAll(locator1);
         if (first.length > 0){
             await this.click(locator2)
