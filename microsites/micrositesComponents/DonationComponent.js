@@ -57,8 +57,6 @@
            return await this.getEnteredTextInTheInput(DONATION_INPUT)
         }
 
-
-
         async makeCustom$Donations(){
             await this.donateEventNameIsDisplayed();
             await this.donationMessageIsDisplayed();

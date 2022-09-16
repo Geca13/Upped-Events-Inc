@@ -26,7 +26,11 @@
             let donateHeader = await this.getElementText(DONATE_HEADER);
             assert.equal(donateHeader, "Donate");
             let donateToHeader = await this.getElementText(DONATE_TO_HEADER);
-            assert.equal(donateToHeader, "Donate to the");
+            if(donateToHeader.length < 10 ){
+                assert.equal(donateToHeader, "Donate to");
+            }else {
+                assert.equal(donateToHeader, "Donate to the");
+            }
             let event = await this.getElementText(DONATE_EVENT_NAME);
             assert.equal(event, eventName);
             let donateMessage = await this.getElementText(DONATION_MESSAGE);
@@ -51,12 +55,16 @@
             assert.equal(usdText, "USD");
             let minimum = await this.getElementText(MINIMUM_DONATION_TEXT);
             assert.equal(minimum, "($1 minimum donation)");
-            let resetButton = await this.getElementText(RESET_DONATION_BUTTON);
-            assert.equal(resetButton, "Reset");
+            let resetButtonDisplayed = await this.returnElementsCount(RESET_DONATION_BUTTON)
+            if(resetButtonDisplayed > 0 ){
+                let resetButton = await this.getElementText(RESET_DONATION_BUTTON);
+                assert.equal(resetButton, "Reset");
+            }
             let addButton = await this.getElementText(ADD_DONATION_BUTTON);
             assert.equal(addButton, "Add to Order");
 
         }
+
 
         async assertCorrectValuesInInputAfterDonationButtonIsClicked(index){
             await this.donateScreenIsVisible()
@@ -86,6 +94,7 @@
             await this.timeout(500);
             await this.click(ADD_DONATION_BUTTON);
             await this.timeout(500);
+
         }
 
         async addDonationToOrderAndAssertDataInOrderTotal(index){
@@ -104,22 +113,36 @@
         }
 
         async addCustomDonationAndAssertIsAddedInOrderTotal(){
-            let parsedEntered = await this.addCustomDonation();
+            let parsedEntered = await this.addCustomDonationAndReturnValue();
             let summary = new SummaryComponent(this.driver);
             let addedDonation = await summary.getDonationValue();
             assert.equal(parsedEntered.toFixed(2),addedDonation);
         }
 
-        async addCustomDonation() {
+        async addCustomDonationToInputAndAddItToOrder(){
             await this.donateScreenIsVisible()
             await this.clearInputField(DONATION_INPUT);
             await this.sentKeys(DONATION_INPUT, "7.77");
             await this.click(ADD_DONATION_BUTTON);
             await this.timeout(500);
+        }
+
+        async addCustomDonationAndReturnValue() {
+            await this.donateScreenIsVisible()
+            await this.clearInputField(DONATION_INPUT);
+            await this.sentKeys(DONATION_INPUT, "7.77");
+            await this.timeout(500);
             let enteredDonation = await this.getEnteredTextInTheInput(DONATION_INPUT);
             let parsedEntered = parseFloat(enteredDonation);
             assert.equal(enteredDonation, "777");
+            await this.click(ADD_DONATION_BUTTON);
             return parsedEntered;
+        }
+
+        async assertOnceSetDonationIsSavedCorrectlyInBox_OfficeModal(value){
+            let input = await this.getEnteredTextInTheInput(DONATION_INPUT);
+            assert.equal(input, value);
+            await this.timeout(500)
         }
 
         async calculateTheOrderTotalAfterDonationIsAdded(){

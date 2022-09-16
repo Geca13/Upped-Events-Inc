@@ -1541,7 +1541,7 @@
             await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
-            let customDonation = await embedDonate.addCustomDonation();
+            let customDonation = await embedDonate.addCustomDonationAndReturnValue();
             await main.clickNextPageButton();
             await payment.isAtPaymentPage();
             await payment.clickPayWithWalletButton();

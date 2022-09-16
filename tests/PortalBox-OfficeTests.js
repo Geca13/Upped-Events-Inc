@@ -156,10 +156,10 @@
         let termsModal;
         let donation;
         let embedDonate;
-        let eventId = "1605"
+        let eventId = "1617"
 
 
-        let base = Math.floor(100000 + Math.random() * 900000);
+        let base = 137260 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -310,7 +310,7 @@
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
-            await bosTickets.selectTicketByIndexAndSendQuantity(0, 2);
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
             await bosExtras.isOnExtrasScreen();
 
         });
@@ -321,7 +321,7 @@
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
-            await bosTickets.selectTicketByIndexAndSendQuantity(0, 2);
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
             await bosTickets.clickNavButtonByIndexWhenTicketsSelected(1);
             await bosExtras.isOnExtrasScreen();
 
@@ -333,7 +333,7 @@
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
-            await bosTickets.selectTicketByIndexAndSendQuantity(0, 2);
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
             await bosTickets.clickNavButtonByIndexWhenTicketsSelected(2);
             await bosDetails.isOnDetailsPage();
 
@@ -345,7 +345,7 @@
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
-            await bosTickets.selectTicketByIndexAndSendQuantity(0, 2);
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
             await bosTickets.clickNavButtonByIndexWhenTicketsSelected(3);
             await bosReview.isOnReviewPage();
 
@@ -368,10 +368,138 @@
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
-            await bosTickets.selectTicketByIndexAndSendQuantity(0, 2);
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
             await bosExtras.assertElementsOnExtrasPage();
 
         });
+
+        it('should get blue donation not enabled when clicked donation option and donation not enabled in portal',async function () {
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
+            await bosExtras.clickDonationOptionAndReceiveDonationNotEnabledMessage();
+
+        });
+
+        it('should enable donation in portal and assert donation component is displayed and assert elements',async function () {
+
+            eventSettingsNav = new EventSettingsNav(driver)
+            await portalLogin.loadPortalUrl();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.publishButtonIsDisplayed();
+            await eventOptionTabs.moveToEventNavs();
+            await eventOptionTabs.clickSettingsNav();
+            await eventSettingsNav.donationsSubNavIsDisplayed();
+            await eventSettingsNav.makeDonationActive();
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
+            await bosExtras.clickOnDonationOptionAndAssertElements(eventName)
+
+        });
+
+        it('should assert when donation value button is clicked the value is displayed in input',async function () {
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
+            await bosExtras.clickDonationOptionAndAssertWhenDonationButtonClickedValueAddedToInput();
+
+        });
+
+        it('should enter custom decimal amount, assert the input shows the digits only  ',async function () {
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
+            await bosExtras.clickDonationOptionAddCustomDecimalDonationAndAssertOnlyFullNumberIsDisplayed();
+
+        });
+
+        it('should enter custom amount, click add to order button and assert green added donation message',async function () {
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
+            await bosExtras.clickDonationOptionAddCustomDonationAndAssertAddedDonationMessage();
+
+        });
+
+        it('should add custom donation add to order, open the modal and check if value is still in input',async function () {
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
+            await bosExtras.checkDonationAmountIsSavedInDonationModal();
+
+        });
+
+        it('should click Select Tickets nav from Extras page to go back to Tickets page and assert previously selected ticket value is still selected',async function () {
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
+            await bosExtras.clickNavButtonByIndexWhenOnExtrasPage(0);
+            await bosTickets.assertSelectedQtyByIndex(0, 2);
+
+        });
+
+        it('should click Add Details nav from Extras page to go to Details tab',async function () {
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
+            await bosExtras.clickNavButtonByIndexWhenOnExtrasPage(2);
+            await bosDetails.isOnDetailsPage();
+
+        });
+
+        it('should click Review and Pay nav from Extras page to go to Review page',async function () {
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
+            await bosExtras.clickNavButtonByIndexWhenOnExtrasPage(3);
+            await bosReview.isOnReviewPage();
+
+        });
+
+        it('should assert elements on Order Details page when only 1 ticket selected and no taxes , fees, donation, promotion and ticket questions',async function () {
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 1);
+            await bosTickets.clickNavButtonByIndexWhenTicketsSelected(2);
+            await bosDetails.assertElementsOnOrderDetailsWithOnlyBasicTicket(ticketOneName);
+
+        });
+
+
+
+
 
 
 

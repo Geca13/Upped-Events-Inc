@@ -1657,7 +1657,7 @@
             await questions.clickActivateQuestionButton(0);
             await eventTickets.clickBoxOfficeNav();
             await bosTickets.isOnBoxOfficePage();
-            await bosTickets.selectTicketByIndexAndSendQuantity(0, "1");
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, "1");
             await bosExtras.add20$ToOrderOnExtrasPage();
             await bosDetails.checkQuestionForm(4, 2, 2, 2, 4);
             await bosDetails.checkForTitleNameByIndex(0, base + " Yes & No question");
@@ -1973,7 +1973,7 @@
             await capacity.setLimitPerAccount("26");
             await eventTickets.clickBoxOfficeNav();
             await bosTickets.isOnBoxOfficePage();
-            await bosTickets.selectTicketByIndexAndSendQuantity(0, "5");
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, "5");
             await bosExtras.add20$ToOrderOnExtrasPage();
             await bosDetails.continueToPayment();
             await bosReview.makePayment(base);

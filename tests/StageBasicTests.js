@@ -1625,7 +1625,7 @@ describe('Should do everything', function () {
         await questions.clickActivateQuestionButton(0);
         await eventTickets.clickBoxOfficeNav();
         await bosTickets.isOnBoxOfficePage();
-        await bosTickets.selectTicketByIndexAndSendQuantity(0, "1");
+        await bosTickets.selectTicketByIndexSendQuantityAndSave(0, "1");
         await bosExtras.isOnExtrasScreen();
         await bosExtras.clickNextButton();
         await bosDetails.checkQuestionForm(4, 2, 2, 2, 4);
