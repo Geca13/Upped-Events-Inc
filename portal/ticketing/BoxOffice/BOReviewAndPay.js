@@ -3,6 +3,12 @@
     require("dotenv").config();
     const { expect } = require('chai');
     const { Key, Keys} = require("selenium-webdriver");
+    const PAYMENT_INFO_HEADER = {className: "payment-info"}
+    const INPUT_LABELS = { xpath: "//label[@class='form-label']" }
+    const PAYMENT_TYPES_LABELS = { xpath: "//div[@class='payment-types']//span" }
+    const ATTENDEE_INFO_LABELS = { xpath: "//label[contains(@class, 'data-fields')]" }
+    const ATTENDEE_EMAIL_LABELS = { xpath: "//span[@class='checkbox-message']" }
+    const DEMOGRAPHIC_SECTION_HEADERS = { xpath: "//div[@class='demographic-heading']" }
     const CARDHOLDER_NAME = { xpath: "//input[@formcontrolname='name_on_card']" };
     const CARD_NUMBER = { xpath: "//input[@formcontrolname='card_no']" };
     const CVC = { xpath: "//input[@formcontrolname='cvc']" };
@@ -25,7 +31,19 @@
     const MESSAGE_ON_CONFIRM_MODAL = { className: "main-message" }
     const EMAILS_ON_CONFIRM_MODAL = { className: "single-email" } //list
     const CHECKBOX = { xpath: "//input[@type='checkbox']" } //list
-    const CARD_FORM = { id: "cardForm"}
+    const CARD_FORM = { id: "cardForm" }
+    const OPEN_ORDER_DETAILS = { xpath: "//i[contains(@class, 'icon-angle-right')]" }
+    const ORDER_DETAILS_BOX = { id: "Orderdetail" };
+    const ORDER_DETAILS_HEADER = { id: "orderheading" };
+    const ORDER_DETAILS_SUBHEADER = { xpath: "//h3[@class='order-subheading']" };
+    const ORDER_DETAILS_SECTION_TITLES = { xpath: "//div[contains(@class, 'title')]" };
+    const TICKETS_NAME_PARENT = {  className:"justify-content-between"} //list
+    const SUBTOTAL_HEADER = { xpath: "//div[@id='orderheading']" }
+    const SUBTOTAL = { className: "sub-total"};
+    const TOTAL_DUE = { className: "total-due"};
+    const TOTAL = { className: "total-due-amount"};
+    const PRICING_ADDING_NAMES = { xpath: "//div[contains(@class, 'mt-0')]" }
+    const VALUES = { className: "w-7" };
 
 
 
@@ -37,6 +55,33 @@
 
         async isOnReviewPage(){
             await this.isDisplayed(PLACE_ORDER_BUTTON, 5000);
+        }
+
+        async assertElementsOnReviewAndPaymentPageWhenOneTicketSelected(ticketName){
+            await this.isOnReviewPage();
+            let cCardLabel = await this.getElementTextFromAnArrayByIndex(PAYMENT_TYPES_LABELS, 0);
+            let cashLabel = await this.getElementTextFromAnArrayByIndex(PAYMENT_TYPES_LABELS, 1);
+            let checkLabel = await this.getElementTextFromAnArrayByIndex(PAYMENT_TYPES_LABELS, 2);
+            let holderLabel = await this.getElementTextFromAnArrayByIndex(INPUT_LABELS, 0);
+            let cardLabel = await this.getElementTextFromAnArrayByIndex(INPUT_LABELS, 1);
+            let ccvLabel = await this.getElementTextFromAnArrayByIndex(INPUT_LABELS, 2);
+            let dateLabel = await this.getElementTextFromAnArrayByIndex(INPUT_LABELS, 3);
+            let zipLabel = await this.getElementTextFromAnArrayByIndex(INPUT_LABELS, 4);
+            let addressLabel = await this.getElementTextFromAnArrayByIndex(INPUT_LABELS, 5);
+            let countryLabel = await this.getElementTextFromAnArrayByIndex(INPUT_LABELS, 6);
+            let stateLabel = await this.getElementTextFromAnArrayByIndex(INPUT_LABELS, 7);
+            let nameLabel = await this.getElementTextFromAnArrayByIndex(INPUT_LABELS, 8);
+            let surnameLabel = await this.getElementTextFromAnArrayByIndex(INPUT_LABELS, 9);
+            let attendeeBirthLabel = await this.getElementTextFromAnArrayByIndex(ATTENDEE_INFO_LABELS, 0);
+            let attendeeGenderLabel = await this.getElementTextFromAnArrayByIndex(ATTENDEE_INFO_LABELS, 1);
+            let attendeeEmailLabel = await this.getElementTextFromAnArrayByIndex(ATTENDEE_INFO_LABELS, 2);
+            let additionalEmailsLabel = await this.getElementTextFromAnArrayByIndex(ATTENDEE_INFO_LABELS, 3);
+            let attendeeNoAccountLabel = await this.getElementTextFromAnArrayByIndex(ATTENDEE_EMAIL_LABELS, 0);
+            let sendCopyLabel = await this.getElementTextFromAnArrayByIndex(ATTENDEE_EMAIL_LABELS, 1);
+            let demographicHeader  = await this.getElementTextFromAnArrayByIndex(DEMOGRAPHIC_SECTION_HEADERS, 0);
+            let emailsHeader = await this.getElementTextFromAnArrayByIndex(DEMOGRAPHIC_SECTION_HEADERS, 1);
+            let pickupAtHeader = await this.getElementTextFromAnArrayByIndex(DEMOGRAPHIC_SECTION_HEADERS, 2);
+            await this.click(OPEN_ORDER_DETAILS);
         }
 
         async makePayment(base){

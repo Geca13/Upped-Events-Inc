@@ -54,7 +54,7 @@
 
         }
 
-        async selectTicketByIndexAndSendQuantity(index, quantity){
+        async selectTicketByIndexSendQuantityAndSave(index, quantity){
             await this.isOnBoxOfficePage();
             await this.timeout(500);
             await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,index,quantity);
@@ -192,6 +192,12 @@
         async clickNavButtonByIndexWhenTicketsSelected(index){
             let stepper = new BOStepper(this.driver);
             await stepper.clickNavElementByIndex(index);
+        }
+
+        async assertSelectedQtyByIndex(index, value){
+            await this.isOnBoxOfficePage();
+            let selected = await this.getEnteredTextInTheInputByIndex(COLUMN_SELECTS, index);
+            assert.equal(selected, value);
         }
 
 

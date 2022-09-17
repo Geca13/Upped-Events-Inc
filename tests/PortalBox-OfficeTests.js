@@ -497,6 +497,18 @@
 
         });
 
+        it('should assert elements on Review and Pay page when only 1 ticket selected and no taxes , fees, donation, promotion and ticket questions',async function () {
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 1);
+            await bosTickets.clickNavButtonByIndexWhenTicketsSelected(3);
+            await bosReview.assertElementsOnOrderDetailsWithOnlyBasicTicket(ticketOneName);
+
+        });
+
 
 
 

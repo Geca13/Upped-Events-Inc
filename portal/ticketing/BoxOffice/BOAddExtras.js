@@ -1,8 +1,11 @@
     const BasePage = require('../../../BasePage');
     const assert = require('assert')
+    const Alerts = require('../../../Validations&Alerts/Alerts')
     const EXTRAS_HEADER = { xpath: "//h2[text()='Extras']" }
     const EXTRAS_OPTIONS = { className: "text-center" } //list of three
     const DonationComponent = require('../../../microsites/micrositesComponents/DonationComponent');
+    const EmbedDonate = require('../../../embed/embedComponents/EmbedDonateComponent')
+    const BOStepper = require("./BOStepper");
     const NEXT_BUTTON = { xpath: "//button[text()='Next']" }
     const ADD_ONS_TOOLTIP = { className: "tooltip-inner" }
 
@@ -15,6 +18,101 @@
         }
         async isOnExtrasScreen(){
             await this.isDisplayed(EXTRAS_HEADER,5000);
+        }
+
+        async clickDonationOptionAndAssertWhenDonationButtonClickedValueAddedToInput(){
+            try{
+                await this.isOnExtrasScreen();
+                await this.isDisplayed(EXTRAS_OPTIONS, 5000);
+                await this.clickElementReturnedFromAnArray(EXTRAS_OPTIONS,1);
+                let donation = new EmbedDonate(this.driver);
+                await donation.assertCorrectValuesInInputAfterDonationButtonIsClicked(0);
+                await donation.assertCorrectValuesInInputAfterDonationButtonIsClicked(1);
+                await donation.assertCorrectValuesInInputAfterDonationButtonIsClicked(2);
+                await donation.assertCorrectValuesInInputAfterDonationButtonIsClicked(3);
+            }catch (error) {
+                await this.takeScreenshot("bosExtras-full")
+                await this.writeError(error)
+                throw error.toString();
+            }
+        }
+
+        async clickDonationOptionAddCustomDonationAndAssertAddedDonationMessage(){
+            try{
+                await this.isOnExtrasScreen();
+                await this.isDisplayed(EXTRAS_OPTIONS, 5000);
+                await this.clickElementReturnedFromAnArray(EXTRAS_OPTIONS,1);
+                let donation = new EmbedDonate(this.driver);
+                await donation.addCustomDonationToInputAndAddItToOrder();
+                let alert = new Alerts(this.driver);
+                await alert.correctInfoMessageIsDisplayed("Donation added")
+            }catch (error) {
+                await this.takeScreenshot("bosExtras-full")
+                await this.writeError(error)
+                throw error.toString();
+            }
+        }
+
+        async clickDonationOptionAddCustomDecimalDonationAndAssertOnlyFullNumberIsDisplayed(){
+            try{
+                await this.isOnExtrasScreen();
+                await this.isDisplayed(EXTRAS_OPTIONS, 5000);
+                await this.clickElementReturnedFromAnArray(EXTRAS_OPTIONS,1);
+                let donation = new EmbedDonate(this.driver);
+                let value = await donation.addCustomDonationAndReturnValue();
+                assert.equal(value, "777");
+            }catch (error) {
+                await this.takeScreenshot("bosExtras-full")
+                await this.writeError(error)
+                throw error.toString();
+            }
+        }
+
+        async checkDonationAmountIsSavedInDonationModal(){
+            try{
+                await this.isOnExtrasScreen();
+                await this.isDisplayed(EXTRAS_OPTIONS, 5000);
+                await this.clickElementReturnedFromAnArray(EXTRAS_OPTIONS,1);
+                let donation = new EmbedDonate(this.driver);
+                let value = await donation.addCustomDonationAndReturnValue();
+                await this.isDisplayed(EXTRAS_OPTIONS, 5000);
+                await this.clickElementReturnedFromAnArray(EXTRAS_OPTIONS,1);
+                await donation.assertOnceSetDonationIsSavedCorrectlyInBox_OfficeModal(value);
+            }catch (error) {
+                await this.takeScreenshot("bosExtras-full")
+                await this.writeError(error)
+                throw error.toString();
+            }
+        }
+
+        async clickOnDonationOptionAndAssertElements(eventName){
+            try{
+               await this.isOnExtrasScreen();
+               await this.isDisplayed(EXTRAS_OPTIONS, 5000);
+               await this.clickElementReturnedFromAnArray(EXTRAS_OPTIONS,1);
+                let donation = new EmbedDonate(this.driver);
+                await donation.assertElementsOnDonateTab(eventName, "I need money for Beer, a lot of MONEY");
+
+            }catch (error) {
+                await this.takeScreenshot("bosExtras-full")
+                await this.writeError(error)
+                throw error.toString();
+            }
+        }
+
+        async clickDonationOptionAndReceiveDonationNotEnabledMessage(){
+            try{
+
+                await this.isDisplayed(EXTRAS_OPTIONS, 5000);
+                await this.clickElementReturnedFromAnArray(EXTRAS_OPTIONS,1);
+                let alert = new Alerts(this.driver);
+                await alert.correctInfoMessageIsDisplayed("Event does not receive donations")
+
+            }catch (error) {
+                await this.takeScreenshot("bosExtras-full")
+                await this.writeError(error)
+                throw error.toString();
+            }
         }
 
         async assertElementsOnExtrasPage(){
@@ -43,6 +141,13 @@
             await this.isDisplayed(NEXT_BUTTON,5000,);
             await this.click(NEXT_BUTTON);
         }
+
+        async clickNavButtonByIndexWhenOnExtrasPage(index){
+            await this.isOnExtrasScreen();
+            let stepper = new BOStepper(this.driver);
+            await stepper.clickNavElementByIndex(index);
+        }
+
         async add20$ToOrderOnExtrasPage(){
             await this.isOnExtrasScreen();
             await this.clickElementReturnedFromAnArray(EXTRAS_OPTIONS,1);
