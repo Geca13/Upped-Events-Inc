@@ -23,9 +23,13 @@
             super(driver);
         }
 
+        async openTaxesAndFeesDirectly(eventId){
+            await this.visit("https://dev.portal.uppedevents.com/dashboard/event/" + eventId + "/ticket/settings?tab=taxes")
+            await this.includeExcludeIsVisible();
+        }
+
         async includeExcludeIsVisible(){
            await this.isDisplayed(INCLUDED_TAXES_RADIO, 5000);
-           await this.timeout(1000);
         }
         async taxNameInputIsVisible(){
             await this.isDisplayed(TAX_NAME_INPUT, 5000)
@@ -45,7 +49,7 @@
         }
 
         async setFirstTaxForTickets(taxName, taxValue){
-            await this.timeout(2000)
+            await this.timeout(500)
             await this.sentKeys(TAX_NAME_INPUT, taxName);
             await this.sendKeysToElementReturnedFromAnArray(PERCENT_RATE_INPUTS,0,taxValue);
             await this.clickElementReturnedFromAnArray(ADD_BUTTONS,0)

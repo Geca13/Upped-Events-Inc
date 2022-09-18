@@ -33,17 +33,19 @@
     const CHECKBOX = { xpath: "//input[@type='checkbox']" } //list
     const CARD_FORM = { id: "cardForm" }
     const OPEN_ORDER_DETAILS = { xpath: "//i[contains(@class, 'icon-angle-right')]" }
-    const ORDER_DETAILS_BOX = { id: "Orderdetail" };
-    const ORDER_DETAILS_HEADER = { id: "orderheading" };
-    const ORDER_DETAILS_SUBHEADER = { xpath: "//h3[@class='order-subheading']" };
+    const ORDER_TOTAL = { id: "orderheading" };
     const ORDER_DETAILS_SECTION_TITLES = { xpath: "//div[contains(@class, 'title')]" };
+    const TICKETS_HEADER = { xpath: "(//div[contains(@class, 'title')])[1]" }
+    const EXTRAS_HEADER = { xpath: "(//div[contains(@class, 'title')])[2]" }
+    const DONATIONS_HEADER = { xpath: "(//div[contains(@class, 'title')])[3]" }
     const TICKETS_NAME_PARENT = {  className:"justify-content-between"} //list
-    const SUBTOTAL_HEADER = { xpath: "//div[@id='orderheading']" }
+    const SUBTOTAL_HEADER = { xpath: "(//div[@ID='orderheading'])[2]" }
     const SUBTOTAL = { className: "sub-total"};
-    const TOTAL_DUE = { className: "total-due"};
-    const TOTAL = { className: "total-due-amount"};
+    const TOTAL_DUE = { className: "total-due-message"};
+    const TOTAL = { className: "total-due-value"};
     const PRICING_ADDING_NAMES = { xpath: "//div[contains(@class, 'mt-0')]" }
     const VALUES = { className: "w-7" };
+    const DISCOUNT_CODE_EXAMPLE = { xpath: "//div[@style='font-size: 12px;']" }
 
 
 
@@ -57,8 +59,11 @@
             await this.isDisplayed(PLACE_ORDER_BUTTON, 5000);
         }
 
-        async assertElementsOnReviewAndPaymentPageWhenOneTicketSelected(ticketName){
+        async assertElementsOnReviewAndPayPageWhenOneTicketSelected(ticketName){
+            try {
+
             await this.isOnReviewPage();
+            let totalDue = await this.getElementText(TOTAL_DUE)
             let cCardLabel = await this.getElementTextFromAnArrayByIndex(PAYMENT_TYPES_LABELS, 0);
             let cashLabel = await this.getElementTextFromAnArrayByIndex(PAYMENT_TYPES_LABELS, 1);
             let checkLabel = await this.getElementTextFromAnArrayByIndex(PAYMENT_TYPES_LABELS, 2);
@@ -81,7 +86,72 @@
             let demographicHeader  = await this.getElementTextFromAnArrayByIndex(DEMOGRAPHIC_SECTION_HEADERS, 0);
             let emailsHeader = await this.getElementTextFromAnArrayByIndex(DEMOGRAPHIC_SECTION_HEADERS, 1);
             let pickupAtHeader = await this.getElementTextFromAnArrayByIndex(DEMOGRAPHIC_SECTION_HEADERS, 2);
+
             await this.click(OPEN_ORDER_DETAILS);
+            await this.isDisplayed(ORDER_TOTAL, 5000);
+            let ticketsHeader = await this.getElementText(TICKETS_HEADER);
+            let rawTicketOne = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT,0,0);
+            let extrasHeader = await this.getElementText(EXTRAS_HEADER);
+            let donationsHeader = await this.getElementText(DONATIONS_HEADER);
+            let subtotalHeader = await this.getElementText(SUBTOTAL_HEADER)
+            let taxesName = await this.getElementTextFromAnArrayByIndex(PRICING_ADDING_NAMES, 0);
+            let feesName = await this.getElementTextFromAnArrayByIndex(PRICING_ADDING_NAMES, 1);
+            let shippingName = await this.getElementTextFromAnArrayByIndex(PRICING_ADDING_NAMES, 2);
+            let discountName = await this.getElementTextFromAnArrayByIndex(PRICING_ADDING_NAMES, 3);
+            let discountExample = await this.getElementText(DISCOUNT_CODE_EXAMPLE);
+            let totalValue = await this.getElementText(TOTAL);
+            let ticketsValue = await this.getElementTextFromAnArrayByIndex(VALUES, 0);
+            let subtotalValue = await this.getElementTextFromAnArrayByIndex(VALUES, 1);
+            let taxesValue = await this.getElementTextFromAnArrayByIndex(VALUES, 2);
+            let feesValue = await this.getElementTextFromAnArrayByIndex(VALUES, 3);
+            let donationValue = await this.getElementTextFromAnArrayByIndex(VALUES, 4);
+            let shippingValue = await this.getElementTextFromAnArrayByIndex(VALUES, 5);
+            let discountValue = await this.getElementTextFromAnArrayByIndex(VALUES, 6);
+
+            assert.equal( rawTicketOne.substring(0,8), ticketName);
+            assert.equal( cCardLabel,"Pay by credit card");
+            assert.equal( cashLabel, "Pay with cash");
+            assert.equal( checkLabel ,"Pay by check");
+            assert.equal(holderLabel, "Cardholder Name");
+            assert.equal(cardLabel, "Card Number");
+            assert.equal( ccvLabel,"CCV");
+            assert.equal( dateLabel, "Expiration Date");
+            assert.equal( zipLabel ,"Zipcode");
+            assert.equal(addressLabel, "Street Address");
+            assert.equal(taxesName, "Taxes:");
+            assert.equal( feesName,"Fees:");
+            assert.equal( shippingName, "Shipping:");
+            assert.equal( discountName ,"Discounts:");
+            assert.equal(countryLabel, "Country");
+            assert.equal(stateLabel, "State");
+            assert.equal( nameLabel ,"First Name");
+            assert.equal(totalDue, "Total Due:");
+            assert.equal(surnameLabel, "Last Name");
+            assert.equal( demographicHeader,"Demographic Questions");
+            assert.equal( emailsHeader,"Emails:");
+            assert.equal( attendeeBirthLabel,"What is the attendee's date of birth?");
+            assert.equal( attendeeGenderLabel,"What gender the attendee identify as?");
+            assert.equal( attendeeEmailLabel,"Recipient email:");
+            assert.equal( additionalEmailsLabel,"Additional emails");
+            assert.equal( attendeeNoAccountLabel,"Check here if ticket buyer does not have an account*");
+            assert.equal( sendCopyLabel,"Send copy to myself");
+            assert.equal( pickupAtHeader,"Pick up at Will Call?");
+            assert.equal(ticketsHeader, "Tickets:");
+            assert.equal( extrasHeader,"Extras:");
+            assert.equal( discountExample, "Discount code: xxxxx-xxxx-xxx");
+            assert.equal( donationsHeader ,"Donation:");
+            assert.equal(subtotalHeader, "Subtotal");
+            assert.equal(ticketsValue, "$ 1.00");
+            assert.equal( donationValue, "$ 0.00");
+            assert.equal( subtotalValue ,"$ 1.00");
+            assert.equal(taxesValue, "$ 0.00");
+            assert.equal(feesValue, "$ 0.00");
+            assert.equal( shippingValue ,"$ 0.00");
+            assert.equal(discountValue, "$ 0.00");
+            assert.equal(totalValue, "$ 1.00");
+            }catch (error) {
+
+            }
         }
 
         async makePayment(base){

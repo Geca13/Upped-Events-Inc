@@ -158,7 +158,7 @@
         let embedDonate;
 
 
-        let base = 117193// Math.floor(100000 + Math.random() * 900000);
+        let base = 889244 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -1461,7 +1461,7 @@
             await bosTickets.select3Tickets();
             await bosExtras.addCustom$ToOrderOnExtrasPage();
             await bosDetails.addWrongPromoCode();
-            await bosDetails.addPromotionToTickets(promoFourName);
+            await bosDetails.addPromotionToTickets(promoCodeFour);
             await bosDetails.continueToPayment()
             await bosReview.makePayment(base);
         });

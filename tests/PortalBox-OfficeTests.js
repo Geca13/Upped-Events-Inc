@@ -50,31 +50,7 @@
     const BOAddExtras = require('../portal/ticketing/BoxOffice/BOAddExtras');
     const BOAddDetails = require('../portal/ticketing/BoxOffice/BOAddDetails');
     const BOReviewAndPay = require('../portal/ticketing/BoxOffice/BOReviewAndPay');
-    const EmbedMainPage = require("../embed/embedPages/EmbedMainPage");
-    const TicketsComponent = require("../embed/embedComponents/TicketsComponent");
-    const SummaryComponent = require("../embed/embedComponents/SummaryComponent");
-    const LoginPage = require("../embed/embedPages/LoginPage");
-    const ExtrasPage = require("../embed/embedPages/ExtrasPage");
-    const PaymentPage = require("../embed/embedPages/PaymentPage");
-    const EmbedOrderDetailsPage = require("../embed/embedPages/EmbedOrderDetailsPage");
-    const DonationComponent = require("../microsites/micrositesComponents/DonationComponent");
-    const ConfirmPage = require("../embed/embedPages/ConfirmPage");
-    const CreateAccountModal = require("../microsites/micrositesComponents/CreateAccountModal");
-    const MyWalletTab = require('../microsites/account/MyWalletTab');
-    const UserDetailsModal = require('../portal/portalModals/userDetailsModal/UserDetailsModal');
-    const EventCapacitySubNav = require('../portal/ticketing/SettingsNav/EventCapacitySubNav');
-    const PhotosTab = require('../microsites/micrositesComponents/PhotosTab');
-    const DetailsTab = require('../microsites/micrositesComponents/DetailsTab');
-    const AccountPage = require('../microsites/account/AccountPage');
-    const ForgotPasswordModal = require("../microsites/micrositesComponents/ForgotPasswordModal");
-    const ResetPasswordPage = require("../microsites/micrositesPages/ResetPasswordPage");
-    const LoginTab = require("../microsites/micrositesComponents/LoginTab")
-    const CreateAccountPage = require("../embed/embedPages/CreateAccountPage");
-    const EmbeddingPage = require("../portal/eventOverview/DesignNav/EmbeddingPage");
-    const EmbedTicketTermsModal = require('../embed/embedComponents/EmbedTicketTermsModal');
-    const DonationPage = require('../portal/eventOverview/SettingsNav/DonationsPage');
-    const EmbedDonateComponent = require('../embed/embedComponents/EmbedDonateComponent')
-    const Files = require('../dummy/Files')
+
 
     describe('Should do box office related tests', function () {
         this.timeout(500000);
@@ -497,7 +473,7 @@
 
         });
 
-        it('should assert elements on Review and Pay page when only 1 ticket selected and no taxes , fees, donation, promotion and ticket questions',async function () {
+        it('should assert elements on Review and Pay page when only 1 ticket selected and no taxes , fees, donation or promotion',async function () {
 
             await portalLogin.loadPortalUrl();
             await portalLogin.enterValidCredentialsAndLogin();
@@ -505,7 +481,25 @@
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 1);
             await bosTickets.clickNavButtonByIndexWhenTicketsSelected(3);
-            await bosReview.assertElementsOnOrderDetailsWithOnlyBasicTicket(ticketOneName);
+            await bosReview.assertElementsOnReviewAndPayPageWhenOneTicketSelected(ticketOneName);
+
+        });
+
+        it('should add excluded tax and check if bayer total is updated in ticket update modal', async function () {
+
+            taxesAndFees = new TaxesAndFeesPage(driver);
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await taxesAndFees.openTaxesAndFeesDirectly(eventId);
+            await taxesAndFees.addOneTaxForTickets();
+            await taxesAndFees.clickSaveTaxesAndFeesButton();
+            let savedTaxValue = await taxesAndFees.getFloatNumberForTaxOrFee(1,1);
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
+            await bosTickets.clickNavButtonByIndexWhenTicketsSelected(2);
+            await bosDetails.assertTaxValueAndTicketTotalMultipliedByTaxEqualsTotal(savedTaxValue);
 
         });
 

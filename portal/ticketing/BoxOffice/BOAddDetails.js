@@ -37,7 +37,7 @@
         }
 
         async assertElementsOnOrderDetailsWithOnlyBasicTicket(ticketOneName){
-
+            try {
 
             await this.isOnDetailsPage();
             let ticketQHeader = await this.getElementText(TICKET_Q_HEADER);
@@ -96,6 +96,27 @@
             assert.equal( shippingValue ,"$ 0.00");
             assert.equal(discountValue, "$ 0.00");
             assert.equal(totalDueValue, "$ 1.00");
+            }catch (error) {
+                await this.takeScreenshot("bosDetails")
+                await this.writeError(error)
+                throw error.toString();
+            }
+        }
+
+        async assertTaxValueAndTicketTotalMultipliedByTaxEqualsTotal(savedTaxValue){
+            await this.isOnDetailsPage();
+            let tax = savedTaxValue;
+            let rawTicketOne = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 0, 1);
+            let ticketOne = rawTicketOne.substring(2);
+            let ticket = parseFloat(ticketOne);
+            let taxValue = ticket * (tax/100);
+            let fixedTax = taxValue.toFixed(2);
+            let displayedTax = await this.getElementTextFromAnArrayByIndex(VALUES, 4);
+            let cleanedTax = displayedTax.substring(2);
+            assert.equal(parseFloat(cleanedTax).toFixed(2),taxValue.toFixed(2))
+            let total = ticket + parseFloat(fixedTax);
+            let totalDue = await this.getElementText(TOTAL)
+            assert.equal(totalDue.substring(2), total.toFixed(2))
 
         }
 
