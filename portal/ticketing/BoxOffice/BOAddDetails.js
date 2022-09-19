@@ -105,6 +105,8 @@
 
         async assertTaxValueAndTicketTotalMultipliedByTaxEqualsTotal(savedTaxValue){
             await this.isOnDetailsPage();
+            try{
+
             let tax = savedTaxValue;
             let rawTicketOne = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 0, 1);
             let ticketOne = rawTicketOne.substring(2);
@@ -118,7 +120,63 @@
             let totalDue = await this.getElementText(TOTAL)
             assert.equal(totalDue.substring(2), total.toFixed(2))
 
+            }catch (error) {
+                await this.takeScreenshot("bosDetails")
+                await this.writeError(error)
+                throw error.toString();
+            }
         }
+
+        async assertFeeValueThenTicketTotalPlusFeeTimesTicketQtyEqualsTotal(savedFee$Value){
+            await this.isOnDetailsPage();
+            try{
+
+            let fee = savedFee$Value;
+            let rawTicketOne = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 0, 1);
+            let ticketOne = rawTicketOne.substring(2);
+            let ticketPrice = parseFloat(ticketOne);
+            let totalFee = parseFloat(fee.substring(1)) * 2
+            let displayedFee = await this.getElementTextFromAnArrayByIndex(VALUES, 5);
+            let cleanedFee = displayedFee.substring(2);
+            assert.equal(parseFloat(cleanedFee).toFixed(2),totalFee.toFixed(2))
+            let total = ticketPrice + totalFee
+            let totalDue = await this.getElementText(TOTAL)
+            assert.equal(totalDue.substring(2), total.toFixed(2))
+
+            }catch (error) {
+                await this.takeScreenshot("bosDetails")
+                await this.writeError(error)
+                throw error.toString();
+            }
+
+        }
+
+        async assertFeeAndTaxValuesThenAssertTicketTotalPlusFeesAndTaxesEqualsTotal(savedTaxValue, saved$FeeValue){
+            await this.isOnDetailsPage();
+            try{
+            let tax = parseFloat(savedTaxValue);
+            let fee = parseFloat(saved$FeeValue);
+            let rawTicketOne = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 0, 1);
+            let ticketOne = rawTicketOne.substring(2);
+            let ticketPrice = parseFloat(ticketOne);
+            let taxValue = ticketPrice * (tax/100);
+            let displayedTax = await this.getElementTextFromAnArrayByIndex(VALUES, 4);
+            let cleanedTax = displayedTax.substring(2);
+            assert.equal(parseFloat(cleanedTax).toFixed(2),taxValue.toFixed(2))
+            let totalFee = fee * 2
+            let displayedFee = await this.getElementTextFromAnArrayByIndex(VALUES, 5);
+            let cleanedFee = displayedFee.substring(2);
+            assert.equal(parseFloat(cleanedFee).toFixed(2),totalFee.toFixed(2))
+            let calculatedTotal = ticketPrice + taxValue + totalFee;
+            let totalDue = await this.getElementText(TOTAL)
+            assert.equal(totalDue.substring(2), calculatedTotal.toFixed(2))
+
+            }catch (error) {
+                await this.takeScreenshot("bosDetails")
+                await this.writeError(error)
+                throw error.toString();
+            }
+    }
 
         async continueToPayment(){
             await this.isOnDetailsPage();

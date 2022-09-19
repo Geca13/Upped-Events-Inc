@@ -503,6 +503,49 @@
 
         });
 
+        //PORTAL
+        it('should remove tax and add $ value fee and assert price in order total', async function () {
+
+            taxesAndFees = new TaxesAndFeesPage(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await taxesAndFees.openTaxesAndFeesDirectly(eventId);
+            await taxesAndFees.clickRemoveTaxOrFeeButtonByIndex(0);
+            await taxesAndFees.clickSaveTaxesAndFeesButton();
+            await taxesAndFees.set$FeeForTickets("Check $ Fee", ".17");
+            await taxesAndFees.clickSaveTaxesAndFeesButton();
+            let saved$FeeValue = await taxesAndFees.get$FeeFromInputByIndex(1);
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
+            await bosTickets.clickNavButtonByIndexWhenTicketsSelected(2);
+            await bosDetails.assertFeeValueThenTicketTotalPlusFeeTimesTicketQtyEqualsTotal(saved$FeeValue);
+
+        });
+
+        it('should add excluded tax again and check correct calculation for total', async function () {
+
+            taxesAndFees = new TaxesAndFeesPage(driver);
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await taxesAndFees.openTaxesAndFeesDirectly(eventId);
+            await taxesAndFees.addOneTaxForTickets();
+            await taxesAndFees.clickSaveTaxesAndFeesButton();
+            let savedTaxValue = await taxesAndFees.getFloatNumberForTaxOrFee(1,1);
+            let saved$FeeValue = await taxesAndFees.get$FeeFromInputByIndex(2);
+            let cleanedFee = saved$FeeValue.substring(1)
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
+            await bosTickets.clickNavButtonByIndexWhenTicketsSelected(2);
+            await bosDetails.assertFeeAndTaxValuesThenAssertTicketTotalPlusFeesAndTaxesEqualsTotal(savedTaxValue, cleanedFee);
+
+        });
+
+
 
 
 
