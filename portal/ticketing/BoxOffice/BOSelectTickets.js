@@ -5,7 +5,8 @@
     const OverrideTicketModal = require('../../portalModals/OverrideTicketModal');
     const TableComponent = require('../../portalComponents/TableComponent');
     const BOStepper = require('../BoxOffice/BOStepper');
-    const TICKET_GROUPS_TABS = { id: "eventsTab" }
+    const TICKET_GROUPS_TABS = { xpath: "//a[contains(@class, 'single-group')]" }
+    const TICKETS_GROUPS_TICKET_COUNT = { xpath: "//a[contains(@class, 'single-group')]//span" }
     const COLUMN_TICKET_NAME = { className: "table-ticket-name" } //list
     const COLUMN_PRICE = { xpath: "//td[contains(@class, 'column-price')]//span" } //list
     const COLUMN_DESCRIPTION = { xpath: "//td[contains(@class, 'column-description')]//span" } //list
@@ -198,6 +199,73 @@
             await this.isOnBoxOfficePage();
             let selected = await this.getEnteredTextInTheInputByIndex(COLUMN_SELECTS, index);
             assert.equal(selected, value);
+        }
+
+        async assertTicketGroupsTabsCountAndNames(ticketGroupOne, ticketGroupTwo, ticketGroupThree){
+            try{
+                let groupTabs = await this.returnElementsCount(TICKET_GROUPS_TABS);
+                assert.equal(groupTabs, 4);
+                let groupAll = await this.getElementTextFromAnArrayByIndex(TICKET_GROUPS_TABS, 0);
+                let groupOne = await this.getElementTextFromAnArrayByIndex(TICKET_GROUPS_TABS, 1);
+                let groupTwo = await this.getElementTextFromAnArrayByIndex(TICKET_GROUPS_TABS, 2);
+                let groupThree = await this.getElementTextFromAnArrayByIndex(TICKET_GROUPS_TABS, 3);
+                assert.equal(groupAll.replace('\n',' ').split(' ')[0], 'All');
+                assert.equal(groupOne.replace('\n',' ').split(' ')[0], ticketGroupOne);
+                assert.equal(groupTwo.replace('\n',' ').split(' ')[0], ticketGroupTwo);
+                assert.equal(groupThree.replace('\n',' ').split(' ')[0], ticketGroupThree);
+            }catch (error) {
+                await this.takeScreenshot("boTickets")
+                await this.writeError(error)
+                throw error.toString();
+            }
+        }
+
+        async assertTicketQuantityByGroup(){
+            let allTicketsInGroup;
+            let ticketsInTable
+            try {
+                await this.isOnBoxOfficePage();
+                allTicketsInGroup = await this.getElementTextFromAnArrayByIndex(TICKETS_GROUPS_TICKET_COUNT, 0);
+                ticketsInTable = await this.returnElementsCount(COLUMN_TICKET_NAME);
+                assert.equal(allTicketsInGroup, ticketsInTable);
+                await this.clickElementReturnedFromAnArray(TICKET_GROUPS_TABS, 1);
+                await this.timeout(500);
+                allTicketsInGroup = await this.getElementTextFromAnArrayByIndex(TICKETS_GROUPS_TICKET_COUNT, 1);
+                ticketsInTable = await this.returnElementsCount(COLUMN_TICKET_NAME);
+                assert.equal(allTicketsInGroup, ticketsInTable);
+                await this.clickElementReturnedFromAnArray(TICKET_GROUPS_TABS, 2);
+                await this.timeout(500);
+                allTicketsInGroup = await this.getElementTextFromAnArrayByIndex(TICKETS_GROUPS_TICKET_COUNT, 2);
+                ticketsInTable = await this.returnElementsCount(COLUMN_TICKET_NAME);
+                assert.equal(allTicketsInGroup, ticketsInTable);
+                await this.clickElementReturnedFromAnArray(TICKET_GROUPS_TABS, 3);
+                await this.timeout(500);
+                allTicketsInGroup = await this.getElementTextFromAnArrayByIndex(TICKETS_GROUPS_TICKET_COUNT, 3);
+                ticketsInTable = await this.returnElementsCount(COLUMN_TICKET_NAME);
+                assert.equal(allTicketsInGroup, ticketsInTable);
+
+            }catch (error) {
+                await this.takeScreenshot("boTickets")
+                await this.writeError(error)
+                throw error.toString();
+            }
+        }
+
+        async assertTicketCountInAllTabEqualsSumOfIndividualGroups(){
+            try{
+                await this.isOnBoxOfficePage();
+                let ticketCount = await this.findAll(TICKETS_GROUPS_TICKET_COUNT);
+                let all = await ticketCount[0].getText();
+                let sum = 0;
+                for(let i = 1; i < ticketCount.length ; i++){
+                    sum = sum + parseInt(await ticketCount[i].getText())
+                }
+                assert.equal(parseInt(all), sum);
+            }catch (error) {
+                await this.takeScreenshot("boTickets")
+                await this.writeError(error)
+                throw error.toString();
+            }
         }
 
 

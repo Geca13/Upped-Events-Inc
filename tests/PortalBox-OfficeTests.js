@@ -50,6 +50,8 @@
     const BOAddExtras = require('../portal/ticketing/BoxOffice/BOAddExtras');
     const BOAddDetails = require('../portal/ticketing/BoxOffice/BOAddDetails');
     const BOReviewAndPay = require('../portal/ticketing/BoxOffice/BOReviewAndPay');
+    const EmbedMainPage = require("../embed/embedPages/EmbedMainPage");
+    const TicketsComponent = require("../embed/embedComponents/TicketsComponent");
 
 
     describe('Should do box office related tests', function () {
@@ -542,6 +544,91 @@
             await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
             await bosTickets.clickNavButtonByIndexWhenTicketsSelected(2);
             await bosDetails.assertFeeAndTaxValuesThenAssertTicketTotalPlusFeesAndTaxesEqualsTotal(savedTaxValue, cleanedFee);
+
+        });
+
+        it('should create ticket groups and three more tickets',async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.publishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createTicketsGroup(ticketGroupOne);
+            await ticketsNav.successTicketGroupBannerIsDisplayed();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createTicketsGroup(ticketGroupTwo);
+            await ticketsNav.clickGroupTabByIndex(2);
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.createNewTicket(ticketTwoName,ticketTwoPrice,ticketTwoQuantity);
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createdTicketIsInTheTable(ticketTwoName);
+            await ticketsNav.clickActivateTicketToggle(ticketTwoName);
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.createNewTicket(ticketThreeName,ticketThreePrice,ticketThreeQuantity);
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createdTicketIsInTheTable(ticketThreeName);
+            await ticketsNav.clickActivateTicketToggle(ticketThreeName);
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createTicketsGroup(ticketGroupThree);
+            await ticketsNav.clickGroupTabByIndex(3);
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.ticketNameInputIsDisplayed();
+            await createTicket.createNewTicket(ticketFourName,ticketFourPrice,ticketFourQuantity);
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.createdTicketIsInTheTable(ticketFourName);
+            await ticketsNav.clickActivateTicketToggle(ticketFourName);
+            await ticketsNav.clickGroupTabByIndex(0);
+
+        });
+
+        it('should assert tickets groups in box-office', async function () {
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.assertTicketGroupsTabsCountAndNames(ticketGroupOne, ticketGroupTwo, ticketGroupThree);
+
+        });
+
+        it('should assert ticket quantity by group equals tickets in table', async function () {
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.assertTicketQuantityByGroup();
+
+        });
+
+        it('should assert ticket quantity in Group All equals sum of individual groups count', async function () {
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.assertTicketCountInAllTabEqualsSumOfIndividualGroups();
 
         });
 
