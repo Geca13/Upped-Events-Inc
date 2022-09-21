@@ -161,7 +161,7 @@
         let receipt;
         let steps;
 
-        let base = Math.floor(100000 + Math.random() * 900000);
+        let base = 842859 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";

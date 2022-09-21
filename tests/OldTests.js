@@ -158,7 +158,7 @@
         let embedDonate;
 
 
-        let base = 889244 // Math.floor(100000 + Math.random() * 900000);
+        let base = 842859 //Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -215,7 +215,7 @@
             await driver.quit()
         })
 
-        /*it('should create new account on microsites with username and password, verify and login', async function() {
+        it('should create new account on microsites with username and password, verify and login', async function() {
             events = new EventsPage(driver);
             createAccount = new CreateAccountModal(driver);
             inbox = new Inbox(driver);
@@ -239,7 +239,7 @@
             await login.waitPopupToBeLoaded();
             await login.loginAfterVerifyingAccount(customerPassword);
 
-        });*/
+        });
 
         it('Should create new event,tickets,promotions and make purchases', async function () {
             portalLogin = new PortalLoginPage(driver);

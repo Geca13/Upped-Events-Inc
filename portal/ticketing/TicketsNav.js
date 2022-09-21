@@ -32,6 +32,9 @@
     const TICKETS_QUANTITIES = { className: "column-quantity" };
     const SOLD_TICKETS_NUMBER = { className: 'column-sold'} //list
     const EDIT_TICKET_BUTTONS = { className: 'text-second'} //list
+    const DRAG_ROW_FOUR = { xpath: "(//tr[@class='cdk-drag'])[4]"}
+    const DRAG_ROW_ONE= { xpath: "(//tr[@class='cdk-drag'])[1]"}
+    const DRAG_GROUP_ONE = { xpath: "(//div[@class='cdk-drop-list'])[4]"}
 
 
 
@@ -344,6 +347,11 @@
                 ticketsNames.push(ticketName)
             }
             return ticketsNames;
+        }
+
+        async dragThirdTicketInTopPosition(){
+            await this.dragAndDropWithElements(DRAG_ROW_FOUR, DRAG_ROW_ONE)
+            await this.timeout(5000)
         }
     }
     module.exports = TicketsNav;

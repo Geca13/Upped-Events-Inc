@@ -45,7 +45,7 @@
                 let donation = new EmbedDonate(this.driver);
                 await donation.addCustomDonationToInputAndAddItToOrder();
                 let alert = new Alerts(this.driver);
-                await alert.correctInfoMessageIsDisplayed("Donation added")
+                await alert.correctInfoMessageIsDisplayed("Donation Added")
             }catch (error) {
                 await this.takeScreenshot("bosExtras-full")
                 await this.writeError(error)

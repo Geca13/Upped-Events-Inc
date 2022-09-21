@@ -134,10 +134,10 @@
         let termsModal;
         let donation;
         let embedDonate;
-        let eventId = "1617"
+        let eventId = "1626"
 
 
-        let base = 137260 // Math.floor(100000 + Math.random() * 900000);
+        let base = 808767 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -612,6 +612,16 @@
 
         });
 
+        it('should assert tickets order in box-office', async function () {
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.assertTicketsOrder(ticketOneName, ticketTwoName, ticketThreeName, ticketFourName);
+
+        });
+
         it('should assert ticket quantity by group equals tickets in table', async function () {
 
             await portalLogin.loadPortalUrl();
@@ -631,6 +641,38 @@
             await bosTickets.assertTicketCountInAllTabEqualsSumOfIndividualGroups();
 
         });
+
+
+        it('should assert tickets by groups in box-office', async function () {
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.assertTicketsByGroups(ticketOneName, ticketTwoName, ticketThreeName, ticketFourName);
+
+        });
+
+        it('should change ticket order in portal and assert change in box-office', async function () {
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.publishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.dragThirdTicketInTopPosition();
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.assertTicketsOrderAfterChangedOrder(ticketOneName, ticketTwoName, ticketThreeName, ticketFourName);
+
+        });
+
 
 
 

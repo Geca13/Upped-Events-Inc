@@ -477,7 +477,7 @@
         const actions = this.driver.actions();
         let source = this.find(locatorSource);
         await actions.dragAndDrop(source, { x: horizontal, y: vertical }).perform();
-        await this.driver.sleep(1000);
+        await this.timeout(1000);
 
     }
 

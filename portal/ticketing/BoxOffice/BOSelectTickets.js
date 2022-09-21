@@ -55,6 +55,46 @@
 
         }
 
+        async assertTicketsOrder(ticketOneName, ticketTwoName, ticketThreeName, ticketFourName){
+            let tickets = await this.findAll(COLUMN_TICKET_NAME);
+            assert.equal(await tickets[0].getText(), ticketOneName);
+            assert.equal(await tickets[1].getText(), ticketTwoName);
+            assert.equal(await tickets[2].getText(), ticketThreeName);
+            assert.equal(await tickets[3].getText(), ticketFourName);
+        }
+
+        async assertTicketsOrderAfterChangedOrder(ticketOneName, ticketTwoName, ticketThreeName, ticketFourName){
+            let tickets = await this.findAll(COLUMN_TICKET_NAME);
+            assert.equal(await tickets[1].getText(), ticketOneName);
+            assert.equal(await tickets[2].getText(), ticketTwoName);
+            assert.equal(await tickets[3].getText(), ticketThreeName);
+            assert.equal(await tickets[0].getText(), ticketFourName);
+        }
+
+        async assertTicketsByGroups(ticketOneName, ticketTwoName, ticketThreeName, ticketFourName){
+            await this.clickElementReturnedFromAnArray(TICKET_GROUPS_TABS, 1);
+            await this.timeout(500);
+            let ticketsInTable = await this.returnElementsCount(COLUMN_TICKET_NAME);
+            assert.equal(ticketsInTable, 1);
+            let ticketName = await this.getElementText(COLUMN_TICKET_NAME);
+            assert.equal(await ticketName, ticketOneName);
+            await this.clickElementReturnedFromAnArray(TICKET_GROUPS_TABS, 2);
+            await this.timeout(500);
+            ticketsInTable = await this.returnElementsCount(COLUMN_TICKET_NAME);
+            assert.equal(ticketsInTable, 2);
+            ticketName = await this.getElementTextFromAnArrayByIndex(COLUMN_TICKET_NAME, 0);
+            assert.equal(await ticketName, ticketTwoName);
+            ticketName = await this.getElementTextFromAnArrayByIndex(COLUMN_TICKET_NAME, 1);
+            assert.equal(await ticketName, ticketThreeName);
+            await this.clickElementReturnedFromAnArray(TICKET_GROUPS_TABS, 3);
+            await this.timeout(500);
+            ticketsInTable = await this.returnElementsCount(COLUMN_TICKET_NAME);
+            assert.equal(ticketsInTable, 1);
+            ticketName = await this.getElementText(COLUMN_TICKET_NAME);
+            assert.equal(await ticketName, ticketFourName);
+
+        }
+
         async selectTicketByIndexSendQuantityAndSave(index, quantity){
             await this.isOnBoxOfficePage();
             await this.timeout(500);
