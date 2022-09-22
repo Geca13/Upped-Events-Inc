@@ -15,6 +15,7 @@
     const PROMOTION_TICKET = { xpath: "//td[contains(@class, 'column-ticketname')]//span" };
     const PROMOTION_QUANTITY = { xpath: "//td[contains(@class, 'column-quantity')]//span" };
     const PROMOTION_ORIGINAL_PRICE = { xpath: "//td[contains(@class, 'column-ticketprice')]//span" };
+    const PROMOTION_ADJUSTMENT = { xpath: "//td[contains(@class, 'column-adjustment')]//span" };
     const PROMOTION_NEW_PRICE = { xpath: "//td[contains(@class, 'column-discountedprice')]//span" };
     const PROMOTION_START_DATE = { xpath: "//td[contains(@class, 'column-startdate')]" };
     const PROMOTION_END_DATE = { xpath: "//td[contains(@class, 'column-enddate')]" };
@@ -75,6 +76,7 @@
             let nameTicket = await this.getElementTextFromAnArrayByIndex(PROMOTION_TICKET, i);
             let promoQty = await this.getElementTextFromAnArrayByIndex(PROMOTION_QUANTITY, i);
             let orPrice = await this.getElementTextFromAnArrayByIndex(PROMOTION_ORIGINAL_PRICE, i);
+            let adjustment = await this.getElementTextFromAnArrayByIndex(PROMOTION_ADJUSTMENT, i);
             let priceNew = await this.getElementTextFromAnArrayByIndex(PROMOTION_NEW_PRICE, i);
             let start = await this.getElementTextFromAnArrayByIndex(PROMOTION_START_DATE, i);
             let end = await this.getElementTextFromAnArrayByIndex(PROMOTION_END_DATE, i);
@@ -82,10 +84,11 @@
             assert.equal(extDescription, "Single general promo code");
             assert.equal(nameTicket, promotion[2]);
             assert.equal(promoQty, promotion[3]);
-            assert.equal(orPrice + "0", promotion[4]);
-            assert.equal(priceNew, promotion[5]);
-            assert.equal(start, promotion[6]);
-            assert.equal(end, promotion[7]);
+            assert.equal(orPrice, promotion[4]);
+            assert.equal(adjustment, promotion[5]);
+            assert.equal(priceNew, promotion[6]);
+            assert.equal(start, promotion[7]);
+            assert.equal(end, promotion[8]);
         }
 
         async findPromotionByNameAndClickUpdateButton(promoName){
@@ -107,7 +110,7 @@
             assert.equal(extDescription, "Single general promo code");
             assert.equal(nameTicket, ticketName);
             assert.equal(promoQty, "20");
-            assert.equal(orPrice, "$"+ticketPrice);
+            assert.equal(orPrice, "$"+parseFloat(ticketPrice).toFixed(2));
             let discountedPriceForFirstTicket = parseFloat(ticketPrice) - (parseFloat(ticketPrice) * (75/100));
             let discountedToFixed = discountedPriceForFirstTicket.toFixed(2);
             assert.equal(priceNew+"0", "$"+discountedToFixed.toString());

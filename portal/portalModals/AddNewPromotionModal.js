@@ -194,7 +194,8 @@
             let origEnd = await this.getEnteredTextInTheInput(PROMOTION_END_DATE_INPUT);
             let quantity = await this.getEnteredTextInTheInput(PROMO_LIMIT_QUANTITY_INPUT);
             let origPrice = await this.getElementText(CURRENT_PRICE);
-            let price = await this.returnNumberWith$Sign(PROMO_$_VALUE_INPUT);
+            let adjustment = await this.returnNumberWith$Sign(PROMO_$_VALUE_INPUT);
+            let newPrice = await this.getElementText(DISCOUNTED_PRICE);
             let start = await this.getOnlyFullDateFromDateTimeInput(PROMOTION_START_DATE_INPUT);
             let end =await this.getOnlyFullDateFromDateTimeInput(PROMOTION_END_DATE_INPUT);
             promotion.push(name);
@@ -202,7 +203,8 @@
             promotion.push(ticket);
             promotion.push(quantity);
             promotion.push(origPrice);
-            promotion.push(price);
+            promotion.push(adjustment);
+            promotion.push(newPrice);
             promotion.push(start);
             promotion.push(end);
             promotion.push(origStart);
@@ -224,16 +226,18 @@
             let updateOrigEnd = await this.getEnteredTextInTheInput(PROMOTION_END_DATE_INPUT);
             let updateQuantity = await this.getEnteredTextInTheInput(PROMO_LIMIT_QUANTITY_INPUT);
             let updateOrigPrice = await this.getElementText(CURRENT_PRICE);
-            let updatePrice = await this.returnNumberWith$Sign(PROMO_$_VALUE_INPUT);
+            let updateAdjustment = await this.returnNumberWith$Sign(PROMO_$_VALUE_INPUT);
+            let updateDiscounted = await this.getElementText(DISCOUNTED_PRICE);
             assert.equal(updateName, promotion[0]);
             assert.equal(updateDescription, promotion[1]);
             assert.equal(updateTicket, promotion[2]);
-            assert.equal(updateStatus, promotion[10]);
-            assert.equal(updateOrigStart, promotion[8]);
-            assert.equal(updateOrigEnd, promotion[9]);
             assert.equal(updateQuantity, promotion[3]);
             assert.equal(updateOrigPrice, promotion[4]);
-            assert.equal(updatePrice, promotion[5]);
+            assert.equal(updateAdjustment, promotion[5]);
+            assert.equal(updateDiscounted, promotion[6]);
+            assert.equal(updateStatus, promotion[11]);
+            assert.equal(updateOrigStart, promotion[9]);
+            assert.equal(updateOrigEnd, promotion[10]);
             await this.click(CANCEL_PROMOTION_BUTTON);
             await this.timeout(1000);
         }
@@ -542,7 +546,8 @@
             let originalPrice = await this.getElementText(CURRENT_PRICE);
             assert.equal( parseFloat(originalPrice.substring(1)),ticketOneParsed);
             let discountedPrice = await this.getElementText(DISCOUNTED_PRICE);
-            assert.equal(discountedPrice, "$"+newPrice )
+            let calculatedNewPrice = ticketOne - parseFloat(newPrice);
+            assert.equal(discountedPrice, "$"+calculatedNewPrice.toFixed(2) )
         }
 
         async assertWhenPercentageValuePromotionIsEnteredIsDisplayedNextToOriginalPrice(ticketOnePrice, discount){

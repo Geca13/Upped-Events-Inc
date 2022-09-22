@@ -353,6 +353,10 @@
             await this.dragAndDropWithElements(DRAG_ROW_FOUR, DRAG_ROW_ONE)
             await this.timeout(5000)
         }
+
+        async dragTicketFromOneGroupToAnotherGroup(){
+
+        }
     }
     module.exports = TicketsNav;
 

@@ -481,12 +481,12 @@
 
     }
 
-    async dragAndDropWithSourceElementOffset(locator, indexSource,indexTarget, horizontal,vertical){
+    async dragAndDropWithSourceElementOffset(locator, indexSource,indexTarget){
          let elements = await this.findAll(locator);
          let source = elements[indexSource];
          let target = elements[indexTarget];
          const actions = this.driver.actions();
-         await actions.move({duration:2000,origin:source,horizontal,vertical}).press().perform();
+         await actions.move({duration:2000,origin:source,x:3,y:3}).press().perform();
          await actions.dragAndDrop(source, target).perform();
     }
 
