@@ -141,7 +141,7 @@
                 await override.clickSaveChangesButton();
                 await this.timeout(1500);
                 let newPrice = await this.getElementText(OVERRIDEN_TICKET_PRICE);
-                assert.equal(newPrice,'$15');
+                assert.equal(newPrice,'$15.00');
                 let fontColor = await this.getFontColorFromAnArray(OVERRIDEN_TICKET_PRICE,0);
                 assert.equal(fontColor,'rgba(255, 0, 0, 1)');
 

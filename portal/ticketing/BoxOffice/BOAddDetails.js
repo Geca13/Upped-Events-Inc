@@ -211,13 +211,13 @@
 
          async checkTicketPricesInOrderDetails() {
              let rawTicketOne = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 0, 1);
-             let ticketOne = rawTicketOne.substring(2);
+             let ticketOne = rawTicketOne.substring(1);
              let rawTicketTwo = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 1, 1);
-             let ticketTwo = rawTicketTwo.substring(2);
+             let ticketTwo = rawTicketTwo.substring(1);
              let rawTicketThree = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 2, 1);
-             let ticketThree = rawTicketThree.substring(2);
+             let ticketThree = rawTicketThree.substring(1);
              let rawTicketFour = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 3, 1);
-             let ticketFour = rawTicketFour.substring(2);
+             let ticketFour = rawTicketFour.substring(1);
 
              assert.equal(parseFloat("1"), parseFloat(ticketOne));
              assert.equal(parseFloat("1.2"), parseFloat(ticketTwo));
@@ -229,11 +229,11 @@
              let subtotal = 0.00;
              for (let i = 0; i < 4; i++){
                  let rawAmount = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT,i,1);
-                 let amount = rawAmount.substring(2);
+                 let amount = rawAmount.substring(1);
                  subtotal = subtotal + parseFloat(amount);
              }
              let rawSubTotal = await this.getElementText(SUBTOTAL);
-             let substring = rawSubTotal.substring(2);
+             let substring = rawSubTotal.substring(1);
              let extracted = parseFloat(substring);
              assert.equal(extracted,subtotal)
          }
@@ -242,16 +242,16 @@
             let calculatedTotal = 0.00;
             for (let i = 0; i < items.length; i++){
                 let rawAmount = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT,i,1);
-                let amount = rawAmount.substring(2);
+                let amount = rawAmount.substring(1);
                 calculatedTotal = calculatedTotal + parseFloat(amount);
             }
             let rawSubTotal = await this.getElementText(SUBTOTAL);
-            let subtotalSubstring = rawSubTotal.substring(2);
+            let subtotalSubstring = rawSubTotal.substring(1);
             let subtotal = parseFloat(subtotalSubstring);
             calculatedTotal = calculatedTotal - subtotal;
             let calcFixedTotal = calculatedTotal.toFixed(2);
             let rawTotal = await this.getElementText(TOTAL);
-            let totalSubstring = rawTotal.substring(2);
+            let totalSubstring = rawTotal.substring(1);
             let total = parseFloat(totalSubstring);
             assert.equal(calcFixedTotal,total)
         }

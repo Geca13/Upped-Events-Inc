@@ -52,10 +52,11 @@
             await table.assertColumnNamesByIndex(2, "Ticket Name");
             await table.assertColumnNamesByIndex(3, "Quantity");
             await table.assertColumnNamesByIndex(4, "Original Price");
-            await table.assertColumnNamesByIndex(5, "New Price");
-            await table.assertColumnNamesByIndex(6, "From");
-            await table.assertColumnNamesByIndex(7, "Until");
-            await table.assertColumnNamesByIndex(8, "Active/Inactive");
+            await table.assertColumnNamesByIndex(5, "Adjustment");
+            await table.assertColumnNamesByIndex(6, "New Price");
+            await table.assertColumnNamesByIndex(7, "From");
+            await table.assertColumnNamesByIndex(8, "Until");
+            await table.assertColumnNamesByIndex(9, "Active/Inactive");
 
         }
 
@@ -113,7 +114,7 @@
             assert.equal(orPrice, "$"+parseFloat(ticketPrice).toFixed(2));
             let discountedPriceForFirstTicket = parseFloat(ticketPrice) - (parseFloat(ticketPrice) * (75/100));
             let discountedToFixed = discountedPriceForFirstTicket.toFixed(2);
-            assert.equal(priceNew+"0", "$"+discountedToFixed.toString());
+            assert.equal(priceNew, "$"+discountedToFixed.toString());
 
         }
 

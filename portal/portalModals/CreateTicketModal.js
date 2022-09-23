@@ -102,7 +102,7 @@
             assert.equal(origStartOnUpdate,origStart);
             assert.equal(origEndOnUpdate,origEnd);
             assert.equal(origAttOnUpdate,origAtt);
-            assert.equal(origPriceOnUpdate,origPrice);
+            assert.equal(parseFloat(origPriceOnUpdate).toFixed(2),origPrice);
             assert.equal(descriptionOnUpdate,description);
             assert.equal(rulesOnUpdate,rules);
 

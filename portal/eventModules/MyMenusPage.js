@@ -116,6 +116,7 @@
 
         async createNewSection(sectionName, sectionIndex, editIconIndex){
             await this.isDisplayed(ADD_NEW_SECTION_BUTTON, 5000)
+            await this.timeout(500);
             await this.click(ADD_NEW_SECTION_BUTTON);
             await this.timeout(500);
             await this.isDisplayedFromArray(SECTION_TITLE_INPUT,sectionIndex,5000);
@@ -214,6 +215,7 @@
             await this.timeout(1500);
             await imager.setWhiskeyImageToCenter();
             await imager.clickSetButton();
+            await this.isDisplayed(ADD_SAVE_ITEM_BUTTON, 5000);
             await this.click(ADD_SAVE_ITEM_BUTTON);
             await this.timeout(1500);
             //await this.simulateDragAndDrop(MENU_ITEM_FROM_LIST,MENU_SECTION);

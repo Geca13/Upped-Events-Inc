@@ -107,6 +107,7 @@
             await this.click(PROMOTIONS_TAB);
         }
         async clickSettingsNav(){
+            await this.isDisplayed(SETTINGS_NAV, 5000)
             await this.moveToElement(SETTINGS_NAV);
             await this.click(SETTINGS_NAV);
         }

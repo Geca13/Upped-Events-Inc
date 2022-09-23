@@ -530,7 +530,7 @@
             await this.timeout(500);
             let inputValue = await this.getEnteredTextInTheInput(PROMO_$_VALUE_INPUT);
             assert.notEqual(inputValue, "2")
-            assert.equal(inputValue, ticketOnePrice);
+            assert.equal(parseFloat(inputValue).toFixed(2), ticketOnePrice);
         }
 
         async assertWhen$ValuePromotionIsEnteredIsDisplayedNextToOriginalPrice(ticketOnePrice, newPrice){

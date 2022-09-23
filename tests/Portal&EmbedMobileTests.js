@@ -104,16 +104,16 @@
         let ticketOneName = base.toString() +"T1";
         let embedTicketQuantity = 2;
         let ticketOneQuantity = 999;
-        let ticketOnePrice = "1";
+        let ticketOnePrice = "1.00";
         let ticketTwoName = base.toString() +"T2";
         let ticketTwoQuantity = 888;
-        let ticketTwoPrice = "1.2";
+        let ticketTwoPrice = "1.20";
         let ticketThreeName = base.toString() +"T3";
         let ticketThreeQuantity = 777;
         let ticketThreePrice = "0.75";
         let ticketFourName = base.toString() +"T4";
         let ticketFourQuantity = 666;
-        let ticketFourPrice = "0.25";
+        let ticketFourPrice = "0.40";
         let staffTicket = base.toString() +"staff";
         let ticketStaffQuantity = 2;
         let ticketStaffPrice = "0.25";
@@ -1012,7 +1012,6 @@
             await orderDetails.clickEditLinkOnDisplayedTicketAssertIsOnTicketsPage(embedTickets);
 
         });
-
         //PORTAL
         it('should create three more tickets and ticket groups, then assert data in tickets table ',async function () {
 
@@ -1129,7 +1128,6 @@
             await embedTickets.assertTicketsByGroupsAndClassIsAppliedWhenClickedOnMobileEmbed(base, "active");
 
         });
-
         //EMBED
         it('should make payment with wallet and assert elements on Confirmation page', async function () {
 
@@ -1203,7 +1201,6 @@
             await main.ticketTermsCheckBoxAndLabelAreNotDisplayed()
 
         });
-
         // PORTAL
         it('should set ticket terms in the portal and assert entered tags and text', async function () {
             portalLogin = new PortalLoginPage(driver);
@@ -1609,7 +1606,7 @@
 
         });
 
-        //EMBED
+        //EMBED Fails because the link is not present on mobile
         it('should click donation edit link on Order Details and assert landing on extras screen', async function () {
 
             main = new EmbedMainPage(driver);
@@ -1642,8 +1639,7 @@
             await orderDetails.clickEditDonationLinkAndAssertItIsOnExtrasPage(embedDonate);
 
         });
-
-        //PORTAL
+        //PORTAL waiting for a fix from Badar
         it('should create first promotion with $ value and assert data on promotions page and update promotion modal', async function () {
 
             portalLogin = new PortalLoginPage(driver);
@@ -2032,7 +2028,6 @@
             await orderDetails.assertTicketsSumEqualsSubtotalAndOrderTotalTicketsAndSubtotalValuesOnMobile(summary);
 
         });
-
         //EMBED
         it('should make regular purchase with three different tickets and quantities and assert tickets on receipt', async function () {
 
@@ -2239,7 +2234,6 @@
             await main.assertAlertVisibleAndText("Please select a payment method!");
 
         });
-
         //EMBED
         it('should make purchase for two tickets of same type with donation and promotion and assert data on the receipt', async function () {
 
@@ -3348,5 +3342,4 @@
             await attendees.checkForTicketQuestionsResponsesForTheUpdated(base,1);
 
         });
-
     });

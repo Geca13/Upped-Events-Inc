@@ -158,22 +158,22 @@
         let embedDonate;
 
 
-        let base = 842859 //Math.floor(100000 + Math.random() * 900000);
+        let base = 623993 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
         let embedTicketQuantity = 2;
         let ticketOneQuantity = 999;
-        let ticketOnePrice = "1";
+        let ticketOnePrice = "1.00";
         let ticketTwoName = base.toString() +"T2";
         let ticketTwoQuantity = 888;
-        let ticketTwoPrice = "1.2";
+        let ticketTwoPrice = "1.20";
         let ticketThreeName = base.toString() +"T3";
         let ticketThreeQuantity = 777;
         let ticketThreePrice = "0.75";
         let ticketFourName = base.toString() +"T4";
         let ticketFourQuantity = 666;
-        let ticketFourPrice = "0.5";
+        let ticketFourPrice = "0.40";
         let staffTicket = base.toString() +"staff";
         let ticketStaffQuantity = 5;
         let ticketStaffPrice = "0.25";
@@ -479,7 +479,7 @@
             await events.clickSignInButton();
             await login.waitPopupToBeLoaded();
             await login.authenticate(customerEmail, customerPassword);
-            await driver.sleep(10000);
+            await driver.sleep(5000);
             await events.eventCardIsAvailableToClick();
             await events.clickNewEvent(shortName);
             await info.buyTicketsButtonPresent();
@@ -1724,7 +1724,7 @@
             await dashboard.isAtDashboardPage();
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
-            await driver.sleep(10000);
+            await driver.sleep(5000);
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
