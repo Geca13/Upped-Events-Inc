@@ -47,10 +47,6 @@
         }
     }
 
-    async zoomOutWindow(locator){
-        await this.find(locator).sendKeys(Key.CONTROL, Key.SUBTRACT);
-    }
-
     find(locator) {
         return this.driver.findElement(locator)
     }
@@ -146,12 +142,6 @@
           return '$'+number;
     }
 
-    async clickElementByTextFromArray(text, index){
-        let elements = await this.driver.findElement(By.xpath("//*[normalize-space(text())='"+text+"']"));
-        let element = elements[index]
-        await element.click();
-    }
-
     async elementByTextIsDisplayed(text){
         await this.isDisplayed(this.driver.findElement(By.xpath("//*[text()=' "+text+" ']")));
     }
@@ -206,8 +196,6 @@
         await element.sendKeys(keys);
     }
 
-
-
     async getRawTicketPrice(locator, index){
         let tickets = await this.findAll(locator);
         return await tickets[index].getText();
@@ -225,12 +213,6 @@
         return await children[childIndex].sendKeys(keys);
     }
 
-    async clickChildByIndexFromPrecedingSibling(locator){
-        let knownSibling = await this.find(locator);
-        let sibling = await knownSibling.findElement(By.xpath("./preceding-sibling::label"));
-        let children = await sibling.findElements(By.xpath("./child::*"));
-        await children[1].click();
-    }
     async clickParent(locator){
         let child = await this.find(locator);
         let parent = await child.findElement(By.xpath("ancestor::a"));
@@ -271,6 +253,7 @@
     async getElementText(locator) {
         return await this.find(locator).getText();
     }
+
     async getFontColorFromAnArray(locator, index){
         let elements = await this.findAll(locator)
         return elements[index].getCssValue('color')
@@ -338,8 +321,6 @@
             }
     }
 
-
-
     async getElementTextFromAnArrayByIndex(locator, index){
         let elements = await this.findAll(locator);
         return await elements[index].getText();
@@ -380,13 +361,6 @@
     async getSubstringOfPriceString(locator){
         let result = await this.getElementText(locator);
         return result.substring(1);
-    }
-
-
-
-    async getSubstringOfPriceStringWithStartAndEndIndex(locator,parentIndex, childIndex,startIndex, endIndex){
-        let result = await this.getChildTextByParentIndexAndChildIndex(locator,parentIndex, childIndex);
-        return result.substring(startIndex,endIndex);
     }
 
     async getSubstringOfBracketedPriceString(locator,index){
@@ -481,21 +455,18 @@
 
     }
 
-    async dragAndDropWithSourceElementOffset(locator, indexSource,indexTarget){
-         let elements = await this.findAll(locator);
-         let source = elements[indexSource];
-         let target = elements[indexTarget];
-         const actions = this.driver.actions();
-         await actions.move({duration:2000,origin:source,x:3,y:3}).press().perform();
-         await actions.dragAndDrop(source, target).perform();
-    }
-
-    async dragAndDropWithElements(sourceLocator, targetLocator){
+    async dragAndDropWithLocators(sourceLocator, targetLocator){
          let source = await this.find(sourceLocator);
          let target = await this.find(targetLocator);
          const actions = this.driver.actions();
          await actions.move({duration:1000,origin:source,x:3,y:3}).press().perform();
          await actions.dragAndDrop(source, target).perform();
+    }
+
+    async dragAndDropWithElements(source, target){
+        const actions = this.driver.actions();
+        await actions.move({duration:1000,origin:source,x:3,y:3}).press().perform();
+        await actions.dragAndDrop(source, target).perform();
     }
 
     async dragAndDropWithElementsWithIndexes(sourceLocator, targetLocator,indexSource,indexTarget){
@@ -507,53 +478,6 @@
          await actions.move({duration:1000,origin:source,x:2,y:3}).press().perform();
          await actions.dragAndDrop(source, target).perform();
     }
-
-    async dragAndDropElement(locatorSource,indexSource, locatorTarget){
-        const actions = this.driver.actions();
-        let source = this.findAll(locatorSource);
-        let s = source[indexSource];
-        let destination = this.find(locatorTarget);
-        //await actions.move({duration:1000,origin:source,x:0,y:0}).press().perform();
-/*
-        await this.driver.executeScript("function createEvent(typeOfEvent) {\n" + "var event =document.createEvent(\"CustomEvent\");\n"
-            + "event.initCustomEvent(typeOfEvent,true, true, null);\n" + "event.dataTransfer = {\n" + "data: {},\n"
-            + "setData: function (key, value) {\n" + "this.data[key] = value;\n" + "},\n"
-            + "getData: function (key) {\n" + "return this.data[key];\n" + "}\n" + "};\n" + "return event;\n"
-            + "}\n" + "\n" + "function dispatchEvent(element, event,transferData) {\n"
-            + "if (transferData !== undefined) {\n" + "event.dataTransfer = transferData;\n" + "}\n"
-            + "if (element.dispatchEvent) {\n" + "element.dispatchEvent(event);\n"
-            + "} else if (element.fireEvent) {\n" + "element.fireEvent(\"on\" + event.type, event);\n" + "}\n"
-            + "}\n" + "\n" + "function simulateHTML5DragAndDrop(element, destination) {\n"
-            + "var dragStartEvent =createEvent('dragstart');\n" + "dispatchEvent(element, dragStartEvent);\n"
-            + "var dropEvent = createEvent('drop');\n"
-            + "dispatchEvent(destination, dropEvent,dragStartEvent.dataTransfer);\n"
-            + "var dragEndEvent = createEvent('dragend');\n"
-            + "dispatchEvent(element, dragEndEvent,dropEvent.dataTransfer);\n" + "}\n" + "\n"
-            + "var source = arguments[0];\n" + "var destination = arguments[1];\n"
-            + "simulateHTML5DragAndDrop(source,destination);", source, destination);*/
-        //await actions.move({duration:1000,origin:destination,x:0,y:0}).release().perform();
-       // await this.driver.actions().move({origin:source}).press().perform();
-        //await this.driver.sleep(1000)
-        //await this.moveToElement(locatorTarget);
-        //await actions.dragAndDrop(source, destination).perform();
-       // await actions.move({duration:2000,origin:source,x:0,y:0}).press().perform();
-        //await actions.move({duration:2000,origin:source,x:400,y:0}).release().perform();
-        await actions
-            .move({duration:2000,origin:s,x:0,y:0})
-            .press()
-            .move({duration:2000,origin:s,x:0,y:100})
-            .release()
-            .perform();
-       // await this.driver.actions().move({origin:target}).release().perform();
-        /*await this.driver.sleep(1000);
-        await actions.dragAndDrop(s, destination).perform();
-        await this.driver.sleep(1000);*/
-       //await actions.dragAndDropBy(source, 0,150).perform();
-        //await actions.clickAndHold(locatorSource).moveToElement(locatorTarget).build().perform(); await actions.dragAndDrop(locatorSource, { x: 0, y: 150 }).perform();
-       // await this.driver.sleep(1000);
-    }
-
-
 
     async clickEnterKey(locator){
          let element = await this.find(locator);
@@ -657,21 +581,21 @@
          return element.isEnabled();
     }
 
-        async isDisplayed(locator,timeout) {
-            if (timeout){
-                await this.driver.wait(until.elementLocated(locator), timeout)
-                await this.driver.wait(until.elementIsVisible(this.find(locator)), timeout)
-                await this.driver.wait(until.elementIsEnabled(this.find(locator)), timeout)
-                await this.timeout(500)
-                return true
-            } else{
-                try {
-                    return await this.find(locator).isDisplayed()
-                } catch (error) {
-                    return false
-                }
+    async isDisplayed(locator,timeout) {
+        if (timeout){
+            await this.driver.wait(until.elementLocated(locator), timeout)
+            await this.driver.wait(until.elementIsVisible(this.find(locator)), timeout)
+            await this.driver.wait(until.elementIsEnabled(this.find(locator)), timeout)
+            await this.timeout(500)
+            return true
+        } else{
+            try {
+                return await this.find(locator).isDisplayed()
+            } catch (error) {
+                return false
             }
         }
+    }
 
     async isDisplayedFromArray(locator,index ,timeout) {
         if (timeout){
@@ -826,8 +750,3 @@
     }
 
      module.exports = BasePage;
-
-        /*for (const child of children) {
-            let text = await child.getText();
-            console.log(text + '111111');
-        }*/

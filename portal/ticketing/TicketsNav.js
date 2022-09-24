@@ -302,7 +302,7 @@
             assert.equal(sixth,'Active/Inactive');
             await this.click(ADD_TABLE_COLUMN_BUTTON);
             await options.makeNewManipulationsOnTickets();
-            await this.driver.sleep(1000);
+            await this.timeout(1000);
             first = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 0);
             second = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 1);
             third = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 2);
@@ -319,8 +319,23 @@
             assert.equal(seventh,'Active/Inactive');
             let headers2 = await this.returnElementsCount(TABLE_HEADERS);
             assert.equal(headers2,7);
-            //await this.click(ADD_TABLE_COLUMN_BUTTON);
-            //await options.changeColumnOrdersByColumnIndex();
+            await this.click(ADD_TABLE_COLUMN_BUTTON);
+            await options.dragColumnFromColumnIndexToColumnIndex(1, 5);
+            first = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 0);
+            second = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 1);
+            third = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 2);
+            fourth = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 3);
+            fifth = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 4);
+            sixth = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 5);
+            seventh = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 6);
+            assert.equal(first,'Start Date/Time');
+            assert.equal(second,'Price');
+            assert.equal(third,'Quantity');
+            assert.equal(fourth,'Ticket Name');
+            assert.equal(fifth,'Sold');
+            assert.equal(sixth,'Reserved');
+            assert.equal(seventh,'Active/Inactive');
+
 
         }
 
@@ -350,7 +365,7 @@
         }
 
         async dragThirdTicketInTopPosition(){
-            await this.dragAndDropWithElements(DRAG_ROW_FOUR, DRAG_ROW_ONE)
+            await this.dragAndDropWithLocators(DRAG_ROW_FOUR, DRAG_ROW_ONE)
             await this.timeout(5000)
         }
 

@@ -1,5 +1,6 @@
     const BasePage = require('../../BasePage');
     const { Key, Keys} = require("selenium-webdriver");
+    const assert = require('assert')
     const SetImageModal = require('../portalModals/SetImageModal');
     const MenuSchedulerPage = require('../eventModules/MenuSchedulerPage');
     const CREATE_NEW_MENU_LINK = { xpath: "//*[text()='Create New Menu']"}
@@ -42,7 +43,7 @@
     const DUPLICATE_MENU_OPTION = { xpath: "//a[text()=' Duplicate ']"}
     const DELETE_MENU_OPTION = { xpath: "//a[text()=' Delete ']"}
     const NO_RECORD_MESSAGE = { xpath: "//h5[text()='No record available']"}
-    const DROP = { xpath: "//div[contains(@class, 'container')]//div[@cdkdroplistconnectedto='list-2']"}
+    const SECTION_DROPS = { xpath: "//div[contains(@class, 'container')]//div[@cdkdroplistconnectedto='list-2']"}
 
 
     const CATEGORY_SUBCATEGORY_DROPDOWNS = { tagName: 'select'}// list
@@ -218,8 +219,125 @@
             await this.isDisplayed(ADD_SAVE_ITEM_BUTTON, 5000);
             await this.click(ADD_SAVE_ITEM_BUTTON);
             await this.timeout(1500);
+
             //await this.simulateDragAndDrop(MENU_ITEM_FROM_LIST,MENU_SECTION);
             //await this.timeout(5500);
+        }
+
+        async createBurgerMenuItem(){
+            await this.clickElementReturnedFromAnArray(ADD_NEW_MENU_ITEM_FROM_SECTION_BUTTON,1);
+            await this.driver.executeScript("document.getElementsByClassName('dropdown-menu-right')[0].style.visibility='visible'");
+            //await this.isDisplayed(MAIN_CATEGORIES_DROPDOWN,5000);
+            await this.timeout(500);
+            await this.clickElementReturnedFromAnArray(FOOD_OPTION,1);
+            await this.timeout(500);
+            //await this.isDisplayed(NEW_ITEM_NAME_INPUT,5000);
+            await this.sentKeys(NEW_ITEM_NAME_INPUT, "Gecas Burger");
+            await this.sentKeys(NEW_ITEM_PRICE_INPUT, "13.13");
+            await this.click(NEW_ITEM_CATEGORY_DROPDOWN);
+            await this.click(MAINS_FOOD_CATEGORY);
+            await this.click(NEW_ITEM_SUBCATEGORY_DROPDOWN);
+            await this.click(MAINS_SANDWICHES_SUBCATEGORY);
+            await this.sentKeys(NEW_ITEM_DESCRIPTION_TEXTAREA, "Burger Description");
+            await this.sentKeys(NEW_ITEM_INGREDIENTS_TEXTAREA, "Burger Ingredients");
+            await this.sentKeys(NEW_ITEM_IMAGE_INPUT,"D:\\Upped-Events-Inc\\static\\burger.jpg");
+            let imager = new SetImageModal(this.driver);
+            await imager.setImageModalIsDisplayed();
+            await this.timeout(1500);
+            //await imager.setWhiskeyImageToCenter();
+            await imager.clickSetButton();
+            await this.isDisplayed(ADD_SAVE_ITEM_BUTTON, 5000);
+            await this.click(ADD_SAVE_ITEM_BUTTON);
+            await this.timeout(1500);
+        }
+
+        async createRibsMenuItem(){
+            await this.clickElementReturnedFromAnArray(ADD_NEW_MENU_ITEM_FROM_SECTION_BUTTON,1);
+            await this.driver.executeScript("document.getElementsByClassName('dropdown-menu-right')[0].style.visibility='visible'");
+            //await this.isDisplayed(MAIN_CATEGORIES_DROPDOWN,5000);
+            await this.timeout(500);
+            await this.clickElementReturnedFromAnArray(FOOD_OPTION,1);
+            await this.timeout(500);
+            //await this.isDisplayed(NEW_ITEM_NAME_INPUT,5000);
+            await this.sentKeys(NEW_ITEM_NAME_INPUT, "Gecas Ribs");
+            await this.sentKeys(NEW_ITEM_PRICE_INPUT, "15.13");
+            await this.click(NEW_ITEM_CATEGORY_DROPDOWN);
+            await this.click(MAINS_FOOD_CATEGORY);
+            await this.click(NEW_ITEM_SUBCATEGORY_DROPDOWN);
+            await this.click(MAINS_MEAT_SUBCATEGORY);
+            await this.sentKeys(NEW_ITEM_DESCRIPTION_TEXTAREA, "Ribs Description");
+            await this.sentKeys(NEW_ITEM_INGREDIENTS_TEXTAREA, "Ribs Ingredients");
+            await this.sentKeys(NEW_ITEM_IMAGE_INPUT,"D:\\Upped-Events-Inc\\static\\ribs.jpg");
+            let imager = new SetImageModal(this.driver);
+            await imager.setImageModalIsDisplayed();
+            await this.timeout(1500);
+            //await imager.setWhiskeyImageToCenter();
+            await imager.clickSetButton();
+            await this.isDisplayed(ADD_SAVE_ITEM_BUTTON, 5000);
+            await this.click(ADD_SAVE_ITEM_BUTTON);
+            await this.timeout(1500);
+        }
+
+        async createPancakesMenuItem(){
+            await this.click(ADD_NEW_MENU_ITEM_BUTTON);
+            await this.driver.executeScript("document.getElementsByClassName('dropdown-menu-right')[0].style.visibility='visible'");
+            //await this.isDisplayed(MAIN_CATEGORIES_DROPDOWN,5000);
+            await this.timeout(1000);
+            await this.clickElementReturnedFromAnArray(FOOD_OPTION,3);
+            await this.timeout(500);
+            //await this.isDisplayed(NEW_ITEM_NAME_INPUT,5000);
+            await this.sentKeys(NEW_ITEM_NAME_INPUT, "Gecas Pancake");
+            await this.sentKeys(NEW_ITEM_PRICE_INPUT, "8.08");
+            await this.click(NEW_ITEM_CATEGORY_DROPDOWN);
+            await this.click(DESSERTS_CATEGORY);
+            await this.click(NEW_ITEM_SUBCATEGORY_DROPDOWN);
+            await this.click(DESSERTS_CAKE_SUBCATEGORY);
+            await this.sentKeys(NEW_ITEM_DESCRIPTION_TEXTAREA, "Pancake Description");
+            await this.sentKeys(NEW_ITEM_INGREDIENTS_TEXTAREA, "Pancake Ingredients");
+            await this.sentKeys(NEW_ITEM_IMAGE_INPUT,"D:\\Upped-Events-Inc\\static\\pancake.jpg");
+            let imager = new SetImageModal(this.driver);
+            await imager.setImageModalIsDisplayed();
+            await this.timeout(1500);
+            //await imager.setWhiskeyImageToCenter();
+            await imager.clickSetButton();
+            await this.isDisplayed(ADD_SAVE_ITEM_BUTTON, 5000);
+            await this.click(ADD_SAVE_ITEM_BUTTON);
+            await this.timeout(1500);
+        }
+
+        async createIceCreamMenuItem(){
+            await this.timeout(5000);
+            await this.moveToElement(ADD_NEW_MENU_ITEM_BUTTON)
+            await this.click(ADD_NEW_MENU_ITEM_BUTTON);
+            await this.driver.executeScript("document.getElementsByClassName('dropdown-menu-right')[0].style.visibility='visible'");
+            //await this.isDisplayed(MAIN_CATEGORIES_DROPDOWN,5000);
+            await this.timeout(500);
+            await this.clickElementReturnedFromAnArray(FOOD_OPTION,3);
+            await this.timeout(500);
+            //await this.isDisplayed(NEW_ITEM_NAME_INPUT,5000);
+            await this.sentKeys(NEW_ITEM_NAME_INPUT, "Gecas Ice-Cream");
+            await this.sentKeys(NEW_ITEM_PRICE_INPUT, "7.07");
+            await this.click(NEW_ITEM_CATEGORY_DROPDOWN);
+            await this.click(DESSERTS_CATEGORY);
+            await this.click(NEW_ITEM_SUBCATEGORY_DROPDOWN);
+            await this.click(DESSERTS_ICE_CREAM_SUBCATEGORY);
+            await this.sentKeys(NEW_ITEM_DESCRIPTION_TEXTAREA, "Ice-Cream Description");
+            await this.sentKeys(NEW_ITEM_INGREDIENTS_TEXTAREA, "Ice-Cream Ingredients");
+            await this.sentKeys(NEW_ITEM_IMAGE_INPUT,"D:\\Upped-Events-Inc\\static\\ice.jpg");
+            let imager = new SetImageModal(this.driver);
+            await imager.setImageModalIsDisplayed();
+            await this.timeout(1500);
+            //await imager.setWhiskeyImageToCenter();
+            await imager.clickSetButton();
+            await this.isDisplayed(ADD_SAVE_ITEM_BUTTON, 5000);
+            await this.click(ADD_SAVE_ITEM_BUTTON);
+            await this.timeout(1500);
+            let sections = await this.findAll(SECTION_DROPS);
+            let items = await this.findAll(MENU_ITEM_FROM_LIST)
+            await this.dragAndDropWithElements(items[0], sections[2]);
+            await this.timeout(3000)
+            await this.dragAndDropWithElements(items[1], sections[2]);
+            await this.timeout(2500)
         }
 
         async createMenuForTickets(eventName){
@@ -238,15 +356,45 @@
             await this.timeout(1500);
         }
 
-        async dragMenuItemToMenuSection(){
-            //let sections = await this.findAll(MENU_SECTION);
-            //let section = sections[sectionIndex];
-            //let menuItems = await this.findAll(MENU_ITEM_FROM_LIST);
-            //let menuItem = menuItems[menuItemIndex];
-            await this.timeout(1500);
-
-            await this.dragAndDropWithElements(MENU_ITEM_FROM_LIST,DROP);
+        async assertAlcoholDataIsSavedCorrectly(){
+            let alcohol = await this.findAll(MENU_ITEM_FROM_SECTION_NAME);
+            assert.equal(alcohol[0].getText(), "Whiskey");
+            assert.equal(alcohol[1].getText(), "Kamnik Vranec Teroir");
+            assert.equal(alcohol[2].getText(), "Heineken Beer Stout");
+            alcohol = await this.findAll(MENU_ITEM_FROM_SECTION_DESCRIPTION);
+            assert.equal(alcohol[0].getText(), "Whiskey Description");
+            assert.equal(alcohol[1].getText(), "Kamnik Vranec Teroir Description");
+            assert.equal(alcohol[2].getText(), "Heineken Beer Stout Description");
+            alcohol = await this.findAll(MENU_ITEM_FROM_SECTION_PRICE);
+            assert.equal(alcohol[0].getText(), "17.5");
+            assert.equal(alcohol[1].getText(), "57.5");
+            assert.equal(alcohol[2].getText(), "7.5");
         }
+
+        async assertFoodDataIsSavedCorrectly(){
+            let food = await this.findAll(MENU_ITEM_FROM_SECTION_NAME);
+            assert.equal(food[3].getText(), "Gecas Burger");
+            assert.equal(food[4].getText(), "Gecas Ribs");
+            food = await this.findAll(MENU_ITEM_FROM_SECTION_DESCRIPTION);
+            assert.equal(food[3].getText(), "Burger Description");
+            assert.equal(food[4].getText(), "Ribs Description");
+            food = await this.findAll(MENU_ITEM_FROM_SECTION_PRICE);
+            assert.equal(food[3].getText(), "13.13");
+            assert.equal(food[4].getText(), "15.13");
+        }
+
+        async assertDesertsDataIsSavedCorrectly(){
+            let food = await this.findAll(MENU_ITEM_FROM_SECTION_NAME);
+            assert.equal(food[5].getText(), "Gecas Pencake");
+            assert.equal(food[6].getText(), "Gecas Ice-Cream");
+            food = await this.findAll(MENU_ITEM_FROM_SECTION_DESCRIPTION);
+            assert.equal(food[5].getText(), "Pencake Description");
+            assert.equal(food[6].getText(), "Ice-Cream Description");
+            food = await this.findAll(MENU_ITEM_FROM_SECTION_PRICE);
+            assert.equal(food[5].getText(), "8.08");
+            assert.equal(food[6].getText(), "7.07");
+        }
+
 
         async deleteMenuIfExistsAndRefresh(){
             let menus = await this.findAll(MENUS);

@@ -1,5 +1,6 @@
     const BasePage = require('../../BasePage');
     const assert = require("assert");
+    const {By} = require("selenium-webdriver");
     const CLOSE_MODAL_ARROW = { xpath: "//div[contains(@class, 'column_title')]//span[contains(@class, 'slide-close')]" };
     const SAVE_BUTTON = { xpath: "//a[text()='Save']"};
     const CANCEL_BUTTON = { xpath: "//a[text()='Cancel']"};
@@ -25,6 +26,17 @@
             await this.columnOptionsModalIsDisplayed();
             await this.dragAndDropWithElementsWithIndexes(COLUMN_DRAGS, COLUMN_DRAGS,0, 3);
             //await this.dragAndDropWithSourceElementOffset(COLUMN_DRAGS, COLUMN_DRAGS, 2,5);
+        }
+
+        async dragColumnFromColumnIndexToColumnIndex(from, to){
+            await this.columnOptionsModalIsDisplayed();
+            const actions = this.driver.actions();
+            let source = await this.driver.findElement(By.xpath(`(//div[contains(@class, 'column-groum')]//span)[${from}]`));
+            let target = await this.driver.findElement(By.xpath(`(//div[contains(@class, 'column-groum')]//span)[${to}]`));
+            await actions.move({duration:1000,origin:source,x:3,y:3}).press().perform();
+            await actions.dragAndDrop(source, target).perform();
+            await this.click(SAVE_BUTTON);
+            await this.timeout(500)
         }
         async checkColumnsAndMakeManipulationsOnTickets(){
             await this.columnOptionsModalIsDisplayed();

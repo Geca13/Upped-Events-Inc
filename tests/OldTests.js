@@ -1080,29 +1080,6 @@
 
         });
 
-        it('New vendor should login and create bar menu', async function () {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            myMenus = new MyMenusPage(driver);
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.vendorLoginWithEmailAndPassword(vendorEmail,base);
-            await dashboard.isAtDashboardPage();
-            await eventOptionTabs.clickMenusTab();
-            await myMenus.isOnMyMenusPage();
-            await myMenus.createNewMenuAndSetNewName(base);
-            await myMenus.createNewSection("Alcoholic Drinks", 0, 1);
-            await myMenus.createNewSection("Meat & Snacks", 1, 2);
-            await myMenus.createNewSection("Desserts", 2, 3);
-            await myMenus.createBeerStoutMenuItem();
-            await myMenus.createRedWineMenuItem();
-            await myMenus.createWhiskeyMenuItem();
-            //await myMenus.dragMenuItemToMenuSection();
-            await driver.sleep(2500)
-
-        });
-
         it('Should make shop for vendor', async function () {
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
@@ -1132,6 +1109,36 @@
             await eventOptionTabs.clickShopManagementTab();
             await driver.sleep(2000);
             await shopsPage.addShopForVendor(base);
+            await driver.sleep(3500)
+
+        });
+
+        it('New vendor should login and create bar menu', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            eventOptionTabs = new EventOptionTabs(driver);
+            myMenus = new MyMenusPage(driver);
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.vendorLoginWithEmailAndPassword(vendorEmail,base);
+            await dashboard.isAtDashboardPage();
+            await eventOptionTabs.clickMenusTab();
+            await myMenus.isOnMyMenusPage();
+            await myMenus.createNewMenuAndSetNewName(base);
+            await myMenus.createNewSection("Alcoholic Drinks", 0, 1);
+            await myMenus.createNewSection("Meat & Snacks", 1, 2);
+            await myMenus.createNewSection("Desserts", 2, 3);
+            await myMenus.createBeerStoutMenuItem();
+            await myMenus.createRedWineMenuItem();
+            await myMenus.createWhiskeyMenuItem();
+            //await myMenus.assertAlcoholDataIsSavedCorrectly();
+            await myMenus.createBurgerMenuItem();
+            await myMenus.createRibsMenuItem();
+            //await myMenus.assertFoodDataIsSavedCorrectly();
+            await myMenus.createPancakesMenuItem();
+            await myMenus.createIceCreamMenuItem();
+            //await myMenus.assertDesertsDataIsSavedCorrectly();
+            await driver.sleep(2500)
 
         });
 

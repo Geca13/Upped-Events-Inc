@@ -30,17 +30,17 @@
         async move6CategoriesFromPotentialToOrdered(){
             await this.isAtShopCategoriesPage();
             await this.timeout(500);
-            await this.dragAndDropWithElements(BEER_CATEGORY,SELECTED_CATEGORIES_BOX);
+            await this.dragAndDropWithLocators(BEER_CATEGORY,SELECTED_CATEGORIES_BOX);
             await this.timeout(500);
-            await this.dragAndDropWithElements(WINE_CATEGORY,SELECTED_CATEGORIES_BOX);
+            await this.dragAndDropWithLocators(WINE_CATEGORY,SELECTED_CATEGORIES_BOX);
             await this.timeout(500);
-            await this.dragAndDropWithElements(FAST_FOOD_CATEGORY,SELECTED_CATEGORIES_BOX);
+            await this.dragAndDropWithLocators(FAST_FOOD_CATEGORY,SELECTED_CATEGORIES_BOX);
             await this.timeout(500);
-            await this.dragAndDropWithElements(FOOD_CATEGORY,SELECTED_CATEGORIES_BOX);
+            await this.dragAndDropWithLocators(FOOD_CATEGORY,SELECTED_CATEGORIES_BOX);
             await this.timeout(500);
-            await this.dragAndDropWithElements(BARS_CATEGORY,SELECTED_CATEGORIES_BOX);
+            await this.dragAndDropWithLocators(BARS_CATEGORY,SELECTED_CATEGORIES_BOX);
             await this.timeout(500);
-            await this.dragAndDropWithElements(DESSERTS_CATEGORY,SELECTED_CATEGORIES_BOX);
+            await this.dragAndDropWithLocators(DESSERTS_CATEGORY,SELECTED_CATEGORIES_BOX);
             await this.timeout(500);
             await this.click(SAVE_APPLIED_CATEGORIZATION_BUTTON);
             await this.timeout(500);
