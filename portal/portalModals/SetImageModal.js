@@ -25,7 +25,7 @@
         async clickSetButton(){
             await this.setImageModalIsDisplayed();
             await this.click(SET_IMAGE_BUTTON);
-            await this.timeout(500);
+            await this.timeout(1000);
             let set = await this.findAll(SET_IMAGE_BUTTON);
             if(set.length > 0){
                 await this.click(SET_IMAGE_BUTTON);

@@ -14,7 +14,7 @@
             super(driver);
         }
         async isOnAttendeesTab(){
-            await this.isDisplayed(ATTENDEES_TABLE,15000);
+            await this.isDisplayed(ATTENDEES_TABLE,35000);
         }
         async checkForCustomerFullNameByIndex(index , firstName, lastName){
             await this.isOnAttendeesTab();

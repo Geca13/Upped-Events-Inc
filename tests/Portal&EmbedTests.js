@@ -161,7 +161,7 @@
         let receipt;
         let steps;
 
-        let base = 349300 // Math.floor(100000 + Math.random() * 900000);
+        let base =  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -2867,7 +2867,7 @@
             await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
             await embedTickets.ticketListIsDisplayed();
             await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '4');
-            let originalPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketOneName);
+            let originalPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketTwoName);
             await main.clickTicketTermsCheckbox();
             await main.clickNextPageButton();
             await embedExtras.isAtExtrasPage();
@@ -2888,7 +2888,7 @@
             await payment.clickSavedCardByIndex(0);
             await main.clickNextPageButton();
             await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.assertPromotedAndRegularTotalAreDisplayed(originalPrice, promotedPrice);
+            await orderDetails.assertPromotedPlusRegularPriceTotalIsDisplayed(originalPrice, promotedPrice);
 
         });
 

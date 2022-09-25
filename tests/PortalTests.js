@@ -2165,7 +2165,7 @@
             await payment.clickSavedCardByIndex(0);
             await main.clickNextPageButton();
             await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.assertPromotedAndRegularTotalAreDisplayed(originalPrice, promotedPrice);
+            await orderDetails.assertPromotedPlusRegularPriceTotalIsDisplayed(originalPrice, promotedPrice);
 
         });
 

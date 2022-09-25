@@ -42,6 +42,7 @@
         }
         async saveTicketButtonIsVisible(){
             await this.isDisplayed(SAVE_TICKET_BUTTON, 5000)
+            await this.timeout(500)
         }
         async clickStartDateTimeInput(){
             await this.click(TICKET_START_DATE_INPUT);

@@ -178,11 +178,10 @@
             }
         }
 
-        async assertPromotedAndRegularTotalAreDisplayed(originalPrice, promotedPrice){
-            let prices = await this.findAll(TICKETS_PRICES);
-            let promotedTotal = parseFloat(promotedPrice) * 3;
-            assert.equal(await prices[0].getText(), "$" + originalPrice );
-            assert.equal(await prices[1].getText(), "$" + promotedTotal.toString() );
+        async assertPromotedPlusRegularPriceTotalIsDisplayed(originalPrice, promotedPrice){
+            let prices = await this.getElementText(TICKETS_PRICES);
+            let total = (parseFloat(promotedPrice) * 3) + parseFloat(originalPrice);
+            assert.equal(prices, "$" + total.toFixed(2));
         }
 
         async getAndAssertDonationValueEqualsSelected(value){

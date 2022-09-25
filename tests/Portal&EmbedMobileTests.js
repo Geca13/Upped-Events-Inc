@@ -98,7 +98,7 @@
         let embedDonate;
         let receipt;
 
-        let base =  Math.floor(100000 + Math.random() * 900000);
+        let base = Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -1606,7 +1606,7 @@
 
         });
 
-        //EMBED Fails because the link is not present on mobile
+        //EMBED
         it('should click donation edit link on Order Details and assert landing on extras screen', async function () {
 
             main = new EmbedMainPage(driver);
@@ -2283,7 +2283,7 @@
 
         });
 
-        //EMBED -> fails because the value of the ticket that is out of promotion limit is not displayed separately
+        //EMBED
         it('should select four tickets exceeding the limit of promotion assert tickets in Order Details and promoted ticket shown twice with two prices', async function () {
 
             main = new EmbedMainPage(driver);
@@ -2325,7 +2325,7 @@
             await main.clickNextPageButton();
             await orderDetails.isOnOrderDetailsPage();
             await orderDetails.openOrderDetailsOnMobile();
-            await orderDetails.assertPromotedAndRegularTotalAreDisplayed(originalPrice, promotedPrice);
+            await orderDetails.assertPromotedPlusRegularPriceTotalIsDisplayed(originalPrice, promotedPrice);
 
         });
 

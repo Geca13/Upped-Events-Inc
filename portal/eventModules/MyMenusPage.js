@@ -119,8 +119,8 @@
             await this.isDisplayed(ADD_NEW_SECTION_BUTTON, 5000)
             await this.timeout(500);
             await this.click(ADD_NEW_SECTION_BUTTON);
-            await this.timeout(500);
-            await this.isDisplayedFromArray(SECTION_TITLE_INPUT,sectionIndex,5000);
+            await this.timeout(1000);
+            //await this.isDisplayedFromArray(SECTION_TITLE_INPUT,sectionIndex,5000);
             await this.moveToElementFromArrayByIndex(SECTION_TITLE_INPUT,sectionIndex);
             await this.timeout(500);
             await this.moveToElementFromArrayByIndex(EDIT_ICON,editIconIndex);
@@ -279,6 +279,7 @@
         }
 
         async createPancakesMenuItem(){
+            await this.scrollToView(ADD_NEW_MENU_ITEM_BUTTON)
             await this.click(ADD_NEW_MENU_ITEM_BUTTON);
             await this.driver.executeScript("document.getElementsByClassName('dropdown-menu-right')[0].style.visibility='visible'");
             //await this.isDisplayed(MAIN_CATEGORIES_DROPDOWN,5000);
