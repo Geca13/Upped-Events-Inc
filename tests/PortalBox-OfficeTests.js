@@ -134,24 +134,24 @@
         let termsModal;
         let donation;
         let embedDonate;
-        let eventId = "1626"
+        let eventId = "1657";
 
 
-        let base = 808767 // Math.floor(100000 + Math.random() * 900000);
+        let base = 468598 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
         let ticketOneQuantity = 2;
-        let ticketOnePrice = "1";
+        let ticketOnePrice = "1.00";
         let ticketTwoName = base.toString() +"T2";
         let ticketTwoQuantity = 888;
-        let ticketTwoPrice = "1.2";
+        let ticketTwoPrice = "1.20";
         let ticketThreeName = base.toString() +"T3";
         let ticketThreeQuantity = 777;
         let ticketThreePrice = "0.75";
         let ticketFourName = base.toString() +"T4";
         let ticketFourQuantity = 666;
-        let ticketFourPrice = "0.5";
+        let ticketFourPrice = "0.50";
         let staffTicket = base.toString() +"staff";
         let ticketStaffQuantity = 5;
         let ticketStaffPrice = "0.25";
@@ -687,9 +687,11 @@
             await eventOptionTabs.ticketingTabIsDisplayed();
             await eventOptionTabs.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.dragTicketFromOneGroupToAnotherGroup();
-            await bosTickets.openBoxOfficeDirectly(eventId);
-            await bosTickets.assertTicketsOrderAfterChangedOrder(ticketOneName, ticketTwoName, ticketThreeName, ticketFourName);
+            await ticketsNav.clickGroupTabsByIndexAssertNumberOfTickets(ticketOneName, ticketTwoName, ticketThreeName);
+            await ticketsNav.dragTicketFromGroupTwoToGroupOne();
+            await ticketsNav.assertTicketIsRemovedFromGroupTwoAndAddedToGroupOne(ticketOneName, ticketTwoName, ticketThreeName);
+            /*await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.assertTicketsOrderAfterChangedOrder(ticketOneName, ticketTwoName, ticketThreeName, ticketFourName);*/
 
         });
 

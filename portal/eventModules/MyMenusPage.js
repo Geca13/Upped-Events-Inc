@@ -258,7 +258,7 @@
             await this.timeout(500);
             await this.clickElementReturnedFromAnArray(FOOD_OPTION,1);
             await this.timeout(500);
-            //await this.isDisplayed(NEW_ITEM_NAME_INPUT,5000);
+            await this.isDisplayed(NEW_ITEM_NAME_INPUT,15000);
             await this.sentKeys(NEW_ITEM_NAME_INPUT, "Gecas Ribs");
             await this.sentKeys(NEW_ITEM_PRICE_INPUT, "15.13");
             await this.click(NEW_ITEM_CATEGORY_DROPDOWN);

@@ -189,7 +189,7 @@
             await this.isOnBoxOfficePage();
             let table = new TableComponent(this.driver);
             await table.assertColumnNamesByIndex(0 ,"Ticket Name");
-            await table.assertColumnNamesByIndex(1 ,"Desciption");
+            await table.assertColumnNamesByIndex(1 ,"Description");
             await table.assertColumnNamesByIndex(2 ,"Price");
             await table.assertColumnNamesByIndex(3 ,"Quantity");
             await table.assertColumnNamesByIndex(4 ,"Sold");
@@ -208,7 +208,7 @@
             assert.equal(selected, "0");
             await this.click(SAVE_BUTTON);
             let alert = new Alerts(this.driver)
-            await alert.errorInfoMessageIsDisplayed("Please select atleast one ticket");
+            await alert.errorInfoMessageIsDisplayed("Please select at least one ticket.");
 
         }
 
@@ -222,7 +222,7 @@
                 let stepper = new BOStepper(this.driver);
                 await stepper.clickNavElementByIndex(1);
                 let alert = new Alerts(this.driver)
-                await alert.errorInfoMessageIsDisplayed("Please select at least one ticket");
+                await alert.errorInfoMessageIsDisplayed("Please select at least one ticket.");
             }catch (error){
                 await this.takeScreenshot("boTickets")
                 await this.writeError(error)

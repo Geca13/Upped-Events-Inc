@@ -96,6 +96,7 @@
             await this.timeout(1500)
         }
 
+
         async assertTicketNamePriceAndQuantity(name,price,quantity){
             await this.isDisplayed(TICKETS_NAMES,5000);
             await this.timeout(500)
@@ -369,7 +370,41 @@
             await this.timeout(5000)
         }
 
-        async dragTicketFromOneGroupToAnotherGroup(){
+        async clickGroupTabsByIndexAssertNumberOfTickets(ticketOneName, ticketTwoName, ticketThreeName){
+            await this.clickGroupTabByIndex(1);
+            let ticketsOne = await this.returnElementsCount(TICKETS_NAMES);
+            assert.equal(ticketsOne, 1);
+            let ticketOne = await this.getElementText(TICKETS_NAMES);
+            assert.equal(ticketOne, ticketOneName);
+            await this.clickGroupTabByIndex(2);
+            let ticketsTwo = await this.returnElementsCount(TICKETS_NAMES);
+            assert.equal(ticketsTwo, 2);
+            let ticketTwo = await this.getElementTextFromAnArrayByIndex(TICKETS_NAMES, 0);
+            assert.equal(ticketTwo, ticketTwoName);
+            let ticketThree = await this.getElementTextFromAnArrayByIndex(TICKETS_NAMES, 1);
+            assert.equal(ticketThree, ticketThreeName);
+        }
+
+        async dragTicketFromGroupTwoToGroupOne(){
+            let tickets = await this.findAll(TICKETS_NAMES);
+            let groups = await this.findAll(TICKET_GROUP_TAB);
+            await this.dragAndDropWithElements(tickets[0], groups[1]);
+            await this.timeout(1000);
+
+        }
+        async assertTicketIsRemovedFromGroupTwoAndAddedToGroupOne(ticketOneName, ticketTwoName, ticketThreeName){
+            await this.timeout(1000)
+            let ticketsTwo = await this.returnElementsCount(TICKETS_NAMES);
+            assert.equal(ticketsTwo, 1);
+            let ticketThree = await this.getElementTextFromAnArrayByIndex(TICKETS_NAMES, 0);
+            assert.equal(ticketThree, ticketThreeName);
+            await this.clickGroupTabByIndex(1);
+            let ticketsOne = await this.returnElementsCount(TICKETS_NAMES);
+            assert.equal(ticketsOne, 2);
+            let ticketOne = await this.getElementTextFromAnArrayByIndex(TICKETS_NAMES, 0);
+            assert.equal(ticketOne, ticketOneName);
+            let ticketTwo = await this.getElementTextFromAnArrayByIndex(TICKETS_NAMES, 1);
+            assert.equal(ticketTwo, ticketTwoName);
 
         }
     }
