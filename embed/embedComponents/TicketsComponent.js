@@ -233,6 +233,31 @@
 
         }
 
+        async assertTicketsByGroupsWhenOrderIsChangedOnFullEmbed(base){
+            let tickets = await this.getCleanTicketsNames();
+            expect(tickets[0]).to.equal(base.toString() +"T4");
+            expect(tickets[1]).to.equal(base.toString() +"T1");
+            expect(tickets[2]).to.equal(base.toString() +"T2");
+            expect(tickets[3]).to.equal(base.toString() +"T3");
+            await this.clickGroupTabByIndexInEmbed(1);
+            let count = await this.returnElementsCount(TICKET_NAME_AND_PRICE);
+            tickets = await this.getCleanTicketsNames();
+            expect(count).to.equal(2);
+            expect(tickets[0]).to.equal(base.toString() +"T1");
+            expect(tickets[1]).to.equal(base.toString() +"T2");
+            await this.clickGroupTabByIndexInEmbed(2);
+            count = await this.returnElementsCount(TICKET_NAME_AND_PRICE);
+            tickets = await this.getCleanTicketsNames();
+            expect(count).to.equal(1);
+            expect(tickets[0]).to.equal(base.toString() + "T3");
+            await this.clickGroupTabByIndexInEmbed(3);
+            count = await this.returnElementsCount(TICKET_NAME_AND_PRICE);
+            tickets = await this.getCleanTicketsNames();
+            expect(count).to.equal(1);
+            expect(tickets[0]).to.equal(base.toString() + "T4");
+
+        }
+
         async assertTicketsByGroupsAndClassIsAppliedWhenClickedOnMobileEmbed(base, clas){
             let tickets = await this.getCleanTicketsNames();
             let allTab = await this.checkIfClassIsApplied(TICKET_GROUPS_MOBILE, 0, clas);

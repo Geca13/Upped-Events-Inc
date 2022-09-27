@@ -366,8 +366,9 @@
         }
 
         async dragThirdTicketInTopPosition(){
+            await this.isDisplayed(DRAG_ROW_FOUR, 5000)
             await this.dragAndDropWithLocators(DRAG_ROW_FOUR, DRAG_ROW_ONE)
-            await this.timeout(5000)
+            await this.timeout(2000)
         }
 
         async clickGroupTabsByIndexAssertNumberOfTickets(ticketOneName, ticketTwoName, ticketThreeName){

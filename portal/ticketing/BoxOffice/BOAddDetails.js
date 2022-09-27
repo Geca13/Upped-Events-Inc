@@ -95,7 +95,7 @@
             assert.equal(feesValue, "$0.00");
             assert.equal( shippingValue ,"$0.00");
             assert.equal(discountValue, "$0.00");
-            assert.equal(totalDueValue, "$1.00");
+            assert.equal(totalDueValue, "$ 1.00");
             }catch (error) {
                 await this.takeScreenshot("bosDetails")
                 await this.writeError(error)

@@ -134,10 +134,10 @@
         let termsModal;
         let donation;
         let embedDonate;
-        let eventId = "1657";
+        let eventId = "1659";
 
 
-        let base = 468598 // Math.floor(100000 + Math.random() * 900000);
+        let base = 845599 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -690,8 +690,6 @@
             await ticketsNav.clickGroupTabsByIndexAssertNumberOfTickets(ticketOneName, ticketTwoName, ticketThreeName);
             await ticketsNav.dragTicketFromGroupTwoToGroupOne();
             await ticketsNav.assertTicketIsRemovedFromGroupTwoAndAddedToGroupOne(ticketOneName, ticketTwoName, ticketThreeName);
-            /*await bosTickets.openBoxOfficeDirectly(eventId);
-            await bosTickets.assertTicketsOrderAfterChangedOrder(ticketOneName, ticketTwoName, ticketThreeName, ticketFourName);*/
 
         });
 
