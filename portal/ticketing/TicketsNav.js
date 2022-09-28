@@ -173,7 +173,7 @@
         }
 
         async assertTicketsByGroupsAndClassIsAppliedWhenClicked(base, clas){
-            let tickets = await this.returnArrayOfStrings(TICKETS_NAMES);
+            let tickets;
             let allTab = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 0, clas);
             let first = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 1, clas);
             let second = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 2, clas);
@@ -184,8 +184,10 @@
             expect(third).to.be.false;
             await this.clickGroupTabByIndex(1);
             let count = await this.returnElementsCount(TICKETS_NAMES);
-            expect(count).to.equal(1);
+            expect(count).to.equal(2);
+            tickets = await this.returnArrayOfStrings(TICKETS_NAMES);
             expect(tickets[0]).to.equal(base.toString() +"T1");
+            expect(tickets[1]).to.equal(base.toString() +"staff");
             allTab = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 0, clas);
             first = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 1, clas);
             second = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 2, clas);
@@ -197,8 +199,9 @@
             await this.clickGroupTabByIndex(2);
             count = await this.returnElementsCount(TICKETS_NAMES);
             expect(count).to.equal(2);
-            expect(tickets[1]).to.equal(base.toString() + "T2");
-            expect(tickets[2]).to.equal(base.toString() + "T3");
+            tickets = await this.returnArrayOfStrings(TICKETS_NAMES);
+            expect(tickets[0]).to.equal(base.toString() + "T2");
+            expect(tickets[1]).to.equal(base.toString() + "T3");
             allTab = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 0, clas);
             first = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 1, clas);
             second = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 2, clas);
@@ -210,7 +213,8 @@
             await this.clickGroupTabByIndex(3);
             count = await this.returnElementsCount(TICKETS_NAMES);
             expect(count).to.equal(1);
-            expect(tickets[3]).to.equal(base.toString() + "T4");
+            tickets = await this.returnArrayOfStrings(TICKETS_NAMES);
+            expect(tickets[0]).to.equal(base.toString() + "T4");
             allTab = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 0, clas);
             first = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 1, clas);
             second = await this.checkIfClassIsApplied(TICKET_GROUP_TAB, 2, clas);
@@ -371,12 +375,14 @@
             await this.timeout(2000)
         }
 
-        async clickGroupTabsByIndexAssertNumberOfTickets(ticketOneName, ticketTwoName, ticketThreeName){
+        async clickGroupTabsByIndexAssertNumberOfTickets(ticketOneName, ticketTwoName, ticketThreeName, staffTicket){
             await this.clickGroupTabByIndex(1);
             let ticketsOne = await this.returnElementsCount(TICKETS_NAMES);
-            assert.equal(ticketsOne, 1);
-            let ticketOne = await this.getElementText(TICKETS_NAMES);
+            assert.equal(ticketsOne, 2);
+            let ticketOne = await this.getElementTextFromAnArrayByIndex(TICKETS_NAMES, 0);
             assert.equal(ticketOne, ticketOneName);
+            let ticketStaff = await this.getElementTextFromAnArrayByIndex(TICKETS_NAMES, 1);
+            assert.equal(ticketStaff, staffTicket);
             await this.clickGroupTabByIndex(2);
             let ticketsTwo = await this.returnElementsCount(TICKETS_NAMES);
             assert.equal(ticketsTwo, 2);
@@ -393,7 +399,7 @@
             await this.timeout(1000);
 
         }
-        async assertTicketIsRemovedFromGroupTwoAndAddedToGroupOne(ticketOneName, ticketTwoName, ticketThreeName){
+        async assertTicketIsRemovedFromGroupTwoAndAddedToGroupOne(ticketOneName, ticketTwoName, ticketThreeName, staffTicket){
             await this.timeout(1000)
             let ticketsTwo = await this.returnElementsCount(TICKETS_NAMES);
             assert.equal(ticketsTwo, 1);
@@ -401,11 +407,13 @@
             assert.equal(ticketThree, ticketThreeName);
             await this.clickGroupTabByIndex(1);
             let ticketsOne = await this.returnElementsCount(TICKETS_NAMES);
-            assert.equal(ticketsOne, 2);
+            assert.equal(ticketsOne, 3);
             let ticketOne = await this.getElementTextFromAnArrayByIndex(TICKETS_NAMES, 0);
             assert.equal(ticketOne, ticketOneName);
             let ticketTwo = await this.getElementTextFromAnArrayByIndex(TICKETS_NAMES, 1);
             assert.equal(ticketTwo, ticketTwoName);
+            let ticketStaff = await this.getElementTextFromAnArrayByIndex(TICKETS_NAMES, 2);
+            assert.equal(ticketStaff, staffTicket);
 
         }
     }
