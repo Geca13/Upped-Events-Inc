@@ -1,5 +1,6 @@
     const BasePage = require('../../BasePage');
     const UserDetailsModal = require('../portalModals/userDetailsModal/UserDetailsModal');
+    const TableComponent = require('../portalComponents/TableComponent')
     const QuestionsResponseModal = require('../portalModals/QuestionsResponseModal')
     const assert = require('assert')
     const ATTENDEES_TABLE = { id: "dataTable" }
@@ -16,6 +17,12 @@
         async isOnAttendeesTab(){
             await this.isDisplayed(ATTENDEES_TABLE,35000);
         }
+
+        async noAttendeesInTableMessage(){
+            let table = new TableComponent(this.driver);
+            await table.messageWhenTableIsEmpty("No record available");
+        }
+
         async checkForCustomerFullNameByIndex(index , firstName, lastName){
             await this.isOnAttendeesTab();
             let customer = await this.getElementTextFromAnArrayByIndex(ATTENDEES_NAMES, index);

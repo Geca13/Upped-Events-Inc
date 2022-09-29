@@ -61,83 +61,23 @@
         let dashboard;
         let createEvent;
         let myEvents;
-        let dateTime;
         let eventOptionTabs;
         let createTicket;
         let ticketsNav;
         let attendees;
         let eventDetails;
-        let promotions;
-        let newPromotion;
-        let settingsNav;
         let taxesAndFees;
-        let ticketTerms;
-        let eventDesignNavs;
-        let eventCardDesignPage;
-        let events;
         let eventTickets;
-        let info;
-        let ticketing;
-        let tickets;
-        let extras;
-        let pay;
-        let login;
-        let confirm;
-        let newCardComponent;
-        let terms;
-        let eventOrders;
         let eventSettingsNav;
-        let agendaNavs;
-        let eventMap;
-        let performance;
-        let lineup;
-        let activity;
-        let activityTab;
-        let shopsNavs;
-        let shopsCat;
-        let shopsPage;
-        let partnersPage;
         let inbox;
-        let originalWindow;
-        let newVendor;
-        let myMenus;
         let bosTickets;
         let bosExtras;
         let bosDetails;
         let bosReview;
-        let questions;
-        let wordpress;
-        let questionsModal;
-        let donate;
-        let main;
-        let embedTickets;
-        let summary;
-        let embedLogin;
-        let embedExtras;
-        let payment;
-        let orderDetails;
-        let embedConfirm;
-        let myWallet;
-        let createAccount;
-        let userDetails;
-        let capacity;
-        let photo;
-        let detailsTab;
-        let account;
-        let forgotPassword;
-        let resetPassword;
-        let loginTab;
-        let embedCreate;
-        let addMoney;
-        let embedding;
-        let files;
-        let termsModal;
-        let donation;
-        let embedDonate;
-        let eventId = "1659";
+        let eventId //= "1668";
 
 
-        let base = 845599 // Math.floor(100000 + Math.random() * 900000);
+        let base =   Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -487,7 +427,7 @@
 
         });
 
-        it('should add excluded tax and check if bayer total is updated in ticket update modal', async function () {
+        it('should add excluded tax and check if bayer total is updated in ticket summary', async function () {
 
             taxesAndFees = new TaxesAndFeesPage(driver);
             await portalLogin.loadPortalUrl();
@@ -509,7 +449,6 @@
         it('should remove tax and add $ value fee and assert price in order total', async function () {
 
             taxesAndFees = new TaxesAndFeesPage(driver);
-
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
@@ -549,14 +488,7 @@
 
         it('should create ticket groups and three more tickets',async function () {
 
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
-
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
@@ -602,6 +534,30 @@
 
         });
 
+        //PORTAL
+        it('Should create staff ticket in portal', async function () {
+
+            createTicket = new CreateTicketModal(driver);
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.publishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.createStaffTicket(staffTicket, ticketStaffPrice ,ticketStaffQuantity);
+            await ticketsNav.assertTicketNamePriceAndQuantity(staffTicket, ticketStaffPrice, ticketStaffQuantity);
+            await ticketsNav.clickActivateTicketToggle(staffTicket);
+
+        });
+
+
         it('should assert tickets groups in box-office', async function () {
 
             await portalLogin.loadPortalUrl();
@@ -618,7 +574,7 @@
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
-            await bosTickets.assertTicketsOrder(ticketOneName, ticketTwoName, ticketThreeName, ticketFourName);
+            await bosTickets.assertTicketsOrder(ticketOneName, ticketTwoName, ticketThreeName, ticketFourName, staffTicket);
 
         });
 
@@ -641,7 +597,6 @@
             await bosTickets.assertTicketCountInAllTabEqualsSumOfIndividualGroups();
 
         });
-
 
         it('should assert tickets by groups in box-office', async function () {
 
@@ -673,6 +628,7 @@
 
         });
 
+        //PORTAL
         it('should change ticket location from one group 2 to group 1 in portal and assert change', async function () {
 
             await portalLogin.loadPortalUrl();
@@ -687,20 +643,74 @@
             await eventOptionTabs.ticketingTabIsDisplayed();
             await eventOptionTabs.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickGroupTabsByIndexAssertNumberOfTickets(ticketOneName, ticketTwoName, ticketThreeName);
+            await ticketsNav.clickGroupTabsByIndexAssertNumberOfTickets(ticketOneName, ticketTwoName, ticketThreeName, staffTicket);
             await ticketsNav.dragTicketFromGroupTwoToGroupOne();
-            await ticketsNav.assertTicketIsRemovedFromGroupTwoAndAddedToGroupOne(ticketOneName, ticketTwoName, ticketThreeName);
+            await ticketsNav.assertTicketIsRemovedFromGroupTwoAndAddedToGroupOne(ticketOneName, ticketTwoName, ticketThreeName, staffTicket);
 
         });
 
+        it('Should check attendees page elements when no purchases made', async function () {
 
+            attendees = new AttendeesTab(driver);
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(2000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(500);
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickAttendeesNav();
+            await attendees.isOnAttendeesTab();
+            await attendees.noAttendeesInTableMessage();
 
+        });
 
+        it('Should make purchase in box office', async function () {
 
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.selectTwoTickets();
+            await bosExtras.add20$ToOrderOnExtrasPage();
+            await bosDetails.continueToPayment();
+            await bosReview.makePayment(base);
 
+        });
 
+        it('Should check for box office purchases in inbox', async function () {
+            inbox = new Inbox(driver);
+            await inbox.loadInbox();
+            await inbox.inboxIsOpened();
+            await inbox.checkAccountEmailIsSend(base);
+            await inbox.checkAdditionalEmailIsSend(base);
 
+        });
 
+        it('Should assert attendee is displayed in table after purchase', async function () {
+
+            attendees = new AttendeesTab(driver);
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(2000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await driver.sleep(500);
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickAttendeesNav();
+            await attendees.isOnAttendeesTab();
+            await attendees.checkForCustomerFullNameByIndex(0 , base, base);
+
+        });
 
 
     });
