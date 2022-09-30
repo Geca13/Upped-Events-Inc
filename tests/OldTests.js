@@ -1297,7 +1297,7 @@
             await bosTickets.selectTwoTickets();
             await bosExtras.add20$ToOrderOnExtrasPage();
             await bosDetails.continueToPayment();
-            await bosReview.makePayment(base);
+            await bosReview.makePaymentWithCard(base);
 
         });
 
@@ -1396,7 +1396,7 @@
             await bosExtras.add50$ToOrderOnExtrasPage();
             await bosDetails.addPromotionToTickets(promoCodeFour);
             await bosDetails.continueToPayment();
-            await bosReview.makePayment(base);
+            await bosReview.makePaymentWithCard(base);
 
         });
 
@@ -1432,7 +1432,7 @@
             await bosExtras.clickNextButton();
             await bosDetails.confirmAllValuesAreZeroesAfter100PercentPromotionAndConfirmCompletion(promoCodeFive);
             await bosDetails.continueToPayment();
-            await bosReview.paymentWith100DiscountAndDisabledForm(base);
+            await bosReview.paymentWith100DiscountAndPaymentCard(base);
             await driver.sleep(3000);
 
         });
@@ -1470,7 +1470,7 @@
             await bosDetails.addWrongPromoCode();
             await bosDetails.addPromotionToTickets(promoCodeFour);
             await bosDetails.continueToPayment()
-            await bosReview.makePayment(base);
+            await bosReview.makePaymentWithCard(base);
         });
 
         it('Should check calculation on subtotal and total and check if tickets are displayed', async function () {
@@ -1677,7 +1677,7 @@
             await bosDetails.checkForOptionsLabelByIndex(3, base + " 18 and Over");
             await bosDetails.answerFirstScenario();
             await bosDetails.continueToPayment();
-            await bosReview.makePayment(base);
+            await bosReview.makePaymentWithCard(base);
 
         });
 
@@ -1983,7 +1983,7 @@
             await bosTickets.selectTicketByIndexSendQuantityAndSave(0, "5");
             await bosExtras.add20$ToOrderOnExtrasPage();
             await bosDetails.continueToPayment();
-            await bosReview.makePayment(base);
+            await bosReview.makePaymentWithCard(base);
         });
 
         it('should check ticket limitations exist in embed and microsites', async function () {

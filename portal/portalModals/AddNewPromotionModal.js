@@ -151,7 +151,10 @@
             let endDateLabel = await this.getElementText(END_DATE_LABEL);
             assert.equal(endDateLabel, "END DAY & TIME");
 
+        }
 
+        async clickCancelPromotion(){
+            await this.click(CANCEL_PROMOTION_BUTTON);
         }
 
         async enabledStatusIsDisplayed() {

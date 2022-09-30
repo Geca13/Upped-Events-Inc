@@ -30,6 +30,11 @@
     const SUCCESS_ON_CONFIRM_MODAL = { className: "success-message" }
     const MESSAGE_ON_CONFIRM_MODAL = { className: "main-message" }
     const EMAILS_ON_CONFIRM_MODAL = { className: "single-email" } //list
+    const PAY_BY_CARD_CHECKBOX = { xpath: "(//input[@type='checkbox'])[1]"}
+    const PAY_WITH_CASH_CHECKBOX = { xpath: "(//input[@type='checkbox'])[2]"}
+    const PAY_BY_CHECK_CHECKBOX = { xpath: "(//input[@type='checkbox'])[3]"}
+    const NO_ACCOUNT_CHECKBOX = { xpath: "(//input[@type='checkbox'])[4]"}
+    const SEND_COPY_CHECKBOX = { xpath: "(//input[@type='checkbox'])[5]"}
     const CHECKBOX = { xpath: "//input[@type='checkbox']" } //list
     const CARD_FORM = { id: "cardForm" }
     const OPEN_ORDER_DETAILS = { xpath: "//i[contains(@class, 'icon-angle-right')]" }
@@ -154,7 +159,7 @@
             }
         }
 
-        async makePayment(base){
+        async makePaymentWithCard(base){
             await this.isOnReviewPage();
             await this.sentKeys(CARDHOLDER_NAME,base +" Geca");
             await this.sentKeys(CARD_NUMBER,"4111111111111111");
@@ -162,12 +167,21 @@
             await this.sentKeys(EXPIRATION,"August" + Key.TAB + "2025");
             await this.sentKeys(ADDRESS,"Main Street " + base);
             await this.sentKeys(ZIP,"90009");
-            await this.fillUserData(base);
+            await this.fillUserDataForCardAdditionalEmailNoCopy(base);
             await this.click(PLACE_ORDER_BUTTON);
             await this.isDisplayed(CONFIRMATION_MODAL,55000);
             await this.timeout(1000);
             await this.confirmElementsForPayment(base);
             await this.timeout(1000);
+        }
+
+
+        async makePaymentWithCash(base){
+            await this.isOnReviewPage();
+            await this.click(PAY_WITH_CASH_CHECKBOX);
+            await this.timeout(500);
+            await this.cardFormIsDisabled();
+            await this.fillUserDataForCashAdditionalEmailNoCopy(base);
         }
 
 
@@ -181,7 +195,18 @@
             assert.equal("1. " + base+'@'+base+".mk",  customerEmail);
             assert.equal("2. " + base+'ad@ad'+base+".mk",  additionalEmail);
         }
-        async paymentWith100DiscountAndDisabledForm(base){
+
+        async paymentWith100DiscountAndPaymentCard(base){
+            await this.formInputsAreDisabled();
+            await this.fillUserDataForCardAdditionalEmailNoCopy(base);
+            await this.click(PLACE_ORDER_BUTTON);
+            await this.isDisplayed(CONFIRMATION_MODAL,60000);
+            await this.timeout(1000);
+            await this.confirmElementsForPayment(base);
+            await this.timeout(1000);
+        }
+
+        async formInputsAreDisabled() {
             await this.isOnReviewPage();
             expect(await this.elementIsEnabled(CARDHOLDER_NAME)).to.be.false;
             expect(await this.elementIsEnabled(CARD_NUMBER)).to.be.false;
@@ -191,24 +216,50 @@
             expect(await this.elementIsEnabled(ZIP)).to.be.false;
             expect(await this.elementIsEnabled(COUNTRY)).to.be.false;
             expect(await this.elementIsEnabled(STATE)).to.be.false;
-            await this.fillUserData(base);
-            await this.click(PLACE_ORDER_BUTTON);
-            await this.isDisplayed(CONFIRMATION_MODAL,60000);
-            await this.timeout(1000);
-            await this.confirmElementsForPayment(base);
-            await this.timeout(1000);
         }
 
-        async fillUserData(base) {
+        async cardFormIsDisabled(){
+            expect(await this.elementIsEnabled(CARD_FORM)).to.be.false;
+        }
+
+        async fillUserDataForCardAdditionalEmailNoCopy(base) {
             await this.sentKeys(FIRST_NAME,base);
             await this.sentKeys(LAST_NAME,base);
             await this.sentKeys(BIRTH_DATE,"01012000");
             await this.sentKeys(EMAIL,base+'@'+base+".mk");
-            await this.clickElementReturnedFromAnArray(CHECKBOX,4);
+            await this.click(SEND_COPY_CHECKBOX)
             await this.sentKeys(ADDITIONAL_EMAIL,base+'ad@ad'+base+".mk");
             await this.click(ADD_BUTTON);
             await this.timeout(1000);
             await this.isDisplayed(ADDITIONAL_EMAIL_BADGE,5000);
+            await this.timeout(1000);
+
+        }
+
+        async fillUserDataForCashAdditionalEmailNoCopy(base) {
+            await this.sentKeys(FIRST_NAME,base +"cash");
+            await this.sentKeys(LAST_NAME,base);
+            await this.sentKeys(BIRTH_DATE,"01012000");
+            await this.sentKeys(EMAIL,base+'cash@'+base+".mk");
+            await this.click(SEND_COPY_CHECKBOX)
+            await this.sentKeys(ADDITIONAL_EMAIL,base+'cashAd@ad'+base+".mk");
+            await this.click(ADD_BUTTON);
+            await this.timeout(1000);
+            await this.isDisplayed(ADDITIONAL_EMAIL_BADGE,5000);
+            await this.timeout(1000);
+            await this.click(PLACE_ORDER_BUTTON);
+            await this.isDisplayed(CONFIRMATION_MODAL,55000);
+            await this.timeout(1000);
+
+        }
+
+        async fillUserDataForCashWithCopy(base) {
+            await this.sentKeys(FIRST_NAME,"cash" + base);
+            await this.sentKeys(LAST_NAME,base);
+            await this.sentKeys(BIRTH_DATE,"01012000");
+            await this.sentKeys(EMAIL,base+'@cash'+base+".mk");
+            await this.click(PLACE_ORDER_BUTTON);
+            await this.isDisplayed(CONFIRMATION_MODAL,55000);
             await this.timeout(1000);
 
         }
@@ -234,7 +285,7 @@
             await this.sentKeys(LAST_NAME,base);
             await this.sentKeys(BIRTH_DATE,"01012000");
             await this.sentKeys(EMAIL,process.env.AOL_CUSTOMER_EMAIL);
-            await this.clickElementReturnedFromAnArray(CHECKBOX,4);
+            await this.click(SEND_COPY_CHECKBOX);
             await this.sentKeys(ADDITIONAL_EMAIL,process.env.AOL_VENDOR_EMAIL);
             await this.click(ADD_BUTTON);
             await this.timeout(1000);

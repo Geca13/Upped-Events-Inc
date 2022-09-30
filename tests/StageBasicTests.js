@@ -1395,7 +1395,7 @@ describe('Should do everything', function () {
         await bosExtras.clickNextButton();
         await bosDetails.confirmAllValuesAreZeroesAfter100PercentPromotionAndConfirmCompletion(promoCodeFive);
         await bosDetails.continueToPayment();
-        await bosReview.paymentWith100DiscountAndDisabledForm(base);
+        await bosReview.paymentWith100DiscountAndPaymentCard(base);
         await driver.sleep(3000);
 
     });

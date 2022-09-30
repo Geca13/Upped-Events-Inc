@@ -64,6 +64,8 @@
         let eventOptionTabs;
         let createTicket;
         let ticketsNav;
+        let promotions;
+        let newPromotion;
         let attendees;
         let eventDetails;
         let taxesAndFees;
@@ -74,14 +76,14 @@
         let bosExtras;
         let bosDetails;
         let bosReview;
-        let eventId //= "1668";
+        let eventId = "1673";
 
 
-        let base =   Math.floor(100000 + Math.random() * 900000);
+        let base = 741769//  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
-        let ticketOneQuantity = 2;
+        let ticketOneQuantity = 999;
         let ticketOnePrice = "1.00";
         let ticketTwoName = base.toString() +"T2";
         let ticketTwoQuantity = 888;
@@ -669,7 +671,7 @@
 
         });
 
-        it('Should make purchase in box office', async function () {
+        it('Should make purchase with card when user has account and additional email is provided', async function () {
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
@@ -677,9 +679,9 @@
             await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.selectTwoTickets();
-            await bosExtras.add20$ToOrderOnExtrasPage();
+            await bosExtras.isOnExtrasScreen();
             await bosDetails.continueToPayment();
-            await bosReview.makePayment(base);
+            await bosReview.makePaymentWithCard(base);
 
         });
 
@@ -710,6 +712,56 @@
             await attendees.isOnAttendeesTab();
             await attendees.checkForCustomerFullNameByIndex(0 , base, base);
 
+        });
+
+        it('Should make purchase with cash when user has account and additional email is provided', async function () {
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.selectTwoTickets();
+            await bosExtras.isOnExtrasScreen();
+            await bosExtras.clickNextButton();
+            await bosDetails.continueToPayment();
+            await bosReview.makePaymentWithCash(base);
+
+        });
+
+        //PORTAL
+        it('should create promotion for 3 tickets and limit qty on two and create 100% promotion', async function () {
+
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+            promotions = new PromotionsPage(driver);
+            newPromotion = new AddNewPromotionModal(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickPromotionsTab();
+            await promotions.addPromotionButtonIsVisible();
+            await promotions.clickAddPromotionButton();
+            await newPromotion.addPromotionModalIsDisplayed();
+            await newPromotion.newPromotionForThreeWithLimitOnTwo(ticketTwoName, ticketThreeName, ticketFourName, promoThreeName, promoCodeThree);
+            await promotions.assertDataForPromotionWithThreeTicketsAndLimitOnTwoWithoutDateTime(promoThreeName, ticketTwoName,ticketTwoPrice);
+            await promotions.findPromotionByNameAndClickUpdateButton(promoThreeName);
+            await newPromotion.assertDataOnUpdateModalForPromotionWithThreeTicketsAndLimit(ticketTwoName, ticketThreeName, ticketFourName, promoThreeName, promoCodeThree);
+            await newPromotion.clickCancelPromotion();
+            await promotions.addPromotionButtonIsVisible();
+            await promotions.clickAddPromotionButton();
+            await newPromotion.addPromotionModalIsDisplayed();
+            await newPromotion.createPromotionWith100discountForAllTickets(ticketOneName, promoFiveName, promoCodeFive);
+            await promotions.promotionsHeaderIsVisible();
+            await eventOptionTabs.ticketingTabIsDisplayed();
         });
 
 
