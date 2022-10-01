@@ -65,6 +65,7 @@
         }
 
         async assertTicketsOrderAfterChangedOrder(ticketOneName, ticketTwoName, ticketThreeName, ticketFourName){
+            await this.isDisplayed(COLUMN_TICKET_NAME, 5000);
             let tickets = await this.findAll(COLUMN_TICKET_NAME);
             assert.equal(await tickets[1].getText(), ticketOneName);
             assert.equal(await tickets[2].getText(), ticketTwoName);
@@ -116,6 +117,13 @@
             await this.click(SAVE_BUTTON);
         }
 
+        async select23TicketsForPromotionWithLimits(){
+            await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,1,"6");
+            await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,3,"7");
+            await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,2,"10");
+            await this.click(SAVE_BUTTON);
+        }
+
         async select18Tickets(){
            try{
             await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,0,"5");
@@ -127,7 +135,7 @@
             await this.takeScreenshot("boTickets_18Tickets")
             await this.writeError(error)
             throw error.toString();
-        }
+            }
         }
 
         async addNewQuantityAndSetNewPrice(){

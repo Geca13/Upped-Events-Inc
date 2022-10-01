@@ -14,6 +14,7 @@
     const APPLY_BUTTON = { id: "applybtn" }
     const APPLIED_PROMOTION_DIV = { className: "discount-code" }
     const INVALID_DISCOUNT_CODE_ICON = { className: "icon-exclamation-triangle" }
+    const DISCOUNT_CODE_MESSAGE = { xpath: "//div[contains(@class, 'discount-code')]" }
     const ORDER_DETAILS_BOX = { id: "Orderdetail" };
     const ORDER_DETAILS_HEADER = { id: "orderheading" };
     const ORDER_DETAILS_SUBHEADER = { xpath: "//h3[@class='order-subheading']" };
@@ -39,63 +40,63 @@
         async assertElementsOnOrderDetailsWithOnlyBasicTicket(ticketOneName){
             try {
 
-            await this.isOnDetailsPage();
-            let ticketQHeader = await this.getElementText(TICKET_Q_HEADER);
-            let ticketQSubHeader = await this.getElementText(TICKET_Q_SUB_HEADER);
-            let orderDetailsHeader = await this.getElementText(ORDER_DETAILS_HEADER);
-            let orderDetailsSubHeader = await this.getElementText(ORDER_DETAILS_SUBHEADER);
-            let ticketsSectionHeader = await this.getElementTextFromAnArrayByIndex(ORDER_DETAILS_SECTION_TITLES, 0);
-            let extrasSectionHeader = await this.getElementTextFromAnArrayByIndex(ORDER_DETAILS_SECTION_TITLES, 1);
-            let walletSectionHeader = await this.getElementTextFromAnArrayByIndex(ORDER_DETAILS_SECTION_TITLES, 2);
-            let donationSectionHeader = await this.getElementTextFromAnArrayByIndex(ORDER_DETAILS_SECTION_TITLES, 3);
-            let subtotalHeader = await this.getElementText(SUBTOTAL_HEADER)
-            let taxesName = await this.getElementTextFromAnArrayByIndex(PRICING_ADDING_NAMES, 0);
-            let feesName = await this.getElementTextFromAnArrayByIndex(PRICING_ADDING_NAMES, 1);
-            let shippingName = await this.getElementTextFromAnArrayByIndex(PRICING_ADDING_NAMES, 2);
-            let discountName = await this.getElementTextFromAnArrayByIndex(PRICING_ADDING_NAMES, 3);
-            let discountHeader = await this.getElementText(DISCOUNT_CODE_HEADER)
-            let inputPlaceholder = await this.getPlaceholderTextFromInputByIndex(PROMO_INPUT, 0);
-            let applyBtn = await this.getElementText(APPLY_BUTTON);
-            let totalDue = await this.getElementText(TOTAL_DUE);
-            let rawTicketOne = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT,0,0);
-            let ticketsValue = await this.getElementTextFromAnArrayByIndex(VALUES, 0);
-            let walletValue = await this.getElementTextFromAnArrayByIndex(VALUES, 1);
-            let donationValue = await this.getElementTextFromAnArrayByIndex(VALUES, 2);
-            let subtotalValue = await this.getElementTextFromAnArrayByIndex(VALUES, 3);
-            let taxesValue = await this.getElementTextFromAnArrayByIndex(VALUES, 4);
-            let feesValue = await this.getElementTextFromAnArrayByIndex(VALUES, 5);
-            let shippingValue = await this.getElementTextFromAnArrayByIndex(VALUES, 6);
-            let discountValue = await this.getElementTextFromAnArrayByIndex(VALUES, 7);
-            let totalDueValue = await this.getElementText(TOTAL)
+                await this.isOnDetailsPage();
+                let ticketQHeader = await this.getElementText(TICKET_Q_HEADER);
+                let ticketQSubHeader = await this.getElementText(TICKET_Q_SUB_HEADER);
+                let orderDetailsHeader = await this.getElementText(ORDER_DETAILS_HEADER);
+                let orderDetailsSubHeader = await this.getElementText(ORDER_DETAILS_SUBHEADER);
+                let ticketsSectionHeader = await this.getElementTextFromAnArrayByIndex(ORDER_DETAILS_SECTION_TITLES, 0);
+                let extrasSectionHeader = await this.getElementTextFromAnArrayByIndex(ORDER_DETAILS_SECTION_TITLES, 1);
+                let walletSectionHeader = await this.getElementTextFromAnArrayByIndex(ORDER_DETAILS_SECTION_TITLES, 2);
+                let donationSectionHeader = await this.getElementTextFromAnArrayByIndex(ORDER_DETAILS_SECTION_TITLES, 3);
+                let subtotalHeader = await this.getElementText(SUBTOTAL_HEADER)
+                let taxesName = await this.getElementTextFromAnArrayByIndex(PRICING_ADDING_NAMES, 0);
+                let feesName = await this.getElementTextFromAnArrayByIndex(PRICING_ADDING_NAMES, 1);
+                let shippingName = await this.getElementTextFromAnArrayByIndex(PRICING_ADDING_NAMES, 2);
+                let discountName = await this.getElementTextFromAnArrayByIndex(PRICING_ADDING_NAMES, 3);
+                let discountHeader = await this.getElementText(DISCOUNT_CODE_HEADER)
+                let inputPlaceholder = await this.getPlaceholderTextFromInputByIndex(PROMO_INPUT, 0);
+                let applyBtn = await this.getElementText(APPLY_BUTTON);
+                let totalDue = await this.getElementText(TOTAL_DUE);
+                let rawTicketOne = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT,0,0);
+                let ticketsValue = await this.getElementTextFromAnArrayByIndex(VALUES, 0);
+                let walletValue = await this.getElementTextFromAnArrayByIndex(VALUES, 1);
+                let donationValue = await this.getElementTextFromAnArrayByIndex(VALUES, 2);
+                let subtotalValue = await this.getElementTextFromAnArrayByIndex(VALUES, 3);
+                let taxesValue = await this.getElementTextFromAnArrayByIndex(VALUES, 4);
+                let feesValue = await this.getElementTextFromAnArrayByIndex(VALUES, 5);
+                let shippingValue = await this.getElementTextFromAnArrayByIndex(VALUES, 6);
+                let discountValue = await this.getElementTextFromAnArrayByIndex(VALUES, 7);
+                let totalDueValue = await this.getElementText(TOTAL)
 
-            assert.equal( rawTicketOne.substring(0,8), ticketOneName);
-            assert.equal( ticketQHeader,"Ticket Questions");
-            assert.equal( ticketQSubHeader, "Please have the attendee answer the following questions");
-            assert.equal( orderDetailsHeader ,"Order Details");
-            assert.equal(orderDetailsSubHeader, "Review your information before placing order.");
-            assert.equal(ticketsSectionHeader, "Tickets:");
-            assert.equal( extrasSectionHeader,"Extras:");
-            assert.equal( walletSectionHeader, "Money To Wallet:");
-            assert.equal( donationSectionHeader ,"Donation:");
-            assert.equal(subtotalHeader, "Subtotal:");
-            assert.equal(taxesName, "Taxes:");
-            assert.equal( feesName,"Fees:");
-            assert.equal( shippingName, "Shipping:");
-            assert.equal( discountName ,"Discount:");
-            assert.equal(discountHeader, "Discount Code");
-            assert.equal(inputPlaceholder, "########");
-            assert.equal( applyBtn ,"Apply");
-            assert.equal(totalDue, "Total Due :");
-            assert.equal(inputPlaceholder, "########");
-            assert.equal(ticketsValue, "$1.00");
-            assert.equal( walletValue,"$0.00");
-            assert.equal( donationValue, "$0.00");
-            assert.equal( subtotalValue ,"$1.00");
-            assert.equal(taxesValue, "$0.00");
-            assert.equal(feesValue, "$0.00");
-            assert.equal( shippingValue ,"$0.00");
-            assert.equal(discountValue, "$0.00");
-            assert.equal(totalDueValue, "$ 1.00");
+                assert.equal( rawTicketOne.substring(0,8), ticketOneName);
+                assert.equal( ticketQHeader,"Ticket Questions");
+                assert.equal( ticketQSubHeader, "Please have the attendee answer the following questions");
+                assert.equal( orderDetailsHeader ,"Order Details");
+                assert.equal(orderDetailsSubHeader, "Review your information before placing order.");
+                assert.equal(ticketsSectionHeader, "Tickets:");
+                assert.equal( extrasSectionHeader,"Extras:");
+                assert.equal( walletSectionHeader, "Money To Wallet:");
+                assert.equal( donationSectionHeader ,"Donation:");
+                assert.equal(subtotalHeader, "Subtotal:");
+                assert.equal(taxesName, "Taxes:");
+                assert.equal( feesName,"Fees:");
+                assert.equal( shippingName, "Shipping:");
+                assert.equal( discountName ,"Discount:");
+                assert.equal(discountHeader, "Discount Code");
+                assert.equal(inputPlaceholder, "########");
+                assert.equal( applyBtn ,"Apply");
+                assert.equal(totalDue, "Total Due :");
+                assert.equal(inputPlaceholder, "########");
+                assert.equal(ticketsValue, "$1.00");
+                assert.equal( walletValue,"$0.00");
+                assert.equal( donationValue, "$0.00");
+                assert.equal( subtotalValue ,"$1.00");
+                assert.equal(taxesValue, "$0.00");
+                assert.equal(feesValue, "$0.00");
+                assert.equal( shippingValue ,"$0.00");
+                assert.equal(discountValue, "$0.00");
+                assert.equal(totalDueValue, "$ 1.00");
             }catch (error) {
                 await this.takeScreenshot("bosDetails")
                 await this.writeError(error)
@@ -107,18 +108,18 @@
             await this.isOnDetailsPage();
             try{
 
-            let tax = savedTaxValue;
-            let rawTicketOne = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 0, 1);
-            let ticketOne = rawTicketOne.substring(1);
-            let ticket = parseFloat(ticketOne);
-            let taxValue = ticket * (tax/100);
-            let fixedTax = taxValue.toFixed(2);
-            let displayedTax = await this.getElementTextFromAnArrayByIndex(VALUES, 4);
-            let cleanedTax = displayedTax.substring(1);
-            assert.equal(parseFloat(cleanedTax).toFixed(2),taxValue.toFixed(2))
-            let total = ticket + parseFloat(fixedTax);
-            let totalDue = await this.getElementText(TOTAL)
-            assert.equal(totalDue.substring(2), total.toFixed(2))
+                let tax = savedTaxValue;
+                let rawTicketOne = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 0, 1);
+                let ticketOne = rawTicketOne.substring(1);
+                let ticket = parseFloat(ticketOne);
+                let taxValue = ticket * (tax/100);
+                let fixedTax = taxValue.toFixed(2);
+                let displayedTax = await this.getElementTextFromAnArrayByIndex(VALUES, 4);
+                let cleanedTax = displayedTax.substring(1);
+                assert.equal(parseFloat(cleanedTax).toFixed(2),taxValue.toFixed(2))
+                let total = ticket + parseFloat(fixedTax);
+                let totalDue = await this.getElementText(TOTAL)
+                assert.equal(totalDue.substring(2), total.toFixed(2))
 
             }catch (error) {
                 await this.takeScreenshot("bosDetails")
@@ -131,17 +132,17 @@
             await this.isOnDetailsPage();
             try{
 
-            let fee = savedFee$Value;
-            let rawTicketOne = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 0, 1);
-            let ticketOne = rawTicketOne.substring(1);
-            let ticketPrice = parseFloat(ticketOne);
-            let totalFee = parseFloat(fee.substring(1)) * 2
-            let displayedFee = await this.getElementTextFromAnArrayByIndex(VALUES, 5);
-            let cleanedFee = displayedFee.substring(1);
-            assert.equal(parseFloat(cleanedFee).toFixed(2),totalFee.toFixed(2))
-            let total = ticketPrice + totalFee
-            let totalDue = await this.getElementText(TOTAL)
-            assert.equal(totalDue.substring(2), total.toFixed(2))
+                let fee = savedFee$Value;
+                let rawTicketOne = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 0, 1);
+                let ticketOne = rawTicketOne.substring(1);
+                let ticketPrice = parseFloat(ticketOne);
+                let totalFee = parseFloat(fee.substring(1)) * 2
+                let displayedFee = await this.getElementTextFromAnArrayByIndex(VALUES, 5);
+                let cleanedFee = displayedFee.substring(1);
+                assert.equal(parseFloat(cleanedFee).toFixed(2),totalFee.toFixed(2))
+                let total = ticketPrice + totalFee
+                let totalDue = await this.getElementText(TOTAL)
+                assert.equal(totalDue.substring(2), total.toFixed(2))
 
             }catch (error) {
                 await this.takeScreenshot("bosDetails")
@@ -154,29 +155,94 @@
         async assertFeeAndTaxValuesThenAssertTicketTotalPlusFeesAndTaxesEqualsTotal(savedTaxValue, saved$FeeValue){
             await this.isOnDetailsPage();
             try{
-            let tax = parseFloat(savedTaxValue);
-            let fee = parseFloat(saved$FeeValue);
-            let rawTicketOne = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 0, 1);
-            let ticketOne = rawTicketOne.substring(1);
-            let ticketPrice = parseFloat(ticketOne);
-            let taxValue = ticketPrice * (tax/100);
-            let displayedTax = await this.getElementTextFromAnArrayByIndex(VALUES, 4);
-            let cleanedTax = displayedTax.substring(1);
-            assert.equal(parseFloat(cleanedTax).toFixed(2),taxValue.toFixed(2))
-            let totalFee = fee * 2
-            let displayedFee = await this.getElementTextFromAnArrayByIndex(VALUES, 5);
-            let cleanedFee = displayedFee.substring(1);
-            assert.equal(parseFloat(cleanedFee).toFixed(2),totalFee.toFixed(2))
-            let calculatedTotal = ticketPrice + taxValue + totalFee;
-            let totalDue = await this.getElementText(TOTAL)
-            assert.equal(totalDue.substring(2), calculatedTotal.toFixed(2))
+                let tax = parseFloat(savedTaxValue);
+                let fee = parseFloat(saved$FeeValue);
+                let rawTicketOne = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 0, 1);
+                let ticketOne = rawTicketOne.substring(1);
+                let ticketPrice = parseFloat(ticketOne);
+                let taxValue = ticketPrice * (tax/100);
+                let displayedTax = await this.getElementTextFromAnArrayByIndex(VALUES, 4);
+                let cleanedTax = displayedTax.substring(1);
+                assert.equal(parseFloat(cleanedTax).toFixed(2),taxValue.toFixed(2))
+                let totalFee = fee * 2
+                let displayedFee = await this.getElementTextFromAnArrayByIndex(VALUES, 5);
+                let cleanedFee = displayedFee.substring(1);
+                assert.equal(parseFloat(cleanedFee).toFixed(2),totalFee.toFixed(2))
+                let calculatedTotal = ticketPrice + taxValue + totalFee;
+                let totalDue = await this.getElementText(TOTAL)
+                assert.equal(totalDue.substring(2), calculatedTotal.toFixed(2))
 
             }catch (error) {
                 await this.takeScreenshot("bosDetails")
                 await this.writeError(error)
                 throw error.toString();
             }
-    }
+        }
+
+        async assertTotalValueBeforeAndAfterPromotionWhenLimitsWereExceeded(ticketTwoPrice,  ticketThreePrice,ticketFourPrice, promoCodeThree){
+            let ticketTwoTotal = 6 * ticketTwoPrice;
+            let ticketTwoTax = (parseFloat(ticketTwoPrice) * (13.17/100));
+            let totalTaxTwo = parseFloat(ticketTwoTax.toFixed(2)) * 6;
+
+            let ticketFourTotal = 7 * ticketFourPrice;
+            let ticketFourTax = (parseFloat(ticketFourPrice) * (13.17/100));
+            let totalTaxFour = parseFloat(ticketFourTax.toFixed(2)) * 7;
+
+            let ticketThreeTotal = 10 * ticketThreePrice;
+            let ticketThreeTax = (parseFloat(ticketThreePrice) * (13.17/100));
+            let totalTaxThree = parseFloat(ticketThreeTax.toFixed(2)) * 10;
+
+            let totalTax = parseFloat(totalTaxTwo.toFixed(2)) + parseFloat(totalTaxFour.toFixed(2)) + parseFloat(totalTaxThree.toFixed(2));
+            let totalFee = 23 * 0.17;
+
+            let subtotal = parseFloat(ticketTwoTotal.toFixed(2)) + parseFloat(ticketFourTotal.toFixed(2)) + parseFloat(ticketThreeTotal.toFixed(2));
+            let total = parseFloat(subtotal.toFixed(2)) + parseFloat(totalTax.toFixed(2)) + parseFloat(totalFee.toFixed(2));
+            let extT2 = await this.getElementTextFromAnArrayByIndex(VALUES, 0);
+            let extT3 = await this.getElementTextFromAnArrayByIndex(VALUES, 2);
+            let extT4 = await this.getElementTextFromAnArrayByIndex(VALUES, 1);
+            let extTax = await this.getElementTextFromAnArrayByIndex(VALUES, 6);
+            let extFee = await this.getElementTextFromAnArrayByIndex(VALUES, 7);
+            let extSub = await this.getElementTextFromAnArrayByIndex(VALUES, 5);
+            let extDiscount = await this.getElementTextFromAnArrayByIndex(VALUES, 9);
+            let extTotal = await this.getElementText(TOTAL);
+            assert.equal(extT2.substring(1), ticketTwoTotal.toFixed(2));
+            assert.equal(extT3.substring(1), ticketThreeTotal.toFixed(2));
+            assert.equal(extT4.substring(1), ticketFourTotal.toFixed(2));
+            assert.equal(extSub.substring(1), subtotal.toFixed(2));
+            assert.equal(extTax.substring(1), totalTax.toFixed(2));
+            assert.equal(extFee.substring(1), totalFee.toFixed(2));
+            assert.equal(extDiscount.substring(1), "0.00");
+            assert.equal(extTotal.substring(2), total.toFixed(2));
+            await this.addPromotionToTickets(promoCodeThree);
+            ticketTwoTotal = parseFloat((ticketTwoPrice * 0.25).toFixed(2)) * 6;
+            ticketThreeTotal = parseFloat((ticketThreePrice * 0.25).toFixed(2)) * 10;
+            ticketFourTotal = (parseFloat((ticketFourPrice * 0.25).toFixed(2)) * 4) + (parseFloat(ticketFourPrice.toFixed(2)) * 3);
+            subtotal = parseFloat(ticketTwoTotal.toFixed(2)) + parseFloat(ticketFourTotal.toFixed(2)) + parseFloat(ticketThreeTotal.toFixed(2));
+            extSub = await this.getElementTextFromAnArrayByIndex(VALUES, 5);
+            assert.equal(extSub.substring(1), subtotal.toFixed(2));
+            let discounted2 = parseFloat((ticketTwoPrice * 0.75).toFixed(2)) * 6;
+            let discounted3 = parseFloat((ticketThreePrice * 0.75).toFixed(2)) * 10;
+            let discounted4 = parseFloat((ticketFourPrice * 0.75).toFixed(2)) * 4;
+            let discount = discounted2 + discounted3 + discounted4;
+            extDiscount = await this.getElementTextFromAnArrayByIndex(VALUES, 9);
+            assert.equal(extDiscount.substring(1), discount.toFixed(2));
+            let newTicketTwoTax = parseFloat((ticketTwoPrice * 0.25).toFixed(2)) * (13.17/100);
+            let newTicketThreeTax = parseFloat((ticketThreePrice * 0.25).toFixed(2)) * (13.17/100);
+            let newTicketFourTax = parseFloat((ticketFourPrice * 0.25).toFixed(2)) * (13.17/100);
+            ticketFourTax = (parseFloat(ticketFourPrice) * (13.17/100));
+            totalTaxTwo = newTicketTwoTax * 6;
+            totalTaxThree = newTicketThreeTax * 10;
+            totalTaxFour = (parseFloat(ticketFourTax.toFixed(2)) * 3) + (parseFloat(newTicketFourTax.toFixed(2)) * 4);
+            totalTax = parseFloat(totalTaxTwo.toFixed(2)) + parseFloat(totalTaxFour.toFixed(2)) + parseFloat(totalTaxThree.toFixed(2));
+            extTax = await this.getElementTextFromAnArrayByIndex(VALUES, 6);
+            extFee = await this.getElementTextFromAnArrayByIndex(VALUES, 7);
+            assert.equal(extTax.substring(1), totalTax.toFixed(2));
+            assert.equal(extFee.substring(1), totalFee.toFixed(2));
+            total = parseFloat(subtotal.toFixed(2)) + parseFloat(totalTax.toFixed(2)) + parseFloat(totalFee.toFixed(2));
+            extTotal = await this.getElementText(TOTAL);
+            assert.equal(extTotal.substring(2), total.toFixed(2));
+
+        }
 
         async continueToPayment(){
             await this.isOnDetailsPage();
@@ -190,10 +256,18 @@
             await this.timeout(500);
             await this.isDisplayed(APPLIED_PROMOTION_DIV,5000);
         }
-        async addWrongPromoCode(){
+
+        async assertReturnedValidationMessage(expected){
+            let message = await this.getElementText(DISCOUNT_CODE_MESSAGE);
+            assert.equal(message, expected)
+        }
+
+        async addWrongPromoCodeAssertErrorValidation(){
             await this.sentKeys(PROMO_INPUT,"FgRgR1");
             await this.click(APPLY_BUTTON);
             await this.isDisplayed(INVALID_DISCOUNT_CODE_ICON,5000);
+            let message = await this.getElementText(DISCOUNT_CODE_MESSAGE);
+            assert.equal(message, "Invalid Discount Code")
             await this.clearInputField(PROMO_INPUT);
             await this.timeout(500)
 
@@ -209,34 +283,35 @@
             assert.equal(ticketFourName, rawTicketFour.substring(0,8));
         }
 
-         async checkTicketPricesInOrderDetails() {
-             let rawTicketOne = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 0, 1);
-             let ticketOne = rawTicketOne.substring(1);
-             let rawTicketTwo = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 1, 1);
-             let ticketTwo = rawTicketTwo.substring(1);
-             let rawTicketThree = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 2, 1);
-             let ticketThree = rawTicketThree.substring(1);
-             let rawTicketFour = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 3, 1);
-             let ticketFour = rawTicketFour.substring(1);
+        async checkTicketPricesInOrderDetails() {
+            let rawTicketOne = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 0, 1);
+            let ticketOne = rawTicketOne.substring(1);
+            let rawTicketTwo = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 1, 1);
+            let ticketTwo = rawTicketTwo.substring(1);
+            let rawTicketThree = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 2, 1);
+            let ticketThree = rawTicketThree.substring(1);
+            let rawTicketFour = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 3, 1);
+            let ticketFour = rawTicketFour.substring(1);
 
-             assert.equal(parseFloat("1"), parseFloat(ticketOne));
-             assert.equal(parseFloat("1.2"), parseFloat(ticketTwo));
-             assert.equal(parseFloat("0.75"), parseFloat(ticketThree));
-             assert.equal(parseFloat("0.25"), parseFloat(ticketFour));
-         }
+            assert.equal(parseFloat("1"), parseFloat(ticketOne));
+            assert.equal(parseFloat("1.2"), parseFloat(ticketTwo));
+            assert.equal(parseFloat("0.75"), parseFloat(ticketThree));
+            assert.equal(parseFloat("0.25"), parseFloat(ticketFour));
+        }
 
-         async calculateTicketsSubTotal(){
-             let subtotal = 0.00;
-             for (let i = 0; i < 4; i++){
-                 let rawAmount = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT,i,1);
-                 let amount = rawAmount.substring(1);
-                 subtotal = subtotal + parseFloat(amount);
-             }
-             let rawSubTotal = await this.getElementText(SUBTOTAL);
-             let substring = rawSubTotal.substring(1);
-             let extracted = parseFloat(substring);
-             assert.equal(extracted,subtotal)
-         }
+        async calculateTicketsSubTotal(){
+            let subtotal = 0.00;
+            for (let i = 0; i < 4; i++){
+                let rawAmount = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT,i,1);
+                let amount = rawAmount.substring(1);
+                subtotal = subtotal + parseFloat(amount);
+            }
+            let rawSubTotal = await this.getElementText(SUBTOTAL);
+            let substring = rawSubTotal.substring(1);
+            let extracted = parseFloat(substring);
+            assert.equal(extracted,subtotal)
+        }
+
         async calculateTicketsTotal(){
             let items = await this.findAll(TICKETS_NAME_PARENT)
             let calculatedTotal = 0.00;

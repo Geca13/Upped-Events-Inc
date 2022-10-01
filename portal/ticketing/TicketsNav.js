@@ -68,13 +68,6 @@
             return i;
         }
 
-        async createFirstTicket(ticketOneName,ticketPrice,ticketOneQuantity){
-            await this.addTicketButtonIsDisplayed();
-            let newTicket = new CreateTicketModal(this.driver);
-            await newTicket.createNewTicket(ticketOneName,ticketPrice,ticketOneQuantity)
-
-        }
-
         async assertCorrectDataIsDisplayedInTableAfterCreatingFirstTicket(name,start,end,price,quantity){
             await this.isDisplayed(TICKETS_NAMES,5000);
             await this.timeout(500)

@@ -76,27 +76,27 @@
         let bosExtras;
         let bosDetails;
         let bosReview;
-        let eventId = "1673";
+        let eventId //= "1678";
 
 
-        let base = 741769//  Math.floor(100000 + Math.random() * 900000);
+        let base = Math.floor(100000 + Math.random() * 900000) //  274760//  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
         let ticketOneQuantity = 999;
-        let ticketOnePrice = "1.00";
+        let ticketOnePrice = 1.00;
         let ticketTwoName = base.toString() +"T2";
         let ticketTwoQuantity = 888;
-        let ticketTwoPrice = "1.20";
+        let ticketTwoPrice = 1.20;
         let ticketThreeName = base.toString() +"T3";
         let ticketThreeQuantity = 777;
-        let ticketThreePrice = "0.75";
+        let ticketThreePrice = 0.75;
         let ticketFourName = base.toString() +"T4";
         let ticketFourQuantity = 666;
-        let ticketFourPrice = "0.50";
+        let ticketFourPrice = 0.25;
         let staffTicket = base.toString() +"staff";
         let ticketStaffQuantity = 5;
-        let ticketStaffPrice = "0.25";
+        let ticketStaffPrice = 0.25;
         let promoOneName = base.toString() +"PN1";
         let promoTwoName = base.toString() +"PN2";
         let promoThreeName = base.toString() +"PN3";
@@ -133,6 +133,10 @@
             bosExtras = new BOAddExtras(driver);
             bosDetails = new BOAddDetails(driver);
             bosReview = new BOReviewAndPay(driver);
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
 
         });
 
@@ -140,15 +144,10 @@
             await driver.quit()
         })
 
-        //PORTAL
         it('should create new event',async function () {
             let splited = [];
             createEvent = new CreateEventModal(driver);
 
-            await portalLogin.loadPortalUrl();
-            await driver.sleep(1000);
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await dashboard.clickCreateEventButton();
             await createEvent.createEventModalIsDisplayed();
             await createEvent.fillFormWithValidDataAndSave(eventName,shortName);
@@ -159,23 +158,16 @@
 
         it('should verify box-office table headers and no tickets message', async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.assertTableHeaders();
             await bosTickets.assertNoTicketMessage();
 
         });
 
-        //PORTAL
         it('should create first ticket and assert data in box-office table',async function () {
 
             createTicket = new CreateTicketModal(driver);
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
@@ -190,15 +182,12 @@
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickActivateTicketToggle(ticketOneName);
             await eventTickets.clickBoxOfficeNav();
-            await bosTickets.assertTicketDataByTicketName(ticketOneName,ticketOnePrice, ticketOneQuantity);
+            await bosTickets.assertTicketDataByTicketName(ticketOneName,ticketOnePrice.toString(), ticketOneQuantity);
 
         });
 
         it('should assert box-office navigation steps names',async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.assertNavigationButtonsCountAndText();
 
@@ -206,9 +195,6 @@
 
         it('should get red error message when tickets are not selected and user clicks on the save button',async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.clickSaveButtonWhenTicketsNotSelectedAssertErrorMessage();
 
@@ -216,9 +202,6 @@
 
         it('should get red error message when tickets are not selected and user clicks on the Add Extras Step Nav',async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.clickAddExtrasNavButtonWhenTicketsNotSelectedAssertErrorMessage();
 
@@ -226,9 +209,6 @@
 
         it('should land on Extras page when user selects tickets and click on Save button',async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
             await bosExtras.isOnExtrasScreen();
@@ -237,9 +217,6 @@
 
         it('should land on Extras page when user selects tickets and click on Extras Step Nav',async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
             await bosTickets.clickNavButtonByIndexWhenTicketsSelected(1);
@@ -249,9 +226,6 @@
 
         it('should land on Details page when user selects tickets and click on Details Step Nav',async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
             await bosTickets.clickNavButtonByIndexWhenTicketsSelected(2);
@@ -261,9 +235,6 @@
 
         it('should land on Payment page when user selects tickets and click on Review Step Nav',async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
             await bosTickets.clickNavButtonByIndexWhenTicketsSelected(3);
@@ -273,9 +244,6 @@
 
         it('should set and assert new price and its font color', async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.isOnBoxOfficePage();
             await bosTickets.addNewQuantityAndSetNewPrice();
@@ -284,9 +252,6 @@
 
         it('should navigate to Extras page and assert elements',async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
             await bosExtras.assertElementsOnExtrasPage();
@@ -295,9 +260,6 @@
 
         it('should get blue donation not enabled when clicked donation option and donation not enabled in portal',async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
             await bosExtras.clickDonationOptionAndReceiveDonationNotEnabledMessage();
@@ -307,9 +269,7 @@
         it('should enable donation in portal and assert donation component is displayed and assert elements',async function () {
 
             eventSettingsNav = new EventSettingsNav(driver)
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
+
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
@@ -327,9 +287,6 @@
 
         it('should assert when donation value button is clicked the value is displayed in input',async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
             await bosExtras.clickDonationOptionAndAssertWhenDonationButtonClickedValueAddedToInput();
@@ -338,9 +295,6 @@
 
         it('should enter custom decimal amount, assert the input shows the digits only  ',async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
             await bosExtras.clickDonationOptionAddCustomDecimalDonationAndAssertOnlyFullNumberIsDisplayed();
@@ -349,9 +303,6 @@
 
         it('should enter custom amount, click add to order button and assert green added donation message',async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
             await bosExtras.clickDonationOptionAddCustomDonationAndAssertAddedDonationMessage();
@@ -360,9 +311,6 @@
 
         it('should add custom donation add to order, open the modal and check if value is still in input',async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
             await bosExtras.checkDonationAmountIsSavedInDonationModal();
@@ -371,9 +319,6 @@
 
         it('should click Select Tickets nav from Extras page to go back to Tickets page and assert previously selected ticket value is still selected',async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
             await bosExtras.clickNavButtonByIndexWhenOnExtrasPage(0);
@@ -383,9 +328,6 @@
 
         it('should click Add Details nav from Extras page to go to Details tab',async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
             await bosExtras.clickNavButtonByIndexWhenOnExtrasPage(2);
@@ -395,9 +337,6 @@
 
         it('should click Review and Pay nav from Extras page to go to Review page',async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 2);
             await bosExtras.clickNavButtonByIndexWhenOnExtrasPage(3);
@@ -407,9 +346,6 @@
 
         it('should assert elements on Order Details page when only 1 ticket selected and no taxes , fees, donation, promotion and ticket questions',async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 1);
             await bosTickets.clickNavButtonByIndexWhenTicketsSelected(2);
@@ -419,9 +355,6 @@
 
         it('should assert elements on Review and Pay page when only 1 ticket selected and no taxes , fees, donation or promotion',async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.selectTicketByIndexSendQuantityAndSave(0, 1);
             await bosTickets.clickNavButtonByIndexWhenTicketsSelected(3);
@@ -432,10 +365,7 @@
         it('should add excluded tax and check if bayer total is updated in ticket summary', async function () {
 
             taxesAndFees = new TaxesAndFeesPage(driver);
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
+
             await taxesAndFees.openTaxesAndFeesDirectly(eventId);
             await taxesAndFees.addOneTaxForTickets();
             await taxesAndFees.clickSaveTaxesAndFeesButton();
@@ -447,14 +377,10 @@
 
         });
 
-        //PORTAL
         it('should remove tax and add $ value fee and assert price in order total', async function () {
 
             taxesAndFees = new TaxesAndFeesPage(driver);
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
+
             await taxesAndFees.openTaxesAndFeesDirectly(eventId);
             await taxesAndFees.clickRemoveTaxOrFeeButtonByIndex(0);
             await taxesAndFees.clickSaveTaxesAndFeesButton();
@@ -471,10 +397,7 @@
         it('should add excluded tax again and check correct calculation for total', async function () {
 
             taxesAndFees = new TaxesAndFeesPage(driver);
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
+
             await taxesAndFees.openTaxesAndFeesDirectly(eventId);
             await taxesAndFees.addOneTaxForTickets();
             await taxesAndFees.clickSaveTaxesAndFeesButton();
@@ -491,10 +414,7 @@
         it('should create ticket groups and three more tickets',async function () {
 
             createTicket = new CreateTicketModal(driver);
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
+
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
@@ -536,14 +456,10 @@
 
         });
 
-        //PORTAL
         it('Should create staff ticket in portal', async function () {
 
             createTicket = new CreateTicketModal(driver);
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
+
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
@@ -559,12 +475,8 @@
 
         });
 
-
         it('should assert tickets groups in box-office', async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.assertTicketGroupsTabsCountAndNames(ticketGroupOne, ticketGroupTwo, ticketGroupThree);
 
@@ -572,9 +484,6 @@
 
         it('should assert tickets order in box-office', async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.assertTicketsOrder(ticketOneName, ticketTwoName, ticketThreeName, ticketFourName, staffTicket);
 
@@ -582,9 +491,6 @@
 
         it('should assert ticket quantity by group equals tickets in table', async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.assertTicketQuantityByGroup();
 
@@ -592,9 +498,6 @@
 
         it('should assert ticket quantity in Group All equals sum of individual groups count', async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.assertTicketCountInAllTabEqualsSumOfIndividualGroups();
 
@@ -602,9 +505,6 @@
 
         it('should assert tickets by groups in box-office', async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.assertTicketsByGroups(ticketOneName, ticketTwoName, ticketThreeName, ticketFourName);
 
@@ -612,10 +512,6 @@
 
         it('should change ticket order in portal and assert change in box-office', async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
@@ -630,13 +526,8 @@
 
         });
 
-        //PORTAL
         it('should change ticket location from one group 2 to group 1 in portal and assert change', async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
@@ -654,10 +545,7 @@
         it('Should check attendees page elements when no purchases made', async function () {
 
             attendees = new AttendeesTab(driver);
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
+
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(2000);
@@ -671,22 +559,15 @@
 
         });
 
-        it('Should make purchase with card when user has account and additional email is provided', async function () {
+        it('Should make purchase with card when user has account and additional email is provided and check purchase emails in inbox', async function () {
+            inbox = new Inbox(driver);
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.selectTwoTickets();
             await bosExtras.isOnExtrasScreen();
+            await bosExtras.clickNextButton();
             await bosDetails.continueToPayment();
             await bosReview.makePaymentWithCard(base);
-
-        });
-
-        it('Should check for box office purchases in inbox', async function () {
-            inbox = new Inbox(driver);
             await inbox.loadInbox();
             await inbox.inboxIsOpened();
             await inbox.checkAccountEmailIsSend(base);
@@ -697,10 +578,7 @@
         it('Should assert attendee is displayed in table after purchase', async function () {
 
             attendees = new AttendeesTab(driver);
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
+
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(2000);
@@ -716,10 +594,6 @@
 
         it('Should make purchase with cash when user has account and additional email is provided', async function () {
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.selectTwoTickets();
             await bosExtras.isOnExtrasScreen();
@@ -729,33 +603,33 @@
 
         });
 
-        //PORTAL
+        it('should return invalid promo code when wrong promo code', async function () {
+
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.select3Tickets();
+            await bosExtras.isOnExtrasScreen();
+            await bosExtras.clickNextButton();
+            await bosDetails.addWrongPromoCodeAssertErrorValidation();
+
+        });
+
         it('should create promotion for 3 tickets and limit qty on two and create 100% promotion', async function () {
 
-            ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
             promotions = new PromotionsPage(driver);
             newPromotion = new AddNewPromotionModal(driver);
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
+            await eventDetails.publishButtonIsDisplayed();
             await eventOptionTabs.ticketingTabIsDisplayed();
             await eventOptionTabs.clickPromotionsTab();
             await promotions.addPromotionButtonIsVisible();
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.newPromotionForThreeWithLimitOnTwo(ticketTwoName, ticketThreeName, ticketFourName, promoThreeName, promoCodeThree);
-            await promotions.assertDataForPromotionWithThreeTicketsAndLimitOnTwoWithoutDateTime(promoThreeName, ticketTwoName,ticketTwoPrice);
-            await promotions.findPromotionByNameAndClickUpdateButton(promoThreeName);
-            await newPromotion.assertDataOnUpdateModalForPromotionWithThreeTicketsAndLimit(ticketTwoName, ticketThreeName, ticketFourName, promoThreeName, promoCodeThree);
-            await newPromotion.clickCancelPromotion();
             await promotions.addPromotionButtonIsVisible();
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
@@ -764,5 +638,53 @@
             await eventOptionTabs.ticketingTabIsDisplayed();
         });
 
+        it('should return green promo code applied message when promo code is valid', async function () {
+
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.select3Tickets();
+            await bosExtras.isOnExtrasScreen();
+            await bosExtras.clickNextButton();
+            await bosDetails.isOnDetailsPage();
+            await bosDetails.addPromotionToTickets(promoCodeThree);
+            await bosDetails.assertReturnedValidationMessage("Promo Code Applied!");
+
+        });
+
+        it('Should check calculation on subtotal and total and check if tickets are displayed', async function () {
+
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.isOnBoxOfficePage();
+            await bosTickets.getSelectedTicketsNames(ticketOneName,ticketTwoName,ticketThreeName,ticketFourName);
+            await bosTickets.selectFourIndividualTickets();
+            await bosExtras.clickNextButton();
+            await bosDetails.checkTicketsNamesInOrderDetails(ticketOneName,ticketTwoName,ticketThreeName,ticketFourName);
+            await bosDetails.checkTicketPricesInOrderDetails();
+            await bosDetails.calculateTicketsSubTotal();
+            await bosDetails.calculateTicketsTotal()
+
+        });
+
+        it('Should make purchase with 100 percent promotion in box-office', async function () {
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.isOnBoxOfficePage();
+            await bosTickets.select18Tickets();
+            await bosExtras.clickNextButton();
+            await bosDetails.confirmAllValuesAreZeroesAfter100PercentPromotionAndConfirmCompletion(promoCodeFive);
+            await bosDetails.continueToPayment();
+            await bosReview.paymentWith100DiscountAndPaymentCard(base);
+
+        });
+
+        it('Should make calculation for promotion with limits , exceed limit , assert total', async function () {
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.isOnBoxOfficePage();
+            await bosTickets.select23TicketsForPromotionWithLimits();
+            await bosExtras.isOnExtrasScreen();
+            await bosExtras.clickNextButton();
+            await bosDetails.assertTotalValueBeforeAndAfterPromotionWhenLimitsWereExceeded(ticketTwoPrice, ticketThreePrice, ticketFourPrice, promoCodeThree);
+            await bosDetails.continueToPayment();
+            await bosReview.paymentWith100DiscountAndPaymentCard(base);
+
+        });
 
     });

@@ -158,7 +158,7 @@
         let embedDonate;
 
 
-        let base = Math.floor(100000 + Math.random() * 900000);
+        let base = 682382 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -1467,10 +1467,11 @@
             await bosTickets.isOnBoxOfficePage();
             await bosTickets.select3Tickets();
             await bosExtras.addCustom$ToOrderOnExtrasPage();
-            await bosDetails.addWrongPromoCode();
+            await bosDetails.addWrongPromoCodeAssertErrorValidation();
             await bosDetails.addPromotionToTickets(promoCodeFour);
             await bosDetails.continueToPayment()
             await bosReview.makePaymentWithCard(base);
+
         });
 
         it('Should check calculation on subtotal and total and check if tickets are displayed', async function () {

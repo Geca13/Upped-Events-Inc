@@ -1430,7 +1430,7 @@ describe('Should do everything', function () {
         await bosTickets.isOnBoxOfficePage();
         await bosTickets.selectTwoTickets();
         await bosExtras.addCustom$ToOrderOnExtrasPage();
-        await bosDetails.addWrongPromoCode();
+        await bosDetails.addWrongPromoCodeAssertErrorValidation();
         await bosDetails.addPromotionToTickets(promoFourName);
         await bosDetails.continueToPayment()
         await bosReview.makePaymentOnStaging(base);

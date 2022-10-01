@@ -180,7 +180,7 @@
             await this.isOnReviewPage();
             await this.click(PAY_WITH_CASH_CHECKBOX);
             await this.timeout(500);
-            await this.cardFormIsDisabled();
+            //await this.cardFormIsDisabled();
             await this.fillUserDataForCashAdditionalEmailNoCopy(base);
         }
 

@@ -1965,7 +1965,7 @@
             await newPromotion.assertAllowedCharactersInPromoCodeInputAndMaximumLength();
 
         });
-        //PORTAL -> Badar works on the issue
+        //PORTAL
         it('should create first promotion with $ value and assert data on promotions page and update promotion modal', async function () {
 
             portalLogin = new PortalLoginPage(driver);
@@ -2795,8 +2795,8 @@
 
         });
 
-        //EMBED -> fails because the value of the ticket that is out of promotion limit is not displayed separately
-        it('should select four tickets exceeding the limit of promotion assert tickets in Order Details and promoted ticket shown twice with two prices', async function () {
+        //EMBED
+        it('should select four tickets exceeding the limit of promotion assert tickets total equals promoted plus regular prices in Order Details ', async function () {
 
             main = new EmbedMainPage(driver);
             embedLogin = new LoginPage(driver);
