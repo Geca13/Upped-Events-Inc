@@ -159,6 +159,60 @@
             }
         }
 
+        async assertElementsMatchOnOrderDetailsComponent(
+            rawTicketOne,
+            rawTicketTwo,
+            rawTicketThree,
+            rawTicketFour,
+            ticketOnePrice,
+            ticketTwoPrice,
+            ticketThreePrice,
+            ticketFourPrice,
+            donation,
+            subtotal,
+            taxes,
+            fees,
+            shipping,
+            discount,
+            total,
+            promoCodeThree){
+            await this.click(OPEN_ORDER_DETAILS);
+            await this.isDisplayed(ORDER_TOTAL, 5000);
+            let ticketOneName = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT,0,0);
+            let ticketTwoName = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT,1,0);
+            let ticketThreeName = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT,2,0);
+            let ticketFourName = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT,3,0);
+            let ticketOneValue = await this.getElementTextFromAnArrayByIndex(VALUES, 0);
+            let ticketTwoValue = await this.getElementTextFromAnArrayByIndex(VALUES, 1);
+            let ticketThreeValue = await this.getElementTextFromAnArrayByIndex(VALUES, 2);
+            let ticketFourValue = await this.getElementTextFromAnArrayByIndex(VALUES, 3);
+            let donationValue = await this.getElementTextFromAnArrayByIndex(VALUES, 4);
+            let subtotalValue = await this.getElementTextFromAnArrayByIndex(VALUES, 5);
+            let taxesValue = await this.getElementTextFromAnArrayByIndex(VALUES, 6);
+            let feesValue = await this.getElementTextFromAnArrayByIndex(VALUES, 7);
+            let shippingValue = await this.getElementTextFromAnArrayByIndex(VALUES, 8);
+            let discountValue = await this.getElementTextFromAnArrayByIndex(VALUES, 9);
+            let discountExample = await this.getElementText(DISCOUNT_CODE_EXAMPLE);
+            let totalValue = await this.getElementText(TOTAL);
+            assert.equal( ticketOneName.substring(0,8), rawTicketOne);
+            assert.equal( ticketTwoName.substring(0,8), rawTicketTwo);
+            assert.equal( ticketThreeName.substring(0,8), rawTicketThree);
+            assert.equal( ticketFourName.substring(0,8), rawTicketFour);
+            assert.equal( ticketOneValue,ticketOnePrice);
+            assert.equal( ticketTwoValue, ticketTwoPrice);
+            assert.equal( ticketThreeValue ,ticketThreePrice);
+            assert.equal( ticketFourValue, ticketFourPrice);
+            assert.equal( subtotalValue, subtotal);
+            assert.equal( taxesValue,taxes);
+            assert.equal( feesValue, fees);
+            assert.equal( donationValue,donation);
+            assert.equal( shippingValue, shipping);
+            assert.equal( discountValue, discount);
+            assert.equal( discountExample,promoCodeThree);
+            assert.equal( totalValue, total);
+
+        }
+
         async makePaymentWithCard(base){
             await this.isOnReviewPage();
             await this.sentKeys(CARDHOLDER_NAME,base +" Geca");

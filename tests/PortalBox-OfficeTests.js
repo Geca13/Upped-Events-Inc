@@ -76,10 +76,10 @@
         let bosExtras;
         let bosDetails;
         let bosReview;
-        let eventId //= "1678";
+        let eventId ;//= "1681";
 
 
-        let base = Math.floor(100000 + Math.random() * 900000) //  274760//  Math.floor(100000 + Math.random() * 900000);
+        let base =  Math.floor(100000 + Math.random() * 900000) //  376772//  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -182,7 +182,7 @@
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickActivateTicketToggle(ticketOneName);
             await eventTickets.clickBoxOfficeNav();
-            await bosTickets.assertTicketDataByTicketName(ticketOneName,ticketOnePrice.toString(), ticketOneQuantity);
+            await bosTickets.assertTicketDataByTicketName(ticketOneName,ticketOnePrice.toFixed(2), ticketOneQuantity);
 
         });
 
@@ -456,6 +456,43 @@
 
         });
 
+        it('should create promotion for 3 tickets and limit qty on two and create 100% promotion', async function () {
+
+            createTicket = new CreateTicketModal(driver);
+            promotions = new PromotionsPage(driver);
+            newPromotion = new AddNewPromotionModal(driver);
+
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.publishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickPromotionsTab();
+            await promotions.addPromotionButtonIsVisible();
+            await promotions.clickAddPromotionButton();
+            await newPromotion.addPromotionModalIsDisplayed();
+            await newPromotion.newPromotionForThreeWithLimitOnTwo(ticketTwoName, ticketThreeName, ticketFourName, promoThreeName, promoCodeThree);
+            await promotions.addPromotionButtonIsVisible();
+            await promotions.clickAddPromotionButton();
+            await newPromotion.addPromotionModalIsDisplayed();
+            await newPromotion.createPromotionWith100discountForAllTickets(ticketOneName, promoFiveName, promoCodeFive);
+            await promotions.promotionsHeaderIsVisible();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+        });
+
+        it('should return invalid promo code applied message when promo code start time is in the future', async function () {
+
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.select3Tickets();
+            await bosExtras.isOnExtrasScreen();
+            await bosExtras.clickNextButton();
+            await bosDetails.isOnDetailsPage();
+            await bosDetails.addPromotionToTickets(promoCodeFive);
+            await bosDetails.assertReturnedValidationMessage("Invalid Discount Code");
+
+        });
+
         it('Should create staff ticket in portal', async function () {
 
             createTicket = new CreateTicketModal(driver);
@@ -613,31 +650,6 @@
 
         });
 
-        it('should create promotion for 3 tickets and limit qty on two and create 100% promotion', async function () {
-
-            createTicket = new CreateTicketModal(driver);
-            promotions = new PromotionsPage(driver);
-            newPromotion = new AddNewPromotionModal(driver);
-
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.publishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.newPromotionForThreeWithLimitOnTwo(ticketTwoName, ticketThreeName, ticketFourName, promoThreeName, promoCodeThree);
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.createPromotionWith100discountForAllTickets(ticketOneName, promoFiveName, promoCodeFive);
-            await promotions.promotionsHeaderIsVisible();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-        });
-
         it('should return green promo code applied message when promo code is valid', async function () {
 
             await bosTickets.openBoxOfficeDirectly(eventId);
@@ -675,15 +687,45 @@
 
         });
 
-        it('Should make calculation for promotion with limits , exceed limit , assert total', async function () {
+        it('Should make calculation for promotion with limits , exceed limit , assert totals', async function () {
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.isOnBoxOfficePage();
             await bosTickets.select23TicketsForPromotionWithLimits();
             await bosExtras.isOnExtrasScreen();
             await bosExtras.clickNextButton();
             await bosDetails.assertTotalValueBeforeAndAfterPromotionWhenLimitsWereExceeded(ticketTwoPrice, ticketThreePrice, ticketFourPrice, promoCodeThree);
+
+        });
+
+        it('Should assert that order details on add details equals on review page when promotion and donation is added', async function () {
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.isOnBoxOfficePage();
+            await bosTickets.select18Tickets();
+            await bosExtras.add20$ToOrderOnExtrasPage();
+            await bosDetails.assertValuesInOrderDetailsComponentEqualsOnAddDetailsAndReviewPage(promoCodeThree);
+
+        });
+
+        it('Should make payment for promotion with limits , and buy all promoted tickets', async function () {
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.isOnBoxOfficePage();
+            await bosTickets.select23TicketsForPromotionWithLimits();
+            await bosExtras.isOnExtrasScreen();
+            await bosExtras.clickNextButton();
+            await bosDetails.addPromotionToTickets(promoCodeThree);
             await bosDetails.continueToPayment();
-            await bosReview.paymentWith100DiscountAndPaymentCard(base);
+            await bosReview.makePaymentWithCard(base);
+
+        });
+
+        it('should get invalid promotion message when promotion with limited qty is over', async function () {
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.isOnBoxOfficePage();
+            await bosTickets.select23TicketsForPromotionWithLimits();
+            await bosExtras.isOnExtrasScreen();
+            await bosExtras.clickNextButton();
+            await bosDetails.addPromotionToTickets(promoCodeThree);
+            await bosDetails.assertReturnedValidationMessage("Invalid Discount Code");
 
         });
 

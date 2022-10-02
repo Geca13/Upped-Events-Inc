@@ -158,6 +158,7 @@
             await donation.clickAddDonationToOrderButton();
             await this.clickNextButton()
         }
+
         async add35$ToOrderOnExtrasPage(){
             await this.isOnExtrasScreen();
             await this.clickElementReturnedFromAnArray(EXTRAS_OPTIONS,1);

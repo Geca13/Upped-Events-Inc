@@ -1,6 +1,7 @@
     const BasePage = require('../../../BasePage');
     const assert = require('assert')
     const { expect } = require('chai');
+    const BOReviewAndPay = require('./BOReviewAndPay')
     const TICKET_Q_HEADER = { xpath: "//h1[@class='heading']" }
     const TICKET_Q_SUB_HEADER = { xpath: "//div[@class='sub-heading']" }
     const QUESTION_TITLES = { className: "inner-heading"};
@@ -20,6 +21,7 @@
     const ORDER_DETAILS_SUBHEADER = { xpath: "//h3[@class='order-subheading']" };
     const ORDER_DETAILS_SECTION_TITLES = { xpath: "//div[contains(@class, 'title')]" };
     const TICKETS_NAME_PARENT = {  className:"justify-content-between"} //list
+    const TICKETS_NAMES = {  className: "ticket-name-detail"} //list
     const SUBTOTAL_HEADER = { xpath: "//div[@id='orderheading']" }
     const SUBTOTAL = { className: "sub-total"};
     const TOTAL_DUE = { className: "total-due"};
@@ -243,6 +245,47 @@
             assert.equal(extTotal.substring(2), total.toFixed(2));
 
         }
+
+        async assertValuesInOrderDetailsComponentEqualsOnAddDetailsAndReviewPage(promoCodeThree){
+            await this.isOnDetailsPage();
+            await this.addPromotionToTickets(promoCodeThree);
+            let rawTicketOne = await this.getElementTextFromAnArrayByIndex(TICKETS_NAMES,0);
+            let rawTicketTwo = await this.getElementTextFromAnArrayByIndex(TICKETS_NAMES,1);
+            let rawTicketThree = await this.getElementTextFromAnArrayByIndex(TICKETS_NAMES,2);
+            let rawTicketFour = await this.getElementTextFromAnArrayByIndex(TICKETS_NAMES,3);
+            let ticketOnePrice = await this.getElementTextFromAnArrayByIndex(VALUES, 0);
+            let ticketTwoPrice = await this.getElementTextFromAnArrayByIndex(VALUES, 1);
+            let ticketThreePrice = await this.getElementTextFromAnArrayByIndex(VALUES, 2);
+            let ticketFourPrice = await this.getElementTextFromAnArrayByIndex(VALUES, 3);
+            let wallet = await this.getElementTextFromAnArrayByIndex(VALUES, 4);
+            let donation = await this.getElementTextFromAnArrayByIndex(VALUES, 5);
+            let subtotal = await this.getElementTextFromAnArrayByIndex(VALUES, 6);
+            let taxes = await this.getElementTextFromAnArrayByIndex(VALUES, 7);
+            let fees = await this.getElementTextFromAnArrayByIndex(VALUES, 8);
+            let shipping = await this.getElementTextFromAnArrayByIndex(VALUES, 9);
+            let discount = await this.getElementTextFromAnArrayByIndex(VALUES, 10);
+            let total = await this.getElementText(TOTAL);
+            await this.continueToPayment();
+            let review = new BOReviewAndPay(this.driver);
+            await review.isOnReviewPage();
+            await review.assertElementsMatchOnOrderDetailsComponent(
+                rawTicketOne,
+                rawTicketTwo,
+                rawTicketThree,
+                rawTicketFour,
+                ticketOnePrice,
+                ticketTwoPrice,
+                ticketThreePrice,
+                ticketFourPrice,
+                donation,
+                subtotal,
+                taxes,
+                fees,
+                shipping,
+                discount,
+                total,
+                promoCodeThree);
+         }
 
         async continueToPayment(){
             await this.isOnDetailsPage();
