@@ -76,10 +76,10 @@
         let bosExtras;
         let bosDetails;
         let bosReview;
-        let eventId ;//= "1681";
+        let eventId ;//= "1684";
 
 
-        let base =  Math.floor(100000 + Math.random() * 900000) //  376772//  Math.floor(100000 + Math.random() * 900000);
+        let base = Math.floor(100000 + Math.random() * 900000) //741812//  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -726,6 +726,16 @@
             await bosExtras.clickNextButton();
             await bosDetails.addPromotionToTickets(promoCodeThree);
             await bosDetails.assertReturnedValidationMessage("Invalid Discount Code");
+
+        });
+
+        it('should assert that the sold tickets for each ticket in box office table equals the values in tickets main table', async function () {
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.isOnBoxOfficePage();
+            let soldBoxOffice = await bosTickets.getSoldTicketsNumberForEachTicket();
+            await eventTickets.clickTicketsTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.assertTicketsSoldInBoxOfficeEqualsSoldTicketsInTicketsNav(soldBoxOffice);
 
         });
 

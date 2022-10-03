@@ -317,6 +317,11 @@
             }
         }
 
+        async getSoldTicketsNumberForEachTicket(){
+            let sold = await this.returnArrayOfStrings(COLUMN_SOLD);
+            return sold;
+        }
+
 
     }
     module.exports = BOSelectTickets;

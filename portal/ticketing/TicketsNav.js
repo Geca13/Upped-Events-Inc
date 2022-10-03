@@ -409,6 +409,18 @@
             assert.equal(ticketStaff, staffTicket);
 
         }
+
+        async getSoldTicketsNumberForEachTicketInTicketsNav(){
+            let sold = await this.returnArrayOfStrings(SOLD_TICKETS_NUMBER);
+            return sold;
+        }
+
+        async assertTicketsSoldInBoxOfficeEqualsSoldTicketsInTicketsNav(soldBoxOffice){
+            let ticketNavSold = await this.getSoldTicketsNumberForEachTicketInTicketsNav();
+            for(let i = 0; i < ticketNavSold.length; i++){
+                assert.equal(ticketNavSold[i], soldBoxOffice[i]);
+            }
+        }
     }
     module.exports = TicketsNav;
 
