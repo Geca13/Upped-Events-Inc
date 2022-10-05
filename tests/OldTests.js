@@ -158,7 +158,7 @@
         let embedDonate;
 
 
-        let base = Math.floor(100000 + Math.random() * 900000);
+        let base = 740992 //Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -215,7 +215,7 @@
             await driver.quit()
         })
 
-        it('should create new account on microsites with username and password, verify and login', async function() {
+      /*  it('should create new account on microsites with username and password, verify and login', async function() {
             events = new EventsPage(driver);
             createAccount = new CreateAccountModal(driver);
             inbox = new Inbox(driver);
@@ -271,11 +271,11 @@
             await createEvent.createEventModalIsDisplayed();
             await createEvent.fillFormWithValidDataAndSave(eventName,shortName);
 
-            /*await dashboard.clickMyEventsTab();
+            /!*await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventOptionTabs.ticketingTabIsDisplayed();*/
+            await eventOptionTabs.ticketingTabIsDisplayed();*!/
 
             await eventOptionTabs.ticketingTabIsDisplayed();
             await eventOptionTabs.clickDesignNav();
@@ -351,7 +351,7 @@
             await newPromotion.createPromotionWith100discountForAllTickets(ticketOneName, promoFiveName, promoCodeFive);
             await promotions.promotionsHeaderIsVisible();
             await eventOptionTabs.ticketingTabIsDisplayed();
-            /*await eventOptionTabs.clickTicketingTab();
+            /!*await eventOptionTabs.clickTicketingTab();
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
             await createTicket.createStaffTicket(staffTicket,"3");
@@ -359,7 +359,7 @@
             await ticketsNav.clickActivateTicketToggle(staffTicket);
             await ticketsNav.activateTicketModalIsDisplayed();
             await ticketsNav.confirmActivationButton();
-            await eventOptionTabs.ticketingTabIsDisplayed();*/
+            await eventOptionTabs.ticketingTabIsDisplayed();*!/
 
         });
 
@@ -419,7 +419,7 @@
             await myWallet.checkCardBrand("Visa");
             await myWallet.checkDisplayedCardNumber("1111");
         });
-
+*/
         it('should make purchase with promotion for one ticket',async function () {
             events = new EventsPage(driver);
             login = new LoginComponent(driver);

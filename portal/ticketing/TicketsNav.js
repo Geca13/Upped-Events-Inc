@@ -32,6 +32,7 @@
     const TICKETS_QUANTITIES = { className: "column-quantity" };
     const SOLD_TICKETS_NUMBER = { className: 'column-sold'} //list
     const EDIT_TICKET_BUTTONS = { className: 'text-second'} //list
+    const DELETE_TICKET_BUTTONS = { xpath: "//a[@class='text-danger']"} //list
     const DRAG_ROW_FOUR = { xpath: "(//tr[@class='cdk-drag'])[4]"}
     const DRAG_ROW_ONE= { xpath: "(//tr[@class='cdk-drag'])[1]"}
     const DRAG_GROUP_ONE = { xpath: "(//div[@class='cdk-drop-list'])[4]"}
@@ -66,6 +67,11 @@
         async getTicketIndexByTicketName(name){
             let i = await this.returnIndexWhenTextIsKnown(TICKETS_NAMES, name);
             return i;
+        }
+
+        async returnTotalTickets(){
+            let tickets = await this.returnElementsCount(TICKETS_NAMES);
+            return tickets;
         }
 
         async assertCorrectDataIsDisplayedInTableAfterCreatingFirstTicket(name,start,end,price,quantity){
@@ -134,6 +140,11 @@
         async successTicketGroupBannerIsDisplayed(){
             let success = new Alerts(this.driver);
             await success.successAlertIsDisplayed('Saved successfully');
+        }
+
+        async errorDeletingTicketMessage(){
+            let error = new Alerts(this.driver);
+            await error.errorInfoMessageIsDisplayed('Ticket cannot be deleted. It has already been sold or reserved.');
         }
 
         async clickActivateTicketToggle(ticketName){
@@ -421,6 +432,12 @@
                 assert.equal(ticketNavSold[i], soldBoxOffice[i]);
             }
         }
+        async clickDeleteTicketButtonByTicketName(ticketName){
+            let i = await this.getTicketIndexByTicketName(ticketName)
+            await this.clickElementReturnedFromAnArray(DELETE_TICKET_BUTTONS, i);
+            await this.acceptAlert();
+        }
+
     }
     module.exports = TicketsNav;
 

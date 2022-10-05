@@ -36,6 +36,15 @@
             await this.isDisplayed(SAVE_BUTTON,5000);
         }
 
+        async returnTotalTicketsInBox(){
+            return await this.returnElementsCount(COLUMN_TICKET_NAME);
+        }
+
+        async assertTicketsCount(tickets){
+            let newList = await this.returnTotalTicketsInBox();
+            assert.equal(newList , parseInt(tickets)-1)
+        }
+
         async assertTicketDataByTicketName(ticketName,ticketPrice, ticketQuantity){
 
             await this.isOnBoxOfficePage();

@@ -76,10 +76,10 @@
         let bosExtras;
         let bosDetails;
         let bosReview;
-        let eventId ;//= "1684";
+        let eventId = "1697";
 
 
-        let base = Math.floor(100000 + Math.random() * 900000) //741812//  Math.floor(100000 + Math.random() * 900000);
+        let base = 294557//  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -97,6 +97,9 @@
         let staffTicket = base.toString() +"staff";
         let ticketStaffQuantity = 5;
         let ticketStaffPrice = 0.25;
+        let ticketToBeDeleted = base.toString() +"delete";
+        let ticketToBeDeletedQuantity = 666;
+        let ticketToBeDeletedPrice = 0.25;
         let promoOneName = base.toString() +"PN1";
         let promoTwoName = base.toString() +"PN2";
         let promoThreeName = base.toString() +"PN3";
@@ -738,5 +741,59 @@
             await ticketsNav.assertTicketsSoldInBoxOfficeEqualsSoldTicketsInTicketsNav(soldBoxOffice);
 
         });
+
+        it('should create new ticket and assert data in box-office table',async function () {
+
+            createTicket = new CreateTicketModal(driver);
+
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.publishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.createNewTicket(ticketToBeDeleted,ticketToBeDeletedPrice, ticketToBeDeletedQuantity);
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickActivateTicketToggle(ticketToBeDeleted);
+            await eventTickets.clickBoxOfficeNav();
+            await bosTickets.assertTicketDataByTicketName(ticketToBeDeleted,ticketToBeDeletedPrice.toFixed(2), ticketToBeDeletedQuantity);
+
+        });
+
+        it('should try and fail to delete ticket that has sold some quantity',async function () {
+
+            createTicket = new CreateTicketModal(driver);
+
+            await dashboard.clickMyEventsTab();
+            await myEvents.eventsTableIsDisplayed();
+            await driver.sleep(1000);
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.publishButtonIsDisplayed();
+            await eventOptionTabs.ticketingTabIsDisplayed();
+            await eventOptionTabs.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickDeleteTicketButtonByTicketName(ticketOneName);
+            await ticketsNav.errorDeletingTicketMessage();
+
+        });
+
+        it('should assert tickets count in box office, delete in portal, assert deletion in box-office', async function () {
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.isOnBoxOfficePage();
+            let tickets = await bosTickets.returnTotalTicketsInBox();
+            await eventTickets.clickTicketsTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickDeleteTicketButtonByTicketName(ticketToBeDeleted);
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.assertTicketsCount(tickets);
+
+        });
+
+
 
     });
