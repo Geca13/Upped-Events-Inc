@@ -61,7 +61,7 @@
               let once = await this.getElementTextFromAnArrayByIndex(RADIO_LABELS, 0);
               expect(once).to.equal("Once per transaction");
               let forEach = await this.getElementTextFromAnArrayByIndex(RADIO_LABELS, 1);
-              expect(forEach).to.equal("For each egligible ticket");
+              expect(forEach).to.equal("For each eligible ticket");
               let mustAnswer = await this.getElementText(MUST_ANSWER_HEADER);
               expect(mustAnswer).to.equal("Attendees must answer");
               let atTime = await this.getElementTextFromAnArrayByIndex(RADIO_LABELS, 2);

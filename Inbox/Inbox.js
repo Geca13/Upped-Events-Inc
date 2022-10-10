@@ -13,6 +13,7 @@
             super(driver);
         }
         async loadInbox() {
+            await this.timeout(3000);
             await this.visit('https://mail:upped2021@mail.dev.uppedevents.com/');
         }
         async inboxIsOpened(){

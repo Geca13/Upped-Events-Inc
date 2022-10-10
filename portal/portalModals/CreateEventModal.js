@@ -42,8 +42,8 @@
             await this.click(START_DATE_TIME_PICKER);
             let startDatePicker = new DateTimePickerModal(this.driver);
             await startDatePicker.datePickerIsVisible();
-            await startDatePicker.clickNextMonthButton();
-            await startDatePicker.select13Day();
+            await startDatePicker.selectTodayDate();
+            //await startDatePicker.select13Day();
             await this.timeout(1500)
             await startDatePicker.clickSetButton();
             await this.timeout(1500)

@@ -76,10 +76,10 @@
         let bosExtras;
         let bosDetails;
         let bosReview;
-        let eventId = "1697";
+        let eventId //= "1697";
 
 
-        let base = 294557//  Math.floor(100000 + Math.random() * 900000);
+        let base = Math.floor(100000 + Math.random() * 900000)// 294557//  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -459,7 +459,7 @@
 
         });
 
-        it('should create promotion for 3 tickets and limit qty on two and create 100% promotion', async function () {
+        it('should create promotion for 3 tickets with limit qty on two and create 100% promotion', async function () {
 
             createTicket = new CreateTicketModal(driver);
             promotions = new PromotionsPage(driver);

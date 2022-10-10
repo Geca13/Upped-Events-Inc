@@ -56,6 +56,7 @@
         }
 
         async returnElementsCount(locator){
+            await this.timeout(1000);
             let elements =  await this.findAll(locator);
             return elements.length
         }
@@ -118,7 +119,7 @@
             array = value.split(" ");
             fullDate = array[0].split("/")
             let formatedYear = fullDate[2].substring(2);
-            let formated = array[0].substring(0,6) + formatedYear  + ', ' + array[1]+ ' ' + array[2];
+            let formated = array[0].substring(0,array[0].length-4) + formatedYear  + ', ' + array[1]+ ' ' + array[2];
             return formated;
         }
 

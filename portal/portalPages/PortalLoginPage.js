@@ -28,7 +28,7 @@
 
 
         async enterValidCredentialsAndLogin(){
-            //await this.sentKeys(EMAIL_INPUT,"louis@uppedevents.com");
+            //await this.sentKeys(EMAIL_INPUT,"email20@test.test");
             await this.sentKeys(EMAIL_INPUT,"vardar123@vardar123.mk");
             await this.sentKeys(PASSWORD_INPUT,"Test@123");
             await this.click(SIGN_IN_BUTTON)

@@ -2912,7 +2912,7 @@
             await main.clickNextPageButton();
             await payment.isAtPaymentPage();
             await payment.applyPromotion(promoCodeOne);
-            await payment.invalidCodeMessagesAreShown("The message when fixed");
+            await payment.promotionNoLongerValidDangerMessageIsVisible();
 
         });
 
