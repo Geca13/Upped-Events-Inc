@@ -114,7 +114,7 @@
 
         async moveToEventNavs(){
             await this.moveToElement(SETTINGS_NAV);
-            await this.isDisplayed(SETTINGS_NAV, 5000, "settingsNav");
+            await this.isDisplayed(SETTINGS_NAV, 5000);
         }
 
     }

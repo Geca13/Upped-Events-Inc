@@ -69,6 +69,12 @@
             let element = await this.driver.findElement(By.xpath("//*[text()='"+text+"']"));
             await element.click();
         }
+
+        async clickElementByLinkText(text){
+            let element = await this.driver.findElement(By.linkText(text));
+            await element.click();
+        }
+
         async locateElementsByText(text){
             let elements = await this.driver.findElements(By.xpath("//*[text()='"+text+"']"))
             return elements;

@@ -19,7 +19,6 @@
             super(driver);
         }
 
-
         async eventsTableIsDisplayed(){
             await this.isDisplayed(EVENTS_TABLE,5000);
             await this.timeout(3000);
