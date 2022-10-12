@@ -8,8 +8,8 @@
     const DateTimePickerModal = require('../portal/portalModals/DateTimePickerModal');
     const MyEventsPage = require('../portal/dashboard/MyEventsTab');
     const EventOptionTabs = require('../portal/eventOverview/EventOptionTabs');
-    const DesignNavs = require('../portal/eventOverview/DesignNav/DesignNavs');
-    const EventCardDesignPage = require('../portal/eventOverview/DesignNav/EventCardDesignPage');
+    const SideMenu = require('../portal/portalComponents/SideMenu');
+    const SectionsNavs = require('../portal/portalComponents/SectionsNavs');
     const CreateTicketModal = require('../portal/portalModals/CreateTicketModal');
     const TicketsNav = require('../portal/ticketing/TicketsNav');
     const GeneralDetailsTab = require('../portal/eventOverview/GeneralDetailsTab');
@@ -31,25 +31,7 @@
     const PayTab = require('../microsites/micrositesComponents/PayTab');
     const ConfirmTab = require('../microsites/micrositesComponents/ConfirmTab');
     const NewCardComponent = require('../microsites/micrositesComponents/NewCardComponent');
-    const TicketTermsModal = require('../microsites/micrositesComponents/TicketTermsModal');
-    const EventOrders = require('../portal/transactionCentar/EventOrders');
-    const MapAndAgendaNavs = require('../portal/mapAndAgenda/MapAndAgendaNavs');
-    const EventMapPage = require('../portal/mapAndAgenda/EventMapPage');
-    const PerformancesPage = require('../portal/mapAndAgenda/PerformancesPage');
-    const ActivitiesPage = require('../portal/mapAndAgenda/ActivitiesPage');
-    const LineupTab = require('../microsites/micrositesComponents/LineupTab');
-    const ActivityTab = require('../microsites/micrositesComponents/ActivitiesTab');
-    const ShopsNavs = require('../portal/shopManagement/ShopsNavs');
-    const ShopCategoriesPage = require('../portal/shopManagement/ShopCategoriesPage');
-    const ShopsPage = require('../portal/shopManagement/ShopsPage');
-    const PartnersPage = require('../portal/partnerManagement/PartnersPage');
-    const SetupNewVendorPage = require('../portal/partnerManagement/SetupNewVendorPage');
-    const MyMenusPage = require('../portal/eventModules/MyMenusPage');
     const EventTickets = require('../portal/ticketing/EventTickets');
-    const BOSelectTickets = require('../portal/ticketing/BoxOffice/BOSelectTickets');
-    const BOAddExtras = require('../portal/ticketing/BoxOffice/BOAddExtras');
-    const BOAddDetails = require('../portal/ticketing/BoxOffice/BOAddDetails');
-    const BOReviewAndPay = require('../portal/ticketing/BoxOffice/BOReviewAndPay');
     const EmbedMainPage = require("../embed/embedPages/EmbedMainPage");
     const TicketsComponent = require("../embed/embedComponents/TicketsComponent");
     const SummaryComponent = require("../embed/embedComponents/SummaryComponent");
@@ -57,18 +39,8 @@
     const ExtrasPage = require("../embed/embedPages/ExtrasPage");
     const PaymentPage = require("../embed/embedPages/PaymentPage");
     const EmbedOrderDetailsPage = require("../embed/embedPages/EmbedOrderDetailsPage");
-    const DonationComponent = require("../microsites/micrositesComponents/DonationComponent");
     const ConfirmPage = require("../embed/embedPages/ConfirmPage");
-    const CreateAccountModal = require("../microsites/micrositesComponents/CreateAccountModal");
-    const MyWalletTab = require('../microsites/account/MyWalletTab');
-    const UserDetailsModal = require('../portal/portalModals/userDetailsModal/UserDetailsModal');
     const EventCapacitySubNav = require('../portal/ticketing/SettingsNav/EventCapacitySubNav');
-    const PhotosTab = require('../microsites/micrositesComponents/PhotosTab');
-    const DetailsTab = require('../microsites/micrositesComponents/DetailsTab');
-    const AccountPage = require('../microsites/account/AccountPage');
-    const ForgotPasswordModal = require("../microsites/micrositesComponents/ForgotPasswordModal");
-    const ResetPasswordPage = require("../microsites/micrositesPages/ResetPasswordPage");
-    const LoginTab = require("../microsites/micrositesComponents/LoginTab");
     const CreateAccountPage = require("../embed/embedPages/CreateAccountPage");
     const EmbeddingPage = require("../portal/eventOverview/DesignNav/EmbeddingPage");
     const EmbedTicketTermsModal = require('../embed/embedComponents/EmbedTicketTermsModal');
@@ -96,8 +68,6 @@
         let settingsNav;
         let taxesAndFees;
         let ticketTerms;
-        let eventDesignNavs;
-        let eventCardDesignPage;
         let events;
         let eventTickets;
         let info;
@@ -108,31 +78,11 @@
         let login;
         let confirm;
         let newCardComponent;
-        let terms;
-        let eventOrders;
         let eventSettingsNav;
-        let agendaNavs;
-        let eventMap;
-        let performance;
-        let lineup;
-        let activity;
-        let activityTab;
-        let shopsNavs;
-        let shopsCat;
-        let shopsPage;
-        let partnersPage;
         let inbox;
         let originalWindow;
-        let newVendor;
-        let myMenus;
-        let bosTickets;
-        let bosExtras;
-        let bosDetails;
-        let bosReview;
         let questions;
-        let wordpress;
         let questionsModal;
-        let donate;
         let main;
         let embedTickets;
         let summary;
@@ -141,16 +91,7 @@
         let payment;
         let orderDetails;
         let embedConfirm;
-        let myWallet;
-        let createAccount;
-        let userDetails;
         let capacity;
-        let photo;
-        let detailsTab;
-        let account;
-        let forgotPassword;
-        let resetPassword;
-        let loginTab;
         let embedCreate;
         let addMoney;
         let embedding;
@@ -160,6 +101,8 @@
         let embedDonate;
         let receipt;
         let steps;
+        let sideMenu;
+        let sectionsNavs;
 
         let base = Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
@@ -244,7 +187,6 @@
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
-            await driver.sleep(1000);
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
             await dashboard.clickMyEventsTab();
@@ -252,7 +194,6 @@
             await driver.sleep(1000);
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await driver.sleep(5000);
             await eventDetails.publishButtonIsDisplayed();
             await eventDetails.clickPublishButton()
             await eventDetails.unpublishButtonIsDisplayed();
@@ -270,25 +211,25 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
+            sectionsNavs = new SectionsNavs(driver)
             embedding = new EmbeddingPage(driver);
             files = new Files(driver);
             main = new EmbedMainPage(driver);
+            
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
-            await driver.sleep(1000);
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventOptionTabs.clickDesignNav();
+            await sectionsNavs.clickNavByText("Design");
             await embedding.isOnEmbeddingTab();
             await embedding.setEmbedViewForEvent();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickEventFullNameTab();
+            await sideMenu.clickEventFullNameTab();
             await eventDetails.unpublishButtonIsDisplayed();
             let text = await eventDetails.getEmbedScriptVariable();
             await files.openDummyPage();
@@ -322,22 +263,22 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
             dateTime = new DateTimePickerModal(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickActivateTicketToggle(ticketOneName);
             await ticketsNav.clickEditTicketButton(0);
@@ -421,7 +362,8 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
+            sectionsNavs = new SectionsNavs(driver)
             ticketsNav = new TicketsNav(driver);
             tickets = new TicketsTab(driver);
             createTicket = new CreateTicketModal(driver);
@@ -433,13 +375,12 @@
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             let index = await ticketsNav.getTicketIndexByTicketName(ticketOneName);
             await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
@@ -447,7 +388,7 @@
             await createTicket.assertTicketPriceEqualsBuyerTotalPriceWhenNoTaxesOrFees();
             await createTicket.closeCreateUpdateTicketModal();
             await ticketsNav.addTicketButtonIsDisplayed();
-            await eventOptionTabs.clickSettingsNav();
+            await sectionsNavs.clickNavByText("Settings")
             await settingsNav.taxesAndFeesSubTabIsDisplayed();
             await settingsNav.clickTaxesAndFeesSubNav();
             await taxesAndFees.addOneTaxForTickets();
@@ -467,23 +408,23 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             tickets = new TicketsTab(driver);
             createTicket = new CreateTicketModal(driver);
             ticketing = new TicketingPage(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
             await createTicket.ticketNameInputIsDisplayed();
@@ -504,25 +445,25 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             tickets = new TicketsTab(driver);
             createTicket = new CreateTicketModal(driver);
             settingsNav = new SettingsNav(driver);
             taxesAndFees = new TaxesAndFeesPage(driver);
             eventTickets = new EventTickets(driver)
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await eventTickets.clickSettingsTab();
             await settingsNav.taxesAndFeesSubTabIsDisplayed();
@@ -554,25 +495,25 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             tickets = new TicketsTab(driver);
             createTicket = new CreateTicketModal(driver);
             settingsNav = new SettingsNav(driver);
             taxesAndFees = new TaxesAndFeesPage(driver);
             eventTickets = new EventTickets(driver)
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await eventTickets.clickSettingsTab();
             await settingsNav.taxesAndFeesSubTabIsDisplayed();
@@ -778,23 +719,23 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             main = new EmbedMainPage(driver);
+            sectionsNavs = new SectionsNavs(driver);
+            
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
-            await driver.sleep(1000);
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await driver.sleep(5000);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.assertQuantityEqualsSoldColumnByTicket(ticketOneName);
             await main.openEmbedPage();
@@ -810,26 +751,25 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
             main = new EmbedMainPage(driver);
             embedTickets = new TicketsComponent(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await driver.sleep(1000);
             await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await driver.sleep(5000);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
             await createTicket.updateTicketQuantity("50");
@@ -849,26 +789,25 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
             main = new EmbedMainPage(driver);
             embedTickets = new TicketsComponent(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
-            await driver.sleep(1000);
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await driver.sleep(5000);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
             await createTicket.updateTicketQuantity(ticketOneQuantity);
@@ -888,7 +827,8 @@
             createEvent = new CreateEventModal(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
+            sectionsNavs = new SectionsNavs(driver)
             capacity = new EventCapacitySubNav(driver);
             ticketsNav = new TicketsNav(driver);
             eventTickets = new EventTickets(driver)
@@ -900,16 +840,15 @@
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
-            await eventOptionTabs.clickSettingsNav();
+            await sectionsNavs.clickNavByText("Settings")
             await settingsNav.taxesAndFeesSubTabIsDisplayed();
             await settingsNav.clickEventCapacity();
             await capacity.setLimitPerAccount("26");
@@ -924,7 +863,8 @@
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
+            sectionsNavs = new SectionsNavs(driver)
             eventDetails = new GeneralDetailsTab(driver);
             ticketsNav = new TicketsNav(driver);
             attendees = new AttendeesTab(driver);
@@ -938,12 +878,12 @@
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickAttendeesNav();
+            await sideMenu.ticketingTabIsDisplayed();
+            await sectionsNavs.clickNavByText("Attendees")
             await attendees.isOnAttendeesTab();
             let purchasedTickets = await attendees.getAlreadyPurchasedByCustomerFullName(customerFirstName, customerLastName);
             await main.openEmbedPage();
@@ -969,7 +909,8 @@
             createEvent = new CreateEventModal(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
+            sectionsNavs = new SectionsNavs(driver);
             capacity = new EventCapacitySubNav(driver);
             ticketsNav = new TicketsNav(driver);
             eventTickets = new EventTickets(driver)
@@ -979,17 +920,16 @@
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await driver.sleep(2000);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
-            await eventOptionTabs.clickSettingsNav();
+            await sectionsNavs.clickNavByText("Settings")
             await settingsNav.taxesAndFeesSubTabIsDisplayed();
             await settingsNav.clickEventCapacity();
             await capacity.removeLimit();
@@ -1102,21 +1042,21 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.createTicketsGroup(ticketGroupOne);
             await ticketsNav.successTicketGroupBannerIsDisplayed();
@@ -1164,21 +1104,22 @@
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             eventDetails = new GeneralDetailsTab(driver);
             ticketsNav = new TicketsNav(driver);
             eventTickets = new EventTickets(driver);
             ticketTerms = new TicketTermsPage(driver);
+            sectionsNavs = new SectionsNavs(driver)
+            
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab()
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await eventTickets.clickSettingsTab();
             await ticketTerms.termsPageIsDisplayed();
@@ -1200,21 +1141,22 @@
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             eventDetails = new GeneralDetailsTab(driver);
             ticketsNav = new TicketsNav(driver);
             eventTickets = new EventTickets(driver);
             ticketTerms = new TicketTermsPage(driver);
+            sectionsNavs = new SectionsNavs(driver)
+            
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab()
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await eventTickets.clickSettingsTab();
             await ticketTerms.termsPageIsDisplayed();
@@ -1274,14 +1216,14 @@
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
             eventDetails = new GeneralDetailsTab(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
@@ -1300,14 +1242,14 @@
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
             eventDetails = new GeneralDetailsTab(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
@@ -1330,14 +1272,14 @@
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
             eventDetails = new GeneralDetailsTab(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
@@ -1373,7 +1315,8 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
+            sectionsNavs = new SectionsNavs(driver);
             eventSettingsNav = new EventSettingsNav(driver);
             donation = new DonationPage(driver);
 
@@ -1381,13 +1324,13 @@
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickSettingsNav();
+            await sideMenu.ticketingTabIsDisplayed();
+            await sectionsNavs.clickNavByText("Settings");
             await eventSettingsNav.donationsSubNavIsDisplayed();
             await donation.assertElementsOnDonationPageOnStart();
             await donation.clickCheckboxAndAssertNewElements();
@@ -1402,7 +1345,8 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
+            sectionsNavs = new SectionsNavs(driver);
             eventSettingsNav = new EventSettingsNav(driver);
             donation = new DonationPage(driver);
             main = new EmbedMainPage(driver);
@@ -1413,13 +1357,13 @@
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickSettingsNav();
+            await sideMenu.ticketingTabIsDisplayed();
+            await sectionsNavs.clickNavByText("Settings");
             await eventSettingsNav.donationsSubNavIsDisplayed();
             let donationMessage = await donation.getDonationMessage();
             await main.openEmbedPage();
@@ -1461,7 +1405,7 @@
 
         });
 
-        //EMBED 55
+        //EMBED
         it('should assert when donation is added to order the amount is visible in Order Total in the embed',async function () {
 
             main = new EmbedMainPage(driver);
@@ -1595,22 +1539,22 @@
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             eventDetails = new GeneralDetailsTab(driver);
             promotions = new PromotionsPage(driver);
             newPromotion = new AddNewPromotionModal(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
+            await sideMenu.clickPromotionsTab();
             await promotions.addPromotionButtonIsVisible();
             await promotions.assertElementsOnPromotionsPageWhenNoPromotions();
             await promotions.assertElementsOnCreateNewPromotionModal(ticketOneName);
@@ -1624,26 +1568,26 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
             promotions = new PromotionsPage(driver);
             newPromotion = new AddNewPromotionModal(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             let tickets = await ticketsNav.getAllTicketsNames();
-            await eventOptionTabs.clickPromotionsTab();
+            await sideMenu.clickPromotionsTab();
             await promotions.addPromotionButtonIsVisible();
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
@@ -1657,24 +1601,23 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
             promotions = new PromotionsPage(driver);
             newPromotion = new AddNewPromotionModal(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
+            await sideMenu.clickPromotionsTab();
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.assertCorrectPriceIsDisplayedWhenTickedIsSelectedInDropdown(ticketOnePrice);
@@ -1688,24 +1631,23 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
             promotions = new PromotionsPage(driver);
             newPromotion = new AddNewPromotionModal(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
+            await sideMenu.clickPromotionsTab();
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.assertPriceIsNotDisplayedWhenMoreTicketsAreSelected(ticketOneName, ticketTwoName);
@@ -1719,24 +1661,23 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
             promotions = new PromotionsPage(driver);
             newPromotion = new AddNewPromotionModal(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
+            await sideMenu.clickPromotionsTab();
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.assertTicketsOptionsInLimitDropdownEqualsPreviouslySelected(ticketOneName, ticketTwoName);
@@ -1750,24 +1691,23 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
             promotions = new PromotionsPage(driver);
             newPromotion = new AddNewPromotionModal(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
+            await sideMenu.clickPromotionsTab();
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.assertAllTicketsDisplayedInLimitDropdownWhenAllOptionSelectedInTickets();
@@ -1781,24 +1721,23 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
             promotions = new PromotionsPage(driver);
             newPromotion = new AddNewPromotionModal(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
+            await sideMenu.clickPromotionsTab();
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.assert$ValuePromotionCanNotAcceptLargerValueThenTicketPrice(ticketOnePrice);
@@ -1812,24 +1751,23 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
             promotions = new PromotionsPage(driver);
             newPromotion = new AddNewPromotionModal(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
+            await sideMenu.clickPromotionsTab();
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.assertWhen$ValuePromotionIsEnteredIsDisplayedNextToOriginalPrice(ticketOnePrice, "0.33");
@@ -1843,24 +1781,23 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
             promotions = new PromotionsPage(driver);
             newPromotion = new AddNewPromotionModal(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
+            await sideMenu.clickPromotionsTab();
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.assertWhenPercentageValuePromotionIsEnteredIsDisplayedNextToOriginalPrice(ticketOnePrice, 70);
@@ -1874,27 +1811,26 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
             promotions = new PromotionsPage(driver);
             newPromotion = new AddNewPromotionModal(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             let ticketOneAvailableQty = await ticketsNav.calculateAvailableTicketsByTicket(ticketOneName)
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
+            await sideMenu.clickPromotionsTab();
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.assertTooltipDisplaysCorrectAvailableTicketsAndEnteringLargerWillSetMaximumNumber(ticketOneName, ticketOneAvailableQty);
@@ -1907,29 +1843,28 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
             promotions = new PromotionsPage(driver);
             newPromotion = new AddNewPromotionModal(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             let ticketOneAvailableQty = await ticketsNav.calculateAvailableTicketsByTicket(ticketOneName);
             let ticketTwoAvailableQty = await ticketsNav.calculateAvailableTicketsByTicket(ticketTwoName);
             let ticketThreeAvailableQty = await ticketsNav.calculateAvailableTicketsByTicket(ticketThreeName);
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
+            await sideMenu.clickPromotionsTab();
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.assertTooltipDisplaysCorrectAvailableMultipleTicketsAndEnteringLargerWillSetMaximumNumber(ticketOneName, ticketOneAvailableQty, ticketTwoName, ticketTwoAvailableQty, ticketThreeName, ticketThreeAvailableQty);
@@ -1942,24 +1877,23 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
             promotions = new PromotionsPage(driver);
             newPromotion = new AddNewPromotionModal(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
+            await sideMenu.clickPromotionsTab();
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.assertAllowedCharactersInPromoCodeInputAndMaximumLength();
@@ -1972,23 +1906,23 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
             promotions = new PromotionsPage(driver);
             newPromotion = new AddNewPromotionModal(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
+            await sideMenu.clickPromotionsTab();
             await promotions.addPromotionButtonIsVisible();
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
@@ -2004,7 +1938,7 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
             promotions = new PromotionsPage(driver);
@@ -2013,18 +1947,18 @@
             embedTickets = new TicketsComponent(driver);
             embedExtras = new ExtrasPage(driver);
             payment = new PaymentPage(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
+            await sideMenu.clickPromotionsTab();
             await promotions.addPromotionButtonIsVisible();
             await promotions.disablePromotionByPromoName(promoOneName);
             await main.openEmbedPage();
@@ -2052,7 +1986,7 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
             promotions = new PromotionsPage(driver);
@@ -2061,18 +1995,18 @@
             embedTickets = new TicketsComponent(driver);
             embedExtras = new ExtrasPage(driver);
             payment = new PaymentPage(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
+            await sideMenu.clickPromotionsTab();
             await promotions.addPromotionButtonIsVisible();
             await promotions.enablePromotionByPromoName(promoOneName);
             await main.openEmbedPage();
@@ -2093,7 +2027,7 @@
 
         });
 
-        //EMBED 75
+        //EMBED
         it('should add promo code and assert donation value + new price equals original ticket price in summary', async function () {
 
             main = new EmbedMainPage(driver);
@@ -2923,24 +2857,23 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
             promotions = new PromotionsPage(driver);
             newPromotion = new AddNewPromotionModal(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
+            await sideMenu.clickPromotionsTab();
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.newPromotionForThreeWithLimitOnTwo(ticketTwoName, ticketThreeName, ticketFourName, promoThreeName, promoCodeThree);
@@ -2957,23 +2890,22 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             promotions = new PromotionsPage(driver);
             newPromotion = new AddNewPromotionModal(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
+            await sideMenu.clickPromotionsTab();
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.errorValidationIsReturnedWhenExistingCodeIsEnteredAsPromoCodeForNewPromotion(promoCodeThree);
@@ -3018,24 +2950,23 @@
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
             eventDetails = new GeneralDetailsTab(driver);
             settingsNav = new SettingsNav(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.addTicketButtonIsDisplayed();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.clickAddTicketButton();
             await createTicket.createStaffTicket(staffTicket, ticketStaffPrice ,ticketStaffQuantity);
             await ticketsNav.assertTicketNamePriceAndQuantity(staffTicket, ticketStaffPrice, ticketStaffQuantity);
@@ -3468,7 +3399,8 @@
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
+            sectionsNavs = new SectionsNavs(driver);
             eventDetails = new GeneralDetailsTab(driver);
             settingsNav = new SettingsNav(driver);
             questions = new TicketQuestionsPage(driver);
@@ -3478,16 +3410,15 @@
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await eventOptionTabs.clickSettingsNav();
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickTicketQuestions();
+            await sideMenu.clickTicketingTab();
+            await sectionsNavs.clickNavByText("Settings")
+            await sectionsNavs.taxesAndFeesNavIsDisplayed();
+            await sectionsNavs.clickNavByText("Ticket Questions")
             await questions.isOnTicketQuestionsPage();
             await questions.assertElementsOnEventTicketsQuestionsPage();
             await questions.assertTableHeadersNames();
@@ -3500,7 +3431,8 @@
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
+            sectionsNavs = new SectionsNavs(driver)
             eventDetails = new GeneralDetailsTab(driver);
             settingsNav = new SettingsNav(driver);
             questions = new TicketQuestionsPage(driver);
@@ -3509,16 +3441,15 @@
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await eventOptionTabs.clickSettingsNav();
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickTicketQuestions();
+            await sideMenu.clickTicketingTab();
+            await sectionsNavs.clickNavByText("Settings")
+            await sectionsNavs.taxesAndFeesNavIsDisplayed();
+            await sectionsNavs.clickNavByText("Ticket Questions")
             await questions.createSimpleYesNoQuestionAndAssertSavedDataAndElements(base, ticketOneName, ticketThreeName);
 
         });
@@ -3564,7 +3495,8 @@
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
+            sectionsNavs = new SectionsNavs(driver);
             eventDetails = new GeneralDetailsTab(driver);
             settingsNav = new SettingsNav(driver);
             questions = new TicketQuestionsPage(driver);
@@ -3573,17 +3505,16 @@
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await driver.sleep(5000);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await eventOptionTabs.clickSettingsNav();
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickTicketQuestions();
+            await sideMenu.clickTicketingTab();
+            await sectionsNavs.clickNavByText("Settings")
+            await sectionsNavs.taxesAndFeesNavIsDisplayed();
+            await sectionsNavs.clickNavByText("Ticket Questions")
             await questions.clickDeactivateQuestionButton(0);
             await questions.createQuestionWithInput(base);
 
@@ -3633,7 +3564,8 @@
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
+            sectionsNavs = new SectionsNavs(driver);
             eventDetails = new GeneralDetailsTab(driver);
             ticketsNav = new TicketsNav(driver);
             attendees = new AttendeesTab(driver);
@@ -3642,14 +3574,14 @@
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await driver.sleep(500);
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickAttendeesNav();
+            await sideMenu.ticketingTabIsDisplayed();
+            await sectionsNavs.clickNavByText("Attendees");
             await attendees.checkForTicketQuestionsResponsesForTheFirstTwoPurchases(base,0);
 
         });
@@ -3659,7 +3591,8 @@
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
+            sectionsNavs = new SectionsNavs(driver);
             eventDetails = new GeneralDetailsTab(driver);
             settingsNav = new SettingsNav(driver);
             events = new EventsPage(driver);
@@ -3677,16 +3610,15 @@
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await eventOptionTabs.clickSettingsNav();
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickTicketQuestions();
+            await sideMenu.clickTicketingTab();
+            await sectionsNavs.clickNavByText("Settings")
+            await sectionsNavs.taxesAndFeesNavIsDisplayed();
+            await sectionsNavs.clickNavByText("Ticket Questions")
             await questions.clickActivateQuestionButton(0);
             await questions.updateFirstQuestionToIncludeInputAndForEachTicket(base);
 
@@ -3744,7 +3676,8 @@
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
+            sideMenu = new SideMenu(driver);
+            sectionsNavs = new SectionsNavs(driver);
             eventDetails = new GeneralDetailsTab(driver);
             ticketsNav = new TicketsNav(driver);
             attendees = new AttendeesTab(driver);
@@ -3753,14 +3686,13 @@
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(1000);
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await driver.sleep(500);
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickAttendeesNav();
+            await sideMenu.ticketingTabIsDisplayed();
+            await sectionsNavs.clickNavByText("Attendees");
             await attendees.checkForTicketQuestionsResponsesForTheUpdated(base,1);
 
         });
@@ -3774,12 +3706,13 @@
             eventDetails = new GeneralDetailsTab(driver);
             eventOptionTabs = new EventOptionTabs(driver);
             ticketsNav = new TicketsNav(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
@@ -3825,12 +3758,13 @@
             eventDetails = new GeneralDetailsTab(driver);
             eventOptionTabs = new EventOptionTabs(driver);
             ticketsNav = new TicketsNav(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
@@ -3850,12 +3784,13 @@
             eventDetails = new GeneralDetailsTab(driver);
             eventOptionTabs = new EventOptionTabs(driver);
             ticketsNav = new TicketsNav(driver);
+            sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
+            await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
@@ -3883,5 +3818,3 @@
         });
 
     });
-
-

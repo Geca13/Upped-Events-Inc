@@ -231,7 +231,7 @@
         }
 
         async clickAddTicketButton(){
-            await this.timeout(1000)
+            await this.addTicketButtonIsDisplayed();
             await this.click(ADD_TICKET_BUTTON);
         }
         async clickAllTicketsTab(){

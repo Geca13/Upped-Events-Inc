@@ -1,23 +1,24 @@
     const BasePage = require('../../BasePage');
     const NAV_LINKS = { xpath: "//a[@class='nav-link']"}
-    const SETTINGS_NAV = { linkText: "Settings" }
+    const TAXES_AND_FEES = { linkText: "Taxes & Fees" }
     class SectionsNavs extends BasePage {
         constructor(driver) {
             super(driver);
         }
 
         async returnNavLinksCount(){
-            let count = await this.returnElementsCount(NAV_LINKS);
-            return count;
+            await this.isDisplayed(NAV_LINKS, 5000);
+            return await this.returnElementsCount(NAV_LINKS);
         }
 
         async clickNavByIndex(index){
+            await this.isDisplayed(NAV_LINKS, 5000);
             await this.clickElementReturnedFromAnArray(NAV_LINKS,index);
         }
 
         async getNavNameByIndex(index){
-          let navName = await this.getElementTextFromAnArrayByIndex(NAV_LINKS, index)
-          return navName;
+            await this.isDisplayed(NAV_LINKS, 5000);
+            return await this.getElementTextFromAnArrayByIndex(NAV_LINKS, index);
         }
 
         async clickNavByText(text){
@@ -29,6 +30,11 @@
             await this.moveToElement(NAV_LINKS);
             await this.isDisplayed(NAV_LINKS, 5000);
         }
+        
+        async taxesAndFeesNavIsDisplayed(){
+            await this.isDisplayed(TAXES_AND_FEES, 5000);
+        }
+        
 
 
     }

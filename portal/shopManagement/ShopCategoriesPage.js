@@ -34,16 +34,7 @@
             await this.timeout(500);
             await this.dragAndDropWithLocators(WINE_CATEGORY,SELECTED_CATEGORIES_BOX);
             await this.timeout(500);
-            await this.dragAndDropWithLocators(FAST_FOOD_CATEGORY,SELECTED_CATEGORIES_BOX);
-            await this.timeout(500);
-            await this.dragAndDropWithLocators(FOOD_CATEGORY,SELECTED_CATEGORIES_BOX);
-            await this.timeout(500);
-            await this.dragAndDropWithLocators(BARS_CATEGORY,SELECTED_CATEGORIES_BOX);
-            await this.timeout(500);
-            await this.dragAndDropWithLocators(DESSERTS_CATEGORY,SELECTED_CATEGORIES_BOX);
-            await this.timeout(500);
-            await this.click(SAVE_APPLIED_CATEGORIZATION_BUTTON);
-            await this.timeout(500);
+            
         }
     }
     module.exports = ShopCategoriesPage;
