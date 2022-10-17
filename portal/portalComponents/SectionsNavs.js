@@ -1,6 +1,6 @@
     const BasePage = require('../../BasePage');
     const NAV_LINKS = { xpath: "//a[@class='nav-link']"}
-    const TAXES_AND_FEES = { linkText: "Taxes & Fees" }
+    const SUB_NAVS = { xpath: "//event-ticket-settings//ul//li//a" }
     class SectionsNavs extends BasePage {
         constructor(driver) {
             super(driver);
@@ -23,6 +23,7 @@
 
         async clickNavByText(text){
             await this.isDisplayed(NAV_LINKS, 5000);
+            await this.timeout(500);
             await this.clickElementByLinkText(text);
         }
 
@@ -32,7 +33,7 @@
         }
         
         async taxesAndFeesNavIsDisplayed(){
-            await this.isDisplayed(TAXES_AND_FEES, 5000);
+            await this.isDisplayed(SUB_NAVS, 5000);
         }
         
 

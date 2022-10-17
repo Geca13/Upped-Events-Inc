@@ -75,7 +75,7 @@
         async getSelectedFullDateFromPicker(){
             let day = await this.getElementText(SELECTED_DAY_BUTTON);
             let monthYear = await this.getElementText(MONTH_YEAR_BUTTON);
-            if( day.length == 1){
+            if( day.length === 1){
                 day = "0"+day;
             }
             return day + ' ' + monthYear;

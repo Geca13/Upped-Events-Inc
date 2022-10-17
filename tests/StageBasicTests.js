@@ -159,7 +159,7 @@ describe('Should do everything', function () {
     let embedDonate;
 
 
-    let base =  Math.floor(100000 + Math.random() * 900000);
+    let base =   Math.floor(100000 + Math.random() * 900000);
     let eventName =  base.toString() + " StageEventName";
     let shortName = base.toString();
     let ticketOneName = base.toString() +"T1";
@@ -754,7 +754,7 @@ describe('Should do everything', function () {
         tickets = new TicketsTab(driver);
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -868,7 +868,7 @@ describe('Should do everything', function () {
         await eventOptionTabs.clickShopManagementTab();
         await shopsNavs.shopCategoriesNavIsDisplayed();
         await shopsNavs.clickCategoriesNav();
-        await shopsCat.move6CategoriesFromPotentialToOrdered();
+        await shopsCat.move2CategoriesFromPotentialToOrdered();
         await driver.sleep(3000);
     });
 
@@ -1122,7 +1122,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();

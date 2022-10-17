@@ -21,7 +21,6 @@
 
         async eventsTableIsDisplayed(){
             await this.isDisplayed(EVENTS_TABLE,5000);
-            await this.timeout(3000);
         }
 
         async successBannerIsDisplayed(){
@@ -34,7 +33,6 @@
         }
         async clickTheNewCreatedEventInTheTable(eventName){
             await this.click(By.xpath("//td[contains(@class, 'column-eventname')]//a[contains(@class, 'table-ticket-name')]//span[text()='"+eventName+"']"));
-            await this.timeout(2000);
         }
         async clickEventInTableByName(){
             await this.clickParent(EVENTS_NAMES_SPANS);

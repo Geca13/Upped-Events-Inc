@@ -163,7 +163,7 @@
         let embedDonate;
 
 
-        let base = Math.floor(100000 + Math.random() * 900000);
+        let base = 308197 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -327,8 +327,7 @@
             await sectionsNavs.clickNavByText("Settings");
             await ticketTerms.termsPageIsDisplayed();
             await ticketTerms.saveTerms();
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickTaxesAndFeesSubNav();
+            await sectionsNavs.clickNavByText("Taxes & Fees")
             await taxesAndFees.createTaxesAndFeesForEventTickets();
             //await eventOptionTabs.ticketingTabIsDisplayed();
             await sideMenu.clickPromotionsTab();
@@ -424,6 +423,7 @@
             await events.goToWalletPage();
             await myWallet.myWalletScreenIsDisplayed();
             userBalance = userBalance + await myWallet.returnBalanceState();
+            console.log(userBalance)
             await myWallet.assertUserBalance('200.00');
             await myWallet.setNewCardInProfile(customerFirstName, customerLastName);
             await myWallet.checkCardHolderName(customerFirstName, customerLastName);
@@ -744,6 +744,7 @@
             await pay.clickPayWithWalletButton();
             await confirm.isOnConfirmTab();
             userBalance = userBalance - await confirm.getPurchaseTotalAmount();
+            console.log(userBalance)
             userTotalPurchases = userTotalPurchases + await confirm.getPurchaseTotalAmount();
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
@@ -759,6 +760,8 @@
             await eventOrders.isAtTransactionCenterPage();
             let refundedAmount = await eventOrders.makeFullRefundWithReinstateTicket();
             userBalance = userBalance + parseFloat(refundedAmount);
+            console.log(refundedAmount)
+            console.log(userBalance)
             userTotalPurchases = userTotalPurchases - parseFloat(refundedAmount);
             await events.load();
             await driver.sleep(5000);
@@ -926,7 +929,7 @@
             await sideMenu.clickShopManagementTab();
             await shopsNavs.shopCategoriesNavIsDisplayed();
             await shopsNavs.clickCategoriesNav();
-            await shopsCat.move6CategoriesFromPotentialToOrdered();
+            await shopsCat.move2CategoriesFromPotentialToOrdered();
             await driver.sleep(3000);
         });
 
@@ -959,6 +962,7 @@
             await sideMenu.clickShopManagementTab();
             await shopsPage.createNewShopForTickets(base);
             await driver.sleep(2000);
+            await sideMenu.clickTheSecondOptionFromActiveSideMenuDropdown();
             await shopsPage.createMenuFromShopsManagementPageForTickets(eventName,base,"Tickets", 0, 1);
 
         });
@@ -1045,8 +1049,7 @@
             //await eventOptionTabs.ticketingTabIsDisplayed();
             await sideMenu.clickTicketingTab();
             await sectionsNavs.clickNavByText("Settings");
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickTaxesAndFeesSubNav();
+            await sectionsNavs.clickNavByText("Taxes & Fees")
             await taxesAndFees.includeExcludeIsVisible();
             let tax1 = await taxesAndFees.getTaxOrFeeNameByIndex(0);
             let tax2 = await taxesAndFees.getTaxOrFeeNameByIndex(1);
@@ -1591,7 +1594,7 @@
             //await eventOptionTabs.ticketingTabIsDisplayed();
             await sideMenu.clickTicketingTab();
             await sectionsNavs.clickNavByText("Settings");
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await sectionsNavs.taxesAndFeesNavIsDisplayed();
             await settingsNav.clickTicketQuestions();
             await questions.createSimpleYesNoQuestionAndAssertSavedDataAndElements(base, ticketOneName, ticketThreeName);
             await events.load();
@@ -1643,7 +1646,6 @@
             await dashboard.isAtDashboardPage();
             await sectionsNavs.clickNavByText("My Events");
             await myEvents.eventsTableIsDisplayed();
-            await driver.sleep(10000);
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await driver.sleep(5000);
@@ -1651,7 +1653,7 @@
             //await eventOptionTabs.ticketingTabIsDisplayed();
             await sideMenu.clickTicketingTab();
             await sectionsNavs.clickNavByText("Settings");
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await sectionsNavs.taxesAndFeesNavIsDisplayed();
             await settingsNav.clickTicketQuestions();
             await questions.clickDeactivateQuestionButton(0);
             await questions.createQuestionWithInput(base);
@@ -1712,7 +1714,7 @@
             await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await sectionsNavs.clickNavByText("Settings");
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await sectionsNavs.taxesAndFeesNavIsDisplayed();
             await settingsNav.clickTicketQuestions();
             await questions.isOnTicketQuestionsPage();
             await questions.clickActivateQuestionButton(0);
@@ -1794,7 +1796,7 @@
             await eventDetails.unpublishButtonIsDisplayed();
             await sideMenu.clickTicketingTab();
             await sectionsNavs.clickNavByText("Settings");
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await sectionsNavs.taxesAndFeesNavIsDisplayed();
             await settingsNav.clickTicketQuestions();
             await questions.updateFirstQuestionToIncludeInputAndForEachTicket(base);
             await events.load();
@@ -1962,7 +1964,7 @@
             await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await sectionsNavs.clickNavByText("Settings");
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await sectionsNavs.taxesAndFeesNavIsDisplayed();
             await settingsNav.clickTicketQuestions();
             await questions.isOnTicketQuestionsPage();
             await questions.clickDeactivateQuestionButton(1);
@@ -2037,7 +2039,7 @@
             await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await sectionsNavs.clickNavByText("Settings");
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await sectionsNavs.taxesAndFeesNavIsDisplayed();
             await settingsNav.clickEventCapacity();
             await capacity.setLimitPerAccount("26");
             await eventTickets.clickBoxOfficeNav();
@@ -2133,7 +2135,7 @@
             await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await sectionsNavs.clickNavByText("Settings");
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
+            await sectionsNavs.taxesAndFeesNavIsDisplayed();
             await settingsNav.clickEventCapacity();
             await capacity.removeLimit();
             await driver.sleep(2000);

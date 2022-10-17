@@ -16,6 +16,11 @@
     const RESOLUTION_CENTER_TAB = { xpath: "//*[text()='Resolution Center']"}
     const UPPED_SUPPORT_TAB = { xpath: "//*[text()='Upped Support']"}
     const PROMOTIONS_TAB = { xpath: "//*[text()='Promotions']"}
+    const ACTIVE_SIDE_MENU_ITEM_MENU_ICON = { xpath: "(//a[@class='active']//following-sibling::span)[2]" }
+    const SIDE_MENU_FIRST_DROPDOWN_OPTION = { xpath: "(//ul[contains(@class , 'show')]//li[contains(@class , 'dropdown-item')])[1]"}
+    const SIDE_MENU_SECOND_DROPDOWN_OPTION = { xpath: "(//ul[contains(@class , 'show')]//li[contains(@class , 'dropdown-item')])[2]"}
+    const SIDE_MENU_THIRD_DROPDOWN_OPTION = { xpath: "(//ul[contains(@class , 'show')]//li[contains(@class , 'dropdown-item')])[3]"}
+    const SIDE_MENU_FOURTH_DROPDOWN_OPTION = { xpath: "(//ul[contains(@class , 'show')]//li[contains(@class , 'dropdown-item')])[4]"}
 
     class SideMenu extends BasePage {
         constructor(driver) {
@@ -107,6 +112,13 @@
             await this.isDisplayed(PROMOTIONS_TAB,5000);
             await this.click(PROMOTIONS_TAB);
         }
+        async clickTheSecondOptionFromActiveSideMenuDropdown(){
+            await this.isDisplayed(ACTIVE_SIDE_MENU_ITEM_MENU_ICON, 5000);
+            await this.click(ACTIVE_SIDE_MENU_ITEM_MENU_ICON);
+            await this.isDisplayed(SIDE_MENU_SECOND_DROPDOWN_OPTION,5000);
+            await this.click(SIDE_MENU_SECOND_DROPDOWN_OPTION);
+        }
+        
 
 
     }

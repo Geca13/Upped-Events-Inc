@@ -27,12 +27,14 @@
             await this.isDisplayed(POTENTIAL_CATEGORIES_BOX,5000);
         }
 
-        async move6CategoriesFromPotentialToOrdered(){
+        async move2CategoriesFromPotentialToOrdered(){
             await this.isAtShopCategoriesPage();
             await this.timeout(500);
             await this.dragAndDropWithLocators(BEER_CATEGORY,SELECTED_CATEGORIES_BOX);
             await this.timeout(500);
             await this.dragAndDropWithLocators(WINE_CATEGORY,SELECTED_CATEGORIES_BOX);
+            await this.timeout(500);
+            await this.click(SAVE_APPLIED_CATEGORIZATION_BUTTON);
             await this.timeout(500);
             
         }

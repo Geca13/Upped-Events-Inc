@@ -32,8 +32,7 @@
             let rawBeforeTotal = await this.getChildTextByParentIndexAndChildIndex(ORDER_DETAILS_MODAL_TOTAL,0,1);
             let substringTotal = rawBeforeTotal.substring(1)
             let beforeTotal = parseFloat(substringTotal);
-            let fixed = beforeTotal.toFixed(2)
-            return fixed;
+            return beforeTotal.toFixed(2);
         }
         async makeRefundOnAllTicketQuantity(){
             await this.orderDetailsModalIsDisplayed();
@@ -60,8 +59,7 @@
             let rawAfterTotal = await this.getChildTextByParentIndexAndChildIndex(ORDER_DETAILS_MODAL_TOTAL,0,1);
             let afterTotalSubstring = rawAfterTotal.substring(1);
             let afterTotalFloat = parseFloat(afterTotalSubstring);
-            let afterTotal = afterTotalFloat.toFixed(2)
-            return afterTotal;
+            return afterTotalFloat.toFixed(2);
         }
         async closeOrderTotalModal(){
             await this.isDisplayed(CLOSE_POPUP_BUTTON,5000)

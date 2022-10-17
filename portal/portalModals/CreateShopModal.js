@@ -16,6 +16,7 @@
     const ADD_SHOP_BUTTON = { xpath: "//button//span[text()='Add Shop']"}
     const CANCEL_BUTTON = { xpath: "//button[@type='reset']"}
     const SELECT_PARTNER_DROPDOWN = { xpath: "//select-picker[@name='partners']" };
+    const VENDOR_LOCATION_DROPDOWN = { xpath: "//app-shop-location//select-picker" }
     const PARTNER_MANAGEMENT_LIST_OPTION = { xpath: "//*[text()='Source from Partner Management list']"}
     const EVENT_MANAGE_OPTION = { xpath: "//*[text()='Event Manage Shop']"}
     const VENDOR_CHECKBOX_SPAN = { xpath: '//tbody//tr//td[2]//label//span' }
@@ -51,10 +52,9 @@
             await this.clickElementReturnedFromAnArray(CALENDAR_ICON, 4);
             let endDatePicker = new DateTimePickerModal(this.driver);
             await endDatePicker.datePickerIsVisible();
-            await endDatePicker.select13Day();
-            await endDatePicker.clickSetButton();
+            await endDatePicker.updateHourByOne();
             await this.timeout(1000);
-            await this.clickElementReturnedFromAnArray(SELECTS, 1);
+            await this.click(VENDOR_LOCATION_DROPDOWN);
             await this.isDisplayed(VIRTUAL_SHOP_OPTION, 5000);
             await this.clickElementByText(base + " Bar");
             await this.isDisplayed(SELECT_PARTNER_DROPDOWN, 5000);
@@ -64,8 +64,6 @@
             await this.isDisplayed(VENDOR_EMAIL, 5000);
             await this.timeout(1000);
             await this.clickLastElementReturnedFromAnArray(CHECKBOX)
-            //await this.driver.executeScript("document.getElementsByClassName('myRipple2')[3].click()");
-            //await this.driver.sleep(2000)
             await this.sentKeys(UPLOAD_PHOTO_INPUT, "D:\\Upped-Events-Inc\\static\\bar.jpg");
             await this.timeout(1000);
             let imager = new SetImageModal(this.driver);
@@ -100,10 +98,9 @@
             await this.clickElementReturnedFromAnArray(CALENDAR_ICON, 4);
             let endDatePicker = new DateTimePickerModal(this.driver);
             await endDatePicker.datePickerIsVisible();
-            await endDatePicker.select13Day();
-            await endDatePicker.clickSetButton();
+            await endDatePicker.updateHourByOne();
             await this.timeout(1000);
-            await this.clickElementReturnedFromAnArray(SELECTS, 1);
+            await this.click(VENDOR_LOCATION_DROPDOWN);
             await this.timeout(1000);
             await this.isDisplayed(VIRTUAL_SHOP_OPTION, 5000);
             await this.timeout(1000);
