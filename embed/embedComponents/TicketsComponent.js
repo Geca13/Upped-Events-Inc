@@ -264,8 +264,37 @@
 
         }
 
-        async assertTicketsByGroupsAndClassIsAppliedWhenClickedOnMobileEmbed(base, clas){
+        async assertTicketsByGroupsWhenOrderIsChangedOnMobileEmbed(base){
             let tickets = await this.getCleanTicketsNames();
+            expect(tickets[0]).to.equal(base.toString() +"T4");
+            expect(tickets[1]).to.equal(base.toString() +"T1");
+            expect(tickets[2]).to.equal(base.toString() +"T2");
+            expect(tickets[3]).to.equal(base.toString() +"T3");
+            expect(tickets[4]).to.equal(base.toString() +"staff");
+            await this.clickGroupTabByIndexInMobileEmbed(1);
+            let count = await this.returnElementsCount(TICKET_NAME_AND_PRICE);
+            tickets = await this.getCleanTicketsNames();
+            expect(count).to.equal(3);
+            expect(tickets[0]).to.equal(base.toString() +"T1");
+            expect(tickets[1]).to.equal(base.toString() +"T2");
+            expect(tickets[2]).to.equal(base.toString() +"staff");
+            await this.clickGroupTabByIndexInMobileEmbed(2);
+            count = await this.returnElementsCount(TICKET_NAME_AND_PRICE);
+            tickets = await this.getCleanTicketsNames();
+            expect(count).to.equal(1);
+            expect(tickets[0]).to.equal(base.toString() + "T3");
+            await this.click(TICKET_GROUPS_DROPDOWN);
+            await this.isDisplayed(TICKET_GROUPS_DROPDOWN_OPTIONS,5000);
+            await this.click(TICKET_GROUPS_DROPDOWN_OPTIONS);
+            count = await this.returnElementsCount(TICKET_NAME_AND_PRICE);
+            tickets = await this.getCleanTicketsNames();
+            expect(count).to.equal(1);
+            expect(tickets[0]).to.equal(base.toString() + "T4");
+
+        }
+
+        async assertTicketsByGroupsAndClassIsAppliedWhenClickedOnMobileEmbed(base, clas){
+            
             let allTab = await this.checkIfClassIsApplied(TICKET_GROUPS_MOBILE, 0, clas);
             let first = await this.checkIfClassIsApplied(TICKET_GROUPS_MOBILE, 1, clas);
             let second = await this.checkIfClassIsApplied(TICKET_GROUPS_MOBILE, 2, clas);
@@ -274,8 +303,10 @@
             expect(second).to.be.false;
             await this.clickGroupTabByIndexInMobileEmbed(1);
             let count = await this.returnElementsCount(TICKET_NAME_AND_PRICE);
-            expect(count).to.equal(1);
+            let tickets = await this.getCleanTicketsNames();
+            expect(count).to.equal(2);
             expect(tickets[0]).to.equal(base.toString() +"T1");
+            expect(tickets[1]).to.equal(base.toString() +"staff");
             allTab = await this.checkIfClassIsApplied(TICKET_GROUPS_MOBILE, 0, clas);
             first = await this.checkIfClassIsApplied(TICKET_GROUPS_MOBILE, 1, clas);
             second = await this.checkIfClassIsApplied(TICKET_GROUPS_MOBILE, 2, clas);
@@ -284,9 +315,10 @@
             expect(second).to.be.false;
             await this.clickGroupTabByIndexInMobileEmbed(2);
             count = await this.returnElementsCount(TICKET_NAME_AND_PRICE);
+            tickets = await this.getCleanTicketsNames();
             expect(count).to.equal(2);
-            expect(tickets[1]).to.equal(base.toString() + "T2");
-            expect(tickets[2]).to.equal(base.toString() + "T3");
+            expect(tickets[0]).to.equal(base.toString() + "T2");
+            expect(tickets[1]).to.equal(base.toString() + "T3");
             allTab = await this.checkIfClassIsApplied(TICKET_GROUPS_MOBILE, 0, clas);
             first = await this.checkIfClassIsApplied(TICKET_GROUPS_MOBILE, 1, clas);
             second = await this.checkIfClassIsApplied(TICKET_GROUPS_MOBILE, 2, clas);
@@ -298,8 +330,9 @@
             await this.click(TICKET_GROUPS_DROPDOWN_OPTIONS);
             await this.timeout(1000);
             count = await this.returnElementsCount(TICKET_NAME_AND_PRICE);
+            tickets = await this.getCleanTicketsNames();
             expect(count).to.equal(1);
-            expect(tickets[3]).to.equal(base.toString() + "T4");
+            expect(tickets[0]).to.equal(base.toString() + "T4");
             allTab = await this.checkIfClassIsApplied(TICKET_GROUPS, 0, clas);
             first = await this.checkIfClassIsApplied(TICKET_GROUPS, 1, clas);
             second = await this.checkIfClassIsApplied(TICKET_GROUPS, 2, clas);

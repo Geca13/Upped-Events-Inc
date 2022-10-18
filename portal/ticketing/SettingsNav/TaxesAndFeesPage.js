@@ -3,7 +3,7 @@
     const Alerts = require('../../../Validations&Alerts/Alerts')
     const INCLUDED_TAXES_RADIO = { xpath: "//*[text()=' Included, the price listed is the total price the attendee will pay ']"}
     const EXCLUDED_TAXES_RADIO = { xpath: "//*[text()=' Excluded, taxes and fees will be added on top of the ticket price ']"}
-    const TAX_NAME_INPUT = { name: 'name' }
+    const TAX_NAME_INPUT = { xpath: "//input[@name='name']" }
     const PERCENT_RATE_INPUTS = { name: 'percent' } //list
     const FEE_NAME_INPUT = { name: 'type' }
     const FEE_$_VALUE_INPUT = { name: 'price' }
@@ -49,12 +49,13 @@
         }
 
         async setFirstTaxForTickets(taxName, taxValue){
-            await this.timeout(500)
+            await this.isDisplayed(TAX_NAME_INPUT, 5000);
             await this.sentKeys(TAX_NAME_INPUT, taxName);
             await this.sendKeysToElementReturnedFromAnArray(PERCENT_RATE_INPUTS,0,taxValue);
             await this.clickElementReturnedFromAnArray(ADD_BUTTONS,0)
         }
         async setSecondTaxForTickets(taxName, taxValue){
+            await this.isDisplayed(TAX_NAME_INPUT, 5000);
             await this.sentKeys(TAX_NAME_INPUT, taxName);
             await this.sendKeysToElementReturnedFromAnArray(PERCENT_RATE_INPUTS,1,taxValue);
 

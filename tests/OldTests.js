@@ -163,7 +163,7 @@
         let embedDonate;
 
 
-        let base = 308197 // Math.floor(100000 + Math.random() * 900000);
+        let base = Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -394,7 +394,7 @@
             await driver.sleep(1000);
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await sectionsNavs.clickNavByText("Design");
+            await sectionsNavs.clickNavByIndex(1);
             await embedding.isOnEmbeddingTab();
             await embedding.setEmbedViewForEvent();
             //await eventOptionTabs.ticketingTabIsDisplayed();

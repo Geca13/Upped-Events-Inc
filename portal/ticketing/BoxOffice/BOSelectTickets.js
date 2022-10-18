@@ -9,7 +9,7 @@
     const TICKETS_GROUPS_TICKET_COUNT = { xpath: "//a[contains(@class, 'single-group')]//span" }
     const COLUMN_TICKET_NAME = { className: "table-ticket-name" } //list
     const COLUMN_PRICE = { xpath: "//td[contains(@class, 'column-price')]//span" } //list
-    const COLUMN_DESCRIPTION = { xpath: "//td[contains(@class, 'column-description')]//span" } //list
+    const COLUMN_DESCRIPTION = { xpath: "//td[contains(@class, 'column-description')]//span//span" } //list
     const COLUMN_QUANTITY = { className: "column-quantity" } //list
     const COLUMN_SOLD = { className: "column-sold" } //list
     const COLUMN_SELECTS = { className: "numeric-dropdown" } //list
@@ -127,9 +127,9 @@
         }
 
         async select23TicketsForPromotionWithLimits(){
-            await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,1,"6");
-            await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,3,"7");
-            await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,2,"10");
+            await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,0,"7");
+            await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,2,"6");
+            await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,3,"10");
             await this.click(SAVE_BUTTON);
         }
 
@@ -192,15 +192,17 @@
             await this.sendKeysToElementReturnedFromAnArray(COLUMN_SELECTS,3,"1");
             await this.click(SAVE_BUTTON);
         }
-        async getSelectedTicketsNames(ticketOneName,ticketTwoName,ticketThreeName,ticketFourName){
+        async getSelectedTicketsNames(ticketOneName,ticketTwoName,ticketThreeName,ticketFourName, staffTicket){
             let ticketOne = await this.getTextFromElementOfArray(COLUMN_TICKET_NAME,0);
             let ticketTwo = await this.getTextFromElementOfArray(COLUMN_TICKET_NAME,1);
             let ticketThree = await this.getTextFromElementOfArray(COLUMN_TICKET_NAME,2);
             let ticketFour = await this.getTextFromElementOfArray(COLUMN_TICKET_NAME,3);
-            assert.equal(ticketOneName,ticketOne);
-            assert.equal(ticketTwoName,ticketTwo);
-            assert.equal(ticketThreeName,ticketThree);
-            assert.equal(ticketFourName,ticketFour);
+            let ticketFive = await this.getTextFromElementOfArray(COLUMN_TICKET_NAME,4);
+            assert.equal(ticketFourName,ticketOne);
+            assert.equal(ticketOneName,ticketTwo);
+            assert.equal(ticketTwoName,ticketThree);
+            assert.equal(ticketThreeName,ticketFour);
+            assert.equal(staffTicket,ticketFive);
         }
 
         async assertTableHeaders(){
@@ -281,32 +283,27 @@
         async assertTicketQuantityByGroup(){
             let allTicketsInGroup;
             let ticketsInTable
-            try {
-                await this.isOnBoxOfficePage();
-                allTicketsInGroup = await this.getElementTextFromAnArrayByIndex(TICKETS_GROUPS_TICKET_COUNT, 0);
-                ticketsInTable = await this.returnElementsCount(COLUMN_TICKET_NAME);
-                assert.equal(allTicketsInGroup, ticketsInTable);
-                await this.clickElementReturnedFromAnArray(TICKET_GROUPS_TABS, 1);
-                await this.timeout(500);
-                allTicketsInGroup = await this.getElementTextFromAnArrayByIndex(TICKETS_GROUPS_TICKET_COUNT, 1);
-                ticketsInTable = await this.returnElementsCount(COLUMN_TICKET_NAME);
-                assert.equal(allTicketsInGroup, ticketsInTable);
-                await this.clickElementReturnedFromAnArray(TICKET_GROUPS_TABS, 2);
-                await this.timeout(500);
-                allTicketsInGroup = await this.getElementTextFromAnArrayByIndex(TICKETS_GROUPS_TICKET_COUNT, 2);
-                ticketsInTable = await this.returnElementsCount(COLUMN_TICKET_NAME);
-                assert.equal(allTicketsInGroup, ticketsInTable);
-                await this.clickElementReturnedFromAnArray(TICKET_GROUPS_TABS, 3);
-                await this.timeout(500);
-                allTicketsInGroup = await this.getElementTextFromAnArrayByIndex(TICKETS_GROUPS_TICKET_COUNT, 3);
-                ticketsInTable = await this.returnElementsCount(COLUMN_TICKET_NAME);
-                assert.equal(allTicketsInGroup, ticketsInTable);
-
-            }catch (error) {
-                await this.takeScreenshot("boTickets")
-                await this.writeError(error)
-                throw error.toString();
-            }
+            await this.isOnBoxOfficePage();
+            await this.timeout(500);
+            allTicketsInGroup = await this.getElementTextFromAnArrayByIndex(TICKETS_GROUPS_TICKET_COUNT, 0);
+            ticketsInTable = await this.returnElementsCount(COLUMN_TICKET_NAME);
+            assert.equal(allTicketsInGroup, ticketsInTable);
+            await this.clickElementReturnedFromAnArray(TICKET_GROUPS_TABS, 1);
+            await this.timeout(500);
+            allTicketsInGroup = await this.getElementTextFromAnArrayByIndex(TICKETS_GROUPS_TICKET_COUNT, 1);
+            ticketsInTable = await this.returnElementsCount(COLUMN_TICKET_NAME);
+            assert.equal(allTicketsInGroup, ticketsInTable);
+            await this.clickElementReturnedFromAnArray(TICKET_GROUPS_TABS, 2);
+            await this.timeout(500);
+            allTicketsInGroup = await this.getElementTextFromAnArrayByIndex(TICKETS_GROUPS_TICKET_COUNT, 2);
+            ticketsInTable = await this.returnElementsCount(COLUMN_TICKET_NAME);
+            assert.equal(allTicketsInGroup, ticketsInTable);
+            await this.clickElementReturnedFromAnArray(TICKET_GROUPS_TABS, 3);
+            await this.timeout(500);
+            allTicketsInGroup = await this.getElementTextFromAnArrayByIndex(TICKETS_GROUPS_TICKET_COUNT, 3);
+            ticketsInTable = await this.returnElementsCount(COLUMN_TICKET_NAME);
+            assert.equal(allTicketsInGroup, ticketsInTable);
+                
         }
 
         async assertTicketCountInAllTabEqualsSumOfIndividualGroups(){

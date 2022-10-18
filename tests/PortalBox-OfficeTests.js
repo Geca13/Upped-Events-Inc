@@ -5,53 +5,21 @@
     const DashboardPage = require('../portal/dashboard/Dashboard');
     const AttendeesTab = require('../portal/eventOverview/AttendeesTab')
     const CreateEventModal = require('../portal/portalModals/CreateEventModal');
-    const DateTimePickerModal = require('../portal/portalModals/DateTimePickerModal');
     const MyEventsPage = require('../portal/dashboard/MyEventsTab');
-    const EventOptionTabs = require('../portal/eventOverview/EventOptionTabs');
-    const DesignNavs = require('../portal/eventOverview/DesignNav/DesignNavs');
-    const EventCardDesignPage = require('../portal/eventOverview/DesignNav/EventCardDesignPage');
     const CreateTicketModal = require('../portal/portalModals/CreateTicketModal');
     const TicketsNav = require('../portal/ticketing/TicketsNav');
     const GeneralDetailsTab = require('../portal/eventOverview/GeneralDetailsTab');
     const PromotionsPage = require('../portal/promotions/PromotionsPage');
     const AddNewPromotionModal = require('../portal/portalModals/AddNewPromotionModal');
-    const SettingsNav = require('../portal/ticketing/SettingsNav/SetingsNav');
     const EventSettingsNav = require('../portal/eventOverview/SettingsNav/SettingsNavs');
     const TaxesAndFeesPage = require('../portal/ticketing/SettingsNav/TaxesAndFeesPage');
-    const TicketQuestionsPage = require('../portal/ticketing/SettingsNav/TicketQuestionsPage')
-    const TicketTermsPage = require('../portal/ticketing/SettingsNav/TicketTermsPage');
-    const EventsPage = require('../microsites/micrositesPages/EventsPage');
-    const LoginComponent = require('../microsites/micrositesComponents/LoginComponent');
-    const EventInfo = require('../microsites/micrositesPages/EventInfo');
-    const TicketingPage = require('../microsites/micrositesPages/TicketingPage');
-    const TicketsTab = require('../microsites/micrositesComponents/TicketsTab');
-    const ExtrasTab = require('../microsites/micrositesComponents/ExtrasTab');
-    const AddMoneyComponent = require("../microsites/micrositesComponents/AddMoneyComponent")
-    const TicketQuestionsModal = require('../microsites/micrositesComponents/TicketQuestionsModal')
-    const PayTab = require('../microsites/micrositesComponents/PayTab');
-    const ConfirmTab = require('../microsites/micrositesComponents/ConfirmTab');
-    const NewCardComponent = require('../microsites/micrositesComponents/NewCardComponent');
-    const TicketTermsModal = require('../microsites/micrositesComponents/TicketTermsModal');
-    const EventOrders = require('../portal/transactionCentar/EventOrders');
-    const MapAndAgendaNavs = require('../portal/mapAndAgenda/MapAndAgendaNavs');
-    const EventMapPage = require('../portal/mapAndAgenda/EventMapPage');
-    const PerformancesPage = require('../portal/mapAndAgenda/PerformancesPage');
-    const ActivitiesPage = require('../portal/mapAndAgenda/ActivitiesPage');
-    const LineupTab = require('../microsites/micrositesComponents/LineupTab');
-    const ActivityTab = require('../microsites/micrositesComponents/ActivitiesTab');
-    const ShopsNavs = require('../portal/shopManagement/ShopsNavs');
-    const ShopCategoriesPage = require('../portal/shopManagement/ShopCategoriesPage');
-    const ShopsPage = require('../portal/shopManagement/ShopsPage');
-    const PartnersPage = require('../portal/partnerManagement/PartnersPage');
-    const SetupNewVendorPage = require('../portal/partnerManagement/SetupNewVendorPage');
-    const MyMenusPage = require('../portal/eventModules/MyMenusPage');
     const EventTickets = require('../portal/ticketing/EventTickets');
     const BOSelectTickets = require('../portal/ticketing/BoxOffice/BOSelectTickets');
     const BOAddExtras = require('../portal/ticketing/BoxOffice/BOAddExtras');
     const BOAddDetails = require('../portal/ticketing/BoxOffice/BOAddDetails');
     const BOReviewAndPay = require('../portal/ticketing/BoxOffice/BOReviewAndPay');
-    const EmbedMainPage = require("../embed/embedPages/EmbedMainPage");
-    const TicketsComponent = require("../embed/embedComponents/TicketsComponent");
+    const SideMenu = require('../portal/portalComponents/SideMenu');
+    const SectionsNavs = require('../portal/portalComponents/SectionsNavs');
 
 
     describe('Should do box office related tests', function () {
@@ -61,7 +29,6 @@
         let dashboard;
         let createEvent;
         let myEvents;
-        let eventOptionTabs;
         let createTicket;
         let ticketsNav;
         let promotions;
@@ -76,10 +43,12 @@
         let bosExtras;
         let bosDetails;
         let bosReview;
-        let eventId //= "1697";
+        let sideMenu;
+        let sectionsNavs;
+        let eventId //= "1760";
 
 
-        let base = Math.floor(100000 + Math.random() * 900000)// 294557//  Math.floor(100000 + Math.random() * 900000);
+        let base =   Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -100,20 +69,13 @@
         let ticketToBeDeleted = base.toString() +"delete";
         let ticketToBeDeletedQuantity = 666;
         let ticketToBeDeletedPrice = 0.25;
-        let promoOneName = base.toString() +"PN1";
-        let promoTwoName = base.toString() +"PN2";
         let promoThreeName = base.toString() +"PN3";
-        let promoFourName = base.toString() +"PNBOX";
         let promoFiveName = base.toString() +"PN100";
-        let promoCodeOne = base.toString() +"PC1";
-        let promoCodeTwo = base.toString() +"PC2";
         let promoCodeThree = base.toString() +"PC3";
-        let promoCodeFour = base.toString() +"PCBOX";
         let promoCodeFive = base.toString() +"PC100";
         let ticketGroupOne = base.toString() +"TG1";
         let ticketGroupTwo = base.toString() +"TG2";
         let ticketGroupThree = base.toString() +"TG3";
-        let ticketGroupFour = base.toString() +"TG4";
         let customerFirstName = 'cfn'+base.toString();
         let customerLastName = 'cln'+base.toString();
         let customerEmail = customerFirstName + '@' + customerLastName+'.com';
@@ -129,13 +91,14 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
             ticketsNav = new TicketsNav(driver);
             eventTickets = new EventTickets(driver)
             bosTickets = new BOSelectTickets(driver);
             bosExtras = new BOAddExtras(driver);
             bosDetails = new BOAddDetails(driver);
             bosReview = new BOReviewAndPay(driver);
+            sideMenu = new SideMenu(driver);
+
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
@@ -177,8 +140,7 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.publishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickAddTicketButton();
             await createTicket.createNewTicket(ticketOneName,ticketOnePrice, ticketOneQuantity);
@@ -272,14 +234,14 @@
         it('should enable donation in portal and assert donation component is displayed and assert elements',async function () {
 
             eventSettingsNav = new EventSettingsNav(driver)
-
+            sectionsNavs = new SectionsNavs(driver)
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.publishButtonIsDisplayed();
-            await eventOptionTabs.moveToEventNavs();
-            await eventOptionTabs.clickSettingsNav();
+            await sectionsNavs.moveToEventNavs();
+            await sectionsNavs.clickNavByIndex(3);
             await eventSettingsNav.donationsSubNavIsDisplayed();
             await eventSettingsNav.makeDonationActive();
             await bosTickets.openBoxOfficeDirectly(eventId);
@@ -423,8 +385,7 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.publishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.createTicketsGroup(ticketGroupOne);
             await ticketsNav.successTicketGroupBannerIsDisplayed();
@@ -470,8 +431,7 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.publishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
+            await sideMenu.clickPromotionsTab();
             await promotions.addPromotionButtonIsVisible();
             await promotions.clickAddPromotionButton();
             await newPromotion.addPromotionModalIsDisplayed();
@@ -481,7 +441,8 @@
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.createPromotionWith100discountForAllTickets(ticketOneName, promoFiveName, promoCodeFive);
             await promotions.promotionsHeaderIsVisible();
-            await eventOptionTabs.ticketingTabIsDisplayed();
+            await sideMenu.ticketingTabIsDisplayed();
+            
         });
 
         it('should return invalid promo code applied message when promo code start time is in the future', async function () {
@@ -505,8 +466,7 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.publishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickAddTicketButton();
             await createTicket.createStaffTicket(staffTicket, ticketStaffPrice ,ticketStaffQuantity);
@@ -557,8 +517,7 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.publishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.dragThirdTicketInTopPosition();
             await bosTickets.openBoxOfficeDirectly(eventId);
@@ -573,8 +532,7 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.publishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickGroupTabsByIndexAssertNumberOfTickets(ticketOneName, ticketTwoName, ticketThreeName, staffTicket);
             await ticketsNav.dragTicketFromGroupTwoToGroupOne();
@@ -585,15 +543,14 @@
         it('Should check attendees page elements when no purchases made', async function () {
 
             attendees = new AttendeesTab(driver);
-
+            sectionsNavs = new SectionsNavs(driver)
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(2000);
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await driver.sleep(500);
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickAttendeesNav();
+            await sectionsNavs.clickNavByIndex(4);
             await attendees.isOnAttendeesTab();
             await attendees.noAttendeesInTableMessage();
 
@@ -618,15 +575,15 @@
         it('Should assert attendee is displayed in table after purchase', async function () {
 
             attendees = new AttendeesTab(driver);
-
+            sectionsNavs = new SectionsNavs(driver);
+            
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
             await driver.sleep(2000);
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await driver.sleep(500);
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickAttendeesNav();
+            await sectionsNavs.clickNavByIndex(4);
             await attendees.isOnAttendeesTab();
             await attendees.checkForCustomerFullNameByIndex(0 , base, base);
 
@@ -669,7 +626,7 @@
 
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.isOnBoxOfficePage();
-            await bosTickets.getSelectedTicketsNames(ticketOneName,ticketTwoName,ticketThreeName,ticketFourName);
+            await bosTickets.getSelectedTicketsNames(ticketOneName,ticketTwoName,ticketThreeName,ticketFourName, staffTicket);
             await bosTickets.selectFourIndividualTickets();
             await bosExtras.clickNextButton();
             await bosDetails.checkTicketsNamesInOrderDetails(ticketOneName,ticketTwoName,ticketThreeName,ticketFourName);
@@ -727,8 +684,8 @@
             await bosTickets.select23TicketsForPromotionWithLimits();
             await bosExtras.isOnExtrasScreen();
             await bosExtras.clickNextButton();
-            await bosDetails.addPromotionToTickets(promoCodeThree);
-            await bosDetails.assertReturnedValidationMessage("Invalid Discount Code");
+            await bosDetails.applyExpiredPromoCode(promoCodeThree);
+            await bosDetails.redErrorAlertIsReturned("This promotion code is no longer valid");
 
         });
 
@@ -752,8 +709,7 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.publishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickAddTicketButton();
             await createTicket.createNewTicket(ticketToBeDeleted,ticketToBeDeletedPrice, ticketToBeDeletedQuantity);
@@ -774,8 +730,7 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.publishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickDeleteTicketButtonByTicketName(ticketOneName);
             await ticketsNav.errorDeletingTicketMessage();

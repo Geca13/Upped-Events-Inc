@@ -100,7 +100,7 @@
         let sideMenu;
         let sectionsNavs;
 
-        let base = 422129// Math.floor(100000 + Math.random() * 900000);
+        let base = 650151 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -144,7 +144,7 @@
         afterEach(async function(){
             await driver.quit()
         })
-/*
+
         //PORTAL
         it('should create new event and verify data in events page and General Details',async function () {
             portalLogin = new PortalLoginPage(driver);
@@ -194,7 +194,7 @@
             await createTicket.createFirstTicketAndAssertDataOnTicketsAndUpdate(ticketOneName,ticketOnePrice,embedTicketQuantity);
 
         });
-*/
+
         //PORTAL -> EMBED
         it('should make embed view for event', async function () {
             portalLogin = new PortalLoginPage(driver);
@@ -217,7 +217,7 @@
             await driver.sleep(1000);
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await sectionsNavs.clickNavByText("Design");
+            await sectionsNavs.clickNavByIndex(1);
             await embedding.isOnEmbeddingTab();
             await embedding.setEmbedViewForEvent();
             await sideMenu.clickEventFullNameTab();
@@ -1075,6 +1075,37 @@
 
         });
 
+        
+        //PORTAL
+        it('Should create staff ticket in portal', async function () {
+
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            sideMenu = new SideMenu(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            settingsNav = new SettingsNav(driver);
+            ticketsNav = new TicketsNav(driver);
+            createTicket = new CreateTicketModal(driver);
+            sectionsNavs = new SectionsNavs(driver)
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await sectionsNavs.clickNavByText("My Events");
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await sideMenu.clickTicketingTab();
+            await ticketsNav.clickAddTicketButton();
+            await createTicket.createStaffTicket(staffTicket, ticketStaffPrice ,ticketStaffQuantity);
+            await ticketsNav.assertTicketNamePriceAndQuantity(staffTicket, ticketStaffPrice, ticketStaffQuantity);
+            await ticketsNav.clickActivateTicketToggle(staffTicket);
+
+        });
+
         //PORTAL
         it('should assert tickets by groups in portal',async function () {
             portalLogin = new PortalLoginPage(driver);
@@ -1274,10 +1305,7 @@
             await termsModal.termsModalIsDisplayed();
             await main.clickTermsLabel();
             await termsModal.termsModalIsNotDisplayed();
-            await embedTickets.sentKeysToTicketInput(0, 2);
-            await main.clickNextPageButton();
-            await addMoney.addMoneyComponentIsDisplayed();
-
+            
         });
 
         // PORTAL
@@ -2035,6 +2063,7 @@
             await orderDetails.assertTicketsSumEqualsSubtotalAndOrderTotalTicketsAndSubtotalValuesOnMobile(summary);
 
         });
+        
         //EMBED
         it('should make regular purchase with three different tickets and quantities and assert tickets on receipt', async function () {
 
@@ -2409,9 +2438,10 @@
             await main.clickNextPageButton();
             await payment.isAtPaymentPage();
             await payment.applyPromotion(promoCodeOne);
-            await payment.invalidCodeMessagesAreShown("The message when fixed");
+            await payment.promotionNoLongerValidDangerMessageIsVisible();
 
         });
+        
         //PORTAL
         it('should create promotion for 3 tickets and limit qty on two', async function () {
 
@@ -2513,37 +2543,6 @@
             await orderDetails.isOnOrderDetailsPage();
             await orderDetails.openOrderDetailsOnMobile();
             await summary.assertTaxesAndFeesAreRefactoredToMatchNewPrice(fees,taxes);
-
-        });
-
-        //PORTAL
-        it('Should create staff ticket in portal', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            sideMenu = new SideMenu(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            settingsNav = new SettingsNav(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-            sectionsNavs = new SectionsNavs(driver)
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await sectionsNavs.clickNavByText("My Events");
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await sideMenu.clickTicketingTab();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.createStaffTicket(staffTicket, ticketStaffPrice ,ticketStaffQuantity);
-            await ticketsNav.assertTicketNamePriceAndQuantity(staffTicket, ticketStaffPrice, ticketStaffQuantity);
-            await ticketsNav.clickActivateTicketToggle(staffTicket);
 
         });
 
@@ -3166,8 +3165,8 @@
             await eventDetails.unpublishButtonIsDisplayed();
             await sideMenu.clickTicketingTab();
             await sectionsNavs.clickNavByText("Settings")
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickTicketQuestions();
+            await sectionsNavs.taxesAndFeesNavIsDisplayed();
+            await sectionsNavs.clickNavByText("Ticket Questions");
             await questions.clickDeactivateQuestionButton(0);
             await questions.createQuestionWithInput(base);
 
@@ -3269,9 +3268,9 @@
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
             await sideMenu.clickTicketingTab();
-            await sectionsNavs.clickNavByText("Settings");
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickTicketQuestions();
+            await sectionsNavs.clickNavByText("Settings")
+            await sectionsNavs.taxesAndFeesNavIsDisplayed();
+            await sectionsNavs.clickNavByText("Ticket Questions");
             await questions.clickActivateQuestionButton(0);
             await questions.updateFirstQuestionToIncludeInputAndForEachTicket(base);
 
@@ -3348,6 +3347,72 @@
             await sideMenu.ticketingTabIsDisplayed();
             await sectionsNavs.clickNavByText("Attendees");
             await attendees.checkForTicketQuestionsResponsesForTheUpdated(base,1);
+
+        });
+
+        //PORTAL
+        it('should change ticket order in portal', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            ticketsNav = new TicketsNav(driver);
+            sectionsNavs = new SectionsNavs(driver)
+            sideMenu = new SideMenu(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await sectionsNavs.clickNavByText("My Events");
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await sideMenu.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.dragThirdTicketInTopPosition();
+
+        });
+
+        //PORTAL
+        it('should change ticket location from one group 2 to group 1 in portal and assert change', async function () {
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            myEvents = new MyEventsPage(driver);
+            eventDetails = new GeneralDetailsTab(driver);
+            ticketsNav = new TicketsNav(driver);
+            sectionsNavs = new SectionsNavs(driver)
+            sideMenu = new SideMenu(driver);
+
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
+            await sectionsNavs.clickNavByText("My Events");
+            await myEvents.eventsTableIsDisplayed();
+            await myEvents.createdEventIsInTheTable(eventName);
+            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+            await eventDetails.unpublishButtonIsDisplayed();
+            await sideMenu.clickTicketingTab();
+            await ticketsNav.addTicketButtonIsDisplayed();
+            await ticketsNav.clickGroupTabsByIndexAssertNumberOfTickets(ticketOneName, ticketTwoName, ticketThreeName, staffTicket);
+            await ticketsNav.dragTicketFromGroupTwoToGroupOne();
+            await ticketsNav.assertTicketIsRemovedFromGroupTwoAndAddedToGroupOne(ticketOneName, ticketTwoName, ticketThreeName, staffTicket);
+
+        });
+
+        //EMBED
+        it('should assert tickets by groups when order and ticket group is changed in embed', async function () {
+
+            main = new EmbedMainPage(driver);
+            embedTickets = new TicketsComponent(driver);
+            await main.openEmbedPage();
+            await driver.manage().window().setRect({width: 414, height: 1000});
+            await main.switchToIframe();
+            await main.isInFrame(eventName);
+            await embedTickets.ticketListIsDisplayed();
+            await embedTickets.assertTicketsByGroupsWhenOrderIsChangedOnMobileEmbed(base);
 
         });
     });

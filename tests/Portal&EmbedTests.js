@@ -104,7 +104,7 @@
         let sideMenu;
         let sectionsNavs;
 
-        let base =  Math.floor(100000 + Math.random() * 900000);
+        let base = Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -157,6 +157,7 @@
             await driver.quit()
         })
 
+        
         //PORTAL
         it('should create new event and verify data in events page and General Details',async function () {
             portalLogin = new PortalLoginPage(driver);
@@ -226,7 +227,8 @@
             await driver.sleep(1000);
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await sectionsNavs.clickNavByText("Design");
+            await driver.sleep(2000);
+            await sectionsNavs.clickNavByIndex(1);
             await embedding.isOnEmbeddingTab();
             await embedding.setEmbedViewForEvent();
             await sideMenu.clickEventFullNameTab();
@@ -2818,7 +2820,7 @@
 
         });
 
-        //EMBED -> fails because when promotion qty is over we should get promotion finished error
+        //EMBED 
         it('should apply the promotion code when promotion qty is finished and get promo error message and assert input field still visible', async function () {
 
             main = new EmbedMainPage(driver);
@@ -3705,6 +3707,7 @@
             eventOptionTabs = new EventOptionTabs(driver);
             ticketsNav = new TicketsNav(driver);
             sectionsNavs = new SectionsNavs(driver)
+            sideMenu = new SideMenu(driver);
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
@@ -3714,8 +3717,7 @@
             await myEvents.eventsTableIsDisplayed();
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
+            await sideMenu.clickTicketingTab();
             await eventOptionTabs.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.assertTicketsByGroupsAndClassIsAppliedWhenClicked(base, "active")
@@ -3754,9 +3756,9 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
             ticketsNav = new TicketsNav(driver);
             sectionsNavs = new SectionsNavs(driver)
+            sideMenu = new SideMenu(driver);
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
@@ -3767,8 +3769,7 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.dragThirdTicketInTopPosition();
 
@@ -3780,9 +3781,9 @@
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
             eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
             ticketsNav = new TicketsNav(driver);
             sectionsNavs = new SectionsNavs(driver)
+            sideMenu = new SideMenu(driver);
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
@@ -3793,8 +3794,7 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickGroupTabsByIndexAssertNumberOfTickets(ticketOneName, ticketTwoName, ticketThreeName, staffTicket);
             await ticketsNav.dragTicketFromGroupTwoToGroupOne();

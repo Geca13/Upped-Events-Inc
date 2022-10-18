@@ -1,5 +1,6 @@
     const BasePage = require('../../../BasePage');
     const assert = require('assert')
+    const Alerts = require('../../../Validations&Alerts/Alerts')
     const { expect } = require('chai');
     const BOReviewAndPay = require('./BOReviewAndPay')
     const TICKET_Q_HEADER = { xpath: "//h1[@class='heading']" }
@@ -199,9 +200,9 @@
 
             let subtotal = parseFloat(ticketTwoTotal.toFixed(2)) + parseFloat(ticketFourTotal.toFixed(2)) + parseFloat(ticketThreeTotal.toFixed(2));
             let total = parseFloat(subtotal.toFixed(2)) + parseFloat(totalTax.toFixed(2)) + parseFloat(totalFee.toFixed(2));
-            let extT2 = await this.getElementTextFromAnArrayByIndex(VALUES, 0);
+            let extT2 = await this.getElementTextFromAnArrayByIndex(VALUES, 1);
             let extT3 = await this.getElementTextFromAnArrayByIndex(VALUES, 2);
-            let extT4 = await this.getElementTextFromAnArrayByIndex(VALUES, 1);
+            let extT4 = await this.getElementTextFromAnArrayByIndex(VALUES, 0);
             let extTax = await this.getElementTextFromAnArrayByIndex(VALUES, 6);
             let extFee = await this.getElementTextFromAnArrayByIndex(VALUES, 7);
             let extSub = await this.getElementTextFromAnArrayByIndex(VALUES, 5);
@@ -291,6 +292,14 @@
             await this.isOnDetailsPage();
             await this.click(NEXT_BUTTON);
         }
+        
+        async applyExpiredPromoCode(promoCode){
+            await this.timeout(500);
+            await this.sentKeys(PROMO_INPUT,promoCode);
+            await this.timeout(500);
+            await this.click(APPLY_BUTTON);
+            await this.timeout(500);
+        }
         async addPromotionToTickets(promoCode){
             await this.timeout(500);
             await this.sentKeys(PROMO_INPUT,promoCode);
@@ -303,6 +312,11 @@
         async assertReturnedValidationMessage(expected){
             let message = await this.getElementText(DISCOUNT_CODE_MESSAGE);
             assert.equal(message, expected)
+        }
+        
+        async redErrorAlertIsReturned(message){
+            let alerts = new Alerts(this.driver);
+            await alerts.errorInfoMessageIsDisplayed(message)
         }
 
         async addWrongPromoCodeAssertErrorValidation(){
@@ -320,10 +334,10 @@
             let rawTicketTwo = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT,1,0);
             let rawTicketThree = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT,2,0);
             let rawTicketFour = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT,3,0);
-            assert.equal(ticketOneName, rawTicketOne.substring(0,8));
-            assert.equal(ticketTwoName, rawTicketTwo.substring(0,8));
-            assert.equal(ticketThreeName, rawTicketThree.substring(0,8));
-            assert.equal(ticketFourName, rawTicketFour.substring(0,8));
+            assert.equal(ticketFourName, rawTicketOne.substring(0,8));
+            assert.equal(ticketOneName, rawTicketTwo.substring(0,8));
+            assert.equal(ticketTwoName, rawTicketThree.substring(0,8));
+            assert.equal(ticketThreeName, rawTicketFour.substring(0,8));
         }
 
         async checkTicketPricesInOrderDetails() {
@@ -336,10 +350,10 @@
             let rawTicketFour = await this.getChildTextByParentIndexAndChildIndex(TICKETS_NAME_PARENT, 3, 1);
             let ticketFour = rawTicketFour.substring(1);
 
-            assert.equal(parseFloat("1"), parseFloat(ticketOne));
-            assert.equal(parseFloat("1.2"), parseFloat(ticketTwo));
-            assert.equal(parseFloat("0.75"), parseFloat(ticketThree));
-            assert.equal(parseFloat("0.25"), parseFloat(ticketFour));
+            assert.equal(parseFloat("0.25"), parseFloat(ticketOne));
+            assert.equal(parseFloat("1.00"), parseFloat(ticketTwo));
+            assert.equal(parseFloat("1.20"), parseFloat(ticketThree));
+            assert.equal(parseFloat("0.75"), parseFloat(ticketFour));
         }
 
         async calculateTicketsSubTotal(){

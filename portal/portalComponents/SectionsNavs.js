@@ -1,5 +1,5 @@
     const BasePage = require('../../BasePage');
-    const NAV_LINKS = { xpath: "//a[@class='nav-link']"}
+    const NAV_LINKS = { xpath: "//ul[@id='offer-types']//a"}
     const SUB_NAVS = { xpath: "//event-ticket-settings//ul//li//a" }
     class SectionsNavs extends BasePage {
         constructor(driver) {
@@ -13,6 +13,7 @@
 
         async clickNavByIndex(index){
             await this.isDisplayed(NAV_LINKS, 5000);
+            await this.timeout(1000);
             await this.clickElementReturnedFromAnArray(NAV_LINKS,index);
         }
 

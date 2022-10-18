@@ -208,8 +208,8 @@
             assert.equal( donationValue,donation);
             assert.equal( shippingValue, shipping);
             assert.equal( discountValue, discount);
-            assert.equal( discountExample,promoCodeThree);
-            assert.equal( totalValue, total);
+            assert.equal( discountExample,"Discount code: " + promoCodeThree);
+            assert.equal( totalValue.substring(1), total.substring(2));
 
         }
 
