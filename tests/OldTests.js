@@ -44,7 +44,7 @@
     const ShopsPage = require('../portal/shopManagement/ShopsPage');
     const PartnersPage = require('../portal/partnerManagement/PartnersPage');
     const SetupNewVendorPage = require('../portal/partnerManagement/SetupNewVendorPage');
-    const MyMenusPage = require('../portal/eventModules/MyMenusPage');
+    const MyMenusPage = require('../portal/eventModules/Menus/MyMenusPage');
     const EventTickets = require('../portal/ticketing/EventTickets');
     const BOSelectTickets = require('../portal/ticketing/BoxOffice/BOSelectTickets');
     const BOAddExtras = require('../portal/ticketing/BoxOffice/BOAddExtras');

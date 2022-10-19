@@ -1,7 +1,7 @@
     const BasePage = require('../../BasePage');
     const CreateShopModal = require('../portalModals/CreateShopModal');
     const MenuPage = require('../eventModules/MyMenusPage');
-    
+    const TableComponent = require('../portalComponents/TableComponent')
     const MenuSchedulerPage = require('../eventModules/MenuSchedulerPage');
     const ADD_SHOP_DROPDOWN = { id: 'dropdownBasic1' };
     const ADD_VENDOR_PARTNER_OPTION = { xpath: "//a[@class='dropdown-item' and text()='Add Vendor Partner']"}
@@ -17,6 +17,21 @@
     class ShopsPage extends BasePage {
         constructor(driver) {
             super(driver);
+        }
+        
+        async assertShopsTableHeadersNames(){
+            await this.addShopDropdownIsDisplayed();
+            let table = new TableComponent(this.driver);
+            await table.assertColumnNamesByIndex(1 ,"Shop Name ");
+            await table.assertColumnNamesByIndex(2 ,"Vendor/Merchant ");
+            await table.assertColumnNamesByIndex(3 ,"Categories ");
+            await table.assertColumnNamesByIndex(4 ,"Hours ");
+            await table.assertColumnNamesByIndex(5,"Location ");
+            await table.assertColumnNamesByIndex(6 ,"# of Menus ");
+            await table.assertColumnNamesByIndex(7 ,"Linked Shops ");
+            await table.assertColumnNamesByIndex(8,"Featured ");
+            await table.assertColumnNamesByIndex(9 ,"Menu Set ");
+            await table.assertColumnNamesByIndex(10 ,"Needs Attention ");
         }
 
         async addShopDropdownIsDisplayed(){

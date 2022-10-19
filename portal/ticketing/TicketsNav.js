@@ -422,8 +422,7 @@
         }
 
         async getSoldTicketsNumberForEachTicketInTicketsNav(){
-            let sold = await this.returnArrayOfStrings(SOLD_TICKETS_NUMBER);
-            return sold;
+            return await this.returnArrayOfStrings(SOLD_TICKETS_NUMBER);
         }
 
         async assertTicketsSoldInBoxOfficeEqualsSoldTicketsInTicketsNav(soldBoxOffice){

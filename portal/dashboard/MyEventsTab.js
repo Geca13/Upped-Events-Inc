@@ -3,6 +3,7 @@
     const assert = require('assert')
     const Alerts = require('../../Validations&Alerts/Alerts');
     const CreateEventModal = require("../portalModals/CreateEventModal")
+    const TableComponent = require("../portalComponents/TableComponent");
     const EVENTS_TABLE = { xpath: "//dashboard-events-page" }
     //const EVENTS_NAMES_SPANS = { xpath: "//td/a/span"}
     const EVENTS_NAMES_SPANS = { xpath: "//td[contains(@class , 'column-eventname')]//a[contains(@class , 'table-ticket-name')]//span" };
@@ -21,6 +22,17 @@
 
         async eventsTableIsDisplayed(){
             await this.isDisplayed(EVENTS_TABLE,5000);
+        }
+
+        async assertTableHeadersOnMyEventsPage(){
+            await this.eventsTableIsDisplayed();
+            let table = new TableComponent(this.driver);
+            await table.assertColumnNamesByIndex(1, "Event Name");
+            await table.assertColumnNamesByIndex(2, "Location");
+            await table.assertColumnNamesByIndex(3, "Start Date");
+            await table.assertColumnNamesByIndex(4, "End Date");
+            await table.assertColumnNamesByIndex(5, "Size");
+
         }
 
         async successBannerIsDisplayed(){

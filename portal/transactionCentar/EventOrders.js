@@ -4,6 +4,7 @@
     const Filters = require('../portalModals/Filters');
     const assert = require('assert');
     const { expect } = require('chai');
+    const TableComponent = require("../portalComponents/TableComponent");
     const ALL_NAV = { xpath: "//*[text()='All']"}
     const TICKETS_NAV = { xpath: "//*[text()='Tickets']"}
     const ITEMS_NAV = { xpath: "//*[text()=' Items ']"}
@@ -36,8 +37,43 @@
         }
         async isAtTransactionCenterPage(){
             await this.isDisplayed(TRANSACTIONS_VIEW_TAB,5000);
-            await this.timeout(500);
         }
+
+        async assertTransactionViewTableHeadersNames(){
+            
+            await this.isAtTransactionCenterPage();
+            let table = new TableComponent(this.driver);
+            await table.assertColumnNamesByIndex(1 ,"Order Id");
+            await table.assertColumnNamesByIndex(2 ,"Order Type");
+            await table.assertColumnNamesByIndex(3 ,"User");
+            await table.assertColumnNamesByIndex(4 ,"Items");
+            await table.assertColumnNamesByIndex(5,"Price");
+            await table.assertColumnNamesByIndex(6 ,"Payment Mode");
+            await table.assertColumnNamesByIndex(7 ,"Seller");
+            await table.assertColumnNamesByIndex(8,"Order Time");
+            await table.assertColumnNamesByIndex(9,"Status");
+            
+        }
+
+        async assertDetailedViewTableHeadersNames(){
+            await this.isAtTransactionCenterPage();
+            let table = new TableComponent(this.driver);
+            await table.assertColumnNamesByIndex(1 ,"Order Id");
+            await table.assertColumnNamesByIndex(2 ,"Order Type");
+            await table.assertColumnNamesByIndex(3 ,"User");
+            await table.assertColumnNamesByIndex(4 ,"Item Name");
+            await table.assertColumnNamesByIndex(5 ,"Items");
+            await table.assertColumnNamesByIndex(6 ,"Fees");
+            await table.assertColumnNamesByIndex(7 ,"Tax");
+            await table.assertColumnNamesByIndex(8 ,"Price");
+            await table.assertColumnNamesByIndex(9 ,"Total");
+            await table.assertColumnNamesByIndex(10 ,"Payment Mode");
+            await table.assertColumnNamesByIndex(11 ,"Seller");
+            await table.assertColumnNamesByIndex(12 ,"Order Time");
+            await table.assertColumnNamesByIndex(13 ,"Status");
+            
+        }
+        
         async makeFullRefundWithReinstateTicket(){
             await this.isAtTransactionCenterPage();
             await this.timeout(500);
@@ -50,11 +86,7 @@
             let after = await orderDetails.getOrderTotalAfterRefunds();
             await orderDetails.closeOrderTotalModal();
             await this.isAtTransactionCenterPage();
-            await this.timeout(500);
-/*
-            let total = await this.getChildByIndex(ORDER_TOTAL_IN_EVENT_ORDERS,0,0)
-            console.log(total);*/
-            await this.timeout(2500);
+            await this.timeout(1000);
             let total = before - after
             return total.toFixed(2);
         }
@@ -65,8 +97,7 @@
             await pagination.selectXRowsPerPage(50);
             await this.takeScreenshot("bg-light")
             await this.isDisplayed(TABLE_ROWS,5000);
-            let rows = await this.returnElementsCount(TABLE_ROWS);
-            return rows;
+            return await this.returnElementsCount(TABLE_ROWS);
         }
 
         async assertOrderIdsAreShownInDescendingOrder(){
