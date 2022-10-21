@@ -324,8 +324,7 @@
         }
 
         async getSoldTicketsNumberForEachTicket(){
-            let sold = await this.returnArrayOfStrings(COLUMN_SOLD);
-            return sold;
+            return await this.returnArrayOfStrings(COLUMN_SOLD);
         }
 
 

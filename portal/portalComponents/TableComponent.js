@@ -1,5 +1,6 @@
     const BasePage = require('../../BasePage');
     const assert = require('assert')
+    const TABLE = { id: "dataTable" }
     const TABLE_COLUMN_NAMES = { xpath: "//table[@id='dataTable']//tr/th//span" } //starts from index 1
     const TABLE_EMPTY_MESSAGE = { xpath: "//div[contains(@class, 'data-empty')]//h5" }
 
@@ -7,6 +8,10 @@
     class TableComponent extends BasePage{
         constructor(driver) {
             super(driver);
+        }
+        
+        async tableIsDisplayed(){
+            await this.isDisplayed(TABLE, 5000);
         }
 
         async assertColumnNamesByIndex(index, column){

@@ -1,8 +1,9 @@
-    const BasePage = require('../../BasePage');
+    const BasePage = require('../../../BasePage');
     const { Key, Keys} = require("selenium-webdriver");
     const assert = require('assert')
-    const SetImageModal = require('../portalModals/SetImageModal');
-    const MenuSchedulerPage = require('../eventModules/MenuSchedulerPage');
+    const SetImageModal = require('../../portalModals/SetImageModal');
+    const MenuSchedulerPage = require('../Menus/MenuSchedulerPage');
+    const TableComponent = require("../../portalComponents/TableComponent");
     const CREATE_NEW_MENU_LINK = { xpath: "//*[text()='Create New Menu']"}
     const MY_MENUS_NAV = { xpath: "//*[text()='My Menus ']"}
     const MENU_NAV = { xpath: "//*[text()='Menu ']"} // IN SHOPS MANAGEMENT
@@ -100,6 +101,15 @@
 
         async isOnMyMenusPage(){
             await this.isDisplayed(MENU_SCHEDULER_NAV,15000 );
+        }
+
+        async assertMenusTableHeadersNames(){
+            await this.isOnMyMenusPage();
+            let table = new TableComponent(this.driver);
+            await table.assertColumnNamesByIndex(0 ,"Name");
+            await table.assertColumnNamesByIndex(1 ,"Date Edited");
+            await table.assertColumnNamesByIndex(2 ,"Assigned To Shop");
+
         }
         async createNewMenuAndSetNewName(base){
             await this.timeout(1000);

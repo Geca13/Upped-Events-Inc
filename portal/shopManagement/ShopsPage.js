@@ -1,8 +1,8 @@
     const BasePage = require('../../BasePage');
     const CreateShopModal = require('../portalModals/CreateShopModal');
-    const MenuPage = require('../eventModules/MyMenusPage');
+    const MenuPage = require('../eventModules/Menus/MyMenusPage');
     const TableComponent = require('../portalComponents/TableComponent')
-    const MenuSchedulerPage = require('../eventModules/MenuSchedulerPage');
+    const MenuSchedulerPage = require('../eventModules/Menus/MenuSchedulerPage');
     const ADD_SHOP_DROPDOWN = { id: 'dropdownBasic1' };
     const ADD_VENDOR_PARTNER_OPTION = { xpath: "//a[@class='dropdown-item' and text()='Add Vendor Partner']"}
     const ADD_SHOP_OPTION = { xpath: "//a[@class='dropdown-item' and text()='Add Shop']"};

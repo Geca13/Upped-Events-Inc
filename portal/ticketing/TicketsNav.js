@@ -1,7 +1,7 @@
     const BasePage = require('../../BasePage');
     const {By} = require("selenium-webdriver");
     const Alerts = require('../../Validations&Alerts/Alerts')
-    const ColumnOptionsModal = require('../portalModals/ColumnsOptionsModal');
+    const ColumnOptionsModal = require('../portalComponents/ColumnsOptionsModal');
     const CreateTicketModal = require('../portalModals/CreateTicketModal')
     const { expect }= require('chai');
     const assert = require('assert')
