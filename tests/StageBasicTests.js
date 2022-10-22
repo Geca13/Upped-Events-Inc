@@ -934,7 +934,7 @@ describe('Should do everything', function () {
         await eventDetails.unpublishButtonIsDisplayed();
         await driver.sleep(2000);
         await eventOptionTabs.clickMapAndAgendaTab();
-        await eventMap.addPerformanceLocationOnMap();
+        await eventMap.addPinOnMapForPerformance();
         await driver.sleep(2000);
         await agendaNavs.performancesNavIsDisplayed();
         await agendaNavs.clickPerformancesNav();

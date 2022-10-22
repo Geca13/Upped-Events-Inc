@@ -998,7 +998,7 @@
             await eventDetails.unpublishButtonIsDisplayed();
             await driver.sleep(2000);
             await sideMenu.clickMapAndAgendaTab();
-            await eventMap.addPerformanceLocationOnMap();
+            await eventMap.addPinOnMapForPerformance();
             await driver.sleep(2000);
             await agendaNavs.performancesNavIsDisplayed();
             await agendaNavs.clickPerformancesNav();
@@ -1547,7 +1547,6 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await driver.sleep(2000);
-            //await eventOptionTabs.ticketingTabIsDisplayed();
             await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await eventTickets.clickBoxOfficeNav();

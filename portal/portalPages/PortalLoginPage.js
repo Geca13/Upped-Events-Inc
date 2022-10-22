@@ -18,8 +18,9 @@
         }
 
         async loadPortalUrl(){
-           await this.visit('https://dev.portal.uppedevents.com/')
-            await this.returnBrowserName();
+            await this.visit('https://portal.pr-tickets.uppedevents.com/')
+            //await this.visit('https://dev.portal.uppedevents.com/')
+            //await this.returnBrowserName();
            await this.timeout(1000);
         }
         async isAtPortalLoginPage(){
@@ -28,8 +29,8 @@
 
 
         async enterValidCredentialsAndLogin(){
-            //await this.sentKeys(EMAIL_INPUT,"email20@test.test");
-            await this.sentKeys(EMAIL_INPUT,"vardar123@vardar123.mk");
+            await this.sentKeys(EMAIL_INPUT,"louis@uppedevents.com");
+            //await this.sentKeys(EMAIL_INPUT,"vardar123@vardar123.mk");
             await this.sentKeys(PASSWORD_INPUT,"Test@123");
             await this.click(SIGN_IN_BUTTON)
         }

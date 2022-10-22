@@ -2,6 +2,8 @@
     const AddLayerOnMap = require('../portalModals/AddLayerOnMapModal')
     const MAP = { tagName: 'event-map' }
     const MAP_BUTTONS = { className: 'leaflet-buttons-control-button'}//list
+    const SAVED_LAYERS = { xpath: "//li[contains(@class , 'form-group ')]" }
+    const SAVED_LAYER_DATA_INPUTS = { xpath: "//li[contains(@class , 'form-group ')]//input[@type='text']"}
 
 
 
@@ -14,8 +16,9 @@
         async eventMapIsDisplayed(){
             await this.isDisplayed(MAP_BUTTONS,35000);
         }
+        
 
-        async addPerformanceLocationOnMap(){
+        async addPinOnMapForPerformance(){
             let modal = new AddLayerOnMap(this.driver)
             await this.eventMapIsDisplayed();
             await this.timeout(2000);
@@ -27,6 +30,15 @@
             await modal.addStageLocationOnMap();
             await this.timeout(2000);
 
+        }
+        
+        async assertLayerDataIsSavedCorrectlyByIndex(firstAnswer, secondAnswer, thirdAnswer, fourthAnswer, fifthAnswer){
+            await this.isDisplayed(SAVED_LAYER_DATA_INPUTS, 5000);
+            let firstInputData = await this.getEnteredTextInTheInputByIndex(SAVED_LAYER_DATA_INPUTS, 0)
+            let secondInputData
+            let thirdInputData
+            let fourthInputData
+            let fifthInputData
         }
 
         async addFootballLocationOnMap(){

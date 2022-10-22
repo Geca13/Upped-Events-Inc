@@ -1,6 +1,15 @@
 ﻿    const BasePage = require('../../BasePage');
     const TableComponent = require('../portalComponents/TableComponent')
     const ADD_SHIFT_BUTTON = { xpath: "//*[text()='Add']"}
+    const STAFF_NAME_COLUMN = { className: "column-name" }
+    const STAFF_EMAIL_COLUMN = { className: "column-email" }
+    const STAFF_POSITIONS_COLUMN = { className: "column-totalshiftpositions" }
+    const STAFF_FUNCTION_COLUMN = { className: "column-functionname" }
+    const STAFF_STATUS_COLUMN = { className: "column-statuslabel" }
+    const STAFF_SOURCE_COLUMN = { className: "column-source" }
+    const STAFF_ADDED_DATE_COLUMN = { className: "column-addedon" }
+    const DEACTIVATED_STAFF_TOGGLE = {className: 'lc_off' }
+    const ACTIVATED_STAFF_TOGGLE = {className: 'lc_on' }
     
     class StaffPage extends BasePage {
         constructor(driver) {
