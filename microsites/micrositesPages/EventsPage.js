@@ -24,8 +24,8 @@
     }
 
     async load() {
-        //await this.visit('https://events.dev.uppedevents.com/events')
-        await this.visit('https://events.pr-tickets.uppedevents.com/events')
+        await this.visit('https://events.dev.uppedevents.com/events')
+        //await this.visit('https://events.pr-tickets.uppedevents.com/events')
         await this.timeout(10000);
     }
 

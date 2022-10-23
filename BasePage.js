@@ -76,12 +76,10 @@
         }
 
         async locateElementsByText(text){
-            let elements = await this.driver.findElements(By.xpath("//*[text()='"+text+"']"))
-            return elements;
+            return await this.driver.findElements(By.xpath("//*[text()='" + text + "']"));
         }
         async locateSingleElementByText(text){
-            let element = await this.driver.findElement(By.xpath("//*[text()='"+text+"']"))
-            return element;
+            return await this.driver.findElement(By.xpath("//*[text()='" + text + "']"));
         }
 
         async clickElementByText(text){
@@ -94,23 +92,20 @@
             let shortnameParent = await shortname.findElement(By.xpath(".."));
             let shortnameParentPrecedingSibling = await shortnameParent.findElement(By.xpath("preceding-sibling::div"));
             let img = await shortnameParentPrecedingSibling.findElement(By.xpath("./child::img"));
-            let srcAttribute = await img.getAttribute('src');
-            return srcAttribute;
+            return await img.getAttribute('src');
         }
 
         async returnImgSrcAttribute(locator){
             await this.timeout(2000)
             let img = await this.find(locator);
-            let src = await img.getAttribute('src');
-            return src;
+            return await img.getAttribute('src');
         }
 
         async returnImgSrcAttributeByIndex(locator, index){
             await this.timeout(2000);
             let images = await this.findAll(locator);
             let img = await images[index];
-            let src = await img.getAttribute('src');
-            return src;
+            return await img.getAttribute('src');
         }
 
         async numberWithCommas(locator) {
@@ -125,8 +120,7 @@
             array = value.split(" ");
             fullDate = array[0].split("/")
             let formatedYear = fullDate[2].substring(2);
-            let formated = array[0].substring(0,array[0].length-4) + formatedYear  + ', ' + array[1]+ ' ' + array[2];
-            return formated;
+            return array[0].substring(0, array[0].length - 4) + formatedYear + ', ' + array[1] + ' ' + array[2];
         }
 
         async getOnlyFullDateFromDateTimeInput(locator){
@@ -219,14 +213,6 @@
             await parent.click();
         }
 
-        async getChildElementTagNameByParentIndex(locator){
-            let elements = await this.findAll(locator)
-            for(let i = 0; i < elements.length; i++){
-                let element = elements[i];
-                return element.getTagName();
-            }
-        }
-
         async getElementFromAnArrayByIndex(locator, index){
             let elements = await this.findAll(locator);
             return await elements[index];
@@ -274,24 +260,7 @@
             return elements[index].getCssValue('background-color')
         }
 
-        async checkIfChildElementContainsClassByIndexOfParentInArray(locator, index){
-            let parents = await this.findAll(locator);
-            let child = await parents[index].findElement(By.xpath("./child::*"));
-            let classArray = []
-            let classes = await child.getAttribute('class');
-            let clases = classes.split(' ');
-            for (const item of classes) {
-                classArray.push(item)
-                console.log(classArray)
-                let y = classArray.length;
-                while (y--){
-                    if(classArray[y] == "fillin"){
-                        return true;
-                    }
-                }
-                return false;
-            }
-        }
+       
 
         async checkIfClassIsApplied(locator, index, clas){
             await this.timeout(1000);
@@ -305,7 +274,7 @@
             }
             let i = seperated.length;
             while (i--){
-                if(seperated[i] == clas){
+                if(seperated[i] === clas){
                     return true;
                 }
             }
@@ -315,7 +284,7 @@
         async returnIndexWhenTextIsKnown(locator,text){
             let array = await this.findAll(locator)
             for(let i = 0; i < array.length; i++){
-                if(await array[i].getText() == text){
+                if(await array[i].getText() === text){
                     return i;
                 }
             }
@@ -375,8 +344,7 @@
                 let amount = await parseFloat(amountText);
                 total = total + amount;
             }
-            let fixed = total.toFixed(2)
-            return fixed;
+            return total.toFixed(2);
         }
         async assertNumberedArrayIsSortedAscending(locator){
             let array = await this.convertStringArrayToNumberWithLocator(locator);
@@ -653,15 +621,13 @@
         async getMonth(m){
             let index = parseInt(m);
             const months = [" ","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-            let month = months[index];
-            return month;
+            return months[index];
         }
 
         async getOrdinalDay(d){
             let index = parseInt(d);
             const days = [' ','1st','2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th', '21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th', '29th', '30th', '31st'];
-            let day = days[index];
-            return day;
+            return days[index];
         }
 
         async getCurrentDateAndTime(){
@@ -678,8 +644,8 @@
             return converted;
         }
 
-        async returnStateFromAbbreviation(abreviation){
-            const abreviations = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'];
+        async returnStateFromAbbreviation(abbreviation){
+            const abbreviations = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'];
             const states = [
                 'Alabama',
                 'Alaska',
@@ -732,8 +698,8 @@
                 'Wisconsin',
                 'Wyoming'];
 
-            for(let i = 0; i < abreviations.length; i++){
-                if (abreviation == abreviations[i]){
+            for(let i = 0; i < abbreviations.length; i++){
+                if (abbreviation === abbreviations[i]){
                     return states[i];
                 }
             }

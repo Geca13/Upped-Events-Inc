@@ -14,8 +14,8 @@
         }
         async loadInbox() {
             await this.timeout(3000);
-            //await this.visit('https://mail:upped2021@mail.dev.uppedevents.com/');
-            await this.visit('https://mail:upped2021@mail.pr-tickets.uppedevents.com/');
+            await this.visit('https://mail:upped2021@mail.dev.uppedevents.com/');
+            //await this.visit('https://mail:upped2021@mail.pr-tickets.uppedevents.com/');
         }
         async inboxIsOpened(){
             await this.isDisplayed(INBOX_TABLE_ROWS,5000);

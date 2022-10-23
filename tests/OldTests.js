@@ -163,7 +163,7 @@
         let embedDonate;
 
 
-        let base = Math.floor(100000 + Math.random() * 900000);
+        let base = 914123// Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -999,6 +999,7 @@
             await driver.sleep(2000);
             await sideMenu.clickMapAndAgendaTab();
             await eventMap.addPinOnMapForPerformance();
+            await eventMap.assertLayerDataIsSavedCorrectlyByIndex("Stage", "Concert Stage", "Best Concert Here", "Activities", "Interactive", "leaflet-pm-icon-marker");
             await driver.sleep(2000);
             await agendaNavs.performancesNavIsDisplayed();
             await agendaNavs.clickPerformancesNav();
@@ -1009,6 +1010,9 @@
             await agendaNavs.clickActivitiesNav();
             await activity.isOnActivitiesPage();
             await activity.createFootballActivity();
+            await driver.sleep(2000);
+            await sideMenu.clickMapAndAgendaTab();
+            await eventMap.assertLayerDataIsSavedCorrectlyByIndex("Activity", "Football Stadium", "Vikings vs Eagles", "Activities", "Interactive", "leaflet-pm-icon-polygon");
             await events.load();
             await events.eventCardIsAvailableToClick();
             await events.clickNewEvent(shortName);
