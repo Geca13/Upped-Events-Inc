@@ -29,7 +29,12 @@
             await table.messageWhenTableIsEmpty("You do not currently have any ticket questions.")
         }
 
-        async assertTableHeadersNames(){
+        async openTicketsQuestionsPageDirectly(eventId){
+            await this.visit("https://dev.portal.uppedevents.com/dashboard/event/" + eventId + "/ticket/settings?tab=additional")
+            await this.isOnTicketQuestionsPage();
+        }
+
+        async assertTicketsQuestionsTableHeaders(){
             let table = new TableComponent(this.driver);
             await table.assertColumnNamesByIndex(1, "Question Title");
             await table.assertColumnNamesByIndex(2, "Mandatory (Y/N)");

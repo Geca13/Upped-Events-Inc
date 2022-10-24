@@ -205,7 +205,7 @@
             assert.equal(staffTicket,ticketFive);
         }
 
-        async assertTableHeaders(){
+        async assertBoxOfficeTicketsTableHeaders(){
             await this.isOnBoxOfficePage();
             let table = new TableComponent(this.driver);
             await table.assertColumnNamesByIndex(0 ,"Ticket Name");

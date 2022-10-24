@@ -640,7 +640,7 @@ describe('Should do everything', function () {
         await eventDetails.unpublishButtonIsDisplayed();
         await eventOptionTabs.ticketingTabIsDisplayed();
         await eventOptionTabs.clickTicketingTab();
-        await ticketsNav.checkForTableColumnsTexts();
+        await ticketsNav.assertTicketsNavTableHeader();
         await ticketsNav.manipulateColumnsFromTable();
         await driver.sleep(5000);
     });

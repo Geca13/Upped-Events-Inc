@@ -36,8 +36,28 @@
         async taxesAndFeesNavIsDisplayed(){
             await this.isDisplayed(SUB_NAVS, 5000);
         }
-        
 
+        async returnSubNavLinksCount(){
+            await this.isDisplayed(SUB_NAVS, 5000);
+            return await this.returnElementsCount(SUB_NAVS);
+        }
+
+        async clickSubNavByIndex(index){
+            await this.isDisplayed(SUB_NAVS, 5000);
+            await this.timeout(1000);
+            await this.clickElementReturnedFromAnArray(SUB_NAVS,index);
+        }
+
+        async getSubNavNameByIndex(index){
+            await this.isDisplayed(SUB_NAVS, 5000);
+            return await this.getElementTextFromAnArrayByIndex(SUB_NAVS, index);
+        }
+
+        async clickSubNavByText(text){
+            await this.isDisplayed(SUB_NAVS, 5000);
+            await this.timeout(500);
+            await this.clickElementByLinkText(text);
+        }
 
     }
     module.exports = SectionsNavs;

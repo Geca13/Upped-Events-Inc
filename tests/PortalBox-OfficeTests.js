@@ -125,7 +125,7 @@
         it('should verify box-office table headers and no tickets message', async function () {
 
             await bosTickets.openBoxOfficeDirectly(eventId);
-            await bosTickets.assertTableHeaders();
+            await bosTickets.assertBoxOfficeTicketsTableHeaders();
             await bosTickets.assertNoTicketMessage();
 
         });

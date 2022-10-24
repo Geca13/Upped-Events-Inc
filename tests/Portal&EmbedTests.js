@@ -3421,7 +3421,7 @@
             await sectionsNavs.clickNavByText("Ticket Questions")
             await questions.isOnTicketQuestionsPage();
             await questions.assertElementsOnEventTicketsQuestionsPage();
-            await questions.assertTableHeadersNames();
+            await questions.assertTicketsQuestionsTableHeaders();
             await questions.assertElementsOnCreateTicketQuestionModal();
 
         });

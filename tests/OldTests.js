@@ -697,7 +697,7 @@
             await eventDetails.unpublishButtonIsDisplayed();
             //await eventOptionTabs.ticketingTabIsDisplayed();
             await sideMenu.clickTicketingTab();
-            await ticketsNav.checkForTableColumnsTexts();
+            await ticketsNav.assertTicketsNavTableHeader();
             await ticketsNav.manipulateColumnsFromTable();
             await driver.sleep(5000);
         });

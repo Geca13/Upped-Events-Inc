@@ -18,6 +18,25 @@
             await this.isDisplayed(ATTENDEES_TABLE,35000);
         }
 
+        async openAttendeesPageDirectly(eventId){
+            await this.visit("https://dev.portal.uppedevents.com/dashboard/event/" + eventId + "/attendees")
+            await this.isOnAttendeesTab();
+        }
+        
+        async assertAttendeesTableHeaders(){
+            let table = new TableComponent(this.driver);
+            await table.assertColumnNamesByIndex(1, "Full Name");
+            await table.assertColumnNamesByIndex(2, "Gender");
+            await table.assertColumnNamesByIndex(3, "Age");
+            await table.assertColumnNamesByIndex(4, "Ticket Status");
+            await table.assertColumnNamesByIndex(5, "No. Of Tickets");
+            await table.assertColumnNamesByIndex(6, "Past Attendance");
+            await table.assertColumnNamesByIndex(7, "Ticket Questions");
+            await table.assertColumnNamesByIndex(8, "Surveys");
+            await table.assertColumnNamesByIndex(9, "Arrived");
+            await table.assertColumnNamesByIndex(10, "Total Spend");
+        }
+
         async noAttendeesInTableMessage(){
             let table = new TableComponent(this.driver);
             await table.messageWhenTableIsEmpty("No record available");

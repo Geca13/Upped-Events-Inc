@@ -1,6 +1,7 @@
     const BasePage = require('../../BasePage');
     const {By} = require("selenium-webdriver");
     const Alerts = require('../../Validations&Alerts/Alerts')
+    const TableComponent = require('../portalComponents/TableComponent')
     const ColumnOptionsModal = require('../portalComponents/ColumnsOptionsModal');
     const CreateTicketModal = require('../portalModals/CreateTicketModal')
     const { expect }= require('chai');
@@ -43,6 +44,12 @@
         constructor(driver) {
             super(driver);
         }
+
+        async openTicketsNavDirectly(eventId){
+            await this.visit("https://dev.portal.uppedevents.com/dashboard/event/" + eventId + "/tickets")
+            await this.addTicketButtonIsDisplayed();
+        }
+        
         async createdTicketIsInTheTable(ticketName){
             await this.isDisplayed(By.xpath("//*[text()='"+ticketName+"']"),15000);
         }
@@ -268,26 +275,16 @@
 
         }
 
-        async checkForTableColumnsTexts(){
-            await this.isDisplayed(TABLE_HEADERS,5000)
-            let headers = await this.returnElementsCount(TABLE_HEADERS);
-            assert.equal(headers,8);
-            let first = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 0);
-            let second = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 1);
-            let third = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 2);
-            let fourth = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 3);
-            let fifth = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 4);
-            let sixth = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 5);
-            let seventh = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 6);
-            let eight = await this.getElementTextFromAnArrayByIndex(TABLE_HEADERS, 7);
-            assert.equal(first,'Ticket Name');
-            assert.equal(second,'Start Date/Time');
-            assert.equal(third,'End Date/Time');
-            assert.equal(fourth,'Price');
-            assert.equal(fifth,'Quantity');
-            assert.equal(sixth,'Sold');
-            assert.equal(seventh,'Reserved');
-            assert.equal(eight,'Active/Inactive');
+        async assertTicketsNavTableHeader(){
+            let table = new TableComponent(this.driver);
+            await table.assertColumnNamesByIndex(1, "Ticket Name");
+            await table.assertColumnNamesByIndex(2, "Start Date/Time");
+            await table.assertColumnNamesByIndex(3, "End Date/Time");
+            await table.assertColumnNamesByIndex(4, "Price");
+            await table.assertColumnNamesByIndex(5, "Quantity");
+            await table.assertColumnNamesByIndex(6, "Sold");
+            await table.assertColumnNamesByIndex(7, "Reserved");
+            await table.assertColumnNamesByIndex(8, "Active/Inactive");
 
         }
         async manipulateColumnsFromTable(){

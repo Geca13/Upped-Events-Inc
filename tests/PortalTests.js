@@ -6,6 +6,7 @@
     const CreateEventModal = require('../portal/portalModals/CreateEventModal');
     const DateTimePickerModal = require('../portal/portalModals/DateTimePickerModal');
     const MyEventsPage = require('../portal/dashboard/MyEventsTab');
+    const FindEventsPage = require('../portal/dashboard/FindEventsPage');
     const EventOptionTabs = require('../portal/eventOverview/EventOptionTabs');
     const DesignNavs = require('../portal/eventOverview/DesignNav/DesignNavs');
     const EventCardDesignPage = require('../portal/eventOverview/DesignNav/EventCardDesignPage');
@@ -43,7 +44,7 @@
     const ShopsPage = require('../portal/shopManagement/ShopsPage');
     const PartnersPage = require('../portal/partnerManagement/PartnersPage');
     const SetupNewVendorPage = require('../portal/partnerManagement/SetupNewVendorPage');
-    const MyMenusPage = require('../portal/eventModules/MyMenusPage');
+    const MyMenusPage = require('../portal/eventModules/Menus/MenuSchedulerPage');
     const EventTickets = require('../portal/ticketing/EventTickets');
     const BOSelectTickets = require('../portal/ticketing/BoxOffice/BOSelectTickets');
     const BOAddExtras = require('../portal/ticketing/BoxOffice/BOAddExtras');
@@ -76,6 +77,13 @@
     const StepsComponent = require('../embed/embedComponents/StepsComponent');
     const ReceiptPopup = require('../microsites/micrositesComponents/ReceiptPopup');
     const Files = require('../dummy/Files')
+    const SectionsNavs = require("../portal/portalComponents/SectionsNavs");
+    const SideMenu = require('../portal/portalComponents/SideMenu');
+    const LoyaltyProgram = require('../portal/eventOverview/SettingsNav/LoyaltyProgram');
+    const AnalyticsReportsPage = require('../portal/eventOverview/AnalyticsNav/AnalyticsReportsPage');
+    const TeamMembersPage = require('../portal/eventOverview/EventTeamNav/TeamMembersPage');
+    const AnalyticsTab = require('../portal/ticketing/AnalyticsTab')
+
 
     describe('Should do embed tests', function () {
         this.timeout(500000);
@@ -159,6 +167,13 @@
         let embedDonate;
         let receipt;
         let steps;
+        let sectionNavs;
+        let findEvents;
+        let sideMenu;
+        let loyalty;
+        let analyticsReports;
+        let teamMembers;
+        let ticketsAnalytics;
 
         let base =  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
@@ -200,11 +215,18 @@
         let customerLastName = 'cln'+base.toString();
         let customerEmail = customerFirstName + '@' + customerLastName+'.com';
         let customerPassword = base.toString() + 'Password';
+        let eventId = "1766";
 
 
         beforeEach(async function(){
             driver = await new Builder().forBrowser('chrome').build();
             await driver.manage().window().maximize();
+            portalLogin = new PortalLoginPage(driver);
+            dashboard = new DashboardPage(driver);
+            await portalLogin.loadPortalUrl();
+            await portalLogin.isAtPortalLoginPage();
+            await portalLogin.enterValidCredentialsAndLogin();
+            await dashboard.isAtDashboardPage();
 
         });
 
@@ -213,20 +235,123 @@
         })
 
         //PORTAL
-        it('should create new event and verify data in events page and General Details',async function () {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            createEvent = new CreateEventModal(driver);
+        it('should assert table headers on my events page',async function () {
             myEvents = new MyEventsPage(driver);
+            sectionNavs = new SectionsNavs(driver);
+            await sectionNavs.clickNavByText("My Events");
+            await myEvents.assertTableHeadersOnMyEventsPage();
+            
+        });
 
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await driver.sleep(1000);
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
+        //PORTAL
+        it('should assert table headers on find events page',async function () {
+            findEvents = new FindEventsPage(driver);
+            sectionNavs = new SectionsNavs(driver);
+            await sectionNavs.clickNavByText("Find Events");
+            await findEvents.assertFindEventsTableHeadersNames();
+        });
+
+        //PORTAL
+        it('should create new event',async function () {
+            let splited = [];
+            createEvent = new CreateEventModal(driver);
+
             await dashboard.clickCreateEventButton();
             await createEvent.createEventModalIsDisplayed();
             await createEvent.fillFormWithValidDataAndSave(eventName,shortName);
+            let urlToSplit = await driver.getCurrentUrl();
+            splited = await urlToSplit.split('/')
+            eventId = splited[splited.length - 2]
+        });
+
+        //PORTAL
+        it('should assert table headers on Attendees page',async function () {
+
+            attendees = new AttendeesTab(driver)
+            await attendees.openAttendeesPageDirectly(eventId);
+            await attendees.assertAttendeesTableHeaders();
+
+        });
+
+        //PORTAL
+        it('should assert table headers on Loyalty Program page',async function () {
+
+            loyalty = new LoyaltyProgram(driver)
+            await loyalty.openLoyaltyProgramPageDirectly(eventId);
+            await loyalty.assertLoyaltyProgramTableHeaders();
+
+        });
+
+        //PORTAL
+        it('should assert table headers on Analytics Report page',async function () {
+
+            analyticsReports = new AnalyticsReportsPage(driver)
+            await analyticsReports.openAnalyticsReportsPageDirectly(eventId);
+            await analyticsReports.assertAnalyticsReportsTableHeaders();
+
+        });
+
+        //PORTAL
+        it('should assert table headers on Team Members page',async function () {
+
+            teamMembers = new TeamMembersPage(driver)
+            await teamMembers.openTeamMembersPageDirectly(eventId);
+            await teamMembers.assertTeamMembersTableHeaders();
+
+        });
+
+        //PORTAL
+        it('should assert table headers on Activities page',async function () {
+
+            activity = new ActivitiesPage(driver)
+            await activity.openActivitiesPageDirectly(eventId);
+            await activity.assertActivitiesTableHeaders();
+
+        });
+
+        //PORTAL
+        it('should assert table headers on Performances page',async function () {
+
+            performance = new PerformancesPage(driver)
+            await performance.openPerformancesPageDirectly(eventId);
+            await performance.assertPerformancesTableHeaders();
+
+        });
+
+        //PORTAL
+        it('should assert table headers on Tickets page',async function () {
+
+            ticketsNav = new TicketsNav(driver)
+            await ticketsNav.openTicketsNavDirectly(eventId);
+            await ticketsNav.assertTicketsNavTableHeader();
+
+        });
+
+        //PORTAL
+        it('should assert table headers on Tickets Analytics page',async function () {
+
+            ticketsAnalytics = new AnalyticsTab(driver)
+            await ticketsAnalytics.openTicketsAnalyticsDirectly(eventId);
+            await ticketsAnalytics.assertTicketsAnalyticsTableHeader();
+
+        });
+
+        //PORTAL
+        it('should assert table headers on Tickets Questions page',async function () {
+
+            questions = new TicketQuestionsPage(driver)
+            await questions.openTicketsQuestionsPageDirectly(eventId);
+            await questions.assertTicketsQuestionsTableHeaders();
+
+        });
+
+        //PORTAL
+        it('should assert table headers on Tickets page in box office',async function () {
+
+            bosTickets = new BOSelectTickets(driver)
+            await bosTickets.openBoxOfficeDirectly(eventId);
+            await bosTickets.assertBoxOfficeTicketsTableHeaders();
+
         });
 
         //PORTAL
@@ -2820,7 +2945,7 @@
             await settingsNav.clickTicketQuestions();
             await questions.isOnTicketQuestionsPage();
             await questions.assertElementsOnEventTicketsQuestionsPage();
-            await questions.assertTableHeadersNames();
+            await questions.assertTicketsQuestionsTableHeaders();
             await questions.assertElementsOnCreateTicketQuestionModal();
 
         });

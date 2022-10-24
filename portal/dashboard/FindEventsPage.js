@@ -1,6 +1,6 @@
 ﻿    const BasePage = require('../../BasePage');
     const TableComponent = require('../portalComponents/TableComponent')
-    const ADD_SHIFT_BUTTON = { xpath: "//*[text()='Add']"}
+    const SEARCH_EVENT_INPUT = { xpath: "//input[@placeholder='Search By Name']"}
     
     class FindEventsPage extends BasePage {
         constructor(driver) {
@@ -8,7 +8,7 @@
         }
     
         async isOnFindEventPage(){
-            await this.isDisplayed(ADD_SHIFT_BUTTON, 5000)
+            await this.isDisplayed(SEARCH_EVENT_INPUT, 5000)
         }
     
         async assertFindEventsTableHeadersNames(){
