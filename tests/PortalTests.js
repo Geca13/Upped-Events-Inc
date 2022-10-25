@@ -20,69 +20,45 @@
     const TaxesAndFeesPage = require('../portal/ticketing/SettingsNav/TaxesAndFeesPage');
     const TicketQuestionsPage = require('../portal/ticketing/SettingsNav/TicketQuestionsPage')
     const TicketTermsPage = require('../portal/ticketing/SettingsNav/TicketTermsPage');
-    const EventsPage = require('../microsites/micrositesPages/EventsPage');
-    const LoginComponent = require('../microsites/micrositesComponents/LoginComponent');
-    const EventInfo = require('../microsites/micrositesPages/EventInfo');
-    const TicketingPage = require('../microsites/micrositesPages/TicketingPage');
-    const TicketsTab = require('../microsites/micrositesComponents/TicketsTab');
-    const ExtrasTab = require('../microsites/micrositesComponents/ExtrasTab');
-    const AddMoneyComponent = require("../microsites/micrositesComponents/AddMoneyComponent")
-    const TicketQuestionsModal = require('../microsites/micrositesComponents/TicketQuestionsModal')
-    const PayTab = require('../microsites/micrositesComponents/PayTab');
-    const ConfirmTab = require('../microsites/micrositesComponents/ConfirmTab');
-    const NewCardComponent = require('../microsites/micrositesComponents/NewCardComponent');
-    const TicketTermsModal = require('../microsites/micrositesComponents/TicketTermsModal');
-    const EventOrders = require('../portal/transactionCentar/EventOrders');
+    const AllTransactions = require('../portal/transactionCentar/AllTransactions');
+    const ItemsTransactions = require('../portal/transactionCentar/ItemsTransaction');
+    const TicketsTransactions = require('../portal/transactionCentar/TicketsTransactions');
     const MapAndAgendaNavs = require('../portal/mapAndAgenda/MapAndAgendaNavs');
     const EventMapPage = require('../portal/mapAndAgenda/EventMapPage');
     const PerformancesPage = require('../portal/mapAndAgenda/PerformancesPage');
     const ActivitiesPage = require('../portal/mapAndAgenda/ActivitiesPage');
-    const LineupTab = require('../microsites/micrositesComponents/LineupTab');
-    const ActivityTab = require('../microsites/micrositesComponents/ActivitiesTab');
     const ShopsNavs = require('../portal/shopManagement/ShopsNavs');
     const ShopCategoriesPage = require('../portal/shopManagement/ShopCategoriesPage');
     const ShopsPage = require('../portal/shopManagement/ShopsPage');
     const PartnersPage = require('../portal/partnerManagement/PartnersPage');
-    const SetupNewVendorPage = require('../portal/partnerManagement/SetupNewVendorPage');
     const MyMenusPage = require('../portal/eventModules/Menus/MenuSchedulerPage');
     const EventTickets = require('../portal/ticketing/EventTickets');
     const BOSelectTickets = require('../portal/ticketing/BoxOffice/BOSelectTickets');
     const BOAddExtras = require('../portal/ticketing/BoxOffice/BOAddExtras');
     const BOAddDetails = require('../portal/ticketing/BoxOffice/BOAddDetails');
     const BOReviewAndPay = require('../portal/ticketing/BoxOffice/BOReviewAndPay');
-    const EmbedMainPage = require("../embed/embedPages/EmbedMainPage");
-    const TicketsComponent = require("../embed/embedComponents/TicketsComponent");
-    const SummaryComponent = require("../embed/embedComponents/SummaryComponent");
-    const LoginPage = require("../embed/embedPages/LoginPage");
-    const ExtrasPage = require("../embed/embedPages/ExtrasPage");
-    const PaymentPage = require("../embed/embedPages/PaymentPage");
-    const EmbedOrderDetailsPage = require("../embed/embedPages/EmbedOrderDetailsPage");
-    const DonationComponent = require("../microsites/micrositesComponents/DonationComponent");
-    const ConfirmPage = require("../embed/embedPages/ConfirmPage");
-    const CreateAccountModal = require("../microsites/micrositesComponents/CreateAccountModal");
-    const MyWalletTab = require('../microsites/account/MyWalletTab');
     const UserDetailsModal = require('../portal/portalModals/userDetailsModal/UserDetailsModal');
     const EventCapacitySubNav = require('../portal/ticketing/SettingsNav/EventCapacitySubNav');
-    const PhotosTab = require('../microsites/micrositesComponents/PhotosTab');
-    const DetailsTab = require('../microsites/micrositesComponents/DetailsTab');
-    const AccountPage = require('../microsites/account/AccountPage');
-    const ForgotPasswordModal = require("../microsites/micrositesComponents/ForgotPasswordModal");
-    const ResetPasswordPage = require("../microsites/micrositesPages/ResetPasswordPage");
-    const LoginTab = require("../microsites/micrositesComponents/LoginTab");
-    const CreateAccountPage = require("../embed/embedPages/CreateAccountPage");
     const EmbeddingPage = require("../portal/eventOverview/DesignNav/EmbeddingPage");
-    const EmbedTicketTermsModal = require('../embed/embedComponents/EmbedTicketTermsModal');
     const DonationPage = require('../portal/eventOverview/SettingsNav/DonationsPage');
-    const EmbedDonateComponent = require('../embed/embedComponents/EmbedDonateComponent');
-    const StepsComponent = require('../embed/embedComponents/StepsComponent');
-    const ReceiptPopup = require('../microsites/micrositesComponents/ReceiptPopup');
-    const Files = require('../dummy/Files')
     const SectionsNavs = require("../portal/portalComponents/SectionsNavs");
     const SideMenu = require('../portal/portalComponents/SideMenu');
     const LoyaltyProgram = require('../portal/eventOverview/SettingsNav/LoyaltyProgram');
     const AnalyticsReportsPage = require('../portal/eventOverview/AnalyticsNav/AnalyticsReportsPage');
     const TeamMembersPage = require('../portal/eventOverview/EventTeamNav/TeamMembersPage');
-    const AnalyticsTab = require('../portal/ticketing/AnalyticsTab')
+    const AnalyticsTab = require('../portal/ticketing/AnalyticsTab');
+    const ContractsPage = require('../portal/partnerManagement/ContractsPage');
+    const VendorSpecificSettingsPage = require('../portal/partnerManagement/PartnersSettings/VendorSpecificSettingsPage');
+    const StaffPage = require('../portal/staffManagement/StaffPage');
+    const ShiftsPage = require('../portal/staffManagement/ShiftsPage');
+    const EmailMarketingPage = require('../portal/eventMarketing/EmailMarketingPage');
+    const NotificationPage = require('../portal/customerEngagements/NotificationPage');
+    const FeedbacksPage = require('../portal/resolutionCentar/FeedbacksPage');
+    const PendingDisputesPage = require('../portal/resolutionCentar/PendingDisputesPage');
+    const SettledDisputesPage = require('../portal/resolutionCentar/SettledDisputesPage');
+    const SupportTicketsPage = require('../portal/uppedSupport/SupportTicketsPage');
+    const FeatureRequestPage = require('../portal/uppedSupport/FeatureRequestPage');
+    const ProfessionalServicePage = require('../portal/uppedSupport/ProfessionalServicePage');
 
 
     describe('Should do embed tests', function () {
@@ -116,7 +92,9 @@
         let confirm;
         let newCardComponent;
         let terms;
-        let eventOrders;
+        let allTransactions;
+        let itemsTransactions;
+        let ticketsTransactions;
         let eventSettingsNav;
         let agendaNavs;
         let eventMap;
@@ -148,24 +126,11 @@
         let payment;
         let orderDetails;
         let embedConfirm;
-        let myWallet;
-        let createAccount;
-        let userDetails;
+        
         let capacity;
         let photo;
-        let detailsTab;
-        let account;
-        let forgotPassword;
-        let resetPassword;
-        let loginTab;
-        let embedCreate;
-        let addMoney;
         let embedding;
-        let files;
-        let termsModal;
-        let donation;
-        let embedDonate;
-        let receipt;
+        
         let steps;
         let sectionNavs;
         let findEvents;
@@ -174,6 +139,19 @@
         let analyticsReports;
         let teamMembers;
         let ticketsAnalytics;
+        let contractsPage;
+        let vendorSettings;
+        let staffPage;
+        let shiftsPage;
+        let emailMarketing;
+        let notification;
+        let feedbacks;
+        let pendingDisputes;
+        let settledDisputes;
+        let supportTickets;
+        let featureRequests;
+        let professionalService;
+        
 
         let base =  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
@@ -217,7 +195,7 @@
         let customerPassword = base.toString() + 'Password';
         let eventId = "1766";
 
-
+        
         beforeEach(async function(){
             driver = await new Builder().forBrowser('chrome').build();
             await driver.manage().window().maximize();
@@ -252,6 +230,17 @@
         });
 
         //PORTAL
+        it('should assert nav links on Dashboard page',async function () {
+            
+            sectionNavs = new SectionsNavs(driver);
+            await sectionNavs.assertNavLinksCount(3);
+            await sectionNavs.assertNavLinkTextByIndex('Welcome' , 0);
+            await sectionNavs.assertNavLinkTextByIndex('My Events' , 1);
+            await sectionNavs.assertNavLinkTextByIndex('Find Events' , 2);
+            
+        });
+
+        //PORTAL
         it('should create new event',async function () {
             let splited = [];
             createEvent = new CreateEventModal(driver);
@@ -262,6 +251,82 @@
             let urlToSplit = await driver.getCurrentUrl();
             splited = await urlToSplit.split('/')
             eventId = splited[splited.length - 2]
+        });
+
+        //PORTAL
+        it('should assert nav links on Event Overview page',async function () {
+
+            sectionNavs = new SectionsNavs(driver);
+            eventDetails = new GeneralDetailsTab(driver)
+            await eventDetails.openEventGeneralDetailsPageDirectly(eventId);
+            await sectionNavs.assertNavLinksCount(7);
+            await sectionNavs.assertNavLinkTextByIndex('General Details' , 0);
+            await sectionNavs.assertNavLinkTextByIndex('Design' , 1);
+            await sectionNavs.assertNavLinkTextByIndex('Event Team' , 2);
+            await sectionNavs.assertNavLinkTextByIndex('Settings' , 3);
+            await sectionNavs.assertNavLinkTextByIndex('Attendees' , 4);
+            await sectionNavs.assertNavLinkTextByIndex('Logs' , 5);
+            await sectionNavs.assertNavLinkTextByIndex('Analytics' , 6);
+
+        });
+
+        //PORTAL
+        it('should assert sub-nav links on Event Overview -> Design page',async function () {
+
+            sectionNavs = new SectionsNavs(driver);
+            eventDetails = new GeneralDetailsTab(driver)
+            await eventDetails.openEventGeneralDetailsPageDirectly(eventId);
+            await sectionNavs.clickNavByText("Design");
+            await sectionNavs.assertSectionSubNavsCount(6);
+            await sectionNavs.assertEventOverviewSubNavLinkTextByIndex('Event Card Design' , 0);
+            await sectionNavs.assertEventOverviewSubNavLinkTextByIndex('App Design' , 1);
+            await sectionNavs.assertEventOverviewSubNavLinkTextByIndex('Event Site' , 2);
+            await sectionNavs.assertEventOverviewSubNavLinkTextByIndex('Sponsorship' , 3);
+            await sectionNavs.assertEventOverviewSubNavLinkTextByIndex('Embedding' , 4);
+            await sectionNavs.assertEventOverviewSubNavLinkTextByIndex('Ticket Design' , 5);
+
+        });
+
+        //PORTAL
+        it('should assert sub-nav links on Event Overview -> Event Team page',async function () {
+
+            sectionNavs = new SectionsNavs(driver);
+            eventDetails = new GeneralDetailsTab(driver)
+            await eventDetails.openEventGeneralDetailsPageDirectly(eventId);
+            await sectionNavs.clickNavByText("Event Team");
+            await sectionNavs.assertSectionSubNavsCount(2);
+            await sectionNavs.assertEventTeamSubNavLinkTextByIndex('Team members' , 0);
+            await sectionNavs.assertEventTeamSubNavLinkTextByIndex('Primary Contact' , 1);
+
+        });
+
+        //PORTAL
+        it('should assert sub-nav links on Event Overview -> Settings page',async function () {
+
+            sectionNavs = new SectionsNavs(driver);
+            eventDetails = new GeneralDetailsTab(driver)
+            await eventDetails.openEventGeneralDetailsPageDirectly(eventId);
+            await sectionNavs.clickNavByText("Settings");
+            await sectionNavs.assertSectionSubNavsCount(5);
+            await sectionNavs.assertEventSettingsSubNavLinkTextByIndex('Event Security' , 0);
+            await sectionNavs.assertEventSettingsSubNavLinkTextByIndex('Event Payments' , 1);
+            await sectionNavs.assertEventSettingsSubNavLinkTextByIndex('Notifications' , 2);
+            await sectionNavs.assertEventSettingsSubNavLinkTextByIndex('Donations' , 3);
+            await sectionNavs.assertEventSettingsSubNavLinkTextByIndex('Loyalty Program' , 4);
+
+        });
+
+        //PORTAL
+        it('should assert sub-nav links on Event Overview -> Analytics page',async function () {
+
+            sectionNavs = new SectionsNavs(driver);
+            eventDetails = new GeneralDetailsTab(driver)
+            await eventDetails.openEventGeneralDetailsPageDirectly(eventId);
+            await sectionNavs.clickNavByText("Analytics");
+            await sectionNavs.assertSectionSubNavsCount(2);
+            await sectionNavs.assertEventAnalyticsSubNavLinkTextByIndex('Dashboard' , 0);
+            await sectionNavs.assertEventAnalyticsSubNavLinkTextByIndex('Reports' , 1);
+
         });
 
         //PORTAL
@@ -355,6 +420,162 @@
         });
 
         //PORTAL
+        it('should assert table headers on Event orders page for transaction view',async function () {
+
+            allTransactions = new AllTransactions(driver)
+            await allTransactions.openTransactionViewInEventOrdersDirectly(eventId);
+            await allTransactions.assertTransactionViewTableHeadersNames();
+
+        });
+
+        //PORTAL
+        it('should assert table headers on Event orders tickets nav page',async function () {
+
+            ticketsTransactions = new TicketsTransactions(driver)
+            await ticketsTransactions.openTicketsNavInEventOrdersDirectly(eventId);
+            await ticketsTransactions.assertTicketsTransactionsTableHeadersNames();
+
+        });
+
+        //PORTAL
+        it('should assert table headers on Event orders items nav page',async function () {
+
+            itemsTransactions = new ItemsTransactions(driver)
+            await itemsTransactions.openItemsNavInEventOrdersDirectly(eventId);
+            await itemsTransactions.assertItemsTransactionsTableHeadersNames();
+
+        });
+
+        //PORTAL
+        it('should assert table headers on Event orders for detailed view',async function () {
+
+            allTransactions = new AllTransactions(driver)
+            await allTransactions.openDetailedViewInEventOrdersDirectly(eventId);
+            await allTransactions.assertDetailedViewTableHeadersNames();
+
+        });
+
+        it('should assert table headers on Shops page',async function () {
+
+            shopsPage = new ShopsPage(driver)
+            await shopsPage.openShopsPageDirectly(eventId);
+            await shopsPage.assertShopsTableHeadersNames();
+
+        });
+
+        it('should assert table headers on Partners page',async function () {
+
+            partnersPage = new PartnersPage(driver)
+            await partnersPage.openPartnersPageDirectly(eventId);
+            await partnersPage.assertPartnersTableHeadersNames();
+
+        });
+
+        it('should assert table headers on Partners contracts page',async function () {
+
+            contractsPage = new ContractsPage(driver);
+            await contractsPage.openPartnersContactsPageDirectly(eventId);
+            await contractsPage.assertPartnersContractsTableHeadersNames();
+
+        });
+
+        it('should assert table headers on Vendors Settings  page',async function () {
+            vendorSettings = new VendorSpecificSettingsPage(driver);
+            await vendorSettings.openVendorSettingsPageDirectly(eventId);
+            await vendorSettings.clickOnVendorSpecificSettings();
+            await vendorSettings.assertVendorsSettingsTableHeadersNames();
+
+        });
+
+        it('should assert table headers on Staff page',async function () {
+
+            staffPage = new StaffPage(driver);
+            await staffPage.openStaffPageDirectly(eventId);
+            await staffPage.assertStaffTableHeadersNames();
+
+        });
+
+        it('should assert table headers on Shifts page',async function () {
+
+            shiftsPage = new ShiftsPage(driver);
+            await shiftsPage.openShiftsPageDirectly(eventId);
+            await shiftsPage.assertShiftsTableHeadersNames();
+
+        });
+
+        it('should assert table headers on Event Marketing(email) page',async function () {
+
+            emailMarketing = new EmailMarketingPage(driver);
+            await emailMarketing.openEmailMarketingPageDirectly(eventId);
+            await emailMarketing.assertEmailMarketingPageTableHeadersNames();
+
+        });
+
+        it('should assert table headers on Customer Engagement (Notification) page',async function () {
+
+            notification = new NotificationPage(driver);
+            await notification.openNotificationPageDirectly(eventId);
+            await notification.assertNotificationPageTableHeadersNames();
+
+        });
+
+        it('should assert table headers on Feedbacks page',async function () {
+
+            feedbacks = new FeedbacksPage(driver);
+            await feedbacks.openFeedbackPageDirectly(eventId);
+            await feedbacks.assertFeedbackPageTableHeadersNames();
+
+        });
+
+        it('should assert table headers on Pending Disputes page',async function () {
+
+            pendingDisputes = new PendingDisputesPage(driver);
+            await pendingDisputes.openPendingDisputesPageDirectly(eventId);
+            await pendingDisputes.assertPendingDisputesPageTableHeadersNames();
+
+        });
+
+        it('should assert table headers on Settled Disputes page',async function () {
+
+            settledDisputes = new SettledDisputesPage(driver);
+            await settledDisputes.openSettledDisputesPageDirectly(eventId);
+            await settledDisputes.assertSettledDisputesPageTableHeadersNames();
+
+        });
+
+        it('should assert table headers on Support Tickets page',async function () {
+
+            supportTickets = new SupportTicketsPage(driver);
+            await supportTickets.openSupportTicketsPageDirectly(eventId);
+            await supportTickets.assertSupportTicketsPageTableHeadersNames();
+
+        });
+
+        it('should assert table headers on Feature Requests page',async function () {
+
+            featureRequests = new FeatureRequestPage(driver);
+            await featureRequests.openFeatureRequestPageDirectly(eventId);
+            await featureRequests.assertFeatureRequestPageTableHeadersNames();
+
+        });
+
+        it('should assert table headers on Professional Services page',async function () {
+
+            professionalService = new ProfessionalServicePage(driver);
+            await professionalService.openProfessionalServicePageDirectly(eventId);
+            await professionalService.assertProfessionalServicePageTableHeadersNames();
+
+        });
+
+        it('should assert table headers on Promotions page',async function () {
+
+            promotions = new PromotionsPage(driver);
+            await promotions.openPromotionsPageDirectly(eventId);
+            await promotions.assertElementsOnPromotionsPageWhenNoPromotions();
+
+        });
+
+        //PORTAL
         it('should create first ticket and check data in tickets table and update modal ',async function () {
 
             portalLogin = new PortalLoginPage(driver);
@@ -386,2785 +607,7 @@
             await createTicket.createFirstTicketAndAssertDataOnTicketsAndUpdate(ticketOneName,ticketOnePrice,embedTicketQuantity);
 
         });
-
-        //PORTAL -> EMBED
-        it('should make embed view for event', async function () {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            embedding = new EmbeddingPage(driver);
-            files = new Files(driver);
-            main = new EmbedMainPage(driver);
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await driver.sleep(1000);
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await driver.sleep(1000);
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventOptionTabs.clickDesignNav();
-            await embedding.isOnEmbeddingTab();
-            await embedding.setEmbedViewForEvent();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickGeneralDetailsNav();
-
-        });
-
-        //PORTAL -> EMBED
-        it('should check button text when tickets are in the future ',async function () {
-
-            events = new EventsPage(driver);
-            info = new EventInfo(driver);
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-            dateTime = new DateTimePickerModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickActivateTicketToggle(ticketOneName);
-            await ticketsNav.clickEditTicketButton(0);
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.clickStartDateTimeInput();
-            await dateTime.datePickerIsVisible();
-            await dateTime.updateTimeToXMinLater(1);
-
-        });
-
-        //PORTAL
-        it('should add excluded tax and check if bayer total is updated in ticket update modal', async function () {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            tickets = new TicketsTab(driver);
-            createTicket = new CreateTicketModal(driver);
-            settingsNav = new SettingsNav(driver);
-            taxesAndFees = new TaxesAndFeesPage(driver);
-            eventTickets = new EventTickets(driver)
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.assertTicketPriceEqualsBuyerTotalPriceWhenNoTaxesOrFees();
-            await createTicket.closeCreateUpdateTicketModal();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await eventOptionTabs.clickSettingsNav();
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickTaxesAndFeesSubNav();
-            await taxesAndFees.addOneTaxForTickets();
-            await taxesAndFees.clickSaveTaxesAndFeesButton();
-            let savedTaxValue = await taxesAndFees.getFloatNumberForTaxOrFee(1,1);
-            await eventTickets.clickTicketsTab();
-            await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
-            await createTicket.assertBuyerTotalEqualsTicketPriceMultipliedByTaxPercentage(savedTaxValue);
-
-        });
-
-        //PORTAL
-        it('should remove tax and add $ value fee and assert price in update modal', async function () {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            tickets = new TicketsTab(driver);
-            createTicket = new CreateTicketModal(driver);
-            settingsNav = new SettingsNav(driver);
-            taxesAndFees = new TaxesAndFeesPage(driver);
-            eventTickets = new EventTickets(driver)
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await eventTickets.clickSettingsTab();
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickTaxesAndFeesSubNav();
-            await taxesAndFees.clickRemoveTaxOrFeeButtonByIndex(0);
-            await taxesAndFees.clickSaveTaxesAndFeesButton();
-            await eventTickets.clickTicketsTab();
-            await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.assertTicketPriceEqualsBuyerTotalPriceWhenNoTaxesOrFees();
-            await createTicket.closeCreateUpdateTicketModal();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await eventTickets.clickSettingsTab();
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickTaxesAndFeesSubNav();
-            await taxesAndFees.set$FeeForTickets("Check $ Fee", ".17");
-            await taxesAndFees.clickSaveTaxesAndFeesButton();
-            let saved$FeeValue = await taxesAndFees.get$FeeFromInputByIndex(1);
-            await eventTickets.clickTicketsTab();
-            await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
-            await createTicket.assertBuyerTotalEqualsTicketPricePlus$Fee(saved$FeeValue);
-
-        });
-
-        it('should add excluded tax again and check if bayer total is updated in ticket update modal', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            tickets = new TicketsTab(driver);
-            createTicket = new CreateTicketModal(driver);
-            settingsNav = new SettingsNav(driver);
-            taxesAndFees = new TaxesAndFeesPage(driver);
-            eventTickets = new EventTickets(driver)
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await eventTickets.clickSettingsTab();
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickTaxesAndFeesSubNav();
-            await taxesAndFees.addOneTaxForTickets();
-            await taxesAndFees.clickSaveTaxesAndFeesButton();
-            let savedTaxValue = await taxesAndFees.getFloatNumberForTaxOrFee(1,1);
-            let saved$FeeValue = await taxesAndFees.get$FeeFromInputByIndex(2);
-            await eventTickets.clickTicketsTab();
-            await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
-            await createTicket.assertBuyerTotalEqualsTicketPriceMultipliedByTaxPercentageAndAdded$Fee(savedTaxValue, saved$FeeValue);
-
-        });
-
-        //PORTAL
-        it('should create three more tickets and ticket groups, then assert data in tickets table ',async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createTicketsGroup(ticketGroupOne);
-            await ticketsNav.successTicketGroupBannerIsDisplayed();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createTicketsGroup(ticketGroupTwo);
-            await ticketsNav.clickGroupTabByIndex(2);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketTwoName,ticketTwoPrice,ticketTwoQuantity);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(ticketTwoName);
-            await ticketsNav.clickActivateTicketToggle(ticketTwoName);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketThreeName,ticketThreePrice,ticketThreeQuantity);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(ticketThreeName);
-            await ticketsNav.clickActivateTicketToggle(ticketThreeName);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createTicketsGroup(ticketGroupThree);
-            await ticketsNav.clickGroupTabByIndex(3);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createNewTicket(ticketFourName,ticketFourPrice,ticketFourQuantity);
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.createdTicketIsInTheTable(ticketFourName);
-            await ticketsNav.clickActivateTicketToggle(ticketFourName);
-            await ticketsNav.clickGroupTabByIndex(0);
-            await ticketsNav.assertTicketGroupNames(ticketGroupOne, ticketGroupTwo, ticketGroupThree);
-            await ticketsNav.assertTicketNamePriceAndQuantity(ticketOneName,ticketOnePrice,ticketOneQuantity);
-            await ticketsNav.assertTicketNamePriceAndQuantity(ticketTwoName,ticketTwoPrice,ticketTwoQuantity);
-            await ticketsNav.assertTicketNamePriceAndQuantity(ticketThreeName,ticketThreePrice,ticketThreeQuantity);
-            await ticketsNav.assertTicketNamePriceAndQuantity(ticketFourName,ticketFourPrice,ticketFourQuantity);
-
-        });
-
-        //PORTAL
-        it('should assert tickets by groups in portal',async function () {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.assertTicketsByGroupsAndClassIsAppliedWhenClicked(base, "active")
-
-        });
-
-
-
-        //EMBED
-        it('should limit the tickets per account and check if all dropdowns are at that maximum in the embed', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            createEvent = new CreateEventModal(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            capacity = new EventCapacitySubNav(driver);
-            ticketsNav = new TicketsNav(driver);
-            eventTickets = new EventTickets(driver)
-            settingsNav = new SettingsNav(driver);
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await driver.sleep(1000);
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await eventOptionTabs.clickSettingsNav();
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickEventCapacity();
-            await capacity.setLimitPerAccount("26");
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.assertDropDownElementsEquals("26");
-        });
-
-        // PORTAL -> EMBED
-        it('should get exceeding limitation message when user have already purchased tickets and asks for more then limit', async function () {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            ticketsNav = new TicketsNav(driver);
-            attendees = new AttendeesTab(driver);
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            summary = new SummaryComponent(driver);
-            embedLogin = new LoginPage(driver);
-            addMoney = new AddMoneyComponent(driver)
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickAttendeesNav();
-            await attendees.isOnAttendeesTab();
-            let purchasedTickets = await attendees.getAlreadyPurchasedByCustomerFullName(customerFirstName, customerLastName);
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(1, 28);
-            let accountAvailable = 26-parseInt(purchasedTickets);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await main.clickNextPageButton();
-            await main.limitInfoMessageIsDisplayed(accountAvailable);
-            await embedTickets.sentKeysToTicketInput(0, accountAvailable);
-            await main.clickNextPageButton();
-            await addMoney.addMoneyComponentIsDisplayed();
-        });
-
-        //PORTAL
-        it('should remove limitation on tickets per account ',async function () {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            createEvent = new CreateEventModal(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            capacity = new EventCapacitySubNav(driver);
-            ticketsNav = new TicketsNav(driver);
-            eventTickets = new EventTickets(driver)
-            settingsNav = new SettingsNav(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await driver.sleep(1000);
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await driver.sleep(2000);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await eventOptionTabs.clickSettingsNav();
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickEventCapacity();
-            await capacity.removeLimit();
-
-        });
-
-        // PORTAL
-        it('should set ticket terms in the portal and assert entered tags and text', async function () {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            ticketsNav = new TicketsNav(driver);
-            eventTickets = new EventTickets(driver);
-            ticketTerms = new TicketTermsPage(driver);
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab()
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await eventTickets.clickSettingsTab();
-            await ticketTerms.termsPageIsDisplayed();
-            await ticketTerms.saveTerms();
-            await ticketTerms.assertElementsInTheTermsBoxAfterSavingTerms();
-        });
-
-        // EMBED
-        it('should assert correct ticket terms behaviour and image placeholder', async function () {
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedLogin = new LoginPage(driver);
-            termsModal = new EmbedTicketTermsModal(driver);
-            addMoney = new AddMoneyComponent(driver)
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await main.ticketTermsLabelIsDisplayedAndAssertText();
-            await main.assertLabelColorChangedToRedAfterClickNextAndNoTicketsSelected();
-            await main.clickTermsLabel();
-            await termsModal.checkFirstTicketTermsScenarioElementsAndClose();
-            await main.clickTermsCheckboxAndAssertFontColorIsBlack();
-            await main.clickTermsLabel();
-            await termsModal.termsModalIsDisplayed();
-            await main.clickTermsLabel();
-            await termsModal.termsModalIsNotDisplayed();
-            await embedTickets.sentKeysToTicketInput(0, 2);
-            await main.clickNextPageButton();
-            await addMoney.addMoneyComponentIsDisplayed();
-
-        });
-
-        // PORTAL
-        it('should set event banner in the portal', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventDetails.setBannerImageInThePortalAndAssertElements();
-
-        });
-
-        // PORTAL -> EMBED
-        it('should assert event banner image is present in the ticket terms modal', async function () {
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedLogin = new LoginPage(driver);
-            termsModal = new EmbedTicketTermsModal(driver);
-            addMoney = new AddMoneyComponent(driver)
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            let src = await eventDetails.getBannerImageSrc();
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await main.clickTermsLabel();
-            await termsModal.assertTicketTermsImageSrcMatchBannerImageSrc(src);
-
-        });
-
-        // PORTAL
-        it('should remove event banner in the portal', async function () {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventDetails.removeBannerImageAndAssertPreviewAndAlertAreNotDisplayed();
-
-        });
-
-        // EMBED
-        it('should assert terms image placeholder is returned after banner is removed in the portal', async function () {
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            termsModal = new EmbedTicketTermsModal(driver);
-            embedTickets = new TicketsComponent(driver);
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await main.ticketTermsLabelIsDisplayedAndAssertText();
-            await main.assertLabelColorChangedToRedAfterClickNextAndNoTicketsSelected();
-            await main.clickTermsLabel();
-            await termsModal.assertImagePlaceholderIsDisplayedInTheModal("https://events.dev.uppedevents.com/assets/images/placeholder2.png");
-
-        });
-
-        //PORTAL
-        it('should assert elements on donation page in portal and enable donations',async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            eventSettingsNav = new EventSettingsNav(driver);
-            donation = new DonationPage(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickSettingsNav();
-            await eventSettingsNav.donationsSubNavIsDisplayed();
-            await donation.assertElementsOnDonationPageOnStart();
-            await donation.clickCheckboxAndAssertNewElements();
-            await donation.enterDonationMessageAndSaveDonation();
-
-        });
-
-        //PORTAL - > EMBED
-        it('should assert elements on donation page in the embed',async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            eventSettingsNav = new EventSettingsNav(driver);
-            donation = new DonationPage(driver);
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedDonate = new EmbedDonateComponent(driver)
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickSettingsNav();
-            await eventSettingsNav.donationsSubNavIsDisplayed();
-            let donationMessage = await donation.getDonationMessage();
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedDonate.assertElementsOnDonateTab(eventName, donationMessage);
-
-        });
-
-
-
-        //EMBED
-        it('should click donation edit link on Order Details and assert landing on extras screen', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            summary = new SummaryComponent(driver);
-            embedLogin = new LoginPage(driver);
-            payment = new PaymentPage(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedDonate = new EmbedDonateComponent(driver)
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedDonate.clickOneDonationValueButton(2);
-            await embedDonate.clickAddDonationButton();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickPayWithWalletButton();
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.clickEditDonationLinkAndAssertItIsOnExtrasPage(embedDonate);
-
-        });
-
-        //PORTAL
-        it('should assert table headers on promotions page and elements on add new promotion modal ',async function () {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            promotions = new PromotionsPage(driver);
-            newPromotion = new AddNewPromotionModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.assertElementsOnPromotionsPageWhenNoPromotions();
-            await promotions.assertElementsOnCreateNewPromotionModal(ticketOneName);
-
-        });
-
-        //PORTAL
-        it('should check that all created tickets are listed in promotions ticket type dropdown in portal', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-            promotions = new PromotionsPage(driver);
-            newPromotion = new AddNewPromotionModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            let tickets = await ticketsNav.getAllTicketsNames();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.assertAllTicketsAreListedInTicketTypeDropdown(tickets);
-        });
-
-        //PORTAL
-        it('should check that when single ticket is selected in dropdown the price is shown next to the promotion value inputs', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-            promotions = new PromotionsPage(driver);
-            newPromotion = new AddNewPromotionModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.assertCorrectPriceIsDisplayedWhenTickedIsSelectedInDropdown(ticketOnePrice);
-
-        });
-
-        //PORTAL
-        it('should check that when multiple tickets are selected in dropdown the price is not shown next to the promotion value inputs', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-            promotions = new PromotionsPage(driver);
-            newPromotion = new AddNewPromotionModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.assertPriceIsNotDisplayedWhenMoreTicketsAreSelected(ticketOneName, ticketTwoName);
-
-        });
-
-        //PORTAL
-        it('should assert that when multiple tickets selected for limitation the same tickets are displayed in limit dropdown', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-            promotions = new PromotionsPage(driver);
-            newPromotion = new AddNewPromotionModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.assertTicketsOptionsInLimitDropdownEqualsPreviouslySelected(ticketOneName, ticketTwoName);
-
-        });
-
-        //PORTAL
-        it('should assert that when all option selected for limitation the same all tickets displayed in limit dropdown', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-            promotions = new PromotionsPage(driver);
-            newPromotion = new AddNewPromotionModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.assertAllTicketsDisplayedInLimitDropdownWhenAllOptionSelectedInTickets();
-
-        });
-
-        //PORTAL
-        it('should assert that the $ value promotion input does not accept number bigger then the ticket price', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-            promotions = new PromotionsPage(driver);
-            newPromotion = new AddNewPromotionModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.assert$ValuePromotionCanNotAcceptLargerValueThenTicketPrice(ticketOnePrice);
-
-        });
-
-        //PORTAL
-        it('should assert that the new $ value promotion when entered is displayed as discounted price', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-            promotions = new PromotionsPage(driver);
-            newPromotion = new AddNewPromotionModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.assertWhen$ValuePromotionIsEnteredIsDisplayedNextToOriginalPrice(ticketOnePrice, "0.33");
-
-        });
-
-        //PORTAL
-        it('should assert that the new ticket discounted price is displayed when promotion is percentage value', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-            promotions = new PromotionsPage(driver);
-            newPromotion = new AddNewPromotionModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.assertWhenPercentageValuePromotionIsEnteredIsDisplayedNextToOriginalPrice(ticketOnePrice, 70);
-
-        });
-
-        //PORTAL
-        it('should check the available ticket quantity is displayed in tooltip and is max allowed portal', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-            promotions = new PromotionsPage(driver);
-            newPromotion = new AddNewPromotionModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            let ticketOneAvailableQty = await ticketsNav.calculateAvailableTicketsByTicket(ticketOneName)
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.assertTooltipDisplaysCorrectAvailableTicketsAndEnteringLargerWillSetMaximumNumber(ticketOneName, ticketOneAvailableQty);
-        });
-
-        //PORTAL
-        it('should assert maximum allowed promotion tickets when multiple tickets are selected in one promotion', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-            promotions = new PromotionsPage(driver);
-            newPromotion = new AddNewPromotionModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            let ticketOneAvailableQty = await ticketsNav.calculateAvailableTicketsByTicket(ticketOneName);
-            let ticketTwoAvailableQty = await ticketsNav.calculateAvailableTicketsByTicket(ticketTwoName);
-            let ticketThreeAvailableQty = await ticketsNav.calculateAvailableTicketsByTicket(ticketThreeName);
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.assertTooltipDisplaysCorrectAvailableMultipleTicketsAndEnteringLargerWillSetMaximumNumber(ticketOneName, ticketOneAvailableQty, ticketTwoName, ticketTwoAvailableQty, ticketThreeName, ticketThreeAvailableQty);
-        });
-
-        //PORTAL
-        it('should assert lower case letters are transfered to uppercase and symbols are allowed in promocode input field', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-            promotions = new PromotionsPage(driver);
-            newPromotion = new AddNewPromotionModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.assertAllowedCharactersInPromoCodeInputAndMaximumLength();
-
-        });
-
-        //PORTAL
-        it('should create first promotion with $ value and assert data on promotions page and update promotion modal', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-            promotions = new PromotionsPage(driver);
-            newPromotion = new AddNewPromotionModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            let promotion = await newPromotion.createPromotionForOneTicketWith$Value(ticketTwoName, promoOneName, promoCodeOne);
-            await promotions.assertThe$PromotionIsSavedCorrectOnPromotionsPage(promotion);
-            await promotions.findPromotionByNameAndClickUpdateButton(promotion[0]);
-            await newPromotion.assertDataFromCreateEqualsUpdateData(promotion)
-        });
-
-        //PORTAL -> EMBED
-        it('should disable promotion and check for error message on embed', async function () {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-            promotions = new PromotionsPage(driver);
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.disablePromotionByPromoName(promoOneName);
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInput(0, 2);
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.enterPromoCode(promoCodeOne);
-            await payment.clickApplyDiscountButton();
-            await payment.invalidCodeMessagesAreShown("The entered promotion code does not exist.")
-
-        });
-
-        //PORTAL -> EMBED
-        it('should enable promotion and check promotion is applied and input is hidden', async function () {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-            promotions = new PromotionsPage(driver);
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.enablePromotionByPromoName(promoOneName);
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.successfullyAddedPromotionElementsAreShown(promoCodeOne);
-            await payment.assertDiscountFormIsNotDisplayed();
-
-        });
-
-        //EMBED 75
-        it('should add promo code and assert donation value + new price equals original ticket price in summary', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '1');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.applyPromotionAndCheckTicketPriceEqualsNewPricePlusDiscount(promoCodeOne,ticketTwoPrice);
-
-        });
-
-        //EMBED
-        it('should add promo code and assert new price and original price are displayed on tickets page next to ticket name', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '1');
-            let originalPrice = await embedTickets.getTicketPriceByTicketName(ticketTwoName);
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.applyPromotion(promoCodeOne);
-            let discountedPrice = await summary.getTicketsTotal();
-            await main.clickPreviousPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickPreviousPageButton();
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.assertTheNewTicketPriceEqualsDiscountedPrice(ticketTwoName, discountedPrice);
-            await embedTickets.assertNewTicketNamePricesLayout(ticketTwoName, originalPrice, discountedPrice);
-            await embedTickets.assertFontColorAndStrikeOnOriginalPrice(ticketOneName);
-
-        });
-
-        //EMBED
-        it('should assert when three different tickets selected three ticket edit links on Order details', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            summary = new SummaryComponent(driver);
-            embedLogin = new LoginPage(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '2');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '2');
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickPayWithWalletButton();
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.assertNumberOfEditTicketsLinks(3);
-
-        });
-
-        //EMBED
-        it('should assert when three different tickets selected all three tickets displayed in Order details', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            summary = new SummaryComponent(driver);
-            embedLogin = new LoginPage(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '2');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '2');
-            //await embedTickets.sentKeysToTicketInput(3, 1);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            let tickets = await embedTickets.getListOfTicketsWhereQuantityIsBiggerThen0();
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickPayWithWalletButton();
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.assertSelectedTicketsAreDisplayedInOrderDetails(tickets);
-
-        });
-
-        //EMBED
-        it('should assert when three different tickets selected for each ticket total equals selected quantity times price', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            summary = new SummaryComponent(driver);
-            embedLogin = new LoginPage(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, 2);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 1);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, 3);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            let ticketThreeTotal = await embedTickets.selectedTicketTotal(ticketThreeName);
-            let ticketTwoTotal = await embedTickets.selectedTicketTotal(ticketTwoName);
-            let ticketFourTotal = await embedTickets.selectedTicketTotal(ticketFourName);
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickPayWithWalletButton();
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.assertTicketTotalByTicketName(ticketThreeName, ticketThreeTotal);
-            await orderDetails.assertTicketTotalByTicketName(ticketTwoName, ticketTwoTotal);
-            await orderDetails.assertTicketTotalByTicketName(ticketFourName, ticketFourTotal);
-
-        });
-
-        //EMBED
-        it('should assert selected ticket quantity is displayed in the Order Total corectly', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            summary = new SummaryComponent(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '3');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '4');
-            await embedTickets.assertTicketCountInOrderTotal(summary);
-
-        });
-
-        //EMBED
-        it('should assert when order details tickets sum equals order total tickets value & summary tickets and subtotal', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            summary = new SummaryComponent(driver);
-            embedLogin = new LoginPage(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '3');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '1');
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.confirmEnteredValuesBeforeLogin();
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickPayWithWalletButton();
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.assertTicketsSumEqualsSubtotalAndOrderTotalTicketsAndSubtotalValues(summary);
-
-        });
-
-
-        //EMBED
-        it('should make regular purchase with three different tickets and quantities and assert tickets on receipt', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            receipt = new ReceiptPopup(driver)
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, 2);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 1);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, 3);
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickSavedCardByIndex(0);
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.clickPlaceOrderButton();
-            await embedConfirm.isAtConfirmPage();
-            await embedConfirm.clickViewReceiptButton();
-            await receipt.receiptPopupIsVisible();
-            await receipt.assertTicketsOnReceipt(ticketTwoName,ticketThreeName,ticketFourName);
-
-        });
-
-        //EMBED
-        it('should make regular purchase and check event name and date of purchase', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            receipt = new ReceiptPopup(driver)
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickSavedCardByIndex(0);
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.clickPlaceOrderButton();
-            let timeDate = await orderDetails.getTransactionTimeDate();
-            await embedConfirm.isAtConfirmPage();
-            await embedConfirm.clickViewReceiptButton();
-            await receipt.receiptPopupIsVisible();
-            await receipt.timeDateAndEventName(timeDate, eventName);
-
-        });
-
-        //EMBED
-        it('should assert text on navbar on all pages', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            receipt = new ReceiptPopup(driver)
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.assertNavbarText(eventName + " Ticketing");
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await main.assertNavbarText("Upped Login");
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await main.assertNavbarText(eventName + " Ticketing");
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.assertNavbarText("Extras");
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await main.assertNavbarText("Payment");
-            await payment.clickSavedCardByIndex(0);
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await main.assertNavbarText("Double check your order details");
-            await orderDetails.clickPlaceOrderButton();
-            await embedConfirm.isAtConfirmPage();
-            await main.assertNavbarText("Confirmation");
-
-        });
-
-        //EMBED
-        it('should assert previous page button text', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.assertPreviousPageButtonText("Back to Event Info");
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await main.assertPreviousPageButtonText("Back to Extras");
-            await payment.clickSavedCardByIndex(0);
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await main.assertPreviousPageButtonText("Back to Payment");
-
-        });
-
-        //EMBED
-        it('when not logged in navigate to the login page with no tickets selected , when logged in alert select ticket should appear', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await main.assertAlertVisibleAndText("Please select a ticket first");
-
-        });
-
-        //EMBED
-        it('should get alert danger when next button clicked and payment method not selected', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            receipt = new ReceiptPopup(driver)
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await main.clickNextPageButton();
-            await main.assertAlertVisibleAndText("Please select a payment method!");
-
-        });
-
-        //EMBED
-        it('should assert steps names', async function () {
-
-            main = new EmbedMainPage(driver);
-            steps = new StepsComponent(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await steps.assertStepNames();
-
-        });
-
-        //EMBED
-        it('should assert completed steps count and current step name', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            steps = new StepsComponent(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await steps.numberOfCompletedStepsAndCurrentStepName("Select Tickets",0);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await steps.numberOfCompletedStepsAndCurrentStepName("Select Tickets",0);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await steps.numberOfCompletedStepsAndCurrentStepName("Add Extras",1);
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await steps.numberOfCompletedStepsAndCurrentStepName("Payment Details",2);
-            await payment.clickSavedCardByIndex(0);
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await steps.numberOfCompletedStepsAndCurrentStepName("Review and Pay",3);
-            await orderDetails.clickPlaceOrderButton();
-            await embedConfirm.isAtConfirmPage();
-            await steps.numberOfCompletedStepsAndCurrentStepName("All Done!",4);
-
-        });
-
-        //EMBED
-        it('should assert completed steps checkmark image is displayed', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            steps = new StepsComponent(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await steps.numberOfCompletedStepsAndCurrentStepName("Select Tickets",0);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await steps.numberOfCompletedStepsAndCurrentStepName("Select Tickets",0);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await steps.checkThatCheckmarkImageIsDisplayedWhenStepIsCompeted();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await steps.checkThatCheckmarkImageIsDisplayedWhenStepIsCompeted();
-            await payment.clickSavedCardByIndex(0);
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await steps.checkThatCheckmarkImageIsDisplayedWhenStepIsCompeted();
-            await orderDetails.clickPlaceOrderButton();
-            await embedConfirm.isAtConfirmPage();
-            await steps.checkThatCheckmarkImageIsDisplayedWhenStepIsCompeted();
-
-        });
-
-        //EMBED
-        it('should assert proper steps behaviour with fillin class on navbar on all pages', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            steps = new StepsComponent(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await steps.checkIfFillinClassIsAppliedToStep(0,true);
-            await steps.checkIfFillinClassIsAppliedToStep(1,false);
-            await steps.checkIfFillinClassIsAppliedToStep(2,false);
-            await steps.checkIfFillinClassIsAppliedToStep(3,false);
-            await steps.checkIfFillinClassIsAppliedToStep(4,false);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await steps.checkIfFillinClassIsAppliedToStep(0,false);
-            await steps.checkIfFillinClassIsAppliedToStep(1,false);
-            await steps.checkIfFillinClassIsAppliedToStep(2,false);
-            await steps.checkIfFillinClassIsAppliedToStep(3,false);
-            await steps.checkIfFillinClassIsAppliedToStep(4,false);
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await steps.checkIfFillinClassIsAppliedToStep(0,true);
-            await steps.checkIfFillinClassIsAppliedToStep(1,false);
-            await steps.checkIfFillinClassIsAppliedToStep(2,false);
-            await steps.checkIfFillinClassIsAppliedToStep(3,false);
-            await steps.checkIfFillinClassIsAppliedToStep(4,false);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await steps.checkIfFillinClassIsAppliedToStep(0,false);
-            await steps.checkIfFillinClassIsAppliedToStep(1,true);
-            await steps.checkIfFillinClassIsAppliedToStep(2,false);
-            await steps.checkIfFillinClassIsAppliedToStep(3,false);
-            await steps.checkIfFillinClassIsAppliedToStep(4,false);
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await steps.checkIfFillinClassIsAppliedToStep(0,false);
-            await steps.checkIfFillinClassIsAppliedToStep(1,false);
-            await steps.checkIfFillinClassIsAppliedToStep(2,true);
-            await steps.checkIfFillinClassIsAppliedToStep(3,false);
-            await steps.checkIfFillinClassIsAppliedToStep(4,false);
-            await payment.clickSavedCardByIndex(0);
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await steps.checkIfFillinClassIsAppliedToStep(0,false);
-            await steps.checkIfFillinClassIsAppliedToStep(1,false);
-            await steps.checkIfFillinClassIsAppliedToStep(2,false);
-            await steps.checkIfFillinClassIsAppliedToStep(3,true);
-            await steps.checkIfFillinClassIsAppliedToStep(4,false);
-            await orderDetails.clickPlaceOrderButton();
-            await embedConfirm.isAtConfirmPage();
-            await steps.checkIfFillinClassIsAppliedToStep(0,false);
-            await steps.checkIfFillinClassIsAppliedToStep(1,false);
-            await steps.checkIfFillinClassIsAppliedToStep(2,false);
-            await steps.checkIfFillinClassIsAppliedToStep(3,false);
-            await steps.checkIfFillinClassIsAppliedToStep(4,true);
-
-        });
-
-        //EMBED
-        it('should assert proper steps behaviour with active class on navbar on all pages', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            steps = new StepsComponent(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await steps.checkIfActiveClassIsAppliedToStep(0,true);
-            await steps.checkIfActiveClassIsAppliedToStep(1,false);
-            await steps.checkIfActiveClassIsAppliedToStep(2,false);
-            await steps.checkIfActiveClassIsAppliedToStep(3,false);
-            await steps.checkIfActiveClassIsAppliedToStep(4,false);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await steps.checkIfActiveClassIsAppliedToStep(0,false);
-            await steps.checkIfActiveClassIsAppliedToStep(1,false);
-            await steps.checkIfActiveClassIsAppliedToStep(2,false);
-            await steps.checkIfActiveClassIsAppliedToStep(3,false);
-            await steps.checkIfActiveClassIsAppliedToStep(4,false);
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await steps.checkIfActiveClassIsAppliedToStep(0,true);
-            await steps.checkIfActiveClassIsAppliedToStep(1,false);
-            await steps.checkIfActiveClassIsAppliedToStep(2,false);
-            await steps.checkIfActiveClassIsAppliedToStep(3,false);
-            await steps.checkIfActiveClassIsAppliedToStep(4,false);
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, 2);
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await steps.checkIfActiveClassIsAppliedToStep(0,false);
-            await steps.checkIfActiveClassIsAppliedToStep(1,true);
-            await steps.checkIfActiveClassIsAppliedToStep(2,false);
-            await steps.checkIfActiveClassIsAppliedToStep(3,false);
-            await steps.checkIfActiveClassIsAppliedToStep(4,false);
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await steps.checkIfActiveClassIsAppliedToStep(0,false);
-            await steps.checkIfActiveClassIsAppliedToStep(1,false);
-            await steps.checkIfActiveClassIsAppliedToStep(2,true);
-            await steps.checkIfActiveClassIsAppliedToStep(3,false);
-            await steps.checkIfActiveClassIsAppliedToStep(4,false);
-            await payment.clickSavedCardByIndex(0);
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await steps.checkIfActiveClassIsAppliedToStep(0,false);
-            await steps.checkIfActiveClassIsAppliedToStep(1,false);
-            await steps.checkIfActiveClassIsAppliedToStep(2,false);
-            await steps.checkIfActiveClassIsAppliedToStep(3,true);
-            await steps.checkIfActiveClassIsAppliedToStep(4,false);
-            await orderDetails.clickPlaceOrderButton();
-            await embedConfirm.isAtConfirmPage();
-            await steps.checkIfActiveClassIsAppliedToStep(0,false);
-            await steps.checkIfActiveClassIsAppliedToStep(1,false);
-            await steps.checkIfActiveClassIsAppliedToStep(2,false);
-            await steps.checkIfActiveClassIsAppliedToStep(3,false);
-            await steps.checkIfActiveClassIsAppliedToStep(4,true);
-
-        });
-
-        //EMBED
-        it('should make purchase for two tickets of same type with donation and promotion and assert data on the receipt', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            embedDonate = new EmbedDonateComponent(driver)
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            receipt = new ReceiptPopup(driver)
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await embedDonate.clickOneDonationValueButton(2);
-            await embedDonate.clickAddDonationButton();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.applyPromotion(promoCodeOne);
-            await summary.discountIsDisplayed();
-            await payment.clickSavedCardByIndex(0);
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            let tickets = await summary.getTicketsTotal();
-            let donations = await summary.getDonationValue();
-            let subtotal = await summary.getSubtotalValue();
-            let taxes = await summary.getTaxesValue();
-            let fees = await summary.getFeesValue();
-            let discount = await summary.getDiscountValue();
-            let total = await summary.getTotalValue();
-            await orderDetails.clickPlaceOrderButton();
-            await embedConfirm.isAtConfirmPage();
-            await embedConfirm.clickViewReceiptButton();
-            await receipt.receiptPopupIsVisible();
-            await receipt.assertDataFromSummaryEqualReceiptValues(tickets,donations,subtotal,taxes,fees,discount,total)
-
-        });
-
-        //EMBED
-        it('should select four tickets exceeding the limit of promotion assert tickets in Order Details and promoted ticket shown twice with two prices', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '4');
-            let originalPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketOneName);
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.applyPromotion(promoCodeOne);
-            await summary.discountIsDisplayed();
-            await payment.exceedingPromotionQuantityAlertIsDisplayed();
-            await main.clickPreviousPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickPreviousPageButton();
-            await embedTickets.ticketListIsDisplayed();
-            let promotedPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketTwoName);
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickSavedCardByIndex(0);
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.assertPromotedPlusRegularPriceTotalIsDisplayed(originalPrice, promotedPrice);
-
-        });
-
-        it('should make purchase with four tickets exceeding the limit of promotion assert promotion applied to only 3 tickets', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '4');
-            let originalPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketTwoName);
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.applyPromotion(promoCodeOne);
-            await summary.discountIsDisplayed();
-            await payment.exceedingPromotionQuantityAlertIsDisplayed();
-            await main.clickPreviousPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickPreviousPageButton();
-            await embedTickets.ticketListIsDisplayed();
-            let promotedPrice = await embedTickets.getCleanTicketPriceFromPriceWithBrackets(ticketTwoName);
-            await summary.assertTotalEqualsThreePromotedPlusOneRegularTicketPrice(originalPrice, promotedPrice);
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickSavedCardByIndex(0);
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.clickPlaceOrderButton();
-            await embedConfirm.isAtConfirmPage();
-
-        });
-
-        it('should apply the promotion code when promotion qty is finished and get promo error message and assert input field still visible', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '4');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.applyPromotion(promoCodeOne);
-            await payment.invalidCodeMessagesAreShown("The message when fixed");
-
-        });
-
-        //PORTAL
-        it('should create promotion for 3 tickets and limit qty on two', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-            promotions = new PromotionsPage(driver);
-            newPromotion = new AddNewPromotionModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.newPromotionForThreeWithLimitOnTwo(ticketTwoName, ticketThreeName, ticketFourName, promoThreeName, promoCodeThree);
-            await promotions.assertDataForPromotionWithThreeTicketsAndLimitOnTwoWithoutDateTime(promoThreeName, ticketTwoName,ticketTwoPrice);
-            await promotions.findPromotionByNameAndClickUpdateButton(promoThreeName);
-            await newPromotion.assertDataOnUpdateModalForPromotionWithThreeTicketsAndLimit(ticketTwoName, ticketThreeName, ticketFourName, promoThreeName, promoCodeThree)
-
-        });
-
-        //PORTAL
-        it('should get promocode error validation when promotion code exists for current event', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            promotions = new PromotionsPage(driver);
-            newPromotion = new AddNewPromotionModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickPromotionsTab();
-            await promotions.addPromotionButtonIsVisible();
-            await promotions.clickAddPromotionButton();
-            await newPromotion.addPromotionModalIsDisplayed();
-            await newPromotion.errorValidationIsReturnedWhenExistingCodeIsEnteredAsPromoCodeForNewPromotion(promoCodeThree);
-
-        });
-
-        //EMBED
-        it('should assert that percentage taxes are recalculated and dollar value fees are same when promotion is applied', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            embedConfirm = new ConfirmPage(driver);
-            receipt = new ReceiptPopup(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '6');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            let fees = await summary.getFeesValue();
-            let taxes = await summary.getTaxesValue();
-            await payment.applyPromotion(promoCodeThree);
-            await summary.assertTaxesAndFeesAreRefactoredToMatchNewPrice(fees,taxes);
-
-        });
-
-        //PORTAL
-        it('Should create staff ticket in portal', async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            settingsNav = new SettingsNav(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.createStaffTicket(staffTicket, ticketStaffPrice ,ticketStaffQuantity);
-            await ticketsNav.assertTicketNamePriceAndQuantity(staffTicket, ticketStaffPrice, ticketStaffQuantity);
-            await ticketsNav.clickActivateTicketToggle(staffTicket);
-
-        });
-
-        //EMBED
-        it('should select account limit quantity for all tickets that have promotion in promotion with limit then add promo code and assert only highest price ticket gets discount when subtotal calculated in order total', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '10');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '10');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.applyPromotion(promoCodeThree);
-            await summary.calculateAndAssertTotalEquals10PromotedTicketsForOriginalHighestPriceAnd10RegularForLowerPriced(ticketTwoPrice, ticketFourPrice);
-
-        });
-
-        //EMBED
-        it('should select total of account limit quantity for limited tickets that have promotion in promotion with limit then add promo code and assert subtotal equals tickets discounted prices times quantity', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '4');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '6');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.applyPromotion(promoCodeThree);
-            await summary.calculateAndAssertTotalEquals10PromotedTicketsByEachTicketPromotedPrice(ticketTwoPrice, ticketFourPrice);
-
-        });
-
-        //EMBED
-        it('should select more then total of account limit quantity for limited tickets that have promotion in promotion with limit then add promo code and ' +
-            'assert subtotal equals tickets discounted prices times quantity + regular price for cheaper ticket times exceeding limit qty + assert exceeding promo message', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '4');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '9');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.applyPromotion(promoCodeThree);
-            await payment.exceedingPromotionQuantityAlertIsDisplayed();
-            await summary.calculateAndAssertTotalEquals10PromotedTicketsByEachTicketPromotedPricePlusExceedingTicketsByRegularPrice(ticketTwoPrice, ticketFourPrice);
-
-        });
-
-        //EMBED
-        it('should select more then total of account limit quantity for not limited ticket that have promotion ' +
-            'in promotion with limit then add promo code and assert subtotal equals tickets discounted prices times quantity ', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '15');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.applyPromotion(promoCodeThree);
-            await payment.exceedingPromotionQuantityAlertIsNotDisplayed();
-            await summary.calculateAndAssertTotalEquals15PromotedTicketsForNotLimitedTicket(ticketThreePrice);
-
-        });
-
-        //EMBED
-        it('should select more then promotion available qty for not limited ticket that have promotion in promotion with limit then add promo code and' +
-            ' assert subtotal equals available promotion tickets qty discounted price + regular price for exceeding qty and get exceeding info message ', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '25');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.applyPromotion(promoCodeThree);
-            await payment.exceedingPromotionQuantityAlertIsDisplayed();
-            await summary.calculateAndAssertTotalEquals20PromotedTicketsPlus5RegularPriceForNotLimitedTicket(ticketThreePrice);
-
-        });
-
-        //EMBED
-        it('should select 25 tickets, 11 for limited 14 for not limited, top of limited priced and 13 of not limited should get discount, limited as cheapest will not ', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '7');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '14');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '4');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.applyPromotion(promoCodeThree);
-            await payment.exceedingPromotionQuantityAlertIsDisplayed();
-            await summary.calculateAndAssertTotalEquals20PromotedTicketsByEachTicketPromotedPricePlusExceeding5TicketsByRegularPrice(ticketTwoPrice, ticketThreePrice, ticketFourPrice);
-
-        });
-
-        //EMBED
-        it('should select 30 tickets, 10 for each, should get discount on total 20 - top priced from limited * 10 and not limited *10 , second limited regular price ', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '10');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '10');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '10');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.applyPromotion(promoCodeThree);
-            await payment.exceedingPromotionQuantityAlertIsDisplayed();
-            await summary.calculateAndAssertTotalEquals20PromotedTicketsTopPrice10NotLimited10(ticketTwoPrice, ticketThreePrice, ticketFourPrice);
-
-        });
-
-        //EMBED
-        it('should select 30 tickets, 12 for top priced in limited, 12 for not limited, 6 for lower priced limited should get discount' +
-            ' on total 20 - top priced from limited * 10 and not limited *10 , second limited regular price, 2 tickets from discounted on regular ', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '12');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '12');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '6');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.applyPromotion(promoCodeThree);
-            await payment.exceedingPromotionQuantityAlertIsDisplayed();
-            await summary.calculateAndAssertTotalEquals20PromotedTicketsTopPrice10NotLimited10RestOnRegular(ticketTwoPrice, ticketThreePrice, ticketFourPrice);
-
-        });
-
-        //EMBED
-        it('should make purchase for 9 tickets with promotion with limits and assert total discounted value per ticket is displayed', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            embedDonate = new EmbedDonateComponent(driver)
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            receipt = new ReceiptPopup(driver)
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '3');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '3');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '3');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.applyPromotion(promoCodeThree);
-            await summary.discountIsDisplayed();
-            await payment.clickSavedCardByIndex(0);
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.clickPlaceOrderButton();
-            await embedConfirm.isAtConfirmPage();
-            await embedConfirm.clickViewReceiptButton();
-            await receipt.receiptPopupIsVisible();
-            await receipt.calculateAndAssertOriginalTicketPriceAndDiscountIsCalculatedAndDisplayedCorrectlyNextToEachTicketByTicketName(ticketTwoName, 0);
-            await receipt.calculateAndAssertOriginalTicketPriceAndDiscountIsCalculatedAndDisplayedCorrectlyNextToEachTicketByTicketName(ticketThreeName, 0);
-            await receipt.calculateAndAssertOriginalTicketPriceAndDiscountIsCalculatedAndDisplayedCorrectlyNextToEachTicketByTicketName(ticketFourName, 0);
-
-        });
-
-        //EMBED
-        it('should make purchase for 16 tickets exceeding account limit and promotion limit and assert exceeding message and discount is applied only for quantity inside limits', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            embedDonate = new EmbedDonateComponent(driver)
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            receipt = new ReceiptPopup(driver)
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '5');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '10');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '1');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.applyPromotion(promoCodeThree);
-            await summary.discountIsDisplayed();
-            await payment.exceedingPromotionQuantityAlertIsDisplayed();
-            await payment.clickSavedCardByIndex(0);
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.clickPlaceOrderButton();
-            await embedConfirm.isAtConfirmPage();
-            await embedConfirm.clickViewReceiptButton();
-            await receipt.receiptPopupIsVisible();
-            await receipt.calculateAndAssertOriginalTicketPriceAndDiscountIsCalculatedAndDisplayedCorrectlyNextToEachTicketByTicketName(ticketTwoName, 1);
-            await receipt.calculateAndAssertOriginalTicketPriceAndDiscountIsCalculatedAndDisplayedCorrectlyNextToEachTicketByTicketName(ticketThreeName, 3);
-            await receipt.calculateAndAssertOriginalTicketPriceAndDiscountIsCalculatedAndDisplayedCorrectlyNextToEachTicketByTicketName(ticketFourName, 1);
-
-        });
-
-        //EMBED
-        it('should try to make purchase for 12 tickets when promo quantity is completed and receive promo no longer valid', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedLogin = new LoginPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedExtras = new ExtrasPage(driver);
-            embedDonate = new EmbedDonateComponent(driver)
-            payment = new PaymentPage(driver);
-            summary = new SummaryComponent(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            receipt = new ReceiptPopup(driver)
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '4');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '4');
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '4');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.applyPromotion(promoCodeThree);
-            await payment.promotionNoLongerValidDangerMessageIsVisible();
-
-        });
-
-
-
-        //EMBED
-        it('should assert on staff ticket only one ticket can be selected', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.assertTicketSelectValueByName(staffTicket, "0");
-            await embedTickets.sentKeysToTicketInputByTicketName(staffTicket, 5);
-            await embedTickets.assertTicketSelectValueByName(staffTicket, "0");
-            await embedTickets.sentKeysToTicketInputByTicketName(staffTicket, 1);
-            await embedTickets.assertTicketSelectValueByName(staffTicket, "1");
-
-        });
-
-        //EMBED
-        it('should check staff modal elements and submit fully filled form', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedLogin = new LoginPage(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            questionsModal = new TicketQuestionsModal(driver);
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(staffTicket, '1');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickSavedCardByIndex(0);
-            await main.nextButtonIsVisible();
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.clickPlaceOrderButton();
-            await questionsModal.assertElementsOnStaffModal(staffTicket);
-            await questionsModal.shouldAnswerStaffFormWithRandomButValidData(base);
-            await embedConfirm.isAtConfirmPage()
-
-        });
-
-        //PORTAL
-        it('should assert elements on event tickets questions page and create ticket question modal', async function () {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            settingsNav = new SettingsNav(driver);
-            questions = new TicketQuestionsPage(driver);
-            questionsModal = new TicketQuestionsModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await eventOptionTabs.clickSettingsNav();
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickTicketQuestions();
-            await questions.isOnTicketQuestionsPage();
-            await questions.assertElementsOnEventTicketsQuestionsPage();
-            await questions.assertTicketsQuestionsTableHeaders();
-            await questions.assertElementsOnCreateTicketQuestionModal();
-
-        });
-
-        //PORTAL
-        it('Should set ticket Simple Yes No question and assert saved data on questions table in portal', async function () {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            settingsNav = new SettingsNav(driver);
-            questions = new TicketQuestionsPage(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await eventOptionTabs.clickSettingsNav();
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickTicketQuestions();
-            await questions.createSimpleYesNoQuestionAndAssertSavedDataAndElements(base, ticketOneName, ticketThreeName);
-
-        });
-
-        //EMBED
-        it('should check ticket questions modal for Yes/No question and submit answers in embed', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedLogin = new LoginPage(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            questionsModal = new TicketQuestionsModal(driver);
-            originalWindow =  driver.getWindowHandle();
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
-            await embedTickets.ticketListIsDisplayed();
-            await embedTickets.sentKeysToTicketInputByTicketName(ticketOneName, '1');
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickSavedCardByIndex(0);
-            await main.nextButtonIsVisible();
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.clickPlaceOrderButton();
-            await questionsModal.answerSimpleYesNo(base,ticketOneName);;
-            await embedConfirm.isAtConfirmPage();
-
-        });
-
-        //PORTAL
-        it('Should set ticket question with asked input text', async function () {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            settingsNav = new SettingsNav(driver);
-            questions = new TicketQuestionsPage(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await driver.sleep(5000);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await eventOptionTabs.clickSettingsNav();
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickTicketQuestions();
-            await questions.createQuestionWithInput(base);
-
-        });
-
-        //EMBED
-        it('should answer ticket questions for question with input', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedLogin = new LoginPage(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            questionsModal = new TicketQuestionsModal(driver);
-            originalWindow =  driver.getWindowHandle();
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 1)
-            await main.nextButtonIsVisible();
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await driver.sleep(1000);
-            await embedLogin.loginWithEmailAndPassword("parma15@parma.it", "Pero1234");
-            await main.nextButtonIsVisible();
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickSavedCardByIndex(0);
-            await main.nextButtonIsVisible();
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.clickPlaceOrderButton();
-            await questionsModal.answerTicketQuestionWithTextInput(base,ticketOneName);
-            await embedConfirm.isAtConfirmPage();
-
-        });
-
-        //PORTAL
-        it('Should update first ticket question with asked input text', async function () {
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            settingsNav = new SettingsNav(driver);
-            events = new EventsPage(driver);
-            login = new LoginComponent(driver);
-            info = new EventInfo(driver);
-            ticketing = new TicketingPage(driver);
-            tickets = new TicketsTab(driver);
-            extras = new ExtrasTab(driver);
-            pay = new PayTab(driver);
-            confirm = new ConfirmTab(driver);
-            questions = new TicketQuestionsPage(driver);
-            questionsModal = new TicketQuestionsModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await eventOptionTabs.clickSettingsNav();
-            await settingsNav.taxesAndFeesSubTabIsDisplayed();
-            await settingsNav.clickTicketQuestions();
-            await questions.clickActivateQuestionButton(0);
-            await questions.updateFirstQuestionToIncludeInputAndForEachTicket(base);
-
-        });
-
-        //EMBED
-        it('should login with facebook assert updated ticket questions for first question , answer and submit answers', async function () {
-
-            main = new EmbedMainPage(driver);
-            embedTickets = new TicketsComponent(driver);
-            embedLogin = new LoginPage(driver);
-            embedExtras = new ExtrasPage(driver);
-            payment = new PaymentPage(driver);
-            orderDetails = new EmbedOrderDetailsPage(driver);
-            embedConfirm = new ConfirmPage(driver);
-            questionsModal = new TicketQuestionsModal(driver);
-            originalWindow =  driver.getWindowHandle();
-
-            await main.openEmbedPage();
-            await main.switchToIframe();
-            await main.isInFrame(eventName);
-            await embedTickets.sentKeysToTicketInput(0, 2);
-            await embedTickets.sentKeysToTicketInput(2, 1)
-            await main.nextButtonIsVisible();
-            await main.clickNextPageButton();
-            await embedLogin.isAtLoginPage();
-            await driver.sleep(1000);
-            await embedLogin.completeSwitchTo();
-            await embedLogin.isAtFacebookPage();
-            await driver.sleep(10000);
-            await embedLogin.completeSignInWithFacebook();
-            await driver.switchTo().window(originalWindow);
-            await driver.sleep(7000);
-            await main.switchToIframe();
-            await main.nextButtonIsVisible();
-            await main.clickTicketTermsCheckbox();
-            await main.clickNextPageButton();
-            await embedExtras.isAtExtrasPage();
-            await main.clickNextPageButton();
-            await payment.isAtPaymentPage();
-            await payment.clickSavedCardByIndex(0);
-            await main.nextButtonIsVisible();
-            await main.clickNextPageButton();
-            await orderDetails.isOnOrderDetailsPage();
-            await orderDetails.clickPlaceOrderButton();
-            await questionsModal.assertFormAndInputAndOption(base,ticketOneName, ticketThreeName)
-            await questionsModal.answerTicketQuestionWithPerTicketQuestions();
-            await embedConfirm.isAtConfirmPage();
-
-        });
-
+        
     });
 
-
+    

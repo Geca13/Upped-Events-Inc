@@ -31,16 +31,25 @@
 
 
 
-    class EventOrders extends BasePage {
+    class AllTransactionsPage extends BasePage {
         constructor(driver) {
             super(driver);
         }
         async isAtTransactionCenterPage(){
-            await this.isDisplayed(TRANSACTIONS_VIEW_TAB,5000);
+            await this.isDisplayed(FILTER_BUTTON,5000);
+        }
+
+        async openTransactionViewInEventOrdersDirectly(eventId){
+            await this.visit("https://dev.portal.uppedevents.com/dashboard/event/" + eventId + "/orders")
+            await this.isAtTransactionCenterPage();
+        }
+
+        async openDetailedViewInEventOrdersDirectly(eventId){
+            await this.visit("https://dev.portal.uppedevents.com/dashboard/event/" + eventId + "/orders/detailed")
+            await this.isAtTransactionCenterPage();
         }
 
         async assertTransactionViewTableHeadersNames(){
-            
             await this.isAtTransactionCenterPage();
             let table = new TableComponent(this.driver);
             await table.assertColumnNamesByIndex(1 ,"Order Id");
@@ -369,4 +378,4 @@
             await this.isDisplayed(ORDERS_IDS, 5000);
         }
     }
-    module.exports = EventOrders;
+    module.exports = AllTransactionsPage;

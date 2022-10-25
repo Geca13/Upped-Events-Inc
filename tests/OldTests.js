@@ -32,7 +32,7 @@
     const ConfirmTab = require('../microsites/micrositesComponents/ConfirmTab');
     const NewCardComponent = require('../microsites/micrositesComponents/NewCardComponent');
     const TicketTermsModal = require('../microsites/micrositesComponents/TicketTermsModal');
-    const EventOrders = require('../portal/transactionCentar/EventOrders');
+    const AllTransactions = require('../portal/transactionCentar/AllTransactions');
     const MapAndAgendaNavs = require('../portal/mapAndAgenda/MapAndAgendaNavs');
     const EventMapPage = require('../portal/mapAndAgenda/EventMapPage');
     const PerformancesPage = require('../portal/mapAndAgenda/PerformancesPage');
@@ -110,7 +110,7 @@
         let confirm;
         let newCardComponent;
         let terms;
-        let eventOrders;
+        let allTransactions;
         let eventSettingsNav;
         let agendaNavs;
         let eventMap;
@@ -712,7 +712,7 @@
             eventOptionTabs = new EventOptionTabs(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
-            eventOrders = new EventOrders(driver);
+            allTransactions = new AllTransactions(driver);
             events = new EventsPage(driver);
             login = new LoginComponent(driver);
             info = new EventInfo(driver);
@@ -757,8 +757,8 @@
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
             await sideMenu.clickTransactionCenterTab();
-            await eventOrders.isAtTransactionCenterPage();
-            let refundedAmount = await eventOrders.makeFullRefundWithReinstateTicket();
+            await allTransactions.isAtTransactionCenterPage();
+            let refundedAmount = await allTransactions.makeFullRefundWithReinstateTicket();
             userBalance = userBalance + parseFloat(refundedAmount);
             console.log(refundedAmount)
             console.log(userBalance)
@@ -1940,7 +1940,7 @@
             eventTickets = new EventTickets(driver)
             settingsNav = new SettingsNav(driver);
             questions = new TicketQuestionsPage(driver);
-            eventOrders = new EventOrders(driver);
+            allTransactions = new AllTransactions(driver);
             main = new EmbedMainPage(driver);
             embedTickets = new TicketsComponent(driver);
             summary = new SummaryComponent(driver);
@@ -1973,7 +1973,7 @@
             await questions.clickDeactivateQuestionButton(1);
             await questions.clickDeactivateQuestionButton(0);
             await sideMenu.clickTransactionCenterTab();
-            let transactions = await eventOrders.returnTotalTransactionsMade();
+            let transactions = await allTransactions.returnTotalTransactionsMade();
             await main.openEmbedPage();
             await main.switchToIframe();
             await main.isInFrame(eventName);
@@ -2006,7 +2006,7 @@
             await driver.sleep(500);
             //await eventOptionTabs.ticketingTabIsDisplayed();
             await sideMenu.clickTransactionCenterTab();
-            let afterTransactions = await eventOrders.returnTotalTransactionsMade();
+            let afterTransactions = await allTransactions.returnTotalTransactionsMade();
             assert.equal(transactions + 1, afterTransactions)
         });
 
@@ -2233,7 +2233,7 @@
             sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
-            eventOrders = new EventOrders(driver);
+            allTransactions = new AllTransactions(driver);
             sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
@@ -2246,9 +2246,9 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await sideMenu.clickTransactionCenterTab();
-            await eventOrders.isAtTransactionCenterPage();
-            await eventOrders.assertOrderIdsAreShownInDescendingOrder();
-            await eventOrders.assertOrderIdsAreShownInAscendingOrder();
+            await allTransactions.isAtTransactionCenterPage();
+            await allTransactions.assertOrderIdsAreShownInDescendingOrder();
+            await allTransactions.assertOrderIdsAreShownInAscendingOrder();
 
         });
 
@@ -2261,7 +2261,7 @@
             sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
-            eventOrders = new EventOrders(driver);
+            allTransactions = new AllTransactions(driver);
             sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
@@ -2274,9 +2274,9 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await sideMenu.clickTransactionCenterTab();
-            await eventOrders.isAtTransactionCenterPage();
-            await eventOrders.assertPricesAreShownInDescendingOrder();
-            await eventOrders.assertPricesAreShownInAscendingOrder();
+            await allTransactions.isAtTransactionCenterPage();
+            await allTransactions.assertPricesAreShownInDescendingOrder();
+            await allTransactions.assertPricesAreShownInAscendingOrder();
 
         });
 
@@ -2289,7 +2289,7 @@
             sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
-            eventOrders = new EventOrders(driver);
+            allTransactions = new AllTransactions(driver);
             sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
@@ -2302,9 +2302,9 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await sideMenu.clickTransactionCenterTab();
-            await eventOrders.isAtTransactionCenterPage();
-            await eventOrders.assertItemsAreShownInDescendingOrder();
-            await eventOrders.assertItemsAreShownInAscendingOrder();
+            await allTransactions.isAtTransactionCenterPage();
+            await allTransactions.assertItemsAreShownInDescendingOrder();
+            await allTransactions.assertItemsAreShownInAscendingOrder();
 
         });
 
@@ -2317,7 +2317,7 @@
             sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
-            eventOrders = new EventOrders(driver);
+            allTransactions = new AllTransactions(driver);
             sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
@@ -2330,8 +2330,8 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await sideMenu.clickTransactionCenterTab();
-            await eventOrders.isAtTransactionCenterPage();
-            await eventOrders.filterByOrderId();
+            await allTransactions.isAtTransactionCenterPage();
+            await allTransactions.filterByOrderId();
 
         });
 
@@ -2344,7 +2344,7 @@
             sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
-            eventOrders = new EventOrders(driver);
+            allTransactions = new AllTransactions(driver);
             sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
@@ -2357,8 +2357,8 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await sideMenu.clickTransactionCenterTab();
-            await eventOrders.isAtTransactionCenterPage();
-            await eventOrders.filterByPriceMinAndAssertValues();
+            await allTransactions.isAtTransactionCenterPage();
+            await allTransactions.filterByPriceMinAndAssertValues();
 
         });
 
@@ -2371,7 +2371,7 @@
             sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
-            eventOrders = new EventOrders(driver);
+            allTransactions = new AllTransactions(driver);
             sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
@@ -2384,8 +2384,8 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await sideMenu.clickTransactionCenterTab();
-            await eventOrders.isAtTransactionCenterPage();
-            await eventOrders.filterByPriceMaxAndAssertValues();
+            await allTransactions.isAtTransactionCenterPage();
+            await allTransactions.filterByPriceMaxAndAssertValues();
 
         });
 
@@ -2398,7 +2398,7 @@
             sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
-            eventOrders = new EventOrders(driver);
+            allTransactions = new AllTransactions(driver);
             sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
@@ -2411,8 +2411,8 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await sideMenu.clickTransactionCenterTab();
-            await eventOrders.isAtTransactionCenterPage();
-            await eventOrders.filterByPriceRangeAndAssertValues();
+            await allTransactions.isAtTransactionCenterPage();
+            await allTransactions.filterByPriceRangeAndAssertValues();
 
         });
 
@@ -2425,7 +2425,7 @@
             sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
-            eventOrders = new EventOrders(driver);
+            allTransactions = new AllTransactions(driver);
             sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
@@ -2438,8 +2438,8 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await sideMenu.clickTransactionCenterTab();
-            await eventOrders.isAtTransactionCenterPage();
-            await eventOrders.filterByMinPurchasedItemsAndAssertValues();
+            await allTransactions.isAtTransactionCenterPage();
+            await allTransactions.filterByMinPurchasedItemsAndAssertValues();
 
         });
 
@@ -2452,7 +2452,7 @@
             sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
-            eventOrders = new EventOrders(driver);
+            allTransactions = new AllTransactions(driver);
             sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
@@ -2465,8 +2465,8 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await sideMenu.clickTransactionCenterTab();
-            await eventOrders.isAtTransactionCenterPage();
-            await eventOrders.filterByMaxPurchasedItemsAndAssertValues();
+            await allTransactions.isAtTransactionCenterPage();
+            await allTransactions.filterByMaxPurchasedItemsAndAssertValues();
 
         });
 
@@ -2479,7 +2479,7 @@
             sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
-            eventOrders = new EventOrders(driver);
+            allTransactions = new AllTransactions(driver);
             sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
@@ -2492,8 +2492,8 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await sideMenu.clickTransactionCenterTab();
-            await eventOrders.isAtTransactionCenterPage();
-            await eventOrders.filterByPurchasedItemsRangeAndAssertValues();
+            await allTransactions.isAtTransactionCenterPage();
+            await allTransactions.filterByPurchasedItemsRangeAndAssertValues();
 
         });
 
@@ -2506,7 +2506,7 @@
             sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
-            eventOrders = new EventOrders(driver);
+            allTransactions = new AllTransactions(driver);
             sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
@@ -2519,8 +2519,8 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await sideMenu.clickTransactionCenterTab();
-            await eventOrders.isAtTransactionCenterPage();
-            await eventOrders.filterByFullUserAndAssertValues(base);
+            await allTransactions.isAtTransactionCenterPage();
+            await allTransactions.filterByFullUserAndAssertValues(base);
 
         });
 
@@ -2533,7 +2533,7 @@
             sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
-            eventOrders = new EventOrders(driver);
+            allTransactions = new AllTransactions(driver);
             sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
@@ -2546,8 +2546,8 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await sideMenu.clickTransactionCenterTab();
-            await eventOrders.isAtTransactionCenterPage();
-            await eventOrders.filterByPartialUserNameAndAssertValues();
+            await allTransactions.isAtTransactionCenterPage();
+            await allTransactions.filterByPartialUserNameAndAssertValues();
 
         });
 
@@ -2560,7 +2560,7 @@
             sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
-            eventOrders = new EventOrders(driver);
+            allTransactions = new AllTransactions(driver);
             sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
@@ -2573,8 +2573,8 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await sideMenu.clickTransactionCenterTab();
-            await eventOrders.isAtTransactionCenterPage();
-            await eventOrders.filterByFullUserPriceRangeAndAssertValues(base);
+            await allTransactions.isAtTransactionCenterPage();
+            await allTransactions.filterByFullUserPriceRangeAndAssertValues(base);
 
         });
 
@@ -2587,7 +2587,7 @@
             sideMenu = new SideMenu(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
-            eventOrders = new EventOrders(driver);
+            allTransactions = new AllTransactions(driver);
             sectionsNavs = new SectionsNavs(driver)
 
             await portalLogin.loadPortalUrl();
@@ -2600,8 +2600,8 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await sideMenu.clickTransactionCenterTab();
-            await eventOrders.isAtTransactionCenterPage();
-            await eventOrders.filterByAllStatusOptionsAndAssertValues();
+            await allTransactions.isAtTransactionCenterPage();
+            await allTransactions.filterByAllStatusOptionsAndAssertValues();
 
         });
 

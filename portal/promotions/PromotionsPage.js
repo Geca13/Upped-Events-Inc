@@ -32,6 +32,12 @@
         async promotionsHeaderIsVisible(){
             await this.isDisplayed(PROMOTIONS_HEADER,5000)
         }
+
+        async openPromotionsPageDirectly(eventId){
+            await this.visit("https://dev.portal.uppedevents.com/dashboard/event/" + eventId + "/promotions")
+            await this.promotionsHeaderIsVisible();
+        }
+        
         async clickAddPromotionButton(){
             await this.timeout(500);
             await this.addPromotionButtonIsVisible()

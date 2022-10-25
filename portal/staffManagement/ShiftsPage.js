@@ -17,9 +17,13 @@
         async isOnShiftsPage(){
             await this.isDisplayed(ADD_SHIFT_BUTTON, 5000)
         }
+
+        async openShiftsPageDirectly(eventId){
+            await this.visit("https://dev.portal.uppedevents.com/dashboard/event/" + eventId + "/staff/shifts")
+            await this.isOnShiftsPage();
+        }
     
         async assertShiftsTableHeadersNames(){
-    
             await this.isOnShiftsPage();
             let table = new TableComponent(this.driver);
             await table.assertColumnNamesByIndex(0 ,"Name");
@@ -29,8 +33,6 @@
             await table.assertColumnNamesByIndex(4,"Status");
     
         }
-    
-    
-    
+        
     }
     module.exports = ShiftsPage;

@@ -18,20 +18,25 @@
         constructor(driver) {
             super(driver);
         }
+
+        async openShopsPageDirectly(eventId){
+            await this.visit("https://dev.portal.uppedevents.com/dashboard/event/" + eventId + "/shops")
+            await this.addShopDropdownIsDisplayed();
+        }
         
         async assertShopsTableHeadersNames(){
             await this.addShopDropdownIsDisplayed();
             let table = new TableComponent(this.driver);
-            await table.assertColumnNamesByIndex(1 ,"Shop Name ");
-            await table.assertColumnNamesByIndex(2 ,"Vendor/Merchant ");
-            await table.assertColumnNamesByIndex(3 ,"Categories ");
-            await table.assertColumnNamesByIndex(4 ,"Hours ");
-            await table.assertColumnNamesByIndex(5,"Location ");
-            await table.assertColumnNamesByIndex(6 ,"# of Menus ");
-            await table.assertColumnNamesByIndex(7 ,"Linked Shops ");
-            await table.assertColumnNamesByIndex(8,"Featured ");
-            await table.assertColumnNamesByIndex(9 ,"Menu Set ");
-            await table.assertColumnNamesByIndex(10 ,"Needs Attention ");
+            await table.assertColumnNamesByIndex(1 ,"Shop Name");
+            await table.assertColumnNamesByIndex(2 ,"Vendor/Merchant");
+            await table.assertColumnNamesByIndex(3 ,"Categories");
+            await table.assertColumnNamesByIndex(4 ,"Hours");
+            await table.assertColumnNamesByIndex(5,"Location");
+            await table.assertColumnNamesByIndex(6 ,"# Of Menus");
+            await table.assertColumnNamesByIndex(7 ,"Linked Shops");
+            await table.assertColumnNamesByIndex(8,"Featured");
+            await table.assertColumnNamesByIndex(9 ,"Menu Set");
+            await table.assertColumnNamesByIndex(10 ,"Needs Attention");
         }
 
         async addShopDropdownIsDisplayed(){

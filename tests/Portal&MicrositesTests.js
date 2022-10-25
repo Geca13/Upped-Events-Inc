@@ -31,7 +31,7 @@
     const ConfirmTab = require('../microsites/micrositesComponents/ConfirmTab');
     const NewCardComponent = require('../microsites/micrositesComponents/NewCardComponent');
     const TicketTermsModal = require('../microsites/micrositesComponents/TicketTermsModal');
-    const EventOrders = require('../portal/transactionCentar/EventOrders');
+    const AllTransactions = require('../portal/transactionCentar/AllTransactions');
     const MapAndAgendaNavs = require('../portal/mapAndAgenda/MapAndAgendaNavs');
     const EventMapPage = require('../portal/mapAndAgenda/EventMapPage');
     const PerformancesPage = require('../portal/mapAndAgenda/PerformancesPage');
@@ -108,7 +108,7 @@
         let confirm;
         let newCardComponent;
         let terms;
-        let eventOrders;
+        let allTransactions;
         let eventSettingsNav;
         let agendaNavs;
         let eventMap;

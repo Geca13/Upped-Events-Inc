@@ -33,7 +33,7 @@ const PayTab = require('../microsites/micrositesComponents/PayTab');
 const ConfirmTab = require('../microsites/micrositesComponents/ConfirmTab');
 const NewCardComponent = require('../microsites/micrositesComponents/NewCardComponent');
 const TicketTermsModal = require('../microsites/micrositesComponents/TicketTermsModal');
-const EventOrders = require('../portal/transactionCentar/EventOrders');
+const AllTransactions = require('../portal/transactionCentar/AllTransactions');
 const MapAndAgendaNavs = require('../portal/mapAndAgenda/MapAndAgendaNavs');
 const EventMapPage = require('../portal/mapAndAgenda/EventMapPage');
 const PerformancesPage = require('../portal/mapAndAgenda/PerformancesPage');
@@ -108,7 +108,7 @@ describe('Should do everything', function () {
     let confirm;
     let newCardComponent;
     let terms;
-    let eventOrders;
+    let allTransactions;
     let eventSettingsNav;
     let agendaNavs;
     let eventMap;
@@ -654,7 +654,7 @@ describe('Should do everything', function () {
         eventOptionTabs = new EventOptionTabs(driver);
         ticketsNav = new TicketsNav(driver);
         createTicket = new CreateTicketModal(driver);
-        eventOrders = new EventOrders(driver);
+        allTransactions = new AllTransactions(driver);
         events = new EventsPage(driver);
         login = new LoginComponent(driver);
         info = new EventInfo(driver);
@@ -696,8 +696,8 @@ describe('Should do everything', function () {
         await myEvents.clickTheNewCreatedEventInTheTable(eventName);
         await eventDetails.unpublishButtonIsDisplayed();
         await eventOptionTabs.clickTransactionCenterTab();
-        await eventOrders.isAtTransactionCenterPage();
-        let refundedAmount = await eventOrders.makeFullRefundWithReinstateTicket();
+        await allTransactions.isAtTransactionCenterPage();
+        let refundedAmount = await allTransactions.makeFullRefundWithReinstateTicket();
         userBalance = userBalance + parseFloat(refundedAmount);
         userTotalPurchases = userTotalPurchases - parseFloat(refundedAmount);
         await events.loadStaging();
@@ -1836,7 +1836,7 @@ describe('Should do everything', function () {
         eventTickets = new EventTickets(driver)
         settingsNav = new SettingsNav(driver);
         questions = new TicketQuestionsPage(driver);
-        eventOrders = new EventOrders(driver);
+        allTransactions = new AllTransactions(driver);
         main = new EmbedMainPage(driver);
         embedTickets = new TicketsComponent(driver);
         summary = new SummaryComponent(driver);
@@ -1869,7 +1869,7 @@ describe('Should do everything', function () {
         await questions.clickDeactivateQuestionButton(1);
         await questions.clickDeactivateQuestionButton(0);
         await eventOptionTabs.clickTransactionCenterTab();
-        let transactions = await eventOrders.returnTotalTransactionsMade();
+        let transactions = await allTransactions.returnTotalTransactionsMade();
         await main.openEmbedPage();
         await main.switchToIframe();
         await main.isInFrame(eventName);
@@ -1902,7 +1902,7 @@ describe('Should do everything', function () {
         await driver.sleep(500);
         await eventOptionTabs.ticketingTabIsDisplayed();
         await eventOptionTabs.clickTransactionCenterTab();
-        let afterTransactions = await eventOrders.returnTotalTransactionsMade();
+        let afterTransactions = await allTransactions.returnTotalTransactionsMade();
         assert.equal(transactions + 1, afterTransactions)
     });
 
@@ -2050,7 +2050,7 @@ describe('Should do everything', function () {
         eventOptionTabs = new EventOptionTabs(driver);
         ticketsNav = new TicketsNav(driver);
         createTicket = new CreateTicketModal(driver);
-        eventOrders = new EventOrders(driver);
+        allTransactions = new AllTransactions(driver);
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
@@ -2062,9 +2062,9 @@ describe('Should do everything', function () {
         await myEvents.createdEventIsInTheTable(eventName);
         await myEvents.clickTheNewCreatedEventInTheTable(eventName);
         await eventOptionTabs.clickTransactionCenterTab();
-        await eventOrders.isAtTransactionCenterPage();
-        await eventOrders.assertOrderIdsAreShownInDescendingOrder();
-        await eventOrders.assertOrderIdsAreShownInAscendingOrder();
+        await allTransactions.isAtTransactionCenterPage();
+        await allTransactions.assertOrderIdsAreShownInDescendingOrder();
+        await allTransactions.assertOrderIdsAreShownInAscendingOrder();
 
     });
 
@@ -2077,7 +2077,7 @@ describe('Should do everything', function () {
         eventOptionTabs = new EventOptionTabs(driver);
         ticketsNav = new TicketsNav(driver);
         createTicket = new CreateTicketModal(driver);
-        eventOrders = new EventOrders(driver);
+        allTransactions = new AllTransactions(driver);
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
@@ -2089,9 +2089,9 @@ describe('Should do everything', function () {
         await myEvents.createdEventIsInTheTable(eventName);
         await myEvents.clickTheNewCreatedEventInTheTable(eventName);
         await eventOptionTabs.clickTransactionCenterTab();
-        await eventOrders.isAtTransactionCenterPage();
-        await eventOrders.assertPricesAreShownInDescendingOrder();
-        await eventOrders.assertPricesAreShownInAscendingOrder();
+        await allTransactions.isAtTransactionCenterPage();
+        await allTransactions.assertPricesAreShownInDescendingOrder();
+        await allTransactions.assertPricesAreShownInAscendingOrder();
 
     });
 
@@ -2104,7 +2104,7 @@ describe('Should do everything', function () {
         eventOptionTabs = new EventOptionTabs(driver);
         ticketsNav = new TicketsNav(driver);
         createTicket = new CreateTicketModal(driver);
-        eventOrders = new EventOrders(driver);
+        allTransactions = new AllTransactions(driver);
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
@@ -2116,9 +2116,9 @@ describe('Should do everything', function () {
         await myEvents.createdEventIsInTheTable(eventName);
         await myEvents.clickTheNewCreatedEventInTheTable(eventName);
         await eventOptionTabs.clickTransactionCenterTab();
-        await eventOrders.isAtTransactionCenterPage();
-        await eventOrders.assertItemsAreShownInDescendingOrder();
-        await eventOrders.assertItemsAreShownInAscendingOrder();
+        await allTransactions.isAtTransactionCenterPage();
+        await allTransactions.assertItemsAreShownInDescendingOrder();
+        await allTransactions.assertItemsAreShownInAscendingOrder();
 
     });
 
@@ -2131,7 +2131,7 @@ describe('Should do everything', function () {
         eventOptionTabs = new EventOptionTabs(driver);
         ticketsNav = new TicketsNav(driver);
         createTicket = new CreateTicketModal(driver);
-        eventOrders = new EventOrders(driver);
+        allTransactions = new AllTransactions(driver);
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
@@ -2143,8 +2143,8 @@ describe('Should do everything', function () {
         await myEvents.createdEventIsInTheTable(eventName);
         await myEvents.clickTheNewCreatedEventInTheTable(eventName);
         await eventOptionTabs.clickTransactionCenterTab();
-        await eventOrders.isAtTransactionCenterPage();
-        await eventOrders.filterByOrderId();
+        await allTransactions.isAtTransactionCenterPage();
+        await allTransactions.filterByOrderId();
 
     });
 
@@ -2157,7 +2157,7 @@ describe('Should do everything', function () {
         eventOptionTabs = new EventOptionTabs(driver);
         ticketsNav = new TicketsNav(driver);
         createTicket = new CreateTicketModal(driver);
-        eventOrders = new EventOrders(driver);
+        allTransactions = new AllTransactions(driver);
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
@@ -2169,8 +2169,8 @@ describe('Should do everything', function () {
         await myEvents.createdEventIsInTheTable(eventName);
         await myEvents.clickTheNewCreatedEventInTheTable(eventName);
         await eventOptionTabs.clickTransactionCenterTab();
-        await eventOrders.isAtTransactionCenterPage();
-        await eventOrders.filterByPriceMinAndAssertValues();
+        await allTransactions.isAtTransactionCenterPage();
+        await allTransactions.filterByPriceMinAndAssertValues();
 
     });
 
@@ -2183,7 +2183,7 @@ describe('Should do everything', function () {
         eventOptionTabs = new EventOptionTabs(driver);
         ticketsNav = new TicketsNav(driver);
         createTicket = new CreateTicketModal(driver);
-        eventOrders = new EventOrders(driver);
+        allTransactions = new AllTransactions(driver);
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
@@ -2195,8 +2195,8 @@ describe('Should do everything', function () {
         await myEvents.createdEventIsInTheTable(eventName);
         await myEvents.clickTheNewCreatedEventInTheTable(eventName);
         await eventOptionTabs.clickTransactionCenterTab();
-        await eventOrders.isAtTransactionCenterPage();
-        await eventOrders.filterByPriceMaxAndAssertValues();
+        await allTransactions.isAtTransactionCenterPage();
+        await allTransactions.filterByPriceMaxAndAssertValues();
 
     });
 
@@ -2209,7 +2209,7 @@ describe('Should do everything', function () {
         eventOptionTabs = new EventOptionTabs(driver);
         ticketsNav = new TicketsNav(driver);
         createTicket = new CreateTicketModal(driver);
-        eventOrders = new EventOrders(driver);
+        allTransactions = new AllTransactions(driver);
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
@@ -2221,8 +2221,8 @@ describe('Should do everything', function () {
         await myEvents.createdEventIsInTheTable(eventName);
         await myEvents.clickTheNewCreatedEventInTheTable(eventName);
         await eventOptionTabs.clickTransactionCenterTab();
-        await eventOrders.isAtTransactionCenterPage();
-        await eventOrders.filterByPriceRangeAndAssertValues();
+        await allTransactions.isAtTransactionCenterPage();
+        await allTransactions.filterByPriceRangeAndAssertValues();
 
     });
 
@@ -2235,7 +2235,7 @@ describe('Should do everything', function () {
         eventOptionTabs = new EventOptionTabs(driver);
         ticketsNav = new TicketsNav(driver);
         createTicket = new CreateTicketModal(driver);
-        eventOrders = new EventOrders(driver);
+        allTransactions = new AllTransactions(driver);
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
@@ -2247,8 +2247,8 @@ describe('Should do everything', function () {
         await myEvents.createdEventIsInTheTable(eventName);
         await myEvents.clickTheNewCreatedEventInTheTable(eventName);
         await eventOptionTabs.clickTransactionCenterTab();
-        await eventOrders.isAtTransactionCenterPage();
-        await eventOrders.filterByMinPurchasedItemsAndAssertValues();
+        await allTransactions.isAtTransactionCenterPage();
+        await allTransactions.filterByMinPurchasedItemsAndAssertValues();
 
     });
 
@@ -2261,7 +2261,7 @@ describe('Should do everything', function () {
         eventOptionTabs = new EventOptionTabs(driver);
         ticketsNav = new TicketsNav(driver);
         createTicket = new CreateTicketModal(driver);
-        eventOrders = new EventOrders(driver);
+        allTransactions = new AllTransactions(driver);
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
@@ -2273,8 +2273,8 @@ describe('Should do everything', function () {
         await myEvents.createdEventIsInTheTable(eventName);
         await myEvents.clickTheNewCreatedEventInTheTable(eventName);
         await eventOptionTabs.clickTransactionCenterTab();
-        await eventOrders.isAtTransactionCenterPage();
-        await eventOrders.filterByMaxPurchasedItemsAndAssertValues();
+        await allTransactions.isAtTransactionCenterPage();
+        await allTransactions.filterByMaxPurchasedItemsAndAssertValues();
 
     });
 
@@ -2287,7 +2287,7 @@ describe('Should do everything', function () {
         eventOptionTabs = new EventOptionTabs(driver);
         ticketsNav = new TicketsNav(driver);
         createTicket = new CreateTicketModal(driver);
-        eventOrders = new EventOrders(driver);
+        allTransactions = new AllTransactions(driver);
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
@@ -2299,8 +2299,8 @@ describe('Should do everything', function () {
         await myEvents.createdEventIsInTheTable(eventName);
         await myEvents.clickTheNewCreatedEventInTheTable(eventName);
         await eventOptionTabs.clickTransactionCenterTab();
-        await eventOrders.isAtTransactionCenterPage();
-        await eventOrders.filterByPurchasedItemsRangeAndAssertValues();
+        await allTransactions.isAtTransactionCenterPage();
+        await allTransactions.filterByPurchasedItemsRangeAndAssertValues();
 
     });
 
@@ -2313,7 +2313,7 @@ describe('Should do everything', function () {
         eventOptionTabs = new EventOptionTabs(driver);
         ticketsNav = new TicketsNav(driver);
         createTicket = new CreateTicketModal(driver);
-        eventOrders = new EventOrders(driver);
+        allTransactions = new AllTransactions(driver);
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
@@ -2325,8 +2325,8 @@ describe('Should do everything', function () {
         await myEvents.createdEventIsInTheTable(eventName);
         await myEvents.clickTheNewCreatedEventInTheTable(eventName);
         await eventOptionTabs.clickTransactionCenterTab();
-        await eventOrders.isAtTransactionCenterPage();
-        await eventOrders.filterByFullUserAndAssertValues(base);
+        await allTransactions.isAtTransactionCenterPage();
+        await allTransactions.filterByFullUserAndAssertValues(base);
 
     });
 
@@ -2339,7 +2339,7 @@ describe('Should do everything', function () {
         eventOptionTabs = new EventOptionTabs(driver);
         ticketsNav = new TicketsNav(driver);
         createTicket = new CreateTicketModal(driver);
-        eventOrders = new EventOrders(driver);
+        allTransactions = new AllTransactions(driver);
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
@@ -2351,8 +2351,8 @@ describe('Should do everything', function () {
         await myEvents.createdEventIsInTheTable(eventName);
         await myEvents.clickTheNewCreatedEventInTheTable(eventName);
         await eventOptionTabs.clickTransactionCenterTab();
-        await eventOrders.isAtTransactionCenterPage();
-        await eventOrders.filterByPartialUserNameAndAssertValues();
+        await allTransactions.isAtTransactionCenterPage();
+        await allTransactions.filterByPartialUserNameAndAssertValues();
 
     });
 
@@ -2365,7 +2365,7 @@ describe('Should do everything', function () {
         eventOptionTabs = new EventOptionTabs(driver);
         ticketsNav = new TicketsNav(driver);
         createTicket = new CreateTicketModal(driver);
-        eventOrders = new EventOrders(driver);
+        allTransactions = new AllTransactions(driver);
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
@@ -2377,8 +2377,8 @@ describe('Should do everything', function () {
         await myEvents.createdEventIsInTheTable(eventName);
         await myEvents.clickTheNewCreatedEventInTheTable(eventName);
         await eventOptionTabs.clickTransactionCenterTab();
-        await eventOrders.isAtTransactionCenterPage();
-        await eventOrders.filterByFullUserPriceRangeAndAssertValues(base);
+        await allTransactions.isAtTransactionCenterPage();
+        await allTransactions.filterByFullUserPriceRangeAndAssertValues(base);
 
     });
 
@@ -2391,7 +2391,7 @@ describe('Should do everything', function () {
         eventOptionTabs = new EventOptionTabs(driver);
         ticketsNav = new TicketsNav(driver);
         createTicket = new CreateTicketModal(driver);
-        eventOrders = new EventOrders(driver);
+        allTransactions = new AllTransactions(driver);
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
@@ -2403,8 +2403,8 @@ describe('Should do everything', function () {
         await myEvents.createdEventIsInTheTable(eventName);
         await myEvents.clickTheNewCreatedEventInTheTable(eventName);
         await eventOptionTabs.clickTransactionCenterTab();
-        await eventOrders.isAtTransactionCenterPage();
-        await eventOrders.filterByAllStatusOptionsAndAssertValues();
+        await allTransactions.isAtTransactionCenterPage();
+        await allTransactions.filterByAllStatusOptionsAndAssertValues();
 
     });
 

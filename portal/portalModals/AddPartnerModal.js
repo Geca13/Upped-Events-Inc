@@ -1,5 +1,4 @@
     const BasePage = require('../../BasePage');
-    const SetupNewVendorPage = require('../partnerManagement/SetupNewVendorPage')
     const ADD_PARTNER_HEADER = { xpath:"//*[text()=' Add Partner']"}
     const DROPDOWNS = { xpath: "//button[@type='button']"} // list index 1:Partner, 2:InviteMethod 3: businessType
     const PARTNER_TYPE_DROPDOWN = { xpath: "//select[@title='Select Partner Type']"}

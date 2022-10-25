@@ -20,8 +20,12 @@
             await this.isDisplayed(ADD_SHIFT_BUTTON, 5000)
         }
 
-        async assertStaffTableHeadersNames(){
+        async openStaffPageDirectly(eventId){
+            await this.visit("https://dev.portal.uppedevents.com/dashboard/event/" + eventId + "/staff")
+            await this.isOnStaffPage();
+        }
 
+        async assertStaffTableHeadersNames(){
             await this.isOnStaffPage();
             let table = new TableComponent(this.driver);
             await table.assertColumnNamesByIndex(1 ,"Name");
@@ -34,8 +38,6 @@
             await table.assertColumnNamesByIndex(8 ,"Added Date");
 
         }
-    
-    
     
     }
     module.exports = StaffPage;

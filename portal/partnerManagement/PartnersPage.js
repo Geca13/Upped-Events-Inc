@@ -3,9 +3,6 @@
     const TableComponent = require("../portalComponents/TableComponent");
     const ADD_BUTTON = { xpath:"//*[text()='Add']"}
 
-
-
-
     class PartnersPage extends BasePage{
         constructor(driver) {
             super(driver);
@@ -13,6 +10,11 @@
 
         async isOnPartnersPage(){
             await this.isDisplayed(ADD_BUTTON,5000);
+        }
+
+        async openPartnersPageDirectly(eventId){
+            await this.visit("https://dev.portal.uppedevents.com/dashboard/event/" + eventId + "/partners")
+            await this.isOnPartnersPage();
         }
 
         async assertPartnersTableHeadersNames(){

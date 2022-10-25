@@ -30,6 +30,12 @@
             super(driver);
         }
 
+        async openEventGeneralDetailsPageDirectly(eventId){
+            await this.visit("https://dev.portal.uppedevents.com/dashboard/event/" + eventId + "/details")
+            await this.publishButtonIsDisplayed();
+        }
+
+
         async publishButtonIsDisplayed(){
             await this.isDisplayed(PUBLISH_EVENT_BUTTON,15000, "publishEvent");
         }
