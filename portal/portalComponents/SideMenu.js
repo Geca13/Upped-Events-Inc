@@ -29,6 +29,7 @@
 
         async ticketingTabIsDisplayed(){
             await this.isDisplayed(TICKETING_TAB,5000);
+            await this.timeout(500)
         }
 
         async clickEventOrganization(){
@@ -71,6 +72,7 @@
         }
 
         async clickTicketingTab(){
+            await this.timeout(500)
             await this.ticketingTabIsDisplayed();
             await this.click(TICKETING_TAB);
         }

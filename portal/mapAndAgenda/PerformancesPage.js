@@ -28,6 +28,7 @@
 
         async assertPerformancesTableHeaders(){
             let table = new TableComponent(this.driver);
+            await this.isOnPerformancePage();
             await table.assertColumnNamesByIndex(1, "Name");
             await table.assertColumnNamesByIndex(2, "Location");
             await table.assertColumnNamesByIndex(3, "Start Date/Time");

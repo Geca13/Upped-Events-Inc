@@ -59,6 +59,7 @@
     const SupportTicketsPage = require('../portal/uppedSupport/SupportTicketsPage');
     const FeatureRequestPage = require('../portal/uppedSupport/FeatureRequestPage');
     const ProfessionalServicePage = require('../portal/uppedSupport/ProfessionalServicePage');
+    const TableComponent = require('../portal/portalComponents/TableComponent')
 
 
     describe('Should do embed tests', function () {
@@ -151,6 +152,7 @@
         let supportTickets;
         let featureRequests;
         let professionalService;
+        let table;
         
 
         let base =  Math.floor(100000 + Math.random() * 900000);
@@ -240,7 +242,7 @@
             
         });
 
-        //PORTAL
+     /*   //PORTAL
         it('should create new event',async function () {
             let splited = [];
             createEvent = new CreateEventModal(driver);
@@ -252,7 +254,7 @@
             splited = await urlToSplit.split('/')
             eventId = splited[splited.length - 2]
         });
-
+*/
         //PORTAL
         it('should assert nav links on Event Overview page',async function () {
 
@@ -278,12 +280,12 @@
             await eventDetails.openEventGeneralDetailsPageDirectly(eventId);
             await sectionNavs.clickNavByText("Design");
             await sectionNavs.assertSectionSubNavsCount(6);
-            await sectionNavs.assertEventOverviewSubNavLinkTextByIndex('Event Card Design' , 0);
-            await sectionNavs.assertEventOverviewSubNavLinkTextByIndex('App Design' , 1);
-            await sectionNavs.assertEventOverviewSubNavLinkTextByIndex('Event Site' , 2);
-            await sectionNavs.assertEventOverviewSubNavLinkTextByIndex('Sponsorship' , 3);
-            await sectionNavs.assertEventOverviewSubNavLinkTextByIndex('Embedding' , 4);
-            await sectionNavs.assertEventOverviewSubNavLinkTextByIndex('Ticket Design' , 5);
+            await sectionNavs.assertSubNavLinkTextByIndex('Event Card Design' , 0);
+            await sectionNavs.assertSubNavLinkTextByIndex('App Design' , 1);
+            await sectionNavs.assertSubNavLinkTextByIndex('Event Site' , 2);
+            await sectionNavs.assertSubNavLinkTextByIndex('Sponsorship' , 3);
+            await sectionNavs.assertSubNavLinkTextByIndex('Embedding' , 4);
+            await sectionNavs.assertSubNavLinkTextByIndex('Ticket Design' , 5);
 
         });
 
@@ -295,8 +297,8 @@
             await eventDetails.openEventGeneralDetailsPageDirectly(eventId);
             await sectionNavs.clickNavByText("Event Team");
             await sectionNavs.assertSectionSubNavsCount(2);
-            await sectionNavs.assertEventTeamSubNavLinkTextByIndex('Team members' , 0);
-            await sectionNavs.assertEventTeamSubNavLinkTextByIndex('Primary Contact' , 1);
+            await sectionNavs.assertSubNavLinkTextByIndex('Team members' , 0);
+            await sectionNavs.assertSubNavLinkTextByIndex('Primary Contact' , 1);
 
         });
 
@@ -308,11 +310,11 @@
             await eventDetails.openEventGeneralDetailsPageDirectly(eventId);
             await sectionNavs.clickNavByText("Settings");
             await sectionNavs.assertSectionSubNavsCount(5);
-            await sectionNavs.assertEventSettingsSubNavLinkTextByIndex('Event Security' , 0);
-            await sectionNavs.assertEventSettingsSubNavLinkTextByIndex('Event Payments' , 1);
-            await sectionNavs.assertEventSettingsSubNavLinkTextByIndex('Notifications' , 2);
-            await sectionNavs.assertEventSettingsSubNavLinkTextByIndex('Donations' , 3);
-            await sectionNavs.assertEventSettingsSubNavLinkTextByIndex('Loyalty Program' , 4);
+            await sectionNavs.assertSubNavLinkTextByIndex('Event Security' , 0);
+            await sectionNavs.assertSubNavLinkTextByIndex('Event Payments' , 1);
+            await sectionNavs.assertSubNavLinkTextByIndex('Notifications' , 2);
+            await sectionNavs.assertSubNavLinkTextByIndex('Donations' , 3);
+            await sectionNavs.assertSubNavLinkTextByIndex('Loyalty Program' , 4);
 
         });
 
@@ -324,8 +326,8 @@
             await eventDetails.openEventGeneralDetailsPageDirectly(eventId);
             await sectionNavs.clickNavByText("Analytics");
             await sectionNavs.assertSectionSubNavsCount(2);
-            await sectionNavs.assertEventAnalyticsSubNavLinkTextByIndex('Dashboard' , 0);
-            await sectionNavs.assertEventAnalyticsSubNavLinkTextByIndex('Reports' , 1);
+            await sectionNavs.assertSubNavLinkTextByIndex('Dashboard' , 0);
+            await sectionNavs.assertSubNavLinkTextByIndex('Reports' , 1);
 
         });
 
@@ -384,6 +386,21 @@
         });
 
         //PORTAL
+        it('should assert link navs on Map And Agenda page',async function () {
+
+            activity = new ActivitiesPage(driver);
+            sectionNavs = new SectionsNavs(driver);
+            await activity.openActivitiesPageDirectly(eventId);
+            await sectionNavs.assertNavLinksCount(5);
+            await sectionNavs.assertNavLinkTextByIndex('Event Map' , 0);
+            await sectionNavs.assertNavLinkTextByIndex('Schedule' , 1);
+            await sectionNavs.assertNavLinkTextByIndex('Performances' , 2);
+            await sectionNavs.assertNavLinkTextByIndex('Activities' , 3);
+            await sectionNavs.assertNavLinkTextByIndex('Parameters' , 4);
+
+        });
+
+        //PORTAL
         it('should assert table headers on Tickets page',async function () {
 
             ticketsNav = new TicketsNav(driver)
@@ -392,6 +409,50 @@
 
         });
 
+        //PORTAL
+        it('should assert table column names on Tickets page equal column options',async function () {
+
+            ticketsNav = new TicketsNav(driver)
+            await ticketsNav.openTicketsNavDirectly(eventId);
+            await ticketsNav.assertColumnNamesEqualsColumnOptionsModal();
+
+        });
+
+        //PORTAL
+        it('should assert table columns order change on Tickets page',async function () {
+
+            ticketsNav = new TicketsNav(driver);
+            table = new TableComponent(driver)
+            await ticketsNav.openTicketsNavDirectly(eventId);
+            await ticketsNav.clickAddTableColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(5,2);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Tickets page',async function () {
+
+            ticketsNav = new TicketsNav(driver);
+            table = new TableComponent(driver)
+            await ticketsNav.openTicketsNavDirectly(eventId);
+            await ticketsNav.clickAddTableColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Tickets page',async function () {
+
+            ticketsNav = new TicketsNav(driver);
+            table = new TableComponent(driver)
+            await ticketsNav.openTicketsNavDirectly(eventId);
+            await ticketsNav.clickAddTableColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await ticketsNav.clickAddTableColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Start Date/Time");
+
+        });
+        
         //PORTAL
         it('should assert table headers on Tickets Analytics page',async function () {
 
@@ -416,6 +477,38 @@
             bosTickets = new BOSelectTickets(driver)
             await bosTickets.openBoxOfficeDirectly(eventId);
             await bosTickets.assertBoxOfficeTicketsTableHeaders();
+
+        });
+
+        //PORTAL
+        it('should assert nav links on Event Tickets page',async function () {
+           
+            sectionNavs = new SectionsNavs(driver);
+            ticketsNav = new TicketsNav(driver)
+            await ticketsNav.openTicketsNavDirectly(eventId);
+            await sectionNavs.assertNavLinksCount(5);
+            await sectionNavs.assertNavLinkTextByIndex('Tickets' , 0);
+            await sectionNavs.assertNavLinkTextByIndex('Seating Plan' , 1);
+            await sectionNavs.assertNavLinkTextByIndex('Analytics' , 2);
+            await sectionNavs.assertNavLinkTextByIndex('Settings' , 3);
+            await sectionNavs.assertNavLinkTextByIndex('Box Office' , 4);
+
+        });
+
+        //PORTAL
+        it('should assert sub nav links on Event Tickets -> Settings page',async function () {
+
+            sectionNavs = new SectionsNavs(driver);
+            questions = new TicketQuestionsPage(driver)
+            await questions.openTicketsQuestionsPageDirectly(eventId);
+            await sectionNavs.assertSectionSubNavsCount(7);
+            await sectionNavs.assertSubNavLinkTextByIndex('General Settings' , 0);
+            await sectionNavs.assertSubNavLinkTextByIndex('Refund Rules' , 1);
+            await sectionNavs.assertSubNavLinkTextByIndex('Ticket Terms' , 2);
+            await sectionNavs.assertSubNavLinkTextByIndex('Taxes & Fees' , 3);
+            await sectionNavs.assertSubNavLinkTextByIndex('Ticket Questions' , 4);
+            await sectionNavs.assertSubNavLinkTextByIndex('Event Capacity' , 5);
+            await sectionNavs.assertSubNavLinkTextByIndex('Ticket Permissions' , 6);
 
         });
 
@@ -455,11 +548,53 @@
 
         });
 
+        //PORTAL
+        it('should assert nav links on Event Orders page',async function () {
+
+            sectionNavs = new SectionsNavs(driver);
+            allTransactions = new AllTransactions(driver)
+            await allTransactions.openDetailedViewInEventOrdersDirectly(eventId);
+            await sectionNavs.assertNavLinksCount(3);
+            await sectionNavs.assertNavLinkTextByIndex('All' , 0);
+            await sectionNavs.assertNavLinkTextByIndex('Tickets' , 1);
+            await sectionNavs.assertNavLinkTextByIndex('Items' , 2);
+
+        });
+
         it('should assert table headers on Shops page',async function () {
 
             shopsPage = new ShopsPage(driver)
             await shopsPage.openShopsPageDirectly(eventId);
             await shopsPage.assertShopsTableHeadersNames();
+
+        });
+
+        //PORTAL
+        it('should assert nav links on Shops Management page',async function () {
+
+            sectionNavs = new SectionsNavs(driver);
+            shopsPage = new ShopsPage(driver)
+            await shopsPage.openShopsPageDirectly(eventId);
+            await sectionNavs.assertNavLinksCount(6);
+            await sectionNavs.assertNavLinkTextByIndex('Shops' , 0);
+            await sectionNavs.assertNavLinkTextByIndex('Applications' , 1);
+            await sectionNavs.assertNavLinkTextByIndex('Vendor SignUp Form' , 2);
+            await sectionNavs.assertNavLinkTextByIndex('Shops Settings' , 3);
+            await sectionNavs.assertNavLinkTextByIndex('Shop Categories' , 4);
+            await sectionNavs.assertNavLinkTextByIndex('Taxes & Fees' , 5);
+
+        });
+
+        //PORTAL
+        it('should assert sub nav links on Shops Management -> Shops Settings page',async function () {
+
+            sectionNavs = new SectionsNavs(driver);
+            shopsPage = new ShopsPage(driver)
+            await shopsPage.openShopsPageDirectly(eventId);
+            await sectionNavs.clickNavByText("Shops Settings");
+            await sectionNavs.assertSectionSubNavsCount(2);
+            await sectionNavs.assertSubNavLinkTextByIndex('Taxes & Fees' , 0);
+            await sectionNavs.assertSubNavLinkTextByIndex('Shop Tickets' , 1);
 
         });
 
@@ -487,6 +622,32 @@
 
         });
 
+        //PORTAL
+        it('should assert nav links on Partners Management page',async function () {
+
+            sectionNavs = new SectionsNavs(driver);
+            partnersPage = new PartnersPage(driver)
+            await partnersPage.openPartnersPageDirectly(eventId);
+            await sectionNavs.assertNavLinksCount(4);
+            await sectionNavs.assertNavLinkTextByIndex('Partners' , 0);
+            await sectionNavs.assertNavLinkTextByIndex('Contracts' , 1);
+            await sectionNavs.assertNavLinkTextByIndex('Application' , 2);
+            await sectionNavs.assertNavLinkTextByIndex('Settings' , 3);
+
+        });
+
+        //PORTAL
+        it('should assert sub nav links on Partners Management -> Shops Settings page',async function () {
+
+            sectionNavs = new SectionsNavs(driver);
+            vendorSettings = new VendorSpecificSettingsPage(driver);
+            await vendorSettings.openVendorSettingsPageDirectly(eventId);
+            await sectionNavs.assertSectionSubNavsCount(2);
+            await sectionNavs.assertSubNavLinkTextByIndex('General Settings' , 0);
+            await sectionNavs.assertSubNavLinkTextByIndex('Vendor Specific Settings' , 1);
+
+        });
+
         it('should assert table headers on Staff page',async function () {
 
             staffPage = new StaffPage(driver);
@@ -503,6 +664,38 @@
 
         });
 
+        //PORTAL
+        it('should assert nav links on Staff Management page',async function () {
+
+            sectionNavs = new SectionsNavs(driver);
+            staffPage = new StaffPage(driver);
+            await staffPage.openStaffPageDirectly(eventId);
+            await sectionNavs.assertNavLinksCount(5);
+            await sectionNavs.assertNavLinkTextByIndex('Staff' , 0);
+            await sectionNavs.assertNavLinkTextByIndex('Shifts' , 1);
+            await sectionNavs.assertNavLinkTextByIndex('Calendar' , 2);
+            await sectionNavs.assertNavLinkTextByIndex('Applications' , 3);
+            await sectionNavs.assertNavLinkTextByIndex('Settings' , 4);
+
+        });
+
+        //PORTAL
+        it('should assert sub nav links on Staff Management -> Settings page',async function () {
+
+            sectionNavs = new SectionsNavs(driver);
+            staffPage = new StaffPage(driver);
+            await staffPage.openStaffPageDirectly(eventId);
+            await sectionNavs.clickNavByText("Settings");
+            await sectionNavs.assertSectionSubNavsCount(6);
+            await sectionNavs.assertSubNavLinkTextByIndex('Staff Sourcing Settings' , 0);
+            await sectionNavs.assertSubNavLinkTextByIndex('Staff Management Settings' , 1);
+            await sectionNavs.assertSubNavLinkTextByIndex('Roles & Levels' , 2);
+            await sectionNavs.assertSubNavLinkTextByIndex('Sign-Up Settings' , 3);
+            await sectionNavs.assertSubNavLinkTextByIndex('Applications' , 4);
+            await sectionNavs.assertSubNavLinkTextByIndex('Event Access' , 5);
+
+        });
+
         it('should assert table headers on Event Marketing(email) page',async function () {
 
             emailMarketing = new EmailMarketingPage(driver);
@@ -511,11 +704,33 @@
 
         });
 
+        //PORTAL
+        it('should assert nav links on Event Marketing Activity (Email) page',async function () {
+
+            sectionNavs = new SectionsNavs(driver);
+            emailMarketing = new EmailMarketingPage(driver);
+            await emailMarketing.openEmailMarketingPageDirectly(eventId);
+            await sectionNavs.assertNavLinksCount(1);
+            await sectionNavs.assertNavLinkTextByIndex('Email' , 0);
+
+        });
+
         it('should assert table headers on Customer Engagement (Notification) page',async function () {
 
             notification = new NotificationPage(driver);
             await notification.openNotificationPageDirectly(eventId);
             await notification.assertNotificationPageTableHeadersNames();
+
+        });
+
+        //PORTAL
+        it('should assert nav links on Customer Engagement Activity (Notification) page',async function () {
+
+            sectionNavs = new SectionsNavs(driver);
+            notification = new NotificationPage(driver);
+            await notification.openNotificationPageDirectly(eventId);
+            await sectionNavs.assertNavLinksCount(1);
+            await sectionNavs.assertNavLinkTextByIndex('Notification' , 0);
 
         });
 
@@ -540,6 +755,19 @@
             settledDisputes = new SettledDisputesPage(driver);
             await settledDisputes.openSettledDisputesPageDirectly(eventId);
             await settledDisputes.assertSettledDisputesPageTableHeadersNames();
+
+        });
+
+        //PORTAL
+        it('should assert nav links on Resolution Center page',async function () {
+
+            sectionNavs = new SectionsNavs(driver);
+            feedbacks = new FeedbacksPage(driver);
+            await feedbacks.openFeedbackPageDirectly(eventId);
+            await sectionNavs.assertNavLinksCount(3);
+            await sectionNavs.assertNavLinkTextByIndex('Feedbacks' , 0);
+            await sectionNavs.assertNavLinkTextByIndex('Pending Disputes' , 1);
+            await sectionNavs.assertNavLinkTextByIndex('Settled Disputes' , 2);
 
         });
 
@@ -572,6 +800,19 @@
             promotions = new PromotionsPage(driver);
             await promotions.openPromotionsPageDirectly(eventId);
             await promotions.assertElementsOnPromotionsPageWhenNoPromotions();
+
+        });
+
+        //PORTAL
+        it('should assert nav links on Upped Support page',async function () {
+
+            sectionNavs = new SectionsNavs(driver);
+            supportTickets = new SupportTicketsPage(driver);
+            await supportTickets.openSupportTicketsPageDirectly(eventId);
+            await sectionNavs.assertNavLinksCount(3);
+            await sectionNavs.assertNavLinkTextByIndex('Support Tickets' , 0);
+            await sectionNavs.assertNavLinkTextByIndex('Feature Requests' , 1);
+            await sectionNavs.assertNavLinkTextByIndex('Professional Service' , 2);
 
         });
 

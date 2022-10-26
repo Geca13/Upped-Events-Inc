@@ -22,6 +22,7 @@
     const CANCEL_TICKETS_GROUP_BUTTON = { xpath: "//i[@aria-hidden='true']" }
     const TOAST_BANNER = { id:'toast-container' }
     const TICKET_GROUP_TAB = { xpath: "//a[@role='tab']" }
+    const TABLE = { tagName: "table"}
     const TABLE_HEADERS = { xpath: "//th/span" } //list
     const ADD_TABLE_COLUMN_BUTTON = { xpath: "//a[contains(@class, 'addcolumn_btn')]//span" };
     const FILTER_BUTTON = { xpath: "//div[contains(@class, 'filter-list-icon')]//i[contains(@class, 'icon-filter')]" }
@@ -276,6 +277,7 @@
         }
 
         async assertTicketsNavTableHeader(){
+            await this.isDisplayed(TABLE_HEADERS, 5000);
             let table = new TableComponent(this.driver);
             await table.assertColumnNamesByIndex(1, "Ticket Name");
             await table.assertColumnNamesByIndex(2, "Start Date/Time");
@@ -432,6 +434,20 @@
             let i = await this.getTicketIndexByTicketName(ticketName)
             await this.clickElementReturnedFromAnArray(DELETE_TICKET_BUTTONS, i);
             await this.acceptAlert();
+        }
+        
+        async clickAddTableColumnButton(){
+            await this.isDisplayed(ADD_TABLE_COLUMN_BUTTON,5000);
+            await this.click(ADD_TABLE_COLUMN_BUTTON)
+        }
+        
+        async assertColumnNamesEqualsColumnOptionsModal(){
+            await this.isDisplayed(TABLE_HEADERS, 5000);
+            let table = new TableComponent(this.driver);
+            let headers = await table.returnArrayOfTableHeaderNames();
+            await this.click(ADD_TABLE_COLUMN_BUTTON);
+            let columns = new ColumnOptionsModal(this.driver)
+            await columns.assertHeadersEqualsColumnOptionsInModal(headers);
         }
 
     }

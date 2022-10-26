@@ -22,10 +22,15 @@
         async columnOptionsModalIsDisplayed(){
             await this.isDisplayed(COLUMN_NAMES, 5000);
         }
-        async changeColumnOrdersByColumnIndex(){
-            await this.columnOptionsModalIsDisplayed();
-            await this.dragAndDropWithElementsWithIndexes(COLUMN_DRAGS, COLUMN_DRAGS,0, 3);
-            //await this.dragAndDropWithSourceElementOffset(COLUMN_DRAGS, COLUMN_DRAGS, 2,5);
+        
+        async removeColumnInModalAndReturnNewState(index){
+            await this.isDisplayed(REMOVE_COLUMN_BUTTON);
+            await this.clickElementReturnedFromAnArray(REMOVE_COLUMN_BUTTON,index);
+            let columns = await this.findAll(COLUMN_NAMES);
+            await this.click(SAVE_BUTTON);
+            await this.timeout(500)
+            return columns.length;
+            
         }
 
         async dragColumnFromColumnIndexToColumnIndex(from, to){
@@ -35,9 +40,20 @@
             let target = await this.driver.findElement(By.xpath(`(//div[contains(@class, 'column-groum')]//span)[${to}]`));
             await actions.move({duration:1000,origin:source,x:3,y:3}).press().perform();
             await actions.dragAndDrop(source, target).perform();
+            let columns = await this.returnArrayOfStrings(COLUMN_NAMES);
             await this.click(SAVE_BUTTON);
             await this.timeout(500)
+            return columns;
         }
+
+        async assertHeadersEqualsColumnOptionsInModal(headers){
+            await this.isDisplayed(COLUMN_NAMES);
+            let columns = await this.returnArrayOfStrings(COLUMN_NAMES);
+            for(let i = 0; i<columns.length; i++){
+                assert.equal(headers[i], columns[i]);
+            }
+        }
+        
         async checkColumnsAndMakeManipulationsOnTickets(){
             await this.columnOptionsModalIsDisplayed();
             let first = await this.getElementTextFromAnArrayByIndex(COLUMN_NAMES, 0);
@@ -73,6 +89,17 @@
             assert.equal(sixth,'Active/Inactive');
             await this.click(SAVE_BUTTON);
 
+        }
+        
+        async returnTheRemovedColumn(columnName){
+            await this.isDisplayed(ADD_COLUMN_BUTTON,5000)
+            await this.click(ADD_COLUMN_BUTTON);
+            await this.isDisplayed(SELECT_COLUMN_DROPDOWN, 5000);
+            await this.sentKeys(SELECT_COLUMN_DROPDOWN, columnName);
+            let columns = await this.findAll(COLUMN_NAMES);
+            await this.click(SAVE_BUTTON);
+            await this.timeout(500)
+            return columns.length;
         }
 
         async makeNewManipulationsOnTickets(){

@@ -43,7 +43,7 @@
     const ShopCategoriesPage = require('../portal/shopManagement/ShopCategoriesPage');
     const ShopsPage = require('../portal/shopManagement/ShopsPage');
     const PartnersPage = require('../portal/partnerManagement/PartnersPage');
-    const SetupNewVendorPage = require('../portal/partnerManagement/SetupNewVendorPage');
+    const SetupNewVendorPage = require('../portal/portalPages/SetupNewVendorPage');
     const MyMenusPage = require('../portal/eventModules/Menus/MyMenusPage');
     const EventTickets = require('../portal/ticketing/EventTickets');
     const BOSelectTickets = require('../portal/ticketing/BoxOffice/BOSelectTickets');
@@ -163,7 +163,7 @@
         let embedDonate;
 
 
-        let base = 914123// Math.floor(100000 + Math.random() * 900000);
+        let base = 691512 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -1096,7 +1096,7 @@
             inbox = new Inbox(driver);
             originalWindow = inbox.getOriginalWindow();
 
-            await portalLogin.loadPortalUrl();
+           /* await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
             await dashboard.isAtDashboardPage();
@@ -1109,7 +1109,7 @@
             await eventDetails.unpublishButtonIsDisplayed();
             await sideMenu.clickPartnerManagementTab();
             await partnersPage.isOnPartnersPage();
-            await partnersPage.inviteVendorToEvent(vendorEmail, vendorFirstName, vendorLastName);
+            await partnersPage.inviteVendorToEvent(vendorEmail, vendorFirstName, vendorLastName);*/
             await inbox.acceptVendorInvitation(vendorEmail);
             await driver.switchTo().defaultContent();
             await newVendor.getNewlyOpenedTab(originalWindow);

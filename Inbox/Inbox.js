@@ -58,6 +58,7 @@
 
         async acceptVendorInvitation(email){
             await this.loadInbox();
+            await this.timeout(5000)
             await this.elementIsDisplayedInInbox('<'+email+'>');
             await this.timeout(2000)
             await this.findAndClickTheEmailForNewAccount('<'+email+'>');
