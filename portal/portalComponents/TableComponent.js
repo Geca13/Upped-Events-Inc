@@ -47,6 +47,7 @@
             let options = await columnOptions.dragColumnFromColumnIndexToColumnIndex(from, to);
             let columns = await this.returnArrayOfTableHeaderNames();
             await this.assertTableHeadersAfterChangeInColumnOptionsModal(columns, options)
+            await this.timeout(1000)
         }
         
         async assertTableHeadersAfterChangeInColumnOptionsModal(tableHeaders, columnHeaders){
@@ -57,16 +58,18 @@
         
         async assertColumnIsRemoved(index){
             let columnOptions = new ColumnsOptionsModal(this.driver);
-            let columns = await this.findAll(TABLE_COLUMN_NAMES)
+            let columns = await this.returnElementsCount(TABLE_COLUMN_NAMES)
             let options = await columnOptions.removeColumnInModalAndReturnNewState(index);
             expect(columns).to.be.greaterThan(options);
+            await this.timeout(1000)
         }
         
         async returnTheRemovedColumnAndAssertChange(columnName){
             let columnOptions = new ColumnsOptionsModal(this.driver)
-            let columns = await this.findAll(TABLE_COLUMN_NAMES)
+            let columns = await this.returnArrayOfTableHeaderNames(TABLE_COLUMN_NAMES)
             let options = await columnOptions.returnTheRemovedColumn(columnName);
-            expect(columns).to.be.lessThan(options);
+            expect(columns.length).to.be.lessThan(options);
+            await this.timeout(1000)
         }
 
     }

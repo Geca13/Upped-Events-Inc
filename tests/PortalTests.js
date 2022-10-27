@@ -60,6 +60,8 @@
     const FeatureRequestPage = require('../portal/uppedSupport/FeatureRequestPage');
     const ProfessionalServicePage = require('../portal/uppedSupport/ProfessionalServicePage');
     const TableComponent = require('../portal/portalComponents/TableComponent')
+    const FilteringOptions = require('../portal/portalComponents/FilteringOptions')
+    const ShopTickets = require('../portal/shopManagement/ShopsSettings/ShopTickets')
 
 
     describe('Should do embed tests', function () {
@@ -153,9 +155,11 @@
         let featureRequests;
         let professionalService;
         let table;
+        let options;
+        let shopTickets;
         
 
-        let base =  Math.floor(100000 + Math.random() * 900000);
+        let base = 222540 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -195,7 +199,7 @@
         let customerLastName = 'cln'+base.toString();
         let customerEmail = customerFirstName + '@' + customerLastName+'.com';
         let customerPassword = base.toString() + 'Password';
-        let eventId = "1766";
+        let eventId = "1775";
 
         
         beforeEach(async function(){
@@ -214,6 +218,22 @@
             await driver.quit()
         })
 
+        /*
+        //PORTAL
+        it('should create new event',async function () {
+            let splited = [];
+            createEvent = new CreateEventModal(driver);
+
+            await dashboard.clickCreateEventButton();
+            await createEvent.createEventModalIsDisplayed();
+            await createEvent.fillFormWithValidDataAndSave(eventName,shortName);
+            let urlToSplit = await driver.getCurrentUrl();
+            splited = await urlToSplit.split('/')
+            eventId = splited[splited.length - 2]
+        });
+        
+         */
+
         //PORTAL
         it('should assert table headers on my events page',async function () {
             myEvents = new MyEventsPage(driver);
@@ -224,11 +244,85 @@
         });
 
         //PORTAL
+        it('should assert table columns order change on My Events page',async function () {
+            options = new FilteringOptions(driver)
+            sectionNavs = new SectionsNavs(driver);
+            table = new TableComponent(driver)
+            await sectionNavs.clickNavByText("My Events");
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(4,2);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on My Events page',async function () {
+
+            options = new FilteringOptions(driver)
+            sectionNavs = new SectionsNavs(driver);
+            table = new TableComponent(driver)
+            await sectionNavs.clickNavByText("My Events");
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on My Events page',async function () {
+
+            options = new FilteringOptions(driver);
+            table = new TableComponent(driver)
+            sectionNavs = new SectionsNavs(driver);
+            await sectionNavs.clickNavByText("My Events");
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Location");
+
+        });
+
+        //PORTAL
         it('should assert table headers on find events page',async function () {
             findEvents = new FindEventsPage(driver);
             sectionNavs = new SectionsNavs(driver);
             await sectionNavs.clickNavByText("Find Events");
             await findEvents.assertFindEventsTableHeadersNames();
+        });
+
+        //PORTAL
+        it('should assert table columns order change on Find Events page',async function () {
+            options = new FilteringOptions(driver)
+            sectionNavs = new SectionsNavs(driver);
+            table = new TableComponent(driver)
+            await sectionNavs.clickNavByText("Find Events");
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(4,2);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Find Events page',async function () {
+
+            options = new FilteringOptions(driver)
+            sectionNavs = new SectionsNavs(driver);
+            table = new TableComponent(driver)
+            await sectionNavs.clickNavByText("Find Events");
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Find Events page',async function () {
+
+            options = new FilteringOptions(driver);
+            table = new TableComponent(driver)
+            sectionNavs = new SectionsNavs(driver);
+            await sectionNavs.clickNavByText("Find Events");
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Location");
+
         });
 
         //PORTAL
@@ -242,19 +336,6 @@
             
         });
 
-     /*   //PORTAL
-        it('should create new event',async function () {
-            let splited = [];
-            createEvent = new CreateEventModal(driver);
-
-            await dashboard.clickCreateEventButton();
-            await createEvent.createEventModalIsDisplayed();
-            await createEvent.fillFormWithValidDataAndSave(eventName,shortName);
-            let urlToSplit = await driver.getCurrentUrl();
-            splited = await urlToSplit.split('/')
-            eventId = splited[splited.length - 2]
-        });
-*/
         //PORTAL
         it('should assert nav links on Event Overview page',async function () {
 
@@ -341,11 +422,85 @@
         });
 
         //PORTAL
+        it('should assert table columns order change on Attendees page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            attendees = new AttendeesTab(driver)
+            await attendees.openAttendeesPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(5,2);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Attendees page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            attendees = new AttendeesTab(driver)
+            await attendees.openAttendeesPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Attendees page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            attendees = new AttendeesTab(driver)
+            await attendees.openAttendeesPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Gender");
+
+        });
+
+        //PORTAL
         it('should assert table headers on Loyalty Program page',async function () {
 
             loyalty = new LoyaltyProgram(driver)
             await loyalty.openLoyaltyProgramPageDirectly(eventId);
             await loyalty.assertLoyaltyProgramTableHeaders();
+
+        });
+
+        //PORTAL
+        it('should assert table columns order change on Loyalty Program page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            loyalty = new LoyaltyProgram(driver)
+            await loyalty.openLoyaltyProgramPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Loyalty Program page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            loyalty = new LoyaltyProgram(driver)
+            await loyalty.openLoyaltyProgramPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Loyalty Program page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            loyalty = new LoyaltyProgram(driver)
+            await loyalty.openLoyaltyProgramPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Active");
 
         });
 
@@ -359,6 +514,43 @@
         });
 
         //PORTAL
+        it('should assert table columns order change on Analytics Report page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            analyticsReports = new AnalyticsReportsPage(driver)
+            await analyticsReports.openAnalyticsReportsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Analytics Report page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            analyticsReports = new AnalyticsReportsPage(driver)
+            await analyticsReports.openAnalyticsReportsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Analytics Report page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            analyticsReports = new AnalyticsReportsPage(driver)
+            await analyticsReports.openAnalyticsReportsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Active");
+
+        });
+
+        //PORTAL
         it('should assert table headers on Team Members page',async function () {
 
             teamMembers = new TeamMembersPage(driver)
@@ -366,7 +558,7 @@
             await teamMembers.assertTeamMembersTableHeaders();
 
         });
-
+        
         //PORTAL
         it('should assert table headers on Activities page',async function () {
 
@@ -377,11 +569,85 @@
         });
 
         //PORTAL
+        it('should assert table columns order change on Activities page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            activity = new ActivitiesPage(driver)
+            await activity.openActivitiesPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Activities page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            activity = new ActivitiesPage(driver)
+            await activity.openActivitiesPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Activities page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            activity = new ActivitiesPage(driver)
+            await activity.openActivitiesPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Location");
+
+        });
+
+        //PORTAL
         it('should assert table headers on Performances page',async function () {
 
             performance = new PerformancesPage(driver)
             await performance.openPerformancesPageDirectly(eventId);
             await performance.assertPerformancesTableHeaders();
+
+        });
+
+        //PORTAL
+        it('should assert table columns order change on Performances page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            performance = new PerformancesPage(driver)
+            await performance.openPerformancesPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Performances page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            performance = new PerformancesPage(driver)
+            await performance.openPerformancesPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Performances page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            performance = new PerformancesPage(driver)
+            await performance.openPerformancesPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Location");
 
         });
 
@@ -420,11 +686,11 @@
 
         //PORTAL
         it('should assert table columns order change on Tickets page',async function () {
-
+            options = new FilteringOptions(driver)
             ticketsNav = new TicketsNav(driver);
             table = new TableComponent(driver)
             await ticketsNav.openTicketsNavDirectly(eventId);
-            await ticketsNav.clickAddTableColumnButton();
+            await options.clickAddColumnButton();
             await table.returnColumnOptionsHeadersAfterOrderChange(5,2);
 
         });
@@ -432,10 +698,11 @@
         //PORTAL
         it('should remove column and assert table columns change on Tickets page',async function () {
 
+            options = new FilteringOptions(driver)
             ticketsNav = new TicketsNav(driver);
             table = new TableComponent(driver)
             await ticketsNav.openTicketsNavDirectly(eventId);
-            await ticketsNav.clickAddTableColumnButton();
+            await options.clickAddColumnButton();
             await table.assertColumnIsRemoved(3);
 
         });
@@ -443,12 +710,13 @@
         //PORTAL
         it('should remove and return column and assert table columns change on Tickets page',async function () {
 
+            options = new FilteringOptions(driver)
             ticketsNav = new TicketsNav(driver);
             table = new TableComponent(driver)
             await ticketsNav.openTicketsNavDirectly(eventId);
-            await ticketsNav.clickAddTableColumnButton();
+            await options.clickAddColumnButton();
             await table.assertColumnIsRemoved(1);
-            await ticketsNav.clickAddTableColumnButton();
+            await options.clickAddColumnButton();
             await table.returnTheRemovedColumnAndAssertChange("Start Date/Time");
 
         });
@@ -463,11 +731,85 @@
         });
 
         //PORTAL
+        it('should assert table columns order change on Tickets Analytics page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            ticketsAnalytics = new AnalyticsTab(driver)
+            await ticketsAnalytics.openTicketsAnalyticsDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Tickets Analytics page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            ticketsAnalytics = new AnalyticsTab(driver)
+            await ticketsAnalytics.openTicketsAnalyticsDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Tickets Analytics page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            ticketsAnalytics = new AnalyticsTab(driver)
+            await ticketsAnalytics.openTicketsAnalyticsDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Ticket Solds #");
+
+        });
+
+        //PORTAL
         it('should assert table headers on Tickets Questions page',async function () {
 
             questions = new TicketQuestionsPage(driver)
             await questions.openTicketsQuestionsPageDirectly(eventId);
             await questions.assertTicketsQuestionsTableHeaders();
+
+        });
+
+        //PORTAL
+        it('should assert table columns order change on Tickets Questions page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            questions = new TicketQuestionsPage(driver)
+            await questions.openTicketsQuestionsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Tickets Questions page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            questions = new TicketQuestionsPage(driver)
+            await questions.openTicketsQuestionsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Tickets Questions page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            questions = new TicketQuestionsPage(driver)
+            await questions.openTicketsQuestionsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Mandatory (Y/N)");
 
         });
 
@@ -522,11 +864,85 @@
         });
 
         //PORTAL
+        it('should assert table columns order change on Event orders page for transaction view',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            allTransactions = new AllTransactions(driver)
+            await allTransactions.openTransactionViewInEventOrdersDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Event orders page for transaction view',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            allTransactions = new AllTransactions(driver)
+            await allTransactions.openTransactionViewInEventOrdersDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Event orders page for transaction view',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            allTransactions = new AllTransactions(driver)
+            await allTransactions.openTransactionViewInEventOrdersDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Order Type");
+
+        });
+
+        //PORTAL
         it('should assert table headers on Event orders tickets nav page',async function () {
 
             ticketsTransactions = new TicketsTransactions(driver)
             await ticketsTransactions.openTicketsNavInEventOrdersDirectly(eventId);
             await ticketsTransactions.assertTicketsTransactionsTableHeadersNames();
+
+        });
+
+        //PORTAL
+        it('should assert table columns order change on Event orders tickets nav page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            ticketsTransactions = new TicketsTransactions(driver)
+            await ticketsTransactions.openTicketsNavInEventOrdersDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Event orders tickets nav page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            ticketsTransactions = new TicketsTransactions(driver)
+            await ticketsTransactions.openTicketsNavInEventOrdersDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Event orders tickets nav page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            ticketsTransactions = new TicketsTransactions(driver)
+            await ticketsTransactions.openTicketsNavInEventOrdersDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Order Type");
 
         });
 
@@ -540,11 +956,85 @@
         });
 
         //PORTAL
+        it('should assert table columns order change on Event orders items nav page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            itemsTransactions = new ItemsTransactions(driver)
+            await itemsTransactions.openItemsNavInEventOrdersDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Event orders items nav page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            itemsTransactions = new ItemsTransactions(driver)
+            await itemsTransactions.openItemsNavInEventOrdersDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Event orders items nav page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            itemsTransactions = new ItemsTransactions(driver)
+            await itemsTransactions.openItemsNavInEventOrdersDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Order Type");
+
+        });
+
+        //PORTAL
         it('should assert table headers on Event orders for detailed view',async function () {
 
             allTransactions = new AllTransactions(driver)
             await allTransactions.openDetailedViewInEventOrdersDirectly(eventId);
             await allTransactions.assertDetailedViewTableHeadersNames();
+
+        });
+
+        //PORTAL
+        it('should assert table columns order change on Event orders page for detailed view',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            allTransactions = new AllTransactions(driver)
+            await allTransactions.openDetailedViewInEventOrdersDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Event orders page for detailed view',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            allTransactions = new AllTransactions(driver)
+            await allTransactions.openDetailedViewInEventOrdersDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Event orders page for detailed view',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            allTransactions = new AllTransactions(driver)
+            await allTransactions.openDetailedViewInEventOrdersDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Order Type");
 
         });
 
@@ -566,6 +1056,43 @@
             shopsPage = new ShopsPage(driver)
             await shopsPage.openShopsPageDirectly(eventId);
             await shopsPage.assertShopsTableHeadersNames();
+
+        });
+
+        //PORTAL
+        it('should assert table columns order change on Shops page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            shopsPage = new ShopsPage(driver)
+            await shopsPage.openShopsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Shops page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            shopsPage = new ShopsPage(driver)
+            await shopsPage.openShopsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Shops page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            shopsPage = new ShopsPage(driver)
+            await shopsPage.openShopsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Vendor/Merchant");
 
         });
 
@@ -598,11 +1125,94 @@
 
         });
 
+        //PORTAL
+        it('should assert table headers on Shop Tickets page',async function () {
+
+            shopTickets = new ShopTickets(driver)
+            await shopTickets.openShopsTicketsDirectly(eventId);
+            await shopTickets.assertShopTicketsTableHeadersNames();
+
+        });
+
+        //PORTAL
+        it('should assert table columns order change on Shop Tickets page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            shopTickets = new ShopTickets(driver)
+            await shopTickets.openShopsTicketsDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Shop Tickets page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            shopTickets = new ShopTickets(driver)
+            await shopTickets.openShopsTicketsDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Shop Tickets page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            shopTickets = new ShopTickets(driver)
+            await shopTickets.openShopsTicketsDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Active");
+
+        });
+
         it('should assert table headers on Partners page',async function () {
 
             partnersPage = new PartnersPage(driver)
             await partnersPage.openPartnersPageDirectly(eventId);
             await partnersPage.assertPartnersTableHeadersNames();
+
+        });
+
+        //PORTAL
+        it('should assert table columns order change on Partners page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            partnersPage = new PartnersPage(driver)
+            await partnersPage.openPartnersPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Partners page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            partnersPage = new PartnersPage(driver)
+            await partnersPage.openPartnersPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Partners page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            partnersPage = new PartnersPage(driver)
+            await partnersPage.openPartnersPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Type");
 
         });
 
@@ -614,7 +1224,44 @@
 
         });
 
-        it('should assert table headers on Vendors Settings  page',async function () {
+        //PORTAL
+        it('should assert table columns order change on Partners contracts page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            contractsPage = new ContractsPage(driver);
+            await contractsPage.openPartnersContactsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Partners contracts page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            contractsPage = new ContractsPage(driver);
+            await contractsPage.openPartnersContactsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Partners contracts page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            contractsPage = new ContractsPage(driver);
+            await contractsPage.openPartnersContactsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Type");
+
+        });
+
+        it('should assert table headers on Vendors Settings page',async function () {
             vendorSettings = new VendorSpecificSettingsPage(driver);
             await vendorSettings.openVendorSettingsPageDirectly(eventId);
             await vendorSettings.clickOnVendorSpecificSettings();
@@ -656,11 +1303,85 @@
 
         });
 
+        //PORTAL
+        it('should assert table columns order change on Staff page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            staffPage = new StaffPage(driver);
+            await staffPage.openStaffPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Staff page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            staffPage = new StaffPage(driver);
+            await staffPage.openStaffPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Staff page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            staffPage = new StaffPage(driver);
+            await staffPage.openStaffPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Email");
+
+        });
+
         it('should assert table headers on Shifts page',async function () {
 
             shiftsPage = new ShiftsPage(driver);
             await shiftsPage.openShiftsPageDirectly(eventId);
             await shiftsPage.assertShiftsTableHeadersNames();
+
+        });
+
+        //PORTAL
+        it('should assert table columns order change on Shifts page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            shiftsPage = new ShiftsPage(driver);
+            await shiftsPage.openShiftsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Shifts page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            shiftsPage = new ShiftsPage(driver);
+            await shiftsPage.openShiftsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Shifts page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            shiftsPage = new ShiftsPage(driver);
+            await shiftsPage.openShiftsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Positions");
 
         });
 
@@ -705,6 +1426,44 @@
         });
 
         //PORTAL
+        it('should assert table columns order change on Event Marketing(email) page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            emailMarketing = new EmailMarketingPage(driver);
+            await emailMarketing.openEmailMarketingPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Event Marketing(email) page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            emailMarketing = new EmailMarketingPage(driver);
+            await emailMarketing.openEmailMarketingPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Event Marketing(email) page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            emailMarketing = new EmailMarketingPage(driver);
+            await emailMarketing.openEmailMarketingPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Sent");
+
+        });
+        
+
+        //PORTAL
         it('should assert nav links on Event Marketing Activity (Email) page',async function () {
 
             sectionNavs = new SectionsNavs(driver);
@@ -720,6 +1479,43 @@
             notification = new NotificationPage(driver);
             await notification.openNotificationPageDirectly(eventId);
             await notification.assertNotificationPageTableHeadersNames();
+
+        });
+
+        //PORTAL
+        it('should assert table columns order change on Customer Engagement (Notification) page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            notification = new NotificationPage(driver);
+            await notification.openNotificationPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Customer Engagement (Notification) page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            notification = new NotificationPage(driver);
+            await notification.openNotificationPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Customer Engagement (Notification) page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            notification = new NotificationPage(driver);
+            await notification.openNotificationPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Type");
 
         });
 
@@ -742,6 +1538,43 @@
 
         });
 
+        //PORTAL
+        it('should assert table columns order change on Feedbacks page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            feedbacks = new FeedbacksPage(driver);
+            await feedbacks.openFeedbackPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Feedbacks page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            feedbacks = new FeedbacksPage(driver);
+            await feedbacks.openFeedbackPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Feedbacks page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            feedbacks = new FeedbacksPage(driver);
+            await feedbacks.openFeedbackPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Description");
+
+        });
+
         it('should assert table headers on Pending Disputes page',async function () {
 
             pendingDisputes = new PendingDisputesPage(driver);
@@ -750,11 +1583,85 @@
 
         });
 
+        //PORTAL
+        it('should assert table columns order change on Pending Disputes page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            pendingDisputes = new PendingDisputesPage(driver);
+            await pendingDisputes.openPendingDisputesPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Pending Disputes page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            pendingDisputes = new PendingDisputesPage(driver);
+            await pendingDisputes.openPendingDisputesPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Pending Disputes page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            pendingDisputes = new PendingDisputesPage(driver);
+            await pendingDisputes.openPendingDisputesPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Raised By");
+
+        });
+
         it('should assert table headers on Settled Disputes page',async function () {
 
             settledDisputes = new SettledDisputesPage(driver);
             await settledDisputes.openSettledDisputesPageDirectly(eventId);
             await settledDisputes.assertSettledDisputesPageTableHeadersNames();
+
+        });
+
+        //PORTAL
+        it('should assert table columns order change on Settled Disputes page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            settledDisputes = new SettledDisputesPage(driver);
+            await settledDisputes.openSettledDisputesPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Settled Disputes page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            settledDisputes = new SettledDisputesPage(driver);
+            await settledDisputes.openSettledDisputesPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Settled Disputes page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            settledDisputes = new SettledDisputesPage(driver);
+            await settledDisputes.openSettledDisputesPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Raised By");
 
         });
 
@@ -779,11 +1686,85 @@
 
         });
 
+        //PORTAL
+        it('should assert table columns order change on Support Tickets page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            supportTickets = new SupportTicketsPage(driver);
+            await supportTickets.openSupportTicketsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Support Tickets page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            supportTickets = new SupportTicketsPage(driver);
+            await supportTickets.openSupportTicketsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Support Tickets page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            supportTickets = new SupportTicketsPage(driver);
+            await supportTickets.openSupportTicketsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Submitted Date");
+
+        });
+
         it('should assert table headers on Feature Requests page',async function () {
 
             featureRequests = new FeatureRequestPage(driver);
             await featureRequests.openFeatureRequestPageDirectly(eventId);
             await featureRequests.assertFeatureRequestPageTableHeadersNames();
+
+        });
+
+        //PORTAL
+        it('should assert table columns order change on Feature Requests page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            featureRequests = new FeatureRequestPage(driver);
+            await featureRequests.openFeatureRequestPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Feature Requests page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            featureRequests = new FeatureRequestPage(driver);
+            await featureRequests.openFeatureRequestPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Feature Requests page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            featureRequests = new FeatureRequestPage(driver);
+            await featureRequests.openFeatureRequestPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Submitted Date");
 
         });
 
@@ -795,11 +1776,40 @@
 
         });
 
-        it('should assert table headers on Promotions page',async function () {
+        //PORTAL
+        it('should assert table columns order change on Professional Services page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            professionalService = new ProfessionalServicePage(driver);
+            await professionalService.openProfessionalServicePageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
 
-            promotions = new PromotionsPage(driver);
-            await promotions.openPromotionsPageDirectly(eventId);
-            await promotions.assertElementsOnPromotionsPageWhenNoPromotions();
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Professional Services page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            professionalService = new ProfessionalServicePage(driver);
+            await professionalService.openProfessionalServicePageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Professional Services page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            professionalService = new ProfessionalServicePage(driver);
+            await professionalService.openProfessionalServicePageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Service Name");
 
         });
 
@@ -816,6 +1826,53 @@
 
         });
 
+        it('should assert table headers on Promotions page',async function () {
+
+            promotions = new PromotionsPage(driver);
+            await promotions.openPromotionsPageDirectly(eventId);
+            await promotions.assertElementsOnPromotionsPageWhenNoPromotions();
+
+        });
+
+        //PORTAL
+        it('should assert table columns order change on Promotions page',async function () {
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            promotions = new PromotionsPage(driver);
+            await promotions.openPromotionsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.returnColumnOptionsHeadersAfterOrderChange(3,1);
+
+        });
+
+        //PORTAL
+        it('should remove column and assert table columns change on Promotions page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            promotions = new PromotionsPage(driver);
+            await promotions.openPromotionsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(3);
+
+        });
+
+        //PORTAL
+        it('should remove and return column and assert table columns change on Promotions page',async function () {
+
+            options = new FilteringOptions(driver)
+            table = new TableComponent(driver)
+            promotions = new PromotionsPage(driver);
+            await promotions.openPromotionsPageDirectly(eventId);
+            await options.clickAddColumnButton();
+            await table.assertColumnIsRemoved(1);
+            await options.clickAddColumnButton();
+            await table.returnTheRemovedColumnAndAssertChange("Ticket Name");
+
+        });
+
+        
+/*
         //PORTAL
         it('should create first ticket and check data in tickets table and update modal ',async function () {
 
@@ -847,7 +1904,7 @@
             await ticketsNav.clickAddTicketButton();
             await createTicket.createFirstTicketAndAssertDataOnTicketsAndUpdate(ticketOneName,ticketOnePrice,embedTicketQuantity);
 
-        });
+        });*/
         
     });
 

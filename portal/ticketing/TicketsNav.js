@@ -3,6 +3,7 @@
     const Alerts = require('../../Validations&Alerts/Alerts')
     const TableComponent = require('../portalComponents/TableComponent')
     const ColumnOptionsModal = require('../portalComponents/ColumnsOptionsModal');
+    const FilteringOptions = require('../portalComponents/FilteringOptions')
     const CreateTicketModal = require('../portalModals/CreateTicketModal')
     const { expect }= require('chai');
     const assert = require('assert')
@@ -436,16 +437,14 @@
             await this.acceptAlert();
         }
         
-        async clickAddTableColumnButton(){
-            await this.isDisplayed(ADD_TABLE_COLUMN_BUTTON,5000);
-            await this.click(ADD_TABLE_COLUMN_BUTTON)
-        }
+        
         
         async assertColumnNamesEqualsColumnOptionsModal(){
             await this.isDisplayed(TABLE_HEADERS, 5000);
             let table = new TableComponent(this.driver);
             let headers = await table.returnArrayOfTableHeaderNames();
-            await this.click(ADD_TABLE_COLUMN_BUTTON);
+            let options = new FilteringOptions(this.driver)
+            await options.clickAddColumnButton(ADD_TABLE_COLUMN_BUTTON);
             let columns = new ColumnOptionsModal(this.driver)
             await columns.assertHeadersEqualsColumnOptionsInModal(headers);
         }

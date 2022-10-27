@@ -163,7 +163,7 @@
         let embedDonate;
 
 
-        let base = 691512 // Math.floor(100000 + Math.random() * 900000);
+        let base = 111111 // Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -329,7 +329,6 @@
             await ticketTerms.saveTerms();
             await sectionsNavs.clickNavByText("Taxes & Fees")
             await taxesAndFees.createTaxesAndFeesForEventTickets();
-            //await eventOptionTabs.ticketingTabIsDisplayed();
             await sideMenu.clickPromotionsTab();
             await promotions.promotionsHeaderIsVisible();
             await promotions.addPromotionButtonIsVisible();
@@ -357,16 +356,15 @@
             await newPromotion.addPromotionModalIsDisplayed();
             await newPromotion.createPromotionWith100discountForAllTickets(ticketOneName, promoFiveName, promoCodeFive);
             await promotions.promotionsHeaderIsVisible();
-            await sideMenu.ticketingTabIsDisplayed();
-            /*await eventOptionTabs.clickTicketingTab();
+            await sideMenu.clickTicketingTab();
             await ticketsNav.clickAddTicketButton();
             await createTicket.ticketNameInputIsDisplayed();
-            await createTicket.createStaffTicket(staffTicket,"3");
+            await createTicket.createStaffTicket(staffTicket,"3", 50);
             await ticketsNav.createdTicketIsInTheTable(staffTicket);
             await ticketsNav.clickActivateTicketToggle(staffTicket);
             await ticketsNav.activateTicketModalIsDisplayed();
             await ticketsNav.confirmActivationButton();
-            await eventOptionTabs.ticketingTabIsDisplayed();*/
+            await eventOptionTabs.ticketingTabIsDisplayed();
 
         });
 

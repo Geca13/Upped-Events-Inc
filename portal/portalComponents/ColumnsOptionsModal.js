@@ -92,11 +92,15 @@
         }
         
         async returnTheRemovedColumn(columnName){
+            await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='hidden'");
             await this.isDisplayed(ADD_COLUMN_BUTTON,5000)
+            await this.moveToElement(ADD_COLUMN_BUTTON);
             await this.click(ADD_COLUMN_BUTTON);
             await this.isDisplayed(SELECT_COLUMN_DROPDOWN, 5000);
             await this.sentKeys(SELECT_COLUMN_DROPDOWN, columnName);
             let columns = await this.findAll(COLUMN_NAMES);
+            await this.driver.executeScript("document.getElementsByClassName('btn-sticky')[0].style.visibility='visible'");
+            await this.isDisplayed(SAVE_BUTTON, 5000)
             await this.click(SAVE_BUTTON);
             await this.timeout(500)
             return columns.length;
