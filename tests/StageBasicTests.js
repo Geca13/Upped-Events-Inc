@@ -44,8 +44,8 @@ const ShopsNavs = require('../portal/shopManagement/ShopsNavs');
 const ShopCategoriesPage = require('../portal/shopManagement/ShopCategoriesPage');
 const ShopsPage = require('../portal/shopManagement/ShopsPage');
 const PartnersPage = require('../portal/partnerManagement/PartnersPage');
-const SetupNewVendorPage = require('../portal/partnerManagement/SetupNewVendorPage');
-const MyMenusPage = require('../portal/eventModules/MyMenusPage');
+const SetupNewVendorPage = require('../portal/portalPages/SetupNewVendorPage');
+const MyMenusPage = require('../portal/eventModules/Menus/MyMenusPage');
 const EventTickets = require('../portal/ticketing/EventTickets');
 const BOSelectTickets = require('../portal/ticketing/BoxOffice/BOSelectTickets');
 const BOAddExtras = require('../portal/ticketing/BoxOffice/BOAddExtras');
@@ -159,7 +159,7 @@ describe('Should do everything', function () {
     let embedDonate;
 
 
-    let base =   Math.floor(100000 + Math.random() * 900000);
+    let base = 260404// Math.floor(100000 + Math.random() * 900000);
     let eventName =  base.toString() + " StageEventName";
     let shortName = base.toString();
     let ticketOneName = base.toString() +"T1";
@@ -605,7 +605,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -631,7 +631,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -687,7 +687,7 @@ describe('Should do everything', function () {
         userTotalPurchases = userTotalPurchases + await confirm.getPurchaseTotalAmount();
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await driver.sleep(1000);
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
@@ -720,7 +720,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -857,7 +857,7 @@ describe('Should do everything', function () {
         shopsCat = new ShopCategoriesPage(driver);
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -886,7 +886,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -923,7 +923,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -971,7 +971,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -1028,7 +1028,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -1085,7 +1085,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -1242,7 +1242,7 @@ describe('Should do everything', function () {
         bosReview = new BOReviewAndPay(driver);
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -1282,7 +1282,7 @@ describe('Should do everything', function () {
         bosTickets = new BOSelectTickets(driver);
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -1309,7 +1309,7 @@ describe('Should do everything', function () {
             bosTickets = new BOSelectTickets(driver);
             await portalLogin.loadStagePortalUrl();
             await portalLogin.isAtPortalLoginPage();
-            await portalLogin.enterValidCredentialsAndLogin();
+            await portalLogin.enterValidCredentialsForStageAndLogin();
             await dashboard.isAtDashboardPage();
             await dashboard.clickMyEventsTab();
             await myEvents.eventsTableIsDisplayed();
@@ -1341,7 +1341,7 @@ describe('Should do everything', function () {
         bosReview = new BOReviewAndPay(driver);
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -1378,7 +1378,7 @@ describe('Should do everything', function () {
         bosReview = new BOReviewAndPay(driver);
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -1415,7 +1415,7 @@ describe('Should do everything', function () {
         bosReview = new BOReviewAndPay(driver);
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -1451,7 +1451,7 @@ describe('Should do everything', function () {
         bosReview = new BOReviewAndPay(driver);
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -1550,7 +1550,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -1606,7 +1606,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -1655,7 +1655,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -1689,7 +1689,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -1741,7 +1741,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -1809,7 +1809,7 @@ describe('Should do everything', function () {
         await embedConfirm.isAtConfirmPage();
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -1850,7 +1850,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -1979,7 +1979,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
         await myEvents.eventsTableIsDisplayed();
@@ -2054,7 +2054,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await driver.sleep(1000);
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
@@ -2081,7 +2081,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await driver.sleep(1000);
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
@@ -2108,7 +2108,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await driver.sleep(1000);
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
@@ -2135,7 +2135,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await driver.sleep(1000);
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
@@ -2161,7 +2161,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await driver.sleep(1000);
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
@@ -2187,7 +2187,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await driver.sleep(1000);
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
@@ -2213,7 +2213,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await driver.sleep(1000);
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
@@ -2239,7 +2239,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await driver.sleep(1000);
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
@@ -2265,7 +2265,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await driver.sleep(1000);
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
@@ -2291,7 +2291,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await driver.sleep(1000);
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
@@ -2317,7 +2317,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await driver.sleep(1000);
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
@@ -2343,7 +2343,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await driver.sleep(1000);
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
@@ -2369,7 +2369,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await driver.sleep(1000);
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();
@@ -2395,7 +2395,7 @@ describe('Should do everything', function () {
 
         await portalLogin.loadStagePortalUrl();
         await portalLogin.isAtPortalLoginPage();
-        await portalLogin.enterValidCredentialsAndLogin();
+        await portalLogin.enterValidCredentialsForStageAndLogin();
         await driver.sleep(1000);
         await dashboard.isAtDashboardPage();
         await dashboard.clickMyEventsTab();

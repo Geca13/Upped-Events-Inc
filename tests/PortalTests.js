@@ -1167,7 +1167,7 @@
             await options.clickAddColumnButton();
             await table.assertColumnIsRemoved(1);
             await options.clickAddColumnButton();
-            await table.returnTheRemovedColumnAndAssertChange("Active");
+            await table.returnTheRemovedColumnAndAssertChange("Item Type");
 
         });
 

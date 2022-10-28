@@ -7,7 +7,7 @@
     const MY_EVENTS_FILTER_DROPDOWN = { className: "event-listing-dropdown" }
     const MESSAGES_BUTTON = { xpath: "//*[text()='Messages']" }
     const CREATE_EVENT_BUTTON = { id: "createEventSide"}
-    const DASHBOARD_HEADER = { xpath: "//*[text()='Dashboard']"}
+    const DASHBOARD_HEADER = { xpath: "//div[@class='signup-top-block']//h3"}
 
 
 
@@ -23,7 +23,7 @@
             await this.click(CREATE_EVENT_BUTTON);
         }
         async isAtDashboardPage(){
-            await this.isDisplayed(DASHBOARD_HEADER,30000);
+            await this.isDisplayed(DASHBOARD_HEADER,60000);
         }
     }
     module.exports = Dashboard;

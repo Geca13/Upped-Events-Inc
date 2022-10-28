@@ -97,9 +97,9 @@
             await this.setFirstTaxForTickets("Tax One", "1.71");
             await this.taxNameInputIsVisible();
             await this.setSecondTaxForTickets("Tax Two", "2.18");
-            /*await this.set$FeeForTickets("Fee $", "0.02");
+            await this.set$FeeForTickets("Fee $", "0.02");
             await this.feeNameInputIsVisible();
-            await this.setPercentFeeForTickets("Fee %", "2.66");*/
+            await this.setPercentFeeForTickets("Fee %", "2.66");
             await this.clickSaveTaxesAndFeesButton();
         }
 
