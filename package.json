@@ -4,7 +4,8 @@
   "description": "Automation for Upped Events",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --timeout 60000"
+    "test": "mocha './test/PortalTests.js'",
+    "test1": "mocha './test/OldTests.js'"
   },
   "author": "Marjan Karafiloski",
   "license": "ISC",
