@@ -158,9 +158,7 @@
         let addMoney;
         let embedding;
         let files;
-        let termsModal;
-        let donation;
-        let embedDonate;
+        
 
 
         let base =  Math.floor(100000 + Math.random() * 900000);
