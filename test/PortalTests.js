@@ -221,7 +221,11 @@
         });
 
         afterEach(async function(){
-            await driver.quit()
+            try {
+                await driver.quit();
+            } catch(e) {
+                console.log('Failed to close webdriver due: ' + e.message);
+            }
         })
 
         /*
