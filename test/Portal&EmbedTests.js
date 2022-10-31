@@ -1,4 +1,5 @@
-    const { Builder, By, Key} = require('selenium-webdriver');
+    const { Builder } = require('selenium-webdriver');
+    const chrome = require('selenium-webdriver/chrome');
     const assert = require('assert')
     const Inbox = require("../Inbox/Inbox")
     const PortalLoginPage = require('../portal/portalPages/PortalLoginPage');
@@ -148,10 +149,14 @@
 
 
         beforeEach(async function(){
-            driver = await new Builder().forBrowser('chrome').build();
-            await driver.manage().window().maximize();
+            
+                
+                driver = new Builder().forBrowser('chrome')
+                    .setChromeOptions(new chrome.Options().addArguments('--headless'))
+                    .build();
+            await driver.manage().window().setRect({width: 1920, height: 1080});
 
-        });
+            });
 
         afterEach(async function(){
             await driver.quit()

@@ -62,9 +62,10 @@
     const TableComponent = require('../portal/portalComponents/TableComponent')
     const FilteringOptions = require('../portal/portalComponents/FilteringOptions')
     const ShopTickets = require('../portal/shopManagement/ShopsSettings/ShopTickets')
+    const chrome = require("selenium-webdriver/chrome");
 
 
-    describe('Should do embed tests', function () {
+    describe('Should do portal related tests', function () {
         this.timeout(500000);
         let driver;
         let portalLogin;
@@ -203,8 +204,13 @@
 
         
         beforeEach(async function(){
-            driver = await new Builder().forBrowser('chrome').build();
-            await driver.manage().window().maximize();
+            //driver = await new Builder().forBrowser('chrome').build();
+            //await driver.manage().window().maximize();
+            driver = new Builder().forBrowser('chrome')
+                .setChromeOptions(new chrome.Options().addArguments('--headless'))
+                .build();
+            await driver.manage().window().setRect({width: 1920, height: 1080});
+
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             await portalLogin.loadPortalUrl();
@@ -220,7 +226,7 @@
 
         /*
         //PORTAL
-        it('should create new event',async function () {
+        it('N.1 should create new event',async function () {
             let splited = [];
             createEvent = new CreateEventModal(driver);
 
@@ -235,7 +241,7 @@
          */
 
         //PORTAL
-        it('should assert table headers on my events page',async function () {
+        it('N.2 should assert table headers on my events page',async function () {
             myEvents = new MyEventsPage(driver);
             sectionNavs = new SectionsNavs(driver);
             await sectionNavs.clickNavByText("My Events");
@@ -244,7 +250,7 @@
         });
 
         //PORTAL
-        it('should assert table columns order change on My Events page',async function () {
+        it('N.3 should assert table columns order change on My Events page',async function () {
             options = new FilteringOptions(driver)
             sectionNavs = new SectionsNavs(driver);
             table = new TableComponent(driver)
