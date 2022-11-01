@@ -549,7 +549,6 @@
             await ticketing.nextButtonPresent();
             await tickets.clickIncreaseQtyButtonByIndex(1);
             await tickets.clickIncreaseQtyButtonByIndex(2);
-            //await for exceeding staff ticket
             await ticketing.clickNextButton();
             await extras.addMoneyTabIsDisplayed();
             await ticketing.clickNextButton();
@@ -669,7 +668,6 @@
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await driver.sleep(5000);
             await eventDetails.unpublishButtonIsDisplayed();
-            //await eventOptionTabs.ticketingTabIsDisplayed();
             await sideMenu.clickTicketingTab();
             await ticketsNav.checkForSoldTicketsAfterFirstTest();
 
@@ -696,7 +694,6 @@
             await myEvents.createdEventIsInTheTable(eventName);
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await eventDetails.unpublishButtonIsDisplayed();
-            //await eventOptionTabs.ticketingTabIsDisplayed();
             await sideMenu.clickTicketingTab();
             await ticketsNav.assertTicketsNavTableHeader();
             await ticketsNav.manipulateColumnsFromTable();
@@ -832,7 +829,6 @@
             await myEvents.clickTheNewCreatedEventInTheTable(eventName);
             await driver.sleep(2000);
             await eventDetails.unpublishButtonIsDisplayed();
-            //await eventOptionTabs.ticketingTabIsDisplayed();
             await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.createTicketsGroup(ticketGroupOne);

@@ -115,30 +115,9 @@
         let newVendor;
         let myMenus;
         let bosTickets;
-        let bosExtras;
-        let bosDetails;
-        let bosReview;
         let questions;
-        let wordpress;
-        let questionsModal;
-        let donate;
-        let main;
-        let embedTickets;
-        let summary;
-        let embedLogin;
-        let embedExtras;
-        let payment;
-        let orderDetails;
-        let embedConfirm;
-        
-        let capacity;
-        let photo;
-        let embedding;
-        
-        let steps;
         let sectionNavs;
         let findEvents;
-        let sideMenu;
         let loyalty;
         let analyticsReports;
         let teamMembers;
@@ -161,45 +140,7 @@
         
 
         let base = 222540 // Math.floor(100000 + Math.random() * 900000);
-        let eventName =  base.toString() + " FullEventName";
-        let shortName = base.toString();
-        let ticketOneName = base.toString() +"T1";
-        let embedTicketQuantity = 2;
-        let ticketOneQuantity = 999;
-        let ticketOnePrice = "1";
-        let ticketTwoName = base.toString() +"T2";
-        let ticketTwoQuantity = 888;
-        let ticketTwoPrice = "1.2";
-        let ticketThreeName = base.toString() +"T3";
-        let ticketThreeQuantity = 777;
-        let ticketThreePrice = "0.75";
-        let ticketFourName = base.toString() +"T4";
-        let ticketFourQuantity = 666;
-        let ticketFourPrice = "0.25";
-        let staffTicket = base.toString() +"staff";
-        let ticketStaffQuantity = 2;
-        let ticketStaffPrice = "0.25";
-        let promoOneName = base.toString() +"PN1";
-        let promoTwoName = base.toString() +"PN2";
-        let promoThreeName = base.toString() +"PN3";
-        let promoFourName = base.toString() +"PNBOX";
-        let promoFiveName = base.toString() +"PN100";
-        let promoCodeOne = base.toString() +"PC1";
-        let promoCodeTwo = base.toString() +"PC2";
-        let promoCodeThree = base.toString() +"PC3";
-        let promoCodeFour = base.toString() +"PCBOX";
-        let promoCodeFive = base.toString() +"PC100";
-        let ticketGroupOne = base.toString() +"TG1";
-        let ticketGroupTwo = base.toString() +"TG2";
-        let ticketGroupThree = base.toString() +"TG3";
-        let ticketGroupFour = base.toString() +"TG4";
-        let vendorFirstName = 'vfn'+base.toString();
-        let vendorLastName = 'vln'+base.toString();
-        let vendorEmail = vendorFirstName + '@' + vendorLastName+'.com';
-        let customerFirstName = 'cfn'+base.toString();
-        let customerLastName = 'cln'+base.toString();
-        let customerEmail = customerFirstName + '@' + customerLastName+'.com';
-        let customerPassword = base.toString() + 'Password';
+        
         let eventId = "1775";
 
         
