@@ -1,48 +1,24 @@
     const { Builder } = require('selenium-webdriver');
-    const Inbox = require("../Inbox/Inbox")
+    const chrome = require("selenium-webdriver/chrome");
     const PortalLoginPage = require('../portal/portalPages/PortalLoginPage');
     const DashboardPage = require('../portal/dashboard/Dashboard');
     const AttendeesTab = require('../portal/eventOverview/AttendeesTab')
     const CreateEventModal = require('../portal/portalModals/CreateEventModal');
-    const DateTimePickerModal = require('../portal/portalModals/DateTimePickerModal');
     const MyEventsPage = require('../portal/dashboard/MyEventsTab');
     const FindEventsPage = require('../portal/dashboard/FindEventsPage');
-    const EventOptionTabs = require('../portal/eventOverview/EventOptionTabs');
-    const DesignNavs = require('../portal/eventOverview/DesignNav/DesignNavs');
-    const EventCardDesignPage = require('../portal/eventOverview/DesignNav/EventCardDesignPage');
-    const CreateTicketModal = require('../portal/portalModals/CreateTicketModal');
     const TicketsNav = require('../portal/ticketing/TicketsNav');
     const GeneralDetailsTab = require('../portal/eventOverview/GeneralDetailsTab');
     const PromotionsPage = require('../portal/promotions/PromotionsPage');
-    const AddNewPromotionModal = require('../portal/portalModals/AddNewPromotionModal');
-    const SettingsNav = require('../portal/ticketing/SettingsNav/SetingsNav');
-    const EventSettingsNav = require('../portal/eventOverview/SettingsNav/SettingsNavs');
-    const TaxesAndFeesPage = require('../portal/ticketing/SettingsNav/TaxesAndFeesPage');
-    const TicketQuestionsPage = require('../portal/ticketing/SettingsNav/TicketQuestionsPage')
-    const TicketTermsPage = require('../portal/ticketing/SettingsNav/TicketTermsPage');
+    const TicketQuestionsPage = require('../portal/ticketing/SettingsNav/TicketQuestionsPage');
     const AllTransactions = require('../portal/transactionCentar/AllTransactions');
     const ItemsTransactions = require('../portal/transactionCentar/ItemsTransaction');
     const TicketsTransactions = require('../portal/transactionCentar/TicketsTransactions');
-    const MapAndAgendaNavs = require('../portal/mapAndAgenda/MapAndAgendaNavs');
-    const EventMapPage = require('../portal/mapAndAgenda/EventMapPage');
     const PerformancesPage = require('../portal/mapAndAgenda/PerformancesPage');
     const ActivitiesPage = require('../portal/mapAndAgenda/ActivitiesPage');
-    const ShopsNavs = require('../portal/shopManagement/ShopsNavs');
-    const ShopCategoriesPage = require('../portal/shopManagement/ShopCategoriesPage');
     const ShopsPage = require('../portal/shopManagement/ShopsPage');
     const PartnersPage = require('../portal/partnerManagement/PartnersPage');
-    const MyMenusPage = require('../portal/eventModules/Menus/MenuSchedulerPage');
-    const EventTickets = require('../portal/ticketing/EventTickets');
     const BOSelectTickets = require('../portal/ticketing/BoxOffice/BOSelectTickets');
-    const BOAddExtras = require('../portal/ticketing/BoxOffice/BOAddExtras');
-    const BOAddDetails = require('../portal/ticketing/BoxOffice/BOAddDetails');
-    const BOReviewAndPay = require('../portal/ticketing/BoxOffice/BOReviewAndPay');
-    const UserDetailsModal = require('../portal/portalModals/userDetailsModal/UserDetailsModal');
-    const EventCapacitySubNav = require('../portal/ticketing/SettingsNav/EventCapacitySubNav');
-    const EmbeddingPage = require("../portal/eventOverview/DesignNav/EmbeddingPage");
-    const DonationPage = require('../portal/eventOverview/SettingsNav/DonationsPage');
     const SectionsNavs = require("../portal/portalComponents/SectionsNavs");
-    const SideMenu = require('../portal/portalComponents/SideMenu');
     const LoyaltyProgram = require('../portal/eventOverview/SettingsNav/LoyaltyProgram');
     const AnalyticsReportsPage = require('../portal/eventOverview/AnalyticsNav/AnalyticsReportsPage');
     const TeamMembersPage = require('../portal/eventOverview/EventTeamNav/TeamMembersPage');
@@ -62,7 +38,7 @@
     const TableComponent = require('../portal/portalComponents/TableComponent')
     const FilteringOptions = require('../portal/portalComponents/FilteringOptions')
     const ShopTickets = require('../portal/shopManagement/ShopsSettings/ShopTickets')
-    const chrome = require("selenium-webdriver/chrome");
+    
 
 
     describe('Should do portal related tests', function () {
@@ -72,48 +48,17 @@
         let dashboard;
         let createEvent;
         let myEvents;
-        let dateTime;
-        let eventOptionTabs;
-        let createTicket;
         let ticketsNav;
         let attendees;
         let eventDetails;
         let promotions;
-        let newPromotion;
-        let settingsNav;
-        let taxesAndFees;
-        let ticketTerms;
-        let eventDesignNavs;
-        let eventCardDesignPage;
-        let events;
-        let eventTickets;
-        let info;
-        let ticketing;
-        let tickets;
-        let extras;
-        let pay;
-        let login;
-        let confirm;
-        let newCardComponent;
-        let terms;
         let allTransactions;
         let itemsTransactions;
         let ticketsTransactions;
-        let eventSettingsNav;
-        let agendaNavs;
-        let eventMap;
         let performance;
-        let lineup;
         let activity;
-        let activityTab;
-        let shopsNavs;
-        let shopsCat;
         let shopsPage;
         let partnersPage;
-        let inbox;
-        let originalWindow;
-        let newVendor;
-        let myMenus;
         let bosTickets;
         let questions;
         let sectionNavs;
@@ -137,11 +82,10 @@
         let table;
         let options;
         let shopTickets;
-        
-
-        let base = 222540 // Math.floor(100000 + Math.random() * 900000);
-        
-        let eventId = "1775";
+        let base =  Math.floor(100000 + Math.random() * 900000);
+        let eventName =  base.toString() + " FullEventName";
+        let shortName = base.toString();
+        let eventId ;
 
         
         beforeEach(async function(){
@@ -168,8 +112,7 @@
                 console.log('Failed to close webdriver due: ' + e.message);
             }
         })
-
-        /*
+        
         //PORTAL
         it('N.1 should create new event',async function () {
             let splited = [];
@@ -183,7 +126,7 @@
             eventId = splited[splited.length - 2]
         });
         
-         */
+         
 
         //PORTAL
         it('N.2 should assert table headers on my events page',async function () {
@@ -1822,40 +1765,6 @@
 
         });
 
-        
-/*
-        //PORTAL
-        it('should create first ticket and check data in tickets table and update modal ',async function () {
-
-            portalLogin = new PortalLoginPage(driver);
-            dashboard = new DashboardPage(driver);
-            myEvents = new MyEventsPage(driver);
-            eventDetails = new GeneralDetailsTab(driver);
-            eventOptionTabs = new EventOptionTabs(driver);
-            ticketsNav = new TicketsNav(driver);
-            createTicket = new CreateTicketModal(driver);
-
-            await portalLogin.loadPortalUrl();
-            await portalLogin.isAtPortalLoginPage();
-            await driver.sleep(1000);
-            await portalLogin.enterValidCredentialsAndLogin();
-            await dashboard.isAtDashboardPage();
-            await dashboard.clickMyEventsTab();
-            await myEvents.eventsTableIsDisplayed();
-            await driver.sleep(1000);
-            await myEvents.createdEventIsInTheTable(eventName);
-            await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-            await driver.sleep(5000);
-            await eventDetails.publishButtonIsDisplayed();
-            await eventDetails.clickPublishButton()
-            await eventDetails.unpublishButtonIsDisplayed();
-            await eventOptionTabs.ticketingTabIsDisplayed();
-            await eventOptionTabs.clickTicketingTab();
-            await ticketsNav.addTicketButtonIsDisplayed();
-            await ticketsNav.clickAddTicketButton();
-            await createTicket.createFirstTicketAndAssertDataOnTicketsAndUpdate(ticketOneName,ticketOnePrice,embedTicketQuantity);
-
-        });*/
         
     });
 
