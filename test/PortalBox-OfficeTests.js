@@ -107,11 +107,16 @@
         });
 
         afterEach(async function(){
-            try {
-                await driver.quit();
-            } catch(e) {
-                console.log('Failed to close webdriver due: ' + e.message);
+            if (driver){
+                try {
+                    await driver.quit();
+                } catch(e) {
+                    console.log('Failed to close webdriver due: ' + e.message);
+                }
+            }else{
+                console.log("No active driver")
             }
+
         })
 
         it('should create new event',async function () {
