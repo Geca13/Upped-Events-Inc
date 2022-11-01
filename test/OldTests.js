@@ -131,7 +131,6 @@
         let bosDetails;
         let bosReview;
         let questions;
-        let wordpress;
         let questionsModal;
         let donate;
         let main;
