@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - '**/Portal&EmbedTests.js'
+      - '**/PortalAndEmbedTests.js'
 
 jobs:
   build:
@@ -23,5 +23,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        shell: cmd
     - run: npm ci
+      shell: cmd
     - run: npm run test4
+      shell: cmd
