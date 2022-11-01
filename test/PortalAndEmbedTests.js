@@ -139,8 +139,8 @@
 
         beforeEach(async function(){
             driver = await new Builder().forBrowser('chrome').build();
-            await driver.manage().window().maximize();
-            //await driver.manage().window().setRect({width: 1920, height: 1080});
+            //await driver.manage().window().maximize();
+            await driver.manage().window().setRect({width: 1920, height: 1080});
 
             });
 
