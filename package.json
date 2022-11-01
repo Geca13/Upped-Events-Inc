@@ -4,9 +4,12 @@
   "description": "Automation for Upped Events",
   "main": "index.js",
   "scripts": {
-    "test": "mocha './test/PortalTests.js'",
+    "test": "mocha './test/PortalEventTablesTests.js'",
     "test1": "mocha './test/OldTests.js'",
-    "test2": "mocha './test/PortalBox-OfficeTests.js'"
+    "test2": "mocha './test/PortalBox-OfficeTests.js'",
+    "test3": "mocha './test/Portal&EmbedMobileTests.js'",
+    "test4": "mocha './test/Portal&EmbedTests.js'",
+    "test5": "mocha './test/StageBasicTests.js'"
   },
   "author": "Marjan Karafiloski",
   "license": "ISC",
