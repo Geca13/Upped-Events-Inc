@@ -81,15 +81,11 @@
         let customerEmail = customerFirstName + '@' + customerLastName+'.com';
         let customerPassword = base.toString() + 'Password';
 
-
-
-
         beforeEach(async function(){
             //driver = await new Builder().forBrowser('chrome').build();
             //await driver.manage().window().maximize();
-            driver = new Builder().forBrowser('chrome')
-                .setChromeOptions(new chrome.Options().addArguments('--headless'))
-                .build();
+            driver = await new Builder().forBrowser('chrome')
+                .setChromeOptions(new chrome.Options().addArguments('--headless')).build();
             await driver.manage().window().setRect({width: 1920, height: 1080});
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
