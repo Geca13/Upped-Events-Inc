@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha './test/PortalTests.js'",
-    "test1": "mocha './test/OldTests.js'"
+    "test1": "mocha './test/OldTests.js'",
+    "test2": "mocha './test/PortalBox-OfficeTests.js'"
   },
   "author": "Marjan Karafiloski",
   "license": "ISC",

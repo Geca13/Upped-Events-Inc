@@ -1,5 +1,4 @@
-    const { Builder, By, Key} = require('selenium-webdriver');
-    const assert = require('assert')
+    const { Builder } = require('selenium-webdriver');
     const Inbox = require("../Inbox/Inbox")
     const PortalLoginPage = require('../portal/portalPages/PortalLoginPage');
     const DashboardPage = require('../portal/dashboard/Dashboard');
@@ -20,6 +19,7 @@
     const BOReviewAndPay = require('../portal/ticketing/BoxOffice/BOReviewAndPay');
     const SideMenu = require('../portal/portalComponents/SideMenu');
     const SectionsNavs = require('../portal/portalComponents/SectionsNavs');
+    const chrome = require("selenium-webdriver/chrome");
 
 
     describe('Should do box office related tests', function () {
@@ -85,8 +85,12 @@
 
 
         beforeEach(async function(){
-            driver = await new Builder().forBrowser('chrome').build();
-            await driver.manage().window().maximize();
+            //driver = await new Builder().forBrowser('chrome').build();
+            //await driver.manage().window().maximize();
+            driver = new Builder().forBrowser('chrome')
+                .setChromeOptions(new chrome.Options().addArguments('--headless'))
+                .build();
+            await driver.manage().window().setRect({width: 1920, height: 1080});
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
@@ -107,7 +111,11 @@
         });
 
         afterEach(async function(){
-            await driver.quit()
+            try {
+                await driver.quit();
+            } catch(e) {
+                console.log('Failed to close webdriver due: ' + e.message);
+            }
         })
 
         it('should create new event',async function () {
