@@ -136,18 +136,18 @@
         let customerPassword = base.toString() + 'Password';
 
 
-/*
+
         beforeEach(async function(){
-            driver = new Builder().forBrowser('chrome')
-                .setChromeOptions(new chrome.Options().addArguments('--headless')).build();
-            await driver.manage().window().setRect({width: 1920, height: 1080});
+            driver = await new Builder().forBrowser('chrome').build();
+            await driver.manage().window().maximize();
+            //await driver.manage().window().setRect({width: 1920, height: 1080});
 
             });
 
         afterEach(async function(){
             await driver.quit()
         })
-*/
+
         
         //PORTAL
         it('should create new event and verify data in events page and General Details',async function () {
@@ -155,9 +155,6 @@
             dashboard = new DashboardPage(driver);
             createEvent = new CreateEventModal(driver);
             myEvents = new MyEventsPage(driver);
-            driver = new Builder().forBrowser('chrome')
-                .setChromeOptions(new chrome.Options().addArguments('--headless')).build();
-            await driver.manage().window().setRect({width: 1920, height: 1080});
 
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
@@ -171,9 +168,7 @@
 
         //PORTAL
         it('should create first ticket and check data in tickets table and update modal ',async function () {
-            driver = new Builder().forBrowser('chrome')
-                .setChromeOptions(new chrome.Options().addArguments('--headless')).build();
-            await driver.manage().window().setRect({width: 1920, height: 1080});
+
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
@@ -199,7 +194,7 @@
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickAddTicketButton();
             await createTicket.createFirstTicketAndAssertDataOnTicketsAndUpdate(ticketOneName,ticketOnePrice,embedTicketQuantity);
-            await driver.quit()
+
         });
 
         //PORTAL -> EMBED
@@ -213,9 +208,7 @@
             embedding = new EmbeddingPage(driver);
             files = new Files(driver);
             main = new EmbedMainPage(driver);
-            driver = new Builder().forBrowser('chrome')
-                .setChromeOptions(new chrome.Options().addArguments('--headless')).build();
-            await driver.manage().window().setRect({width: 1920, height: 1080});
+            
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
@@ -239,20 +232,18 @@
             await main.openEmbedPage();
             await main.switchToIframe();
             await main.isInFrame(eventName);
-            await driver.quit()
+
         });
 
         //EMBED
         it('should get no tickets available message on embed when tickets are not activated ',async function () {
-            driver = new Builder().forBrowser('chrome')
-                .setChromeOptions(new chrome.Options().addArguments('--headless')).build();
-            await driver.manage().window().setRect({width: 1920, height: 1080});
+
             main = new EmbedMainPage(driver);
             await main.openEmbedPage();
             await main.switchToIframe();
             await main.isInFrame(eventName);
             await main.assertNoTicketsMessageIsDisplayed()
-            await driver.quit()
+
         });
 
         //PORTAL -> EMBED
