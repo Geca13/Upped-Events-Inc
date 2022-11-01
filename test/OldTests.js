@@ -1,5 +1,6 @@
     const { Builder, By, Key} = require('selenium-webdriver');
     const assert = require('assert')
+    const chrome = require("selenium-webdriver/chrome");
     const Inbox = require("../Inbox/Inbox")
     const PortalLoginPage = require('../portal/portalPages/PortalLoginPage');
     const DashboardPage = require('../portal/dashboard/Dashboard');
@@ -76,7 +77,6 @@
     const EmbedDonateComponent = require('../embed/embedComponents/EmbedDonateComponent')
     const SideMenu = require('../portal/portalComponents/SideMenu');
     const SectionsNavs = require('../portal/portalComponents/SectionsNavs');
-
     const Files = require('../dummy/Files')
 
     describe('Should do old tests', function () {
@@ -206,8 +206,12 @@
 
 
         beforeEach(async function(){
-            driver = await new Builder().forBrowser('chrome').build();
-            await driver.manage().window().maximize();
+            //driver = await new Builder().forBrowser('chrome').build();
+            //await driver.manage().window().maximize();
+            driver = new Builder().forBrowser('chrome')
+                .setChromeOptions(new chrome.Options().addArguments('--headless'))
+                .build();
+            await driver.manage().window().setRect({width: 1920, height: 1080});
 
         });
 
