@@ -1,6 +1,5 @@
     const { Builder } = require('selenium-webdriver');
     const chrome = require('selenium-webdriver/chrome');
-    const assert = require('assert')
     const Inbox = require("../Inbox/Inbox")
     const PortalLoginPage = require('../portal/portalPages/PortalLoginPage');
     const DashboardPage = require('../portal/dashboard/Dashboard');
@@ -125,22 +124,12 @@
         let ticketStaffQuantity = 2;
         let ticketStaffPrice = "0.25";
         let promoOneName = base.toString() +"PN1";
-        let promoTwoName = base.toString() +"PN2";
         let promoThreeName = base.toString() +"PN3";
-        let promoFourName = base.toString() +"PNBOX";
-        let promoFiveName = base.toString() +"PN100";
         let promoCodeOne = base.toString() +"PC1";
-        let promoCodeTwo = base.toString() +"PC2";
         let promoCodeThree = base.toString() +"PC3";
-        let promoCodeFour = base.toString() +"PCBOX";
-        let promoCodeFive = base.toString() +"PC100";
         let ticketGroupOne = base.toString() +"TG1";
         let ticketGroupTwo = base.toString() +"TG2";
         let ticketGroupThree = base.toString() +"TG3";
-        let ticketGroupFour = base.toString() +"TG4";
-        let vendorFirstName = 'vfn'+base.toString();
-        let vendorLastName = 'vln'+base.toString();
-        let vendorEmail = vendorFirstName + '@' + vendorLastName+'.com';
         let customerFirstName = 'cfn'+base.toString();
         let customerLastName = 'cln'+base.toString();
         let customerEmail = customerFirstName + '@' + customerLastName+'.com';
@@ -149,11 +138,8 @@
 
 
         beforeEach(async function(){
-            
-                
-                driver = new Builder().forBrowser('chrome')
-                    .setChromeOptions(new chrome.Options().addArguments('--headless'))
-                    .build();
+            driver = new Builder().forBrowser('chrome')
+                   .setChromeOptions(new chrome.Options().addArguments('--headless')).build();
             await driver.manage().window().setRect({width: 1920, height: 1080});
 
             });
@@ -389,7 +375,6 @@
             await eventDetails.unpublishButtonIsDisplayed();
             await sideMenu.clickTicketingTab();
             await ticketsNav.addTicketButtonIsDisplayed();
-            let index = await ticketsNav.getTicketIndexByTicketName(ticketOneName);
             await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
             await createTicket.ticketNameInputIsDisplayed();
             await createTicket.assertTicketPriceEqualsBuyerTotalPriceWhenNoTaxesOrFees();
