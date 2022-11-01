@@ -178,8 +178,6 @@
         let ticketFourQuantity = 666;
         let ticketFourPrice = "0.40";
         let staffTicket = base.toString() +"staff";
-        let ticketStaffQuantity = 5;
-        let ticketStaffPrice = "0.25";
         let promoOneName = base.toString() +"PN1";
         let promoTwoName = base.toString() +"PN2";
         let promoThreeName = base.toString() +"PN3";
@@ -210,7 +208,6 @@
         beforeEach(async function(){
             driver = await new Builder().forBrowser('chrome').build();
             await driver.manage().window().maximize();
-            //driver.execute("document.body.style.zoom='80%'")
 
         });
 
