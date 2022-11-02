@@ -138,7 +138,7 @@
 
         before(function(){
             driver = new Builder().forBrowser('chrome').setChromeOptions(new chrome.Options().addArguments('--headless')).build();
-             driver.manage().window().setRect({width: 1300, height: 1080});
+            driver.manage().window().setRect({width: 1300, height: 1080});
         });
 
         after(function(){
