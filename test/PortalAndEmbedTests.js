@@ -104,7 +104,7 @@
         let sideMenu;
         let sectionsNavs;
 
-        let base = 808399 //  Math.floor(100000 + Math.random() * 900000);
+        let base = 484887 //  Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -136,13 +136,13 @@
         let customerPassword = base.toString() + 'Password';
 
 
-        beforeEach(async function(){
-            driver = await new Builder().forBrowser('chrome').setChromeOptions(new chrome.Options().addArguments('--headless')).build();
-            await driver.manage().window().setRect({width: 1300, height: 1080});
+        beforeEach(function(){
+            driver = new Builder().forBrowser('chrome').setChromeOptions(new chrome.Options().addArguments('--headless')).build();
+             driver.manage().window().setRect({width: 1300, height: 1080});
         });
 
-        afterEach(async function(){
-            await driver.quit()
+        afterEach(function(){
+            driver.quit()
         })
 
         /*
