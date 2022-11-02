@@ -1,5 +1,5 @@
     const BasePage = require('../../BasePage');
-    const SIGN_IN_BUTTON = { xpath: "//*[text()='Sign In']"}
+    const SIGN_IN_BUTTON = { xpath: "//button[@type='submit']"}
     const EMAIL_INPUT = { css: "input[formControlName=email]" };
     const PASSWORD_INPUT = { css: "input[formControlName=password]" };
 
