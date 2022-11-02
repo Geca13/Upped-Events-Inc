@@ -104,7 +104,7 @@
         let sideMenu;
         let sectionsNavs;
 
-        let base = 484887 //  Math.floor(100000 + Math.random() * 900000);
+        let base =   Math.floor(100000 + Math.random() * 900000);
         let eventName =  base.toString() + " FullEventName";
         let shortName = base.toString();
         let ticketOneName = base.toString() +"T1";
@@ -145,7 +145,7 @@
             driver.quit()
         })
 
-        /*
+        
         //PORTAL
         it('should create new event and verify data in events page and General Details',async function () {
             portalLogin = new PortalLoginPage(driver);
@@ -162,7 +162,7 @@
             await createEvent.createEventModalIsDisplayed();
             await createEvent.fillFormWithValidDataAndSave(eventName,shortName);
         });
-*/
+
         //PORTAL
         it('should create first ticket and check data in tickets table and update modal ',async function () {
 
@@ -231,7 +231,7 @@
                     await main.isInFrame(eventName);
         
                 });
-        /*
+        
                 //EMBED
                 it('should get no tickets available message on embed when tickets are not activated ',async function () {
         
@@ -426,7 +426,7 @@
                     await info.clickBuyTicketsButton();
                     await tickets.clickFirstIncreaseButton();
                     await ticketing.assertTicketPriceEqualsSubtotalAndBuyerTotalEqualsGrandTotal( ticketPrice, ticketBuyerPrice);
-                });
+                });*/
         
                 //PORTAL
                 it('should remove tax and add $ value fee and assert price in update modal', async function () {
@@ -3802,6 +3802,6 @@
         
                 });
                 
-         */
+         
 
     });
