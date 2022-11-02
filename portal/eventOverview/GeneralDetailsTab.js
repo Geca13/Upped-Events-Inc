@@ -37,10 +37,10 @@
 
 
         async publishButtonIsDisplayed(){
-            await this.isDisplayed(PUBLISH_EVENT_BUTTON,15000, "publishEvent");
+            await this.isDisplayed(PUBLISH_EVENT_BUTTON,15000);
         }
         async unpublishButtonIsDisplayed(){
-            await this.isDisplayed(UNPUBLISH_EVENT_BUTTON,15000, "unpublishEvent");
+            await this.isDisplayed(UNPUBLISH_EVENT_BUTTON,15000);
         }
         async clickPublishButton(){
             await this.timeout(500);
