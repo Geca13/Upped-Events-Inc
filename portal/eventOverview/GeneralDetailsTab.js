@@ -13,7 +13,7 @@
     const EVENT_ATTENDEES_INPUT = { xpath: "//input[@formcontrolname='eventAttendees']" };
     const EVENT_DESCRIPTION_INPUT = { xpath: "//textarea[@formcontrolname='eventDescription']" };
     const ENTERED_ADDRESS = { xpath: "//input[@placeholder='Search Nearest Location']" };
-    const PUBLISH_EVENT_BUTTON = { xpath: "//*[text()='Publish']"}
+    const PUBLISH_EVENT_BUTTON = { xpath: "//a[@class='primary-btn']"}
     const UNPUBLISH_EVENT_BUTTON = { xpath: "//*[text()='Unpublish']"}
     const EVENT_STATUS_LABEL = { className: "estatus"};
     const EVENT_STATUS_PUBLISHED_LABEL = { className: "published"}
@@ -37,8 +37,9 @@
 
 
         async publishButtonIsDisplayed(){
-            await this.moveToElement(PUBLISH_EVENT_BUTTON)
+            
             await this.isDisplayed(PUBLISH_EVENT_BUTTON,15000);
+            await this.scrollToView(PUBLISH_EVENT_BUTTON);
         }
         async unpublishButtonIsDisplayed(){
             await this.isDisplayed(UNPUBLISH_EVENT_BUTTON,15000);
