@@ -88,7 +88,7 @@
         let eventId ;
 
         
-        beforeEach(async function(){
+        before(async function(){
             //driver = await new Builder().forBrowser('chrome').build();
             //await driver.manage().window().maximize();
             driver = new Builder().forBrowser('chrome')
@@ -105,7 +105,7 @@
 
         });
 
-        afterEach(async function(){
+        after(async function(){
             try {
                 await driver.quit();
             } catch(e) {
