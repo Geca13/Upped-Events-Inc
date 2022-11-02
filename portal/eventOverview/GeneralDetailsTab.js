@@ -37,6 +37,7 @@
 
 
         async publishButtonIsDisplayed(){
+            await this.moveToElement(PUBLISH_EVENT_BUTTON)
             await this.isDisplayed(PUBLISH_EVENT_BUTTON,15000);
         }
         async unpublishButtonIsDisplayed(){
