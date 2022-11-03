@@ -19,7 +19,7 @@
     const PROMOTION_NEW_PRICE = { xpath: "//td[contains(@class, 'column-discountedprice')]//span" };
     const PROMOTION_START_DATE = { xpath: "//td[contains(@class, 'column-startdate')]" };
     const PROMOTION_END_DATE = { xpath: "//td[contains(@class, 'column-enddate')]" };
-    const EDIT_PROMO_BUTTON = { xpath: "//a[@class='text-second']//span[@class='icon-edit']"}
+    const EDIT_PROMO_BUTTON = { xpath: "//a[@class='text-second']//span[contains(@class, 'icon-edit')]"}
     const EDIT_AND_EXPORT_TICKETS_BUTTONS = { className: 'text-second'} //list
     const NO_RECORDS = { xpath: "//div[contains(@class, 'data-empty')]//h5" };
 
@@ -100,6 +100,7 @@
 
         async findPromotionByNameAndClickUpdateButton(promoName){
             let i = await this.returnIndexWhenTextIsKnown(PROMOTION_NAME,promoName);
+            await this.isDisplayed(EDIT_PROMO_BUTTON,5000);
             await this.clickElementReturnedFromAnArray(EDIT_PROMO_BUTTON, i);
         }
 
