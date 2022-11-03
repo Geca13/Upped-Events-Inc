@@ -135,7 +135,6 @@
         let customerEmail = customerFirstName + '@' + customerLastName+'.com';
         let customerPassword = base.toString() + 'Password';
 
-
         beforeEach(async function(){
             driver = await new Builder().forBrowser('chrome').build();
             await driver.manage().window().maximize();

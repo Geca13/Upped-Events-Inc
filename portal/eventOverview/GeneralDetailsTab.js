@@ -37,9 +37,7 @@
 
 
         async publishButtonIsDisplayed(){
-            
             await this.isDisplayed(PUBLISH_EVENT_BUTTON,15000);
-            await this.scrollToView(PUBLISH_EVENT_BUTTON);
         }
         async unpublishButtonIsDisplayed(){
             await this.isDisplayed(UNPUBLISH_EVENT_BUTTON,15000);

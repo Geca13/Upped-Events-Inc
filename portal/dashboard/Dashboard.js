@@ -23,7 +23,7 @@
             await this.click(CREATE_EVENT_BUTTON);
         }
         async isAtDashboardPage(){
-            await this.isDisplayed(DASHBOARD_HEADER,60000);
+            await this.isDisplayed(DASHBOARD_HEADER,90000);
         }
     }
     module.exports = Dashboard;
