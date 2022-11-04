@@ -291,6 +291,7 @@
                     await embedTickets.assertFullTicketNameDisplay(ticketOneName, ticketOnePrice);
                 });
         
+                /*
                 //EMBED
                 it('should assert create account button is disabled on create account modal in embed until fields are empty', async function () {
         
@@ -428,7 +429,7 @@
                     await info.clickBuyTicketsButton();
                     await tickets.clickFirstIncreaseButton();
                     await ticketing.assertTicketPriceEqualsSubtotalAndBuyerTotalEqualsGrandTotal( ticketPrice, ticketBuyerPrice);
-                });*/
+                });
         
                 //PORTAL
                 it('should remove tax and add $ value fee and assert price in update modal', async function () {
@@ -3804,6 +3805,6 @@
         
                 });
                 
-         
+         */
 
     });
