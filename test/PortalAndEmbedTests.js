@@ -164,9 +164,10 @@
             await dashboard.clickCreateEventButton();
             await createEvent.createEventModalIsDisplayed();
             await createEvent.fillFormWithValidDataAndSave(eventName,shortName);
-            }catch (e){
-                console.log(e.message)
+            }catch (error){
                 await driver.quit()
+                throw error.toString();
+
             }
             await driver.quit()
         });
@@ -204,10 +205,11 @@
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickAddTicketButton();
             await createTicket.createFirstTicketAndAssertDataOnTicketsAndUpdate(ticketOneName,ticketOnePrice,embedTicketQuantity);
-        }catch (e){
-            console.log(e.message)
-            await driver.quit()
-        }
+            }catch (error){
+                await driver.quit()
+                throw error.toString();
+
+            }
         await driver.quit()
         });
         
@@ -248,10 +250,11 @@
                     await main.openEmbedPage();
                     await main.switchToIframe();
                     await main.isInFrame(eventName);
-                }catch (e){
-                    console.log(e.message)
-                    await driver.quit()
-                }
+                    }catch (error){
+                        await driver.quit()
+                        throw error.toString();
+
+                    }
                 await driver.quit()
                 });
         
@@ -265,9 +268,10 @@
                     await main.switchToIframe();
                     await main.isInFrame(eventName);
                     await main.assertNoTicketsMessageIsDisplayed()
-                                }catch (e){
-                        console.log(e.message)
+                    }catch (error){
                         await driver.quit()
+                        throw error.toString();
+
                     }
                     await driver.quit()
                 });
@@ -319,9 +323,10 @@
                         await embedTickets.assertNumberOfTickets(1);
                         await embedTickets.assertTicketNotAvailableMessageIsDisplayed();
                         await embedTickets.assertFullTicketNameDisplay(ticketOneName, ticketOnePrice);
-                    }catch (e){
-                        console.log(e.message)
+                    }catch (error){
                         await driver.quit()
+                        throw error.toString();
+                        
                      }
                          await driver.quit()
                 });
