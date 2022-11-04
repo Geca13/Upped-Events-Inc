@@ -135,6 +135,7 @@
         let customerEmail = customerFirstName + '@' + customerLastName+'.com';
         let customerPassword = base.toString() + 'Password';
 
+        /*
         beforeEach(async function(){
             driver = await new Builder().forBrowser('chrome').build();
             await driver.manage().window().maximize();
@@ -144,14 +145,17 @@
             await driver.quit()
         })
 
-       
+       */
         //PORTAL
         it('should create new event and verify data in events page and General Details',async function () {
+            driver = await new Builder().forBrowser('chrome').build();
+            await driver.manage().window().maximize();
+            try{
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             createEvent = new CreateEventModal(driver);
             myEvents = new MyEventsPage(driver);
-
+            
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await driver.sleep(1000);
@@ -160,6 +164,11 @@
             await dashboard.clickCreateEventButton();
             await createEvent.createEventModalIsDisplayed();
             await createEvent.fillFormWithValidDataAndSave(eventName,shortName);
+            }catch (e){
+                console.log(e.message)
+                await driver.quit()
+            }
+            await driver.quit()
         });
         
         
@@ -167,7 +176,9 @@
 
         //PORTAL
         it('should create first ticket and check data in tickets table and update modal ',async function () {
-
+            driver = await new Builder().forBrowser('chrome').build();
+            await driver.manage().window().maximize();
+            try{
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
@@ -175,7 +186,7 @@
             eventOptionTabs = new EventOptionTabs(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
-
+            
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
@@ -193,11 +204,18 @@
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickAddTicketButton();
             await createTicket.createFirstTicketAndAssertDataOnTicketsAndUpdate(ticketOneName,ticketOnePrice,embedTicketQuantity);
-
+        }catch (e){
+            console.log(e.message)
+            await driver.quit()
+        }
+        await driver.quit()
         });
         
                 //PORTAL -> EMBED
                 it('should make embed view for event', async function () {
+                    driver = await new Builder().forBrowser('chrome').build();
+                    await driver.manage().window().maximize();
+                    try{
                     portalLogin = new PortalLoginPage(driver);
                     dashboard = new DashboardPage(driver);
                     myEvents = new MyEventsPage(driver);
@@ -207,7 +225,6 @@
                     embedding = new EmbeddingPage(driver);
                     files = new Files(driver);
                     main = new EmbedMainPage(driver);
-                    
                     await portalLogin.loadPortalUrl();
                     await portalLogin.isAtPortalLoginPage();
                     await portalLogin.enterValidCredentialsAndLogin();
@@ -231,64 +248,82 @@
                     await main.openEmbedPage();
                     await main.switchToIframe();
                     await main.isInFrame(eventName);
-        
+                }catch (e){
+                    console.log(e.message)
+                    await driver.quit()
+                }
+                await driver.quit()
                 });
         
                 //EMBED
                 it('should get no tickets available message on embed when tickets are not activated ',async function () {
-        
+                    driver = await new Builder().forBrowser('chrome').build();
+                    await driver.manage().window().maximize();
+                    try{
                     main = new EmbedMainPage(driver);
                     await main.openEmbedPage();
                     await main.switchToIframe();
                     await main.isInFrame(eventName);
                     await main.assertNoTicketsMessageIsDisplayed()
-        
+                                }catch (e){
+                        console.log(e.message)
+                        await driver.quit()
+                    }
+                    await driver.quit()
                 });
         
                 //PORTAL -> EMBED
                 it('should check button text when tickets are in the future ',async function () {
-                    main = new EmbedMainPage(driver);
-                    embedTickets = new TicketsComponent(driver);
-                    events = new EventsPage(driver);
-                    info = new EventInfo(driver);
-                    portalLogin = new PortalLoginPage(driver);
-                    dashboard = new DashboardPage(driver);
-                    myEvents = new MyEventsPage(driver);
-                    eventDetails = new GeneralDetailsTab(driver);
-                    sideMenu = new SideMenu(driver);
-                    ticketsNav = new TicketsNav(driver);
-                    createTicket = new CreateTicketModal(driver);
-                    dateTime = new DateTimePickerModal(driver);
-                    sectionsNavs = new SectionsNavs(driver)
-        
-                    await portalLogin.loadPortalUrl();
-                    await portalLogin.isAtPortalLoginPage();
-                    await portalLogin.enterValidCredentialsAndLogin();
-                    await dashboard.isAtDashboardPage();
-                    await sectionsNavs.clickNavByText("My Events");
-                    await myEvents.eventsTableIsDisplayed();
-                    await myEvents.createdEventIsInTheTable(eventName);
-                    await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-                    await eventDetails.unpublishButtonIsDisplayed();
-                    await sideMenu.clickTicketingTab();
-                    await ticketsNav.addTicketButtonIsDisplayed();
-                    await ticketsNav.clickActivateTicketToggle(ticketOneName);
-                    await ticketsNav.clickEditTicketButton(0);
-                    await createTicket.ticketNameInputIsDisplayed();
-                    await createTicket.clickStartDateTimeInput();
-                    await dateTime.datePickerIsVisible();
-                    await dateTime.updateTimeToXMinLater(1);
-                    await dateTime.clickSetButton();
-                    await createTicket.clickEndDateTimeInput();
-                    await dateTime.datePickerIsVisible();
-                    await dateTime.updateHourByOne();
-                    await createTicket.clickSaveTicketButton();
-                    await main.openEmbedPage();
-                    await main.switchToIframe();
-                    await main.isInFrame(eventName);
-                    await embedTickets.assertNumberOfTickets(1);
-                    await embedTickets.assertTicketNotAvailableMessageIsDisplayed();
-                    await embedTickets.assertFullTicketNameDisplay(ticketOneName, ticketOnePrice);
+                    driver = await new Builder().forBrowser('chrome').build();
+                    await driver.manage().window().maximize();
+                    try{
+                        main = new EmbedMainPage(driver);
+                        embedTickets = new TicketsComponent(driver);
+                        events = new EventsPage(driver);
+                        info = new EventInfo(driver);
+                        portalLogin = new PortalLoginPage(driver);
+                        dashboard = new DashboardPage(driver);
+                        myEvents = new MyEventsPage(driver);
+                        eventDetails = new GeneralDetailsTab(driver);
+                        sideMenu = new SideMenu(driver);
+                        ticketsNav = new TicketsNav(driver);
+                        createTicket = new CreateTicketModal(driver);
+                        dateTime = new DateTimePickerModal(driver);
+                        sectionsNavs = new SectionsNavs(driver)
+                        
+                        await portalLogin.loadPortalUrl();
+                        await portalLogin.isAtPortalLoginPage();
+                        await portalLogin.enterValidCredentialsAndLogin();
+                        await dashboard.isAtDashboardPage();
+                        await sectionsNavs.clickNavByText("My Events");
+                        await myEvents.eventsTableIsDisplayed();
+                        await myEvents.createdEventIsInTheTable(eventName);
+                        await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+                        await eventDetails.unpublishButtonIsDisplayed();
+                        await sideMenu.clickTicketingTab();
+                        await ticketsNav.addTicketButtonIsDisplayed();
+                        await ticketsNav.clickActivateTicketToggle(ticketOneName);
+                        await ticketsNav.clickEditTicketButton(0);
+                        await createTicket.ticketNameInputIsDisplayed();
+                        await createTicket.clickStartDateTimeInput();
+                        await dateTime.datePickerIsVisible();
+                        await dateTime.updateTimeToXMinLater(1);
+                        await dateTime.clickSetButton();
+                        await createTicket.clickEndDateTimeInput();
+                        await dateTime.datePickerIsVisible();
+                        await dateTime.updateHourByOne();
+                        await createTicket.clickSaveTicketButton();
+                        await main.openEmbedPage();
+                        await main.switchToIframe();
+                        await main.isInFrame(eventName);
+                        await embedTickets.assertNumberOfTickets(1);
+                        await embedTickets.assertTicketNotAvailableMessageIsDisplayed();
+                        await embedTickets.assertFullTicketNameDisplay(ticketOneName, ticketOnePrice);
+                    }catch (e){
+                        console.log(e.message)
+                        await driver.quit()
+                     }
+                         await driver.quit()
                 });
         
                 /*
