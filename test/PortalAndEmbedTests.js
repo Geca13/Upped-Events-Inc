@@ -1,6 +1,8 @@
     const { Builder } = require('selenium-webdriver');
     const chrome = require('selenium-webdriver/chrome');
     const Inbox = require("../Inbox/Inbox")
+    const AddMoneyComponent = require('../microsites/micrositesComponents/AddMoneyComponent')
+    const TicketQuestionsModal = require('../microsites/micrositesComponents/TicketQuestionsModal')
     const PortalLoginPage = require('../portal/portalPages/PortalLoginPage');
     const DashboardPage = require('../portal/dashboard/Dashboard');
     const AttendeesTab = require('../portal/eventOverview/AttendeesTab')
@@ -20,17 +22,6 @@
     const TaxesAndFeesPage = require('../portal/ticketing/SettingsNav/TaxesAndFeesPage');
     const TicketQuestionsPage = require('../portal/ticketing/SettingsNav/TicketQuestionsPage')
     const TicketTermsPage = require('../portal/ticketing/SettingsNav/TicketTermsPage');
-    const EventsPage = require('../microsites/micrositesPages/EventsPage');
-    const LoginComponent = require('../microsites/micrositesComponents/LoginComponent');
-    const EventInfo = require('../microsites/micrositesPages/EventInfo');
-    const TicketingPage = require('../microsites/micrositesPages/TicketingPage');
-    const TicketsTab = require('../microsites/micrositesComponents/TicketsTab');
-    const ExtrasTab = require('../microsites/micrositesComponents/ExtrasTab');
-    const AddMoneyComponent = require("../microsites/micrositesComponents/AddMoneyComponent")
-    const TicketQuestionsModal = require('../microsites/micrositesComponents/TicketQuestionsModal')
-    const PayTab = require('../microsites/micrositesComponents/PayTab');
-    const ConfirmTab = require('../microsites/micrositesComponents/ConfirmTab');
-    const NewCardComponent = require('../microsites/micrositesComponents/NewCardComponent');
     const EventTickets = require('../portal/ticketing/EventTickets');
     const EmbedMainPage = require("../embed/embedPages/EmbedMainPage");
     const TicketsComponent = require("../embed/embedComponents/TicketsComponent");
@@ -68,16 +59,7 @@
         let settingsNav;
         let taxesAndFees;
         let ticketTerms;
-        let events;
         let eventTickets;
-        let info;
-        let ticketing;
-        let tickets;
-        let extras;
-        let pay;
-        let login;
-        let confirm;
-        let newCardComponent;
         let eventSettingsNav;
         let inbox;
         let originalWindow;
@@ -135,7 +117,6 @@
         let customerEmail = customerFirstName + '@' + customerLastName+'.com';
         let customerPassword = base.toString() + 'Password';
 
-        /*
         beforeEach(async function(){
             driver = await new Builder().forBrowser('chrome').build();
             await driver.manage().window().maximize();
@@ -145,17 +126,13 @@
             await driver.quit()
         })
 
-       */
+       
         //PORTAL
         it('should create new event and verify data in events page and General Details',async function () {
-            driver = await new Builder().forBrowser('chrome').build();
-            await driver.manage().window().maximize();
-            try{
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             createEvent = new CreateEventModal(driver);
-            myEvents = new MyEventsPage(driver);
-            
+
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await driver.sleep(1000);
@@ -164,12 +141,6 @@
             await dashboard.clickCreateEventButton();
             await createEvent.createEventModalIsDisplayed();
             await createEvent.fillFormWithValidDataAndSave(eventName,shortName);
-            }catch (error){
-                await driver.quit()
-                throw error.toString();
-
-            }
-            await driver.quit()
         });
         
         
@@ -177,9 +148,7 @@
 
         //PORTAL
         it('should create first ticket and check data in tickets table and update modal ',async function () {
-            driver = await new Builder().forBrowser('chrome').build();
-            await driver.manage().window().maximize();
-            try{
+
             portalLogin = new PortalLoginPage(driver);
             dashboard = new DashboardPage(driver);
             myEvents = new MyEventsPage(driver);
@@ -187,7 +156,7 @@
             eventOptionTabs = new EventOptionTabs(driver);
             ticketsNav = new TicketsNav(driver);
             createTicket = new CreateTicketModal(driver);
-            
+
             await portalLogin.loadPortalUrl();
             await portalLogin.isAtPortalLoginPage();
             await portalLogin.enterValidCredentialsAndLogin();
@@ -205,19 +174,11 @@
             await ticketsNav.addTicketButtonIsDisplayed();
             await ticketsNav.clickAddTicketButton();
             await createTicket.createFirstTicketAndAssertDataOnTicketsAndUpdate(ticketOneName,ticketOnePrice,embedTicketQuantity);
-            }catch (error){
-                await driver.quit()
-                throw error.toString();
 
-            }
-        await driver.quit()
         });
         
                 //PORTAL -> EMBED
                 it('should make embed view for event', async function () {
-                    driver = await new Builder().forBrowser('chrome').build();
-                    await driver.manage().window().maximize();
-                    try{
                     portalLogin = new PortalLoginPage(driver);
                     dashboard = new DashboardPage(driver);
                     myEvents = new MyEventsPage(driver);
@@ -227,6 +188,7 @@
                     embedding = new EmbeddingPage(driver);
                     files = new Files(driver);
                     main = new EmbedMainPage(driver);
+                    
                     await portalLogin.loadPortalUrl();
                     await portalLogin.isAtPortalLoginPage();
                     await portalLogin.enterValidCredentialsAndLogin();
@@ -250,88 +212,64 @@
                     await main.openEmbedPage();
                     await main.switchToIframe();
                     await main.isInFrame(eventName);
-                    }catch (error){
-                        await driver.quit()
-                        throw error.toString();
-
-                    }
-                await driver.quit()
+        
                 });
         
                 //EMBED
                 it('should get no tickets available message on embed when tickets are not activated ',async function () {
-                    driver = await new Builder().forBrowser('chrome').build();
-                    await driver.manage().window().maximize();
-                    try{
+        
                     main = new EmbedMainPage(driver);
                     await main.openEmbedPage();
                     await main.switchToIframe();
                     await main.isInFrame(eventName);
                     await main.assertNoTicketsMessageIsDisplayed()
-                    }catch (error){
-                        await driver.quit()
-                        throw error.toString();
-
-                    }
-                    await driver.quit()
+        
                 });
         
                 //PORTAL -> EMBED
                 it('should check button text when tickets are in the future ',async function () {
-                    driver = await new Builder().forBrowser('chrome').build();
-                    await driver.manage().window().maximize();
-                    try{
-                        main = new EmbedMainPage(driver);
-                        embedTickets = new TicketsComponent(driver);
-                        events = new EventsPage(driver);
-                        info = new EventInfo(driver);
-                        portalLogin = new PortalLoginPage(driver);
-                        dashboard = new DashboardPage(driver);
-                        myEvents = new MyEventsPage(driver);
-                        eventDetails = new GeneralDetailsTab(driver);
-                        sideMenu = new SideMenu(driver);
-                        ticketsNav = new TicketsNav(driver);
-                        createTicket = new CreateTicketModal(driver);
-                        dateTime = new DateTimePickerModal(driver);
-                        sectionsNavs = new SectionsNavs(driver)
-                        
-                        await portalLogin.loadPortalUrl();
-                        await portalLogin.isAtPortalLoginPage();
-                        await portalLogin.enterValidCredentialsAndLogin();
-                        await dashboard.isAtDashboardPage();
-                        await sectionsNavs.clickNavByText("My Events");
-                        await myEvents.eventsTableIsDisplayed();
-                        await myEvents.createdEventIsInTheTable(eventName);
-                        await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-                        await eventDetails.unpublishButtonIsDisplayed();
-                        await sideMenu.clickTicketingTab();
-                        await ticketsNav.addTicketButtonIsDisplayed();
-                        await ticketsNav.clickActivateTicketToggle(ticketOneName);
-                        await ticketsNav.clickEditTicketButton(0);
-                        await createTicket.ticketNameInputIsDisplayed();
-                        await createTicket.clickStartDateTimeInput();
-                        await dateTime.datePickerIsVisible();
-                        await dateTime.updateTimeToXMinLater(1);
-                        await dateTime.clickSetButton();
-                        await createTicket.clickEndDateTimeInput();
-                        await dateTime.datePickerIsVisible();
-                        await dateTime.updateHourByOne();
-                        await createTicket.clickSaveTicketButton();
-                        await main.openEmbedPage();
-                        await main.switchToIframe();
-                        await main.isInFrame(eventName);
-                        await embedTickets.assertNumberOfTickets(1);
-                        await embedTickets.assertTicketNotAvailableMessageIsDisplayed();
-                        await embedTickets.assertFullTicketNameDisplay(ticketOneName, ticketOnePrice);
-                    }catch (error){
-                        await driver.quit()
-                        throw error.toString();
-                        
-                     }
-                         await driver.quit()
+                    main = new EmbedMainPage(driver);
+                    embedTickets = new TicketsComponent(driver);
+                    portalLogin = new PortalLoginPage(driver);
+                    dashboard = new DashboardPage(driver);
+                    myEvents = new MyEventsPage(driver);
+                    eventDetails = new GeneralDetailsTab(driver);
+                    sideMenu = new SideMenu(driver);
+                    ticketsNav = new TicketsNav(driver);
+                    createTicket = new CreateTicketModal(driver);
+                    dateTime = new DateTimePickerModal(driver);
+                    sectionsNavs = new SectionsNavs(driver)
+        
+                    await portalLogin.loadPortalUrl();
+                    await portalLogin.isAtPortalLoginPage();
+                    await portalLogin.enterValidCredentialsAndLogin();
+                    await dashboard.isAtDashboardPage();
+                    await sectionsNavs.clickNavByText("My Events");
+                    await myEvents.eventsTableIsDisplayed();
+                    await myEvents.createdEventIsInTheTable(eventName);
+                    await myEvents.clickTheNewCreatedEventInTheTable(eventName);
+                    await eventDetails.unpublishButtonIsDisplayed();
+                    await sideMenu.clickTicketingTab();
+                    await ticketsNav.addTicketButtonIsDisplayed();
+                    await ticketsNav.clickActivateTicketToggle(ticketOneName);
+                    await ticketsNav.clickEditTicketButton(0);
+                    await createTicket.ticketNameInputIsDisplayed();
+                    await createTicket.clickStartDateTimeInput();
+                    await dateTime.datePickerIsVisible();
+                    await dateTime.updateTimeToXMinLater(1);
+                    await dateTime.clickSetButton();
+                    await createTicket.clickEndDateTimeInput();
+                    await dateTime.datePickerIsVisible();
+                    await dateTime.updateHourByOne();
+                    await createTicket.clickSaveTicketButton();
+                    await main.openEmbedPage();
+                    await main.switchToIframe();
+                    await main.isInFrame(eventName);
+                    await embedTickets.assertNumberOfTickets(1);
+                    await embedTickets.assertTicketNotAvailableMessageIsDisplayed();
+                    await embedTickets.assertFullTicketNameDisplay(ticketOneName, ticketOnePrice);
                 });
         
-                /*
                 //EMBED
                 it('should assert create account button is disabled on create account modal in embed until fields are empty', async function () {
         
@@ -339,8 +277,6 @@
                     embedTickets = new TicketsComponent(driver);
                     embedLogin = new LoginPage(driver);
                     embedCreate = new CreateAccountPage(driver);
-                    inbox = new Inbox(driver);
-                    originalWindow = inbox.getOriginalWindow();
         
                     await main.openEmbedPage();
                     await main.switchToIframe();
@@ -357,7 +293,6 @@
                 it('should create new account on embed login and get success login message', async function () {
         
                     main = new EmbedMainPage(driver);
-                    embedTickets = new TicketsComponent(driver);
                     embedLogin = new LoginPage(driver);
                     embedCreate = new CreateAccountPage(driver);
                     inbox = new Inbox(driver);
@@ -398,7 +333,6 @@
                     sideMenu = new SideMenu(driver);
                     sectionsNavs = new SectionsNavs(driver)
                     ticketsNav = new TicketsNav(driver);
-                    tickets = new TicketsTab(driver);
                     createTicket = new CreateTicketModal(driver);
                     settingsNav = new SettingsNav(driver);
                     taxesAndFees = new TaxesAndFeesPage(driver);
@@ -432,45 +366,6 @@
         
                 });
         
-                //PORTAL -> MICROSITES
-                /*it('should check when excluded taxes subtotal equals ticket price and buyer total equals grand total ', async function () {
-                    events = new EventsPage(driver);
-                    info = new EventInfo(driver);
-                    portalLogin = new PortalLoginPage(driver);
-                    dashboard = new DashboardPage(driver);
-                    myEvents = new MyEventsPage(driver);
-                    eventDetails = new GeneralDetailsTab(driver);
-                    sideMenu = new SideMenu(driver);
-                    ticketsNav = new TicketsNav(driver);
-                    tickets = new TicketsTab(driver);
-                    createTicket = new CreateTicketModal(driver);
-                    ticketing = new TicketingPage(driver);
-                    sectionsNavs = new SectionsNavs(driver)
-        
-                    await portalLogin.loadPortalUrl();
-                    await portalLogin.isAtPortalLoginPage();
-                    await portalLogin.enterValidCredentialsAndLogin();
-                    await dashboard.isAtDashboardPage();
-                    await sectionsNavs.clickNavByText("My Events");
-                    await myEvents.eventsTableIsDisplayed();
-                    await myEvents.createdEventIsInTheTable(eventName);
-                    await myEvents.clickTheNewCreatedEventInTheTable(eventName);
-                    await eventDetails.unpublishButtonIsDisplayed();
-                    await sideMenu.clickTicketingTab();
-                    await ticketsNav.addTicketButtonIsDisplayed();
-                    await ticketsNav.clickEditTicketButtonByTicketName(ticketOneName);
-                    await createTicket.ticketNameInputIsDisplayed();
-                    let ticketBuyerPrice = await createTicket.getTicketBuyerPriceValue();
-                    let ticketPrice = await createTicket.getTicketPriceValue();
-                    await events.load();
-                    await events.eventCardIsAvailableToClick();
-                    await events.clickNewEvent(shortName);
-                    await info.wishListButtonIsDisplayed();
-                    await info.clickBuyTicketsButton();
-                    await tickets.clickFirstIncreaseButton();
-                    await ticketing.assertTicketPriceEqualsSubtotalAndBuyerTotalEqualsGrandTotal( ticketPrice, ticketBuyerPrice);
-                });
-        
                 //PORTAL
                 it('should remove tax and add $ value fee and assert price in update modal', async function () {
                     portalLogin = new PortalLoginPage(driver);
@@ -479,7 +374,6 @@
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
                     ticketsNav = new TicketsNav(driver);
-                    tickets = new TicketsTab(driver);
                     createTicket = new CreateTicketModal(driver);
                     settingsNav = new SettingsNav(driver);
                     taxesAndFees = new TaxesAndFeesPage(driver);
@@ -529,7 +423,6 @@
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
                     ticketsNav = new TicketsNav(driver);
-                    tickets = new TicketsTab(driver);
                     createTicket = new CreateTicketModal(driver);
                     settingsNav = new SettingsNav(driver);
                     taxesAndFees = new TaxesAndFeesPage(driver);
@@ -604,7 +497,6 @@
         
                     main = new EmbedMainPage(driver);
                     embedTickets = new TicketsComponent(driver);
-                    summary = new SummaryComponent(driver);
                     embedLogin = new LoginPage(driver);
                     addMoney = new AddMoneyComponent(driver)
         
@@ -627,7 +519,6 @@
         
                     main = new EmbedMainPage(driver);
                     embedTickets = new TicketsComponent(driver);
-                    summary = new SummaryComponent(driver);
                     embedLogin = new LoginPage(driver);
                     addMoney = new AddMoneyComponent(driver)
                     payment = new PaymentPage(driver);
@@ -656,7 +547,6 @@
         
                     main = new EmbedMainPage(driver);
                     embedTickets = new TicketsComponent(driver);
-                    summary = new SummaryComponent(driver);
                     embedLogin = new LoginPage(driver);
                     addMoney = new AddMoneyComponent(driver)
                     payment = new PaymentPage(driver);
@@ -686,7 +576,6 @@
         
                     main = new EmbedMainPage(driver);
                     embedTickets = new TicketsComponent(driver);
-                    summary = new SummaryComponent(driver);
                     embedLogin = new LoginPage(driver);
                     addMoney = new AddMoneyComponent(driver)
                     payment = new PaymentPage(driver);
@@ -716,12 +605,10 @@
         
                     main = new EmbedMainPage(driver);
                     embedTickets = new TicketsComponent(driver);
-                    summary = new SummaryComponent(driver);
                     embedLogin = new LoginPage(driver);
                     embedExtras = new ExtrasPage(driver);
                     payment = new PaymentPage(driver);
                     orderDetails = new EmbedOrderDetailsPage(driver);
-                    newCardComponent = new NewCardComponent(driver);
                     embedConfirm = new ConfirmPage(driver);
         
                     await main.openEmbedPage();
@@ -739,7 +626,6 @@
                     await payment.clickNewCardTab();
                     await payment.fillValidDataOnCardOnTheEmbed(customerFirstName,customerLastName);
                     await orderDetails.isOnOrderDetailsPage();
-                    //await orderDetails.assertSelectedCardIsDisplayedAndAssertData("Visa XXXX 1111")
                     await orderDetails.clickPlaceOrderButton();
                     await embedConfirm.isAtConfirmPage();
         
@@ -779,7 +665,6 @@
                 //EMBED
                 it('should check that if available tickets are less then 100 the tickets dropdown in embed is the same that number', async function () {
                     portalLogin = new PortalLoginPage(driver);
-                    dashboard = new DashboardPage(driver);
                     myEvents = new MyEventsPage(driver);
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
@@ -854,14 +739,12 @@
         
                     portalLogin = new PortalLoginPage(driver);
                     dashboard = new DashboardPage(driver);
-                    createEvent = new CreateEventModal(driver);
                     myEvents = new MyEventsPage(driver);
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
                     sectionsNavs = new SectionsNavs(driver)
                     capacity = new EventCapacitySubNav(driver);
                     ticketsNav = new TicketsNav(driver);
-                    eventTickets = new EventTickets(driver)
                     settingsNav = new SettingsNav(driver);
                     main = new EmbedMainPage(driver);
                     embedTickets = new TicketsComponent(driver);
@@ -894,13 +777,10 @@
                     dashboard = new DashboardPage(driver);
                     myEvents = new MyEventsPage(driver);
                     sideMenu = new SideMenu(driver);
-                    sectionsNavs = new SectionsNavs(driver)
-                    eventDetails = new GeneralDetailsTab(driver);
-                    ticketsNav = new TicketsNav(driver);
+                    sectionsNavs = new SectionsNavs(driver);
                     attendees = new AttendeesTab(driver);
                     main = new EmbedMainPage(driver);
                     embedTickets = new TicketsComponent(driver);
-                    summary = new SummaryComponent(driver);
                     embedLogin = new LoginPage(driver);
                     addMoney = new AddMoneyComponent(driver)
         
@@ -936,14 +816,12 @@
                 it('should remove limitation on tickets per account ',async function () {
                     portalLogin = new PortalLoginPage(driver);
                     dashboard = new DashboardPage(driver);
-                    createEvent = new CreateEventModal(driver);
                     myEvents = new MyEventsPage(driver);
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
                     sectionsNavs = new SectionsNavs(driver);
                     capacity = new EventCapacitySubNav(driver);
                     ticketsNav = new TicketsNav(driver);
-                    eventTickets = new EventTickets(driver)
                     settingsNav = new SettingsNav(driver);
         
                     await portalLogin.loadPortalUrl();
@@ -971,7 +849,6 @@
         
                     main = new EmbedMainPage(driver);
                     embedTickets = new TicketsComponent(driver);
-                    summary = new SummaryComponent(driver);
                     embedLogin = new LoginPage(driver);
                     addMoney = new AddMoneyComponent(driver)
                     payment = new PaymentPage(driver);
@@ -1007,7 +884,6 @@
         
                     main = new EmbedMainPage(driver);
                     embedTickets = new TicketsComponent(driver);
-                    summary = new SummaryComponent(driver);
                     embedLogin = new LoginPage(driver);
                     addMoney = new AddMoneyComponent(driver)
                     payment = new PaymentPage(driver);
@@ -1037,7 +913,6 @@
         
                     main = new EmbedMainPage(driver);
                     embedTickets = new TicketsComponent(driver);
-                    summary = new SummaryComponent(driver);
                     embedLogin = new LoginPage(driver);
                     addMoney = new AddMoneyComponent(driver)
                     payment = new PaymentPage(driver);
@@ -1135,7 +1010,6 @@
                     dashboard = new DashboardPage(driver);
                     myEvents = new MyEventsPage(driver);
                     sideMenu = new SideMenu(driver);
-                    eventDetails = new GeneralDetailsTab(driver);
                     ticketsNav = new TicketsNav(driver);
                     eventTickets = new EventTickets(driver);
                     ticketTerms = new TicketTermsPage(driver);
@@ -1172,7 +1046,6 @@
                     dashboard = new DashboardPage(driver);
                     myEvents = new MyEventsPage(driver);
                     sideMenu = new SideMenu(driver);
-                    eventDetails = new GeneralDetailsTab(driver);
                     ticketsNav = new TicketsNav(driver);
                     eventTickets = new EventTickets(driver);
                     ticketTerms = new TicketTermsPage(driver);
@@ -1210,7 +1083,7 @@
                     await main.ticketTermsCheckBoxAndLabelAreDisplayed();
         
                 });
-        
+      
                 // EMBED
                 it('should assert correct ticket terms behaviour and image placeholder', async function () {
                     main = new EmbedMainPage(driver);
@@ -1268,7 +1141,6 @@
                     embedTickets = new TicketsComponent(driver);
                     embedLogin = new LoginPage(driver);
                     termsModal = new EmbedTicketTermsModal(driver);
-                    addMoney = new AddMoneyComponent(driver)
                     portalLogin = new PortalLoginPage(driver);
                     dashboard = new DashboardPage(driver);
                     myEvents = new MyEventsPage(driver);
@@ -1537,7 +1409,6 @@
         
                     main = new EmbedMainPage(driver);
                     embedTickets = new TicketsComponent(driver);
-                    summary = new SummaryComponent(driver);
                     embedLogin = new LoginPage(driver);
                     payment = new PaymentPage(driver);
                     orderDetails = new EmbedOrderDetailsPage(driver);
@@ -1572,7 +1443,6 @@
                     sideMenu = new SideMenu(driver);
                     eventDetails = new GeneralDetailsTab(driver);
                     promotions = new PromotionsPage(driver);
-                    newPromotion = new AddNewPromotionModal(driver);
                     sectionsNavs = new SectionsNavs(driver)
         
                     await portalLogin.loadPortalUrl();
@@ -1600,7 +1470,6 @@
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
                     ticketsNav = new TicketsNav(driver);
-                    createTicket = new CreateTicketModal(driver);
                     promotions = new PromotionsPage(driver);
                     newPromotion = new AddNewPromotionModal(driver);
                     sectionsNavs = new SectionsNavs(driver)
@@ -1632,8 +1501,6 @@
                     myEvents = new MyEventsPage(driver);
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
-                    ticketsNav = new TicketsNav(driver);
-                    createTicket = new CreateTicketModal(driver);
                     promotions = new PromotionsPage(driver);
                     newPromotion = new AddNewPromotionModal(driver);
                     sectionsNavs = new SectionsNavs(driver)
@@ -1662,8 +1529,6 @@
                     myEvents = new MyEventsPage(driver);
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
-                    ticketsNav = new TicketsNav(driver);
-                    createTicket = new CreateTicketModal(driver);
                     promotions = new PromotionsPage(driver);
                     newPromotion = new AddNewPromotionModal(driver);
                     sectionsNavs = new SectionsNavs(driver)
@@ -1692,8 +1557,6 @@
                     myEvents = new MyEventsPage(driver);
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
-                    ticketsNav = new TicketsNav(driver);
-                    createTicket = new CreateTicketModal(driver);
                     promotions = new PromotionsPage(driver);
                     newPromotion = new AddNewPromotionModal(driver);
                     sectionsNavs = new SectionsNavs(driver)
@@ -1722,8 +1585,6 @@
                     myEvents = new MyEventsPage(driver);
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
-                    ticketsNav = new TicketsNav(driver);
-                    createTicket = new CreateTicketModal(driver);
                     promotions = new PromotionsPage(driver);
                     newPromotion = new AddNewPromotionModal(driver);
                     sectionsNavs = new SectionsNavs(driver)
@@ -1752,8 +1613,6 @@
                     myEvents = new MyEventsPage(driver);
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
-                    ticketsNav = new TicketsNav(driver);
-                    createTicket = new CreateTicketModal(driver);
                     promotions = new PromotionsPage(driver);
                     newPromotion = new AddNewPromotionModal(driver);
                     sectionsNavs = new SectionsNavs(driver)
@@ -1782,8 +1641,6 @@
                     myEvents = new MyEventsPage(driver);
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
-                    ticketsNav = new TicketsNav(driver);
-                    createTicket = new CreateTicketModal(driver);
                     promotions = new PromotionsPage(driver);
                     newPromotion = new AddNewPromotionModal(driver);
                     sectionsNavs = new SectionsNavs(driver)
@@ -1812,8 +1669,6 @@
                     myEvents = new MyEventsPage(driver);
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
-                    ticketsNav = new TicketsNav(driver);
-                    createTicket = new CreateTicketModal(driver);
                     promotions = new PromotionsPage(driver);
                     newPromotion = new AddNewPromotionModal(driver);
                     sectionsNavs = new SectionsNavs(driver)
@@ -1843,7 +1698,6 @@
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
                     ticketsNav = new TicketsNav(driver);
-                    createTicket = new CreateTicketModal(driver);
                     promotions = new PromotionsPage(driver);
                     newPromotion = new AddNewPromotionModal(driver);
                     sectionsNavs = new SectionsNavs(driver)
@@ -1875,8 +1729,6 @@
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
                     ticketsNav = new TicketsNav(driver);
-                    createTicket = new CreateTicketModal(driver);
-                    promotions = new PromotionsPage(driver);
                     newPromotion = new AddNewPromotionModal(driver);
                     sectionsNavs = new SectionsNavs(driver)
         
@@ -1908,8 +1760,6 @@
                     myEvents = new MyEventsPage(driver);
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
-                    ticketsNav = new TicketsNav(driver);
-                    createTicket = new CreateTicketModal(driver);
                     promotions = new PromotionsPage(driver);
                     newPromotion = new AddNewPromotionModal(driver);
                     sectionsNavs = new SectionsNavs(driver)
@@ -1937,8 +1787,6 @@
                     myEvents = new MyEventsPage(driver);
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
-                    ticketsNav = new TicketsNav(driver);
-                    createTicket = new CreateTicketModal(driver);
                     promotions = new PromotionsPage(driver);
                     newPromotion = new AddNewPromotionModal(driver);
                     sectionsNavs = new SectionsNavs(driver)
@@ -1969,8 +1817,6 @@
                     myEvents = new MyEventsPage(driver);
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
-                    ticketsNav = new TicketsNav(driver);
-                    createTicket = new CreateTicketModal(driver);
                     promotions = new PromotionsPage(driver);
                     main = new EmbedMainPage(driver);
                     embedLogin = new LoginPage(driver);
@@ -2017,8 +1863,6 @@
                     myEvents = new MyEventsPage(driver);
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
-                    ticketsNav = new TicketsNav(driver);
-                    createTicket = new CreateTicketModal(driver);
                     promotions = new PromotionsPage(driver);
                     main = new EmbedMainPage(driver);
                     embedLogin = new LoginPage(driver);
@@ -2124,7 +1968,6 @@
         
                     main = new EmbedMainPage(driver);
                     embedTickets = new TicketsComponent(driver);
-                    summary = new SummaryComponent(driver);
                     embedLogin = new LoginPage(driver);
                     embedExtras = new ExtrasPage(driver);
                     payment = new PaymentPage(driver);
@@ -2157,7 +2000,6 @@
         
                     main = new EmbedMainPage(driver);
                     embedTickets = new TicketsComponent(driver);
-                    summary = new SummaryComponent(driver);
                     embedLogin = new LoginPage(driver);
                     embedExtras = new ExtrasPage(driver);
                     payment = new PaymentPage(driver);
@@ -2169,7 +2011,6 @@
                     await embedTickets.sentKeysToTicketInputByTicketName(ticketTwoName, '2');
                     await embedTickets.sentKeysToTicketInputByTicketName(ticketThreeName, '2');
                     await embedTickets.sentKeysToTicketInputByTicketName(ticketFourName, '2');
-                    //await embedTickets.sentKeysToTicketInput(3, 1);
                     await main.clickNextPageButton();
                     await embedLogin.isAtLoginPage();
                     await embedLogin.loginWithVerifiedAccount(customerEmail, customerPassword);
@@ -2192,7 +2033,6 @@
         
                     main = new EmbedMainPage(driver);
                     embedTickets = new TicketsComponent(driver);
-                    summary = new SummaryComponent(driver);
                     embedLogin = new LoginPage(driver);
                     embedExtras = new ExtrasPage(driver);
                     payment = new PaymentPage(driver);
@@ -2230,7 +2070,6 @@
         
                     main = new EmbedMainPage(driver);
                     embedTickets = new TicketsComponent(driver);
-                    summary = new SummaryComponent(driver);
         
                     await main.openEmbedPage();
                     await main.switchToIframe();
@@ -2247,11 +2086,9 @@
         
                     main = new EmbedMainPage(driver);
                     embedTickets = new TicketsComponent(driver);
-                    summary = new SummaryComponent(driver);
                     embedLogin = new LoginPage(driver);
                     embedExtras = new ExtrasPage(driver);
                     payment = new PaymentPage(driver);
-                    summary = new SummaryComponent(driver);
                     orderDetails = new EmbedOrderDetailsPage(driver);
         
                     await main.openEmbedPage();
@@ -2286,7 +2123,6 @@
                     embedTickets = new TicketsComponent(driver);
                     embedExtras = new ExtrasPage(driver);
                     payment = new PaymentPage(driver);
-                    summary = new SummaryComponent(driver);
                     orderDetails = new EmbedOrderDetailsPage(driver);
                     embedConfirm = new ConfirmPage(driver);
                     receipt = new ReceiptPopup(driver)
@@ -2325,7 +2161,6 @@
                     embedTickets = new TicketsComponent(driver);
                     embedExtras = new ExtrasPage(driver);
                     payment = new PaymentPage(driver);
-                    summary = new SummaryComponent(driver);
                     orderDetails = new EmbedOrderDetailsPage(driver);
                     embedConfirm = new ConfirmPage(driver);
                     receipt = new ReceiptPopup(driver)
@@ -2363,10 +2198,8 @@
                     embedTickets = new TicketsComponent(driver);
                     embedExtras = new ExtrasPage(driver);
                     payment = new PaymentPage(driver);
-                    summary = new SummaryComponent(driver);
                     orderDetails = new EmbedOrderDetailsPage(driver);
                     embedConfirm = new ConfirmPage(driver);
-                    receipt = new ReceiptPopup(driver)
         
                     await main.openEmbedPage();
                     await main.switchToIframe();
@@ -2456,11 +2289,7 @@
                     embedTickets = new TicketsComponent(driver);
                     embedExtras = new ExtrasPage(driver);
                     payment = new PaymentPage(driver);
-                    summary = new SummaryComponent(driver);
-                    orderDetails = new EmbedOrderDetailsPage(driver);
-                    embedConfirm = new ConfirmPage(driver);
-                    receipt = new ReceiptPopup(driver)
-        
+                    
                     await main.openEmbedPage();
                     await main.switchToIframe();
                     await main.isInFrame(eventName);
@@ -2500,7 +2329,6 @@
                     embedTickets = new TicketsComponent(driver);
                     embedExtras = new ExtrasPage(driver);
                     payment = new PaymentPage(driver);
-                    summary = new SummaryComponent(driver);
                     orderDetails = new EmbedOrderDetailsPage(driver);
                     embedConfirm = new ConfirmPage(driver);
                     steps = new StepsComponent(driver);
@@ -2540,7 +2368,6 @@
                     embedTickets = new TicketsComponent(driver);
                     embedExtras = new ExtrasPage(driver);
                     payment = new PaymentPage(driver);
-                    summary = new SummaryComponent(driver);
                     orderDetails = new EmbedOrderDetailsPage(driver);
                     embedConfirm = new ConfirmPage(driver);
                     steps = new StepsComponent(driver);
@@ -2580,7 +2407,6 @@
                     embedTickets = new TicketsComponent(driver);
                     embedExtras = new ExtrasPage(driver);
                     payment = new PaymentPage(driver);
-                    summary = new SummaryComponent(driver);
                     orderDetails = new EmbedOrderDetailsPage(driver);
                     embedConfirm = new ConfirmPage(driver);
                     steps = new StepsComponent(driver);
@@ -2649,7 +2475,6 @@
                     embedTickets = new TicketsComponent(driver);
                     embedExtras = new ExtrasPage(driver);
                     payment = new PaymentPage(driver);
-                    summary = new SummaryComponent(driver);
                     orderDetails = new EmbedOrderDetailsPage(driver);
                     embedConfirm = new ConfirmPage(driver);
                     steps = new StepsComponent(driver);
@@ -2769,7 +2594,6 @@
                     payment = new PaymentPage(driver);
                     summary = new SummaryComponent(driver);
                     orderDetails = new EmbedOrderDetailsPage(driver);
-                    embedConfirm = new ConfirmPage(driver);
         
                     await main.openEmbedPage();
                     await main.switchToIframe();
@@ -2858,9 +2682,6 @@
                     embedTickets = new TicketsComponent(driver);
                     embedExtras = new ExtrasPage(driver);
                     payment = new PaymentPage(driver);
-                    summary = new SummaryComponent(driver);
-                    orderDetails = new EmbedOrderDetailsPage(driver);
-                    embedConfirm = new ConfirmPage(driver);
         
                     await main.openEmbedPage();
                     await main.switchToIframe();
@@ -2888,8 +2709,6 @@
                     myEvents = new MyEventsPage(driver);
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
-                    ticketsNav = new TicketsNav(driver);
-                    createTicket = new CreateTicketModal(driver);
                     promotions = new PromotionsPage(driver);
                     newPromotion = new AddNewPromotionModal(driver);
                     sectionsNavs = new SectionsNavs(driver)
@@ -2921,7 +2740,6 @@
                     myEvents = new MyEventsPage(driver);
                     eventDetails = new GeneralDetailsTab(driver);
                     sideMenu = new SideMenu(driver);
-                    ticketsNav = new TicketsNav(driver);
                     promotions = new PromotionsPage(driver);
                     newPromotion = new AddNewPromotionModal(driver);
                     sectionsNavs = new SectionsNavs(driver)
@@ -2951,8 +2769,6 @@
                     embedExtras = new ExtrasPage(driver);
                     payment = new PaymentPage(driver);
                     summary = new SummaryComponent(driver);
-                    embedConfirm = new ConfirmPage(driver);
-                    receipt = new ReceiptPopup(driver);
         
                     await main.openEmbedPage();
                     await main.switchToIframe();
@@ -2982,7 +2798,6 @@
                     myEvents = new MyEventsPage(driver);
                     sideMenu = new SideMenu(driver);
                     eventDetails = new GeneralDetailsTab(driver);
-                    settingsNav = new SettingsNav(driver);
                     ticketsNav = new TicketsNav(driver);
                     createTicket = new CreateTicketModal(driver);
                     sectionsNavs = new SectionsNavs(driver)
@@ -3254,7 +3069,6 @@
                     embedLogin = new LoginPage(driver);
                     embedTickets = new TicketsComponent(driver);
                     embedExtras = new ExtrasPage(driver);
-                    embedDonate = new EmbedDonateComponent(driver)
                     payment = new PaymentPage(driver);
                     summary = new SummaryComponent(driver);
                     orderDetails = new EmbedOrderDetailsPage(driver);
@@ -3298,7 +3112,6 @@
                     embedLogin = new LoginPage(driver);
                     embedTickets = new TicketsComponent(driver);
                     embedExtras = new ExtrasPage(driver);
-                    embedDonate = new EmbedDonateComponent(driver)
                     payment = new PaymentPage(driver);
                     summary = new SummaryComponent(driver);
                     orderDetails = new EmbedOrderDetailsPage(driver);
@@ -3343,12 +3156,7 @@
                     embedLogin = new LoginPage(driver);
                     embedTickets = new TicketsComponent(driver);
                     embedExtras = new ExtrasPage(driver);
-                    embedDonate = new EmbedDonateComponent(driver)
                     payment = new PaymentPage(driver);
-                    summary = new SummaryComponent(driver);
-                    orderDetails = new EmbedOrderDetailsPage(driver);
-                    embedConfirm = new ConfirmPage(driver);
-                    receipt = new ReceiptPopup(driver)
         
                     await main.openEmbedPage();
                     await main.switchToIframe();
@@ -3432,9 +3240,7 @@
                     sideMenu = new SideMenu(driver);
                     sectionsNavs = new SectionsNavs(driver);
                     eventDetails = new GeneralDetailsTab(driver);
-                    settingsNav = new SettingsNav(driver);
                     questions = new TicketQuestionsPage(driver);
-                    questionsModal = new TicketQuestionsModal(driver);
         
                     await portalLogin.loadPortalUrl();
                     await portalLogin.isAtPortalLoginPage();
@@ -3464,7 +3270,6 @@
                     sideMenu = new SideMenu(driver);
                     sectionsNavs = new SectionsNavs(driver)
                     eventDetails = new GeneralDetailsTab(driver);
-                    settingsNav = new SettingsNav(driver);
                     questions = new TicketQuestionsPage(driver);
         
                     await portalLogin.loadPortalUrl();
@@ -3495,7 +3300,6 @@
                     orderDetails = new EmbedOrderDetailsPage(driver);
                     embedConfirm = new ConfirmPage(driver);
                     questionsModal = new TicketQuestionsModal(driver);
-                    originalWindow =  driver.getWindowHandle();
         
                     await main.openEmbedPage();
                     await main.switchToIframe();
@@ -3515,7 +3319,7 @@
                     await main.clickNextPageButton();
                     await orderDetails.isOnOrderDetailsPage();
                     await orderDetails.clickPlaceOrderButton();
-                    await questionsModal.answerSimpleYesNo(base,ticketOneName);;
+                    await questionsModal.answerSimpleYesNo(base,ticketOneName);
                     await embedConfirm.isAtConfirmPage();
         
                 });
@@ -3528,7 +3332,6 @@
                     sideMenu = new SideMenu(driver);
                     sectionsNavs = new SectionsNavs(driver);
                     eventDetails = new GeneralDetailsTab(driver);
-                    settingsNav = new SettingsNav(driver);
                     questions = new TicketQuestionsPage(driver);
         
                     await portalLogin.loadPortalUrl();
@@ -3561,7 +3364,6 @@
                     orderDetails = new EmbedOrderDetailsPage(driver);
                     embedConfirm = new ConfirmPage(driver);
                     questionsModal = new TicketQuestionsModal(driver);
-                    originalWindow =  driver.getWindowHandle();
         
                     await main.openEmbedPage();
                     await main.switchToIframe();
@@ -3596,8 +3398,6 @@
                     myEvents = new MyEventsPage(driver);
                     sideMenu = new SideMenu(driver);
                     sectionsNavs = new SectionsNavs(driver);
-                    eventDetails = new GeneralDetailsTab(driver);
-                    ticketsNav = new TicketsNav(driver);
                     attendees = new AttendeesTab(driver);
         
                     await portalLogin.loadPortalUrl();
@@ -3624,17 +3424,7 @@
                     sideMenu = new SideMenu(driver);
                     sectionsNavs = new SectionsNavs(driver);
                     eventDetails = new GeneralDetailsTab(driver);
-                    settingsNav = new SettingsNav(driver);
-                    events = new EventsPage(driver);
-                    login = new LoginComponent(driver);
-                    info = new EventInfo(driver);
-                    ticketing = new TicketingPage(driver);
-                    tickets = new TicketsTab(driver);
-                    extras = new ExtrasTab(driver);
-                    pay = new PayTab(driver);
-                    confirm = new ConfirmTab(driver);
                     questions = new TicketQuestionsPage(driver);
-                    questionsModal = new TicketQuestionsModal(driver);
         
                     await portalLogin.loadPortalUrl();
                     await portalLogin.isAtPortalLoginPage();
@@ -3665,7 +3455,6 @@
                     orderDetails = new EmbedOrderDetailsPage(driver);
                     embedConfirm = new ConfirmPage(driver);
                     questionsModal = new TicketQuestionsModal(driver);
-                    originalWindow =  driver.getWindowHandle();
         
                     await main.openEmbedPage();
                     await main.switchToIframe();
@@ -3708,8 +3497,6 @@
                     myEvents = new MyEventsPage(driver);
                     sideMenu = new SideMenu(driver);
                     sectionsNavs = new SectionsNavs(driver);
-                    eventDetails = new GeneralDetailsTab(driver);
-                    ticketsNav = new TicketsNav(driver);
                     attendees = new AttendeesTab(driver);
         
                     await portalLogin.loadPortalUrl();
@@ -3733,8 +3520,6 @@
                     portalLogin = new PortalLoginPage(driver);
                     dashboard = new DashboardPage(driver);
                     myEvents = new MyEventsPage(driver);
-                    eventDetails = new GeneralDetailsTab(driver);
-                    eventOptionTabs = new EventOptionTabs(driver);
                     ticketsNav = new TicketsNav(driver);
                     sectionsNavs = new SectionsNavs(driver)
                     sideMenu = new SideMenu(driver);
@@ -3748,7 +3533,6 @@
                     await myEvents.createdEventIsInTheTable(eventName);
                     await myEvents.clickTheNewCreatedEventInTheTable(eventName);
                     await sideMenu.clickTicketingTab();
-                    await eventOptionTabs.clickTicketingTab();
                     await ticketsNav.addTicketButtonIsDisplayed();
                     await ticketsNav.assertTicketsByGroupsAndClassIsAppliedWhenClicked(base, "active")
         
@@ -3845,6 +3629,6 @@
         
                 });
                 
-         */
+         
 
     });
